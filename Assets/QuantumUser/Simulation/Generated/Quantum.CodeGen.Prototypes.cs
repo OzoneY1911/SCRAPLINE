@@ -50,91 +50,8 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.AsteroidsAsteroid))]
-  public unsafe partial class AsteroidsAsteroidPrototype : ComponentPrototype<Quantum.AsteroidsAsteroid> {
-    public AssetRef<EntityPrototype> ChildAsteroid;
-    partial void MaterializeUser(Frame frame, ref Quantum.AsteroidsAsteroid result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.AsteroidsAsteroid component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.AsteroidsAsteroid result, in PrototypeMaterializationContext context = default) {
-        result.ChildAsteroid = this.ChildAsteroid;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.AsteroidsPlayerLink))]
-  public unsafe partial class AsteroidsPlayerLinkPrototype : ComponentPrototype<Quantum.AsteroidsPlayerLink> {
-    public PlayerRef PlayerRef;
-    partial void MaterializeUser(Frame frame, ref Quantum.AsteroidsPlayerLink result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.AsteroidsPlayerLink component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.AsteroidsPlayerLink result, in PrototypeMaterializationContext context = default) {
-        result.PlayerRef = this.PlayerRef;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.AsteroidsProjectile))]
-  public unsafe class AsteroidsProjectilePrototype : ComponentPrototype<Quantum.AsteroidsProjectile> {
-    public FP TTL;
-    public MapEntityId Owner;
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.AsteroidsProjectile component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.AsteroidsProjectile result, in PrototypeMaterializationContext context = default) {
-        result.TTL = this.TTL;
-        PrototypeValidator.FindMapEntity(this.Owner, in context, out result.Owner);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.AsteroidsShip))]
-  public unsafe partial class AsteroidsShipPrototype : ComponentPrototype<Quantum.AsteroidsShip> {
-    public FP AmmoCount;
-    public FP FireInterval;
-    public Int32 Score;
-    partial void MaterializeUser(Frame frame, ref Quantum.AsteroidsShip result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.AsteroidsShip component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.AsteroidsShip result, in PrototypeMaterializationContext context = default) {
-        result.AmmoCount = this.AmmoCount;
-        result.FireInterval = this.FireInterval;
-        result.Score = this.Score;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.AsteroidsShipRespawn))]
-  public unsafe partial class AsteroidsShipRespawnPrototype : ComponentPrototype<Quantum.AsteroidsShipRespawn> {
-    public FP RespawnTimer;
-    partial void MaterializeUser(Frame frame, ref Quantum.AsteroidsShipRespawn result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.AsteroidsShipRespawn component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.AsteroidsShipRespawn result, in PrototypeMaterializationContext context = default) {
-        result.RespawnTimer = this.RespawnTimer;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
-    public Button Left;
-    public Button Right;
-    public Button Up;
-    public Button Fire;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -152,10 +69,6 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.QuantumThumbSticksPrototype ThumbSticks;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
-        result.Left = this.Left;
-        result.Right = this.Right;
-        result.Up = this.Up;
-        result.Fire = this.Fire;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
