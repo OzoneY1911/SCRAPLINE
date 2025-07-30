@@ -1,6 +1,11 @@
-input {
-    FPVector2 MoveDirection;
-    FPVector2 LookRotationDelta;
+input
+{
     byte InterpolationOffset;
     byte InterpolationAlphaEncoded;
+
+    FPVector2 MoveDirection;
+    FPVector2 LookRotationDelta;
+    button Jump;
+    button Run;
+    button Crouch;
 }

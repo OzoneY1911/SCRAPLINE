@@ -63,6 +63,10 @@ namespace Quantum
 
             _accumulatedInput.MoveDirection = moveDirection.normalized.ToFPVector2();
 
+            _accumulatedInput.Jump |= keyboard.spaceKey.isPressed;
+            _accumulatedInput.Run |= keyboard.leftShiftKey.isPressed;
+            _accumulatedInput.Crouch |= keyboard.leftCtrlKey.isPressed;
+
             // Process mouse input
 
             Vector2 mouseDelta = mouse.delta.ReadValue();

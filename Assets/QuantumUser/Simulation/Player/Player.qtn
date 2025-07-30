@@ -1,11 +1,15 @@
 component Player
 {
-    FP MoveSpeed;
+    FP WalkSpeed;
+    FP RunSpeed;
+    FP JumpForce;
 
     [HideInInspector]
     player_ref PlayerRef;
 
     [HideInInspector]
     FP LookYaw;
+
+    [HideInInspector]
     FP LookPitch;
 }

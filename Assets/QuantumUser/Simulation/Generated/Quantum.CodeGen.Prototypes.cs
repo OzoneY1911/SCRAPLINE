@@ -52,10 +52,13 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
-    public FPVector2 MoveDirection;
-    public FPVector2 LookRotationDelta;
     public Byte InterpolationOffset;
     public Byte InterpolationAlphaEncoded;
+    public FPVector2 MoveDirection;
+    public FPVector2 LookRotationDelta;
+    public Button Jump;
+    public Button Run;
+    public Button Crouch;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -73,10 +76,13 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.QuantumThumbSticksPrototype ThumbSticks;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
-        result.MoveDirection = this.MoveDirection;
-        result.LookRotationDelta = this.LookRotationDelta;
         result.InterpolationOffset = this.InterpolationOffset;
         result.InterpolationAlphaEncoded = this.InterpolationAlphaEncoded;
+        result.MoveDirection = this.MoveDirection;
+        result.LookRotationDelta = this.LookRotationDelta;
+        result.Jump = this.Jump;
+        result.Run = this.Run;
+        result.Crouch = this.Crouch;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
@@ -238,11 +244,14 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
-    public FP MoveSpeed;
+    public FP WalkSpeed;
+    public FP RunSpeed;
+    public FP JumpForce;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     [HideInInspector()]
     public FP LookYaw;
+    [HideInInspector()]
     public FP LookPitch;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -251,7 +260,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
-        result.MoveSpeed = this.MoveSpeed;
+        result.WalkSpeed = this.WalkSpeed;
+        result.RunSpeed = this.RunSpeed;
+        result.JumpForce = this.JumpForce;
         result.PlayerRef = this.PlayerRef;
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;

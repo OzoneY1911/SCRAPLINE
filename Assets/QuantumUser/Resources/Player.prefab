@@ -415,7 +415,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
-    MoveSpeed:
+    WalkSpeed:
+      RawValue: 327680
+    RunSpeed:
+      RawValue: 524288
+    JumpForce:
       RawValue: 327680
     PlayerRef:
       _index: 0

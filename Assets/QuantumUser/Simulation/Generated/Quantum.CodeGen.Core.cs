@@ -67,18 +67,21 @@ namespace Quantum {
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
-    _left = 1 << 0,
-    _right = 1 << 1,
-    _up = 1 << 2,
-    _down = 1 << 3,
-    _a = 1 << 4,
-    _b = 1 << 5,
-    _c = 1 << 6,
-    _d = 1 << 7,
-    _l1 = 1 << 8,
-    _r1 = 1 << 9,
-    _select = 1 << 10,
-    _start = 1 << 11,
+    Jump = 1 << 0,
+    Run = 1 << 1,
+    Crouch = 1 << 2,
+    _left = 1 << 3,
+    _right = 1 << 4,
+    _up = 1 << 5,
+    _down = 1 << 6,
+    _a = 1 << 7,
+    _b = 1 << 8,
+    _c = 1 << 9,
+    _d = 1 << 10,
+    _l1 = 1 << 11,
+    _r1 = 1 << 12,
+    _select = 1 << 13,
+    _start = 1 << 14,
   }
   public static unsafe partial class FlagsExtensions {
     public static Boolean IsFlagSet(this InputButtons self, InputButtons flag) {
@@ -539,53 +542,62 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 208;
+    public const Int32 SIZE = 240;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(168)]
-    public FPVector2 MoveDirection;
-    [FieldOffset(152)]
-    public FPVector2 LookRotationDelta;
     [FieldOffset(1)]
     public Byte InterpolationOffset;
     [FieldOffset(0)]
     public Byte InterpolationAlphaEncoded;
-    [FieldOffset(76)]
-    public Button _left;
-    [FieldOffset(100)]
-    public Button _right;
-    [FieldOffset(136)]
-    public Button _up;
-    [FieldOffset(52)]
-    public Button _down;
-    [FieldOffset(4)]
-    public Button _a;
+    [FieldOffset(200)]
+    public FPVector2 MoveDirection;
+    [FieldOffset(184)]
+    public FPVector2 LookRotationDelta;
     [FieldOffset(16)]
-    public Button _b;
+    public Button Jump;
     [FieldOffset(28)]
-    public Button _c;
-    [FieldOffset(40)]
-    public Button _d;
-    [FieldOffset(64)]
-    public Button _l1;
-    [FieldOffset(88)]
-    public Button _r1;
+    public Button Run;
+    [FieldOffset(4)]
+    public Button Crouch;
     [FieldOffset(112)]
-    public Button _select;
+    public Button _left;
+    [FieldOffset(136)]
+    public Button _right;
+    [FieldOffset(172)]
+    public Button _up;
+    [FieldOffset(88)]
+    public Button _down;
+    [FieldOffset(40)]
+    public Button _a;
+    [FieldOffset(52)]
+    public Button _b;
+    [FieldOffset(64)]
+    public Button _c;
+    [FieldOffset(76)]
+    public Button _d;
+    [FieldOffset(100)]
+    public Button _l1;
     [FieldOffset(124)]
+    public Button _r1;
+    [FieldOffset(148)]
+    public Button _select;
+    [FieldOffset(160)]
     public Button _start;
     [FieldOffset(3)]
     public Byte _analogRightTrigger;
     [FieldOffset(2)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(184)]
+    [FieldOffset(216)]
     public QuantumThumbSticks ThumbSticks;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
-        hash = hash * 31 + MoveDirection.GetHashCode();
-        hash = hash * 31 + LookRotationDelta.GetHashCode();
         hash = hash * 31 + InterpolationOffset.GetHashCode();
         hash = hash * 31 + InterpolationAlphaEncoded.GetHashCode();
+        hash = hash * 31 + MoveDirection.GetHashCode();
+        hash = hash * 31 + LookRotationDelta.GetHashCode();
+        hash = hash * 31 + Jump.GetHashCode();
+        hash = hash * 31 + Run.GetHashCode();
+        hash = hash * 31 + Crouch.GetHashCode();
         hash = hash * 31 + _left.GetHashCode();
         hash = hash * 31 + _right.GetHashCode();
         hash = hash * 31 + _up.GetHashCode();
@@ -609,6 +621,9 @@ namespace Quantum {
     }
     public Boolean IsDown(InputButtons button) {
       switch (button) {
+        case InputButtons.Jump: return Jump.IsDown;
+        case InputButtons.Run: return Run.IsDown;
+        case InputButtons.Crouch: return Crouch.IsDown;
         case InputButtons._left: return _left.IsDown;
         case InputButtons._right: return _right.IsDown;
         case InputButtons._up: return _up.IsDown;
@@ -626,6 +641,9 @@ namespace Quantum {
     }
     public Boolean WasPressed(InputButtons button) {
       switch (button) {
+        case InputButtons.Jump: return Jump.WasPressed;
+        case InputButtons.Run: return Run.WasPressed;
+        case InputButtons.Crouch: return Crouch.WasPressed;
         case InputButtons._left: return _left.WasPressed;
         case InputButtons._right: return _right.WasPressed;
         case InputButtons._up: return _up.WasPressed;
@@ -647,6 +665,9 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->InterpolationOffset);
         serializer.Stream.Serialize(&p->_analogLeftTrigger);
         serializer.Stream.Serialize(&p->_analogRightTrigger);
+        Button.Serialize(&p->Crouch, serializer);
+        Button.Serialize(&p->Jump, serializer);
+        Button.Serialize(&p->Run, serializer);
         Button.Serialize(&p->_a, serializer);
         Button.Serialize(&p->_b, serializer);
         Button.Serialize(&p->_c, serializer);
@@ -1101,7 +1122,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1864;
+    public const Int32 SIZE = 2056;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1125,12 +1146,12 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[1248];
-    [FieldOffset(1856)]
+    private fixed Byte _input_[1440];
+    [FieldOffset(2048)]
     public BitSet6 PlayerLastConnectionState;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 208, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 240, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -1313,22 +1334,29 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 32;
+    public const Int32 SIZE = 48;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(24)]
-    public FP MoveSpeed;
+    [FieldOffset(40)]
+    public FP WalkSpeed;
+    [FieldOffset(32)]
+    public FP RunSpeed;
+    [FieldOffset(8)]
+    public FP JumpForce;
     [FieldOffset(0)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     [HideInInspector()]
     public FP LookYaw;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
+    [HideInInspector()]
     public FP LookPitch;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
-        hash = hash * 31 + MoveSpeed.GetHashCode();
+        hash = hash * 31 + WalkSpeed.GetHashCode();
+        hash = hash * 31 + RunSpeed.GetHashCode();
+        hash = hash * 31 + JumpForce.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         hash = hash * 31 + LookYaw.GetHashCode();
         hash = hash * 31 + LookPitch.GetHashCode();
@@ -1338,9 +1366,11 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
         PlayerRef.Serialize(&p->PlayerRef, serializer);
+        FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LookPitch, serializer);
         FP.Serialize(&p->LookYaw, serializer);
-        FP.Serialize(&p->MoveSpeed, serializer);
+        FP.Serialize(&p->RunSpeed, serializer);
+        FP.Serialize(&p->WalkSpeed, serializer);
     }
   }
   public static unsafe partial class Constants {
@@ -1407,10 +1437,13 @@ namespace Quantum {
     partial void SetPlayerInputCodeGen(PlayerRef player, Input input) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
       var i = _globals->input.GetPointer(player);
-      i->MoveDirection = input.MoveDirection;
-      i->LookRotationDelta = input.LookRotationDelta;
       i->InterpolationOffset = input.InterpolationOffset;
       i->InterpolationAlphaEncoded = input.InterpolationAlphaEncoded;
+      i->MoveDirection = input.MoveDirection;
+      i->LookRotationDelta = input.LookRotationDelta;
+      i->Jump = i->Jump.Update(this.Number, input.Jump);
+      i->Run = i->Run.Update(this.Number, input.Run);
+      i->Crouch = i->Crouch.Update(this.Number, input.Crouch);
       i->_left = i->_left.Update(this.Number, input._left);
       i->_right = i->_right.Update(this.Number, input._right);
       i->_up = i->_up.Update(this.Number, input._up);

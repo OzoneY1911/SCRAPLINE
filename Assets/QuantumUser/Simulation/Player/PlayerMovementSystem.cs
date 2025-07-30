@@ -1,5 +1,5 @@
 using Photon.Deterministic;
-using UnityEngine.LowLevel;
+using System.Linq.Expressions;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -10,9 +10,10 @@ namespace Quantum
         public struct Filter
         {
             public EntityRef Entity;
-            public Player* Player;
-            public PhysicsBody3D* Body;
             public Transform3D* Transform;
+            public PhysicsBody3D* Body;
+            public PhysicsCollider3D* Collider;
+            public Player* Player;
         }
 
         public override void Update(Frame frame, ref Filter filter)
@@ -41,7 +42,16 @@ namespace Quantum
 
             // Physics-based movement ---
 
-            FPVector3 desiredVelocity = worldMove * player->MoveSpeed;
+            FPVector3 desiredVelocity;
+
+            if (input->Run.IsDown)
+            {
+                desiredVelocity = worldMove * player->RunSpeed;
+            }
+            else
+            {
+                desiredVelocity = worldMove * player->WalkSpeed;
+            }
 
             // Current velocity
             FPVector3 currentVel = body->Velocity;
@@ -52,6 +62,32 @@ namespace Quantum
 
             // Apply impulse to achieve desired horizontal velocity
             body->AddLinearImpulse(deltaVel * body->Mass);
+
+            if (input->Jump.WasPressed && IsGrounded(frame, ref filter))
+            {
+                body->AddLinearImpulse(FPVector3.Up * player->JumpForce * body->Mass);
+            }
+        }
+
+        private bool IsGrounded(Frame frame, ref Filter filter)
+        {
+            FP yOffset = FP._0_10;
+
+            ref Shape3D checkShape = ref filter.Collider->Shape;
+
+            FPVector3 checkPosition = filter.Transform->Position - new FPVector3(0, yOffset, 0);
+
+            var hits = frame.Physics3D.OverlapShape(checkPosition, filter.Transform->Rotation, checkShape);
+            
+            for (int i = 0; i < hits.Count; i++)
+            {
+                if (hits[i].Entity != filter.Entity)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
