@@ -1,0 +1,6 @@
+input {
+    FPVector2 MoveDirection;
+    FPVector2 LookRotationDelta;
+    byte InterpolationOffset;
+    byte InterpolationAlphaEncoded;
+}

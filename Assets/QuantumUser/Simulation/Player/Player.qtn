@@ -1,0 +1,11 @@
+component Player
+{
+    FP MoveSpeed;
+
+    [HideInInspector]
+    player_ref PlayerRef;
+
+    [HideInInspector]
+    FP LookYaw;
+    FP LookPitch;
+}
