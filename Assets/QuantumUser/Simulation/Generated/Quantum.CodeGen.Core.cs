@@ -1334,38 +1334,59 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 48;
+    public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(40)]
+    [FieldOffset(72)]
     public FP WalkSpeed;
-    [FieldOffset(32)]
+    [FieldOffset(64)]
     public FP RunSpeed;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
+    public FP CrouchSpeed;
+    [FieldOffset(40)]
     public FP JumpForce;
+    [FieldOffset(32)]
+    public FP HeightStanding;
+    [FieldOffset(24)]
+    public FP HeightCrouching;
+    [FieldOffset(8)]
+    public FP CrouchLerpSpeed;
     [FieldOffset(0)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
-    [FieldOffset(24)]
+    [FieldOffset(56)]
     [HideInInspector()]
     public FP LookYaw;
-    [FieldOffset(16)]
+    [FieldOffset(48)]
     [HideInInspector()]
     public FP LookPitch;
+    [FieldOffset(4)]
+    [HideInInspector()]
+    public QBoolean IsCrouching;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
         hash = hash * 31 + WalkSpeed.GetHashCode();
         hash = hash * 31 + RunSpeed.GetHashCode();
+        hash = hash * 31 + CrouchSpeed.GetHashCode();
         hash = hash * 31 + JumpForce.GetHashCode();
+        hash = hash * 31 + HeightStanding.GetHashCode();
+        hash = hash * 31 + HeightCrouching.GetHashCode();
+        hash = hash * 31 + CrouchLerpSpeed.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         hash = hash * 31 + LookYaw.GetHashCode();
         hash = hash * 31 + LookPitch.GetHashCode();
+        hash = hash * 31 + IsCrouching.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
         PlayerRef.Serialize(&p->PlayerRef, serializer);
+        QBoolean.Serialize(&p->IsCrouching, serializer);
+        FP.Serialize(&p->CrouchLerpSpeed, serializer);
+        FP.Serialize(&p->CrouchSpeed, serializer);
+        FP.Serialize(&p->HeightCrouching, serializer);
+        FP.Serialize(&p->HeightStanding, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LookPitch, serializer);
         FP.Serialize(&p->LookYaw, serializer);

@@ -9,8 +9,6 @@ namespace Quantum
         [Header("Setup")]
         public Transform CameraHandle;
 
-        const float _cameraSmooth = 0.25f;
-
         private float _smoothPitch;
         private float _smoothPitchVelocity;
 
@@ -91,6 +89,10 @@ namespace Quantum
             lookPitch = Mathf.Clamp(lookPitch, -89.0f, 89.0f);
 
             CameraHandle.localRotation = Quaternion.Euler(lookPitch, 0.0f, 0.0f);
+
+            Vector3 targetScale = player.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
+
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * player.CrouchLerpSpeed.AsFloat);
         }
 
         private Vector3 GetAnimationMoveVelocity(KCC kcc)

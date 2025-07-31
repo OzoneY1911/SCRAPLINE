@@ -246,13 +246,19 @@ namespace Quantum.Prototypes {
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
     public FP WalkSpeed;
     public FP RunSpeed;
+    public FP CrouchSpeed;
     public FP JumpForce;
+    public FP HeightStanding;
+    public FP HeightCrouching;
+    public FP CrouchLerpSpeed;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     [HideInInspector()]
     public FP LookYaw;
     [HideInInspector()]
     public FP LookPitch;
+    [HideInInspector()]
+    public QBoolean IsCrouching;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Player component = default;
@@ -262,10 +268,15 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
         result.WalkSpeed = this.WalkSpeed;
         result.RunSpeed = this.RunSpeed;
+        result.CrouchSpeed = this.CrouchSpeed;
         result.JumpForce = this.JumpForce;
+        result.HeightStanding = this.HeightStanding;
+        result.HeightCrouching = this.HeightCrouching;
+        result.CrouchLerpSpeed = this.CrouchLerpSpeed;
         result.PlayerRef = this.PlayerRef;
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;
+        result.IsCrouching = this.IsCrouching;
         MaterializeUser(frame, ref result, in context);
     }
   }

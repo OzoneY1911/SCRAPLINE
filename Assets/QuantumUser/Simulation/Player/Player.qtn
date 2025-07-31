@@ -1,8 +1,13 @@
 component Player
 {
-    FP WalkSpeed;
-    FP RunSpeed;
-    FP JumpForce;
+    FP WalkSpeed = 5;
+    FP RunSpeed = 8;
+    FP CrouchSpeed = 3;
+    FP JumpForce = 5;
+
+    FP HeightStanding = 2;
+    FP HeightCrouching = 1;
+    FP CrouchLerpSpeed = 10;
 
     [HideInInspector]
     player_ref PlayerRef;
@@ -12,4 +17,7 @@ component Player
 
     [HideInInspector]
     FP LookPitch;
+
+    [HideInInspector]
+    Boolean IsCrouching;
 }

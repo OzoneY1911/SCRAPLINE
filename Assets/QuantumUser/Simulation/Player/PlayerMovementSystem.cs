@@ -1,5 +1,4 @@
 using Photon.Deterministic;
-using System.Linq.Expressions;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -24,6 +23,10 @@ namespace Quantum
             var input = frame.GetPlayerInput(player->PlayerRef);
             var body = filter.Body;
 
+            player->IsCrouching = input->Crouch.IsDown;
+
+            UpdateColliderShape(frame, ref filter);
+
             // Update yaw and pitch using mouse deltas
             player->LookYaw += input->LookRotationDelta.Y;
             player->LookPitch += input->LookRotationDelta.X;
@@ -44,9 +47,13 @@ namespace Quantum
 
             FPVector3 desiredVelocity;
 
-            if (input->Run.IsDown)
+            if (input->Run.IsDown && !player->IsCrouching)
             {
                 desiredVelocity = worldMove * player->RunSpeed;
+            }
+            else if (player->IsCrouching)
+            {
+                desiredVelocity = worldMove * player->CrouchSpeed;
             }
             else
             {
@@ -88,6 +95,21 @@ namespace Quantum
             }
 
             return false;
+        }
+
+        private void UpdateColliderShape(Frame frame, ref Filter filter)
+        {
+            ref Shape3D shape = ref filter.Collider->Shape;
+
+            FP radius = shape.Capsule.Radius;
+
+            FP targetHalfHeight = filter.Player->IsCrouching
+                ? filter.Player->HeightCrouching * FP._0_50
+                : filter.Player->HeightStanding * FP._0_50;
+
+            FPVector3 posOffset = new FPVector3(0, targetHalfHeight, 0);
+
+            shape = Shape3D.CreateCapsule(radius, targetHalfHeight - shape.Capsule.Radius, posOffset);
         }
     }
 }

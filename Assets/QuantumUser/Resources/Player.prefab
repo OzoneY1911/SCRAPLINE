@@ -419,14 +419,24 @@ MonoBehaviour:
       RawValue: 327680
     RunSpeed:
       RawValue: 524288
+    CrouchSpeed:
+      RawValue: 196608
     JumpForce:
       RawValue: 327680
+    HeightStanding:
+      RawValue: 131072
+    HeightCrouching:
+      RawValue: 65536
+    CrouchLerpSpeed:
+      RawValue: 655360
     PlayerRef:
       _index: 0
     LookYaw:
       RawValue: 0
     LookPitch:
       RawValue: 0
+    IsCrouching:
+      Value: 0
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0
