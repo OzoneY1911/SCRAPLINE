@@ -23,15 +23,24 @@ namespace Quantum
             var input = frame.GetPlayerInput(player->PlayerRef);
             var body = filter.Body;
 
-            player->IsCrouching = input->Crouch.IsDown;
-
-            UpdateColliderShape(frame, ref filter);
-
-            // Update yaw and pitch using mouse deltas
             player->LookYaw += input->LookRotationDelta.Y;
             player->LookPitch += input->LookRotationDelta.X;
 
             filter.Transform->Rotation = FPQuaternion.Euler(0, player->LookYaw, 0);
+
+            player->IsCrouching = input->Crouch.IsDown;
+
+            HandleCrouching(frame, ref filter);
+
+            HandleMovement(frame, ref filter);
+            HandleJumping(frame, ref filter);
+        }
+
+        private void HandleMovement(Frame frame, ref Filter filter)
+        {
+            var player = filter.Player;
+            var input = frame.GetPlayerInput(player->PlayerRef);
+            var body = filter.Body;
 
             // Movement on XZ plane
             FPVector3 localMove = new FPVector3(input->MoveDirection.X, 0, input->MoveDirection.Y);
@@ -42,9 +51,6 @@ namespace Quantum
 
             if (worldMove.SqrMagnitude > FP._0)
                 worldMove = worldMove.Normalized;
-
-            // Physics-based movement ---
-
             FPVector3 desiredVelocity;
 
             if (input->Run.IsDown && !player->IsCrouching)
@@ -69,6 +75,13 @@ namespace Quantum
 
             // Apply impulse to achieve desired horizontal velocity
             body->AddLinearImpulse(deltaVel * body->Mass);
+        }
+
+        private void HandleJumping(Frame frame, ref Filter filter)
+        {
+            var player = filter.Player;
+            var input = frame.GetPlayerInput(player->PlayerRef);
+            var body = filter.Body;
 
             if (input->Jump.WasPressed && IsGrounded(frame, ref filter))
             {
@@ -97,19 +110,59 @@ namespace Quantum
             return false;
         }
 
-        private void UpdateColliderShape(Frame frame, ref Filter filter)
+        private bool CanStandUp(Frame frame, ref Filter filter)
+        {
+            FP radius = filter.Collider->Shape.Capsule.Radius - FP._0_10;
+            FP standingHeight = filter.Player->HeightStanding;
+            FPVector3 posOffset = new FPVector3(0, (standingHeight * FP._0_50) + FP._0_10, 0);
+
+            Shape3D standShape = Shape3D.CreateCapsule(radius, (standingHeight * FP._0_50) - radius, posOffset);
+
+            var hits = frame.Physics3D.OverlapShape(filter.Transform->Position, filter.Transform->Rotation, standShape);
+
+            for (int i = 0; i < hits.Count; i++)
+            {
+                if (hits[i].Entity != filter.Entity)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void HandleCrouching(Frame frame, ref Filter filter)
         {
             ref Shape3D shape = ref filter.Collider->Shape;
 
             FP radius = shape.Capsule.Radius;
 
-            FP targetHalfHeight = filter.Player->IsCrouching
-                ? filter.Player->HeightCrouching * FP._0_50
-                : filter.Player->HeightStanding * FP._0_50;
+            FP currentHalfHeight = shape.Capsule.Height * FP._0_50;
 
-            FPVector3 posOffset = new FPVector3(0, targetHalfHeight, 0);
+            FP targetHalfHeight;
 
-            shape = Shape3D.CreateCapsule(radius, targetHalfHeight - shape.Capsule.Radius, posOffset);
+            if (filter.Player->IsCrouching)
+            {
+                targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
+            }
+            else
+            {
+                if (CanStandUp(frame, ref filter))
+                {
+                    targetHalfHeight = filter.Player->HeightStanding * FP._0_50;
+                }
+                else
+                {
+                    targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
+                    filter.Player->IsCrouching = true;
+                }
+            }
+
+            FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * filter.Player->CrouchLerpSpeed);
+
+            FPVector3 posOffset = new FPVector3(0, newHalfHeight, 0);
+
+            shape = Shape3D.CreateCapsule(radius, newHalfHeight - shape.Capsule.Radius, posOffset);
         }
     }
 }
