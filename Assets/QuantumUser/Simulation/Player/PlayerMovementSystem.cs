@@ -17,23 +17,23 @@ namespace Quantum
 
         public override void Update(Frame frame, ref Filter filter)
         {
-            var player = filter.Player;
-            if (!player->PlayerRef.IsValid) return;
+            if (!filter.Player->PlayerRef.IsValid) return;
 
+            HandleRotation(frame, ref filter);
+            HandleCrouching(frame, ref filter);
+            HandleMovement(frame, ref filter);
+            HandleJumping(frame, ref filter);
+        }
+
+        private void HandleRotation(Frame frame, ref Filter filter)
+        {
+            var player = filter.Player;
             var input = frame.GetPlayerInput(player->PlayerRef);
-            var body = filter.Body;
 
             player->LookYaw += input->LookRotationDelta.Y;
             player->LookPitch += input->LookRotationDelta.X;
 
             filter.Transform->Rotation = FPQuaternion.Euler(0, player->LookYaw, 0);
-
-            player->IsCrouching = input->Crouch.IsDown;
-
-            HandleCrouching(frame, ref filter);
-
-            HandleMovement(frame, ref filter);
-            HandleJumping(frame, ref filter);
         }
 
         private void HandleMovement(Frame frame, ref Filter filter)
@@ -83,56 +83,19 @@ namespace Quantum
             var input = frame.GetPlayerInput(player->PlayerRef);
             var body = filter.Body;
 
-            if (input->Jump.WasPressed && IsGrounded(frame, ref filter))
+            if (input->Jump.WasPressed && PlayerPhysicsUtils.IsGrounded(frame, in filter))
             {
                 body->AddLinearImpulse(FPVector3.Up * player->JumpForce * body->Mass);
             }
         }
 
-        private bool IsGrounded(Frame frame, ref Filter filter)
-        {
-            FP yOffset = FP._0_10;
-
-            ref Shape3D checkShape = ref filter.Collider->Shape;
-
-            FPVector3 checkPosition = filter.Transform->Position - new FPVector3(0, yOffset, 0);
-
-            var hits = frame.Physics3D.OverlapShape(checkPosition, filter.Transform->Rotation, checkShape);
-            
-            for (int i = 0; i < hits.Count; i++)
-            {
-                if (hits[i].Entity != filter.Entity)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool CanStandUp(Frame frame, ref Filter filter)
-        {
-            FP radius = filter.Collider->Shape.Capsule.Radius - FP._0_10;
-            FP standingHeight = filter.Player->HeightStanding;
-            FPVector3 posOffset = new FPVector3(0, (standingHeight * FP._0_50) + FP._0_10, 0);
-
-            Shape3D standShape = Shape3D.CreateCapsule(radius, (standingHeight * FP._0_50) - radius, posOffset);
-
-            var hits = frame.Physics3D.OverlapShape(filter.Transform->Position, filter.Transform->Rotation, standShape);
-
-            for (int i = 0; i < hits.Count; i++)
-            {
-                if (hits[i].Entity != filter.Entity)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         private void HandleCrouching(Frame frame, ref Filter filter)
         {
+            var player = filter.Player;
+            var input = frame.GetPlayerInput(player->PlayerRef);
+
+            player->IsCrouching = input->Crouch.IsDown;
+
             ref Shape3D shape = ref filter.Collider->Shape;
 
             FP radius = shape.Capsule.Radius;
@@ -147,7 +110,7 @@ namespace Quantum
             }
             else
             {
-                if (CanStandUp(frame, ref filter))
+                if (PlayerPhysicsUtils.CanStandUp(frame, in filter))
                 {
                     targetHalfHeight = filter.Player->HeightStanding * FP._0_50;
                 }
