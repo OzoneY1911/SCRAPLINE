@@ -259,6 +259,10 @@ namespace Quantum.Prototypes {
     public FP LookPitch;
     [HideInInspector()]
     public QBoolean IsCrouching;
+    [HideInInspector()]
+    public QBoolean IsLogicallyCrouching;
+    [HideInInspector()]
+    public QBoolean IsVisuallyCrouching;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Player component = default;
@@ -277,6 +281,8 @@ namespace Quantum.Prototypes {
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;
         result.IsCrouching = this.IsCrouching;
+        result.IsLogicallyCrouching = this.IsLogicallyCrouching;
+        result.IsVisuallyCrouching = this.IsVisuallyCrouching;
         MaterializeUser(frame, ref result, in context);
     }
   }

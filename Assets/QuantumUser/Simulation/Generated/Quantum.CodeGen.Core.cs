@@ -1334,34 +1334,40 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 80;
+    public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(72)]
+    [FieldOffset(80)]
     public FP WalkSpeed;
-    [FieldOffset(64)]
+    [FieldOffset(72)]
     public FP RunSpeed;
-    [FieldOffset(16)]
-    public FP CrouchSpeed;
-    [FieldOffset(40)]
-    public FP JumpForce;
-    [FieldOffset(32)]
-    public FP HeightStanding;
     [FieldOffset(24)]
+    public FP CrouchSpeed;
+    [FieldOffset(48)]
+    public FP JumpForce;
+    [FieldOffset(40)]
+    public FP HeightStanding;
+    [FieldOffset(32)]
     public FP HeightCrouching;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
     public FP CrouchLerpSpeed;
     [FieldOffset(0)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
-    [FieldOffset(56)]
+    [FieldOffset(64)]
     [HideInInspector()]
     public FP LookYaw;
-    [FieldOffset(48)]
+    [FieldOffset(56)]
     [HideInInspector()]
     public FP LookPitch;
     [FieldOffset(4)]
     [HideInInspector()]
     public QBoolean IsCrouching;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public QBoolean IsLogicallyCrouching;
+    [FieldOffset(12)]
+    [HideInInspector()]
+    public QBoolean IsVisuallyCrouching;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
@@ -1376,6 +1382,8 @@ namespace Quantum {
         hash = hash * 31 + LookYaw.GetHashCode();
         hash = hash * 31 + LookPitch.GetHashCode();
         hash = hash * 31 + IsCrouching.GetHashCode();
+        hash = hash * 31 + IsLogicallyCrouching.GetHashCode();
+        hash = hash * 31 + IsVisuallyCrouching.GetHashCode();
         return hash;
       }
     }
@@ -1383,6 +1391,8 @@ namespace Quantum {
         var p = (Player*)ptr;
         PlayerRef.Serialize(&p->PlayerRef, serializer);
         QBoolean.Serialize(&p->IsCrouching, serializer);
+        QBoolean.Serialize(&p->IsLogicallyCrouching, serializer);
+        QBoolean.Serialize(&p->IsVisuallyCrouching, serializer);
         FP.Serialize(&p->CrouchLerpSpeed, serializer);
         FP.Serialize(&p->CrouchSpeed, serializer);
         FP.Serialize(&p->HeightCrouching, serializer);
