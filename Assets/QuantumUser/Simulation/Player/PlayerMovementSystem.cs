@@ -102,7 +102,7 @@ namespace Quantum
 
             FP currentHalfHeight = shape.Capsule.Height * FP._0_50;
 
-            FP targetHalfHeight;
+            FP targetHalfHeight = default;
 
             if (filter.Player->IsCrouching)
             {
@@ -116,10 +116,11 @@ namespace Quantum
                 }
                 else
                 {
-                    targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
-                    filter.Player->IsCrouching = true;
+                    player->IsCrouching = true;
                 }
             }
+
+            if (targetHalfHeight == default) return;
 
             FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * filter.Player->CrouchLerpSpeed);
 
