@@ -59,6 +59,7 @@ namespace Quantum.Prototypes {
     public Button Jump;
     public Button Run;
     public Button Crouch;
+    public Button Interact;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -83,6 +84,7 @@ namespace Quantum.Prototypes {
         result.Jump = this.Jump;
         result.Run = this.Run;
         result.Crouch = this.Crouch;
+        result.Interact = this.Interact;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
@@ -259,10 +261,6 @@ namespace Quantum.Prototypes {
     public FP LookPitch;
     [HideInInspector()]
     public QBoolean IsCrouching;
-    [HideInInspector()]
-    public QBoolean IsLogicallyCrouching;
-    [HideInInspector()]
-    public QBoolean IsVisuallyCrouching;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Player component = default;
@@ -281,8 +279,6 @@ namespace Quantum.Prototypes {
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;
         result.IsCrouching = this.IsCrouching;
-        result.IsLogicallyCrouching = this.IsLogicallyCrouching;
-        result.IsVisuallyCrouching = this.IsVisuallyCrouching;
         MaterializeUser(frame, ref result, in context);
     }
   }

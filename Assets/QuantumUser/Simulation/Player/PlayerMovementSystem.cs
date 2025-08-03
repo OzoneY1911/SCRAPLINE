@@ -53,11 +53,11 @@ namespace Quantum
                 worldMove = worldMove.Normalized;
             FPVector3 desiredVelocity;
 
-            if (input->Run.IsDown && !player->IsLogicallyCrouching)
+            if (input->Run.IsDown && !player->IsCrouching)
             {
                 desiredVelocity = worldMove * player->RunSpeed;
             }
-            else if (player->IsLogicallyCrouching)
+            else if (player->IsCrouching)
             {
                 desiredVelocity = worldMove * player->CrouchSpeed;
             }

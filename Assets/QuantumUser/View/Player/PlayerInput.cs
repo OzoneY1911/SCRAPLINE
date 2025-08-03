@@ -66,6 +66,7 @@ namespace Quantum
             _accumulatedInput.Jump |= keyboard.spaceKey.isPressed;
             _accumulatedInput.Run |= keyboard.leftShiftKey.isPressed;
             _accumulatedInput.Crouch |= keyboard.leftCtrlKey.isPressed;
+            _accumulatedInput.Interact |= mouse.leftButton.isPressed;
 
             // Process mouse input
 

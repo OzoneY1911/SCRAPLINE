@@ -20,10 +20,4 @@ component Player
 
     [HideInInspector]
     Boolean IsCrouching;
-
-    [HideInInspector]
-    Boolean IsLogicallyCrouching;
-
-    [HideInInspector]
-    Boolean IsVisuallyCrouching;
 }
