@@ -1,6 +1,5 @@
 component Player
 {
-    FP CameraHeight;
     FP InteractionDistance;
 
     LayerMask LocalMask;

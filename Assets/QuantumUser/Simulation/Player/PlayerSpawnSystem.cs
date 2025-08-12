@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -8,10 +7,12 @@ namespace Quantum
     {
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
-            SpawnPlayer(frame, playerRef);
+            var playerEntity = SpawnPlayer(frame, playerRef);
 
-            //if (frame.IsVe)
-            SetLocalLayer(frame, playerRef);
+            if (frame.IsPlayerVerifiedOrLocal(playerRef))
+            {
+                SetLocalLayer(frame, playerRef, playerEntity);
+            }
         }
 
         private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)
@@ -27,9 +28,12 @@ namespace Quantum
             return playerEntity;
         }
 
-        private void SetLocalLayer(Frame frame, PlayerRef playerRef)
+        private void SetLocalLayer(Frame frame, PlayerRef playerRef, EntityRef playerEntity)
         {
-            
+            var player = frame.Unsafe.GetPointer<Player>(playerEntity);
+            var collider = frame.Unsafe.GetPointer<PhysicsCollider3D>(playerEntity);
+
+            collider->Layer = player->LocalMask;
         }
     }
 }

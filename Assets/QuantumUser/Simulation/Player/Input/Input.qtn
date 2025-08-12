@@ -9,4 +9,7 @@ input
     button Run;
     button Crouch;
     button Interact;
+
+    FPVector3 CameraPosition;
+    FPVector3 CameraForward;
 }

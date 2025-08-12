@@ -94,24 +94,5 @@ namespace Quantum
 
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * player.CrouchLerpSpeed.AsFloat);
         }
-
-        private Vector3 GetAnimationMoveVelocity(KCC kcc)
-        {
-            if (kcc.RealSpeed < FP._0_01)
-                return default;
-
-            var velocity = kcc.RealVelocity;
-
-            // We only care about X an Z directions.
-            velocity.Y = 0;
-
-            if (velocity.SqrMagnitude > 1)
-            {
-                velocity = velocity.Normalized;
-            }
-
-            // Transform velocity vector to local space.
-            return transform.InverseTransformVector(velocity.ToUnityVector3());
-        }
     }
 }

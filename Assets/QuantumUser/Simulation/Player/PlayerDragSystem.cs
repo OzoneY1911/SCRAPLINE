@@ -1,4 +1,5 @@
 using Photon.Deterministic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -6,6 +7,13 @@ namespace Quantum
     [Preserve]
     public unsafe class PlayerDragSystem : SystemMainThreadFilter<PlayerDragSystem.Filter>
     {
+        public struct Filter
+        {
+            public EntityRef Entity;
+            public Player* Player;
+            public Transform3D* Transform;
+        }
+
         public override void Update(Frame frame, ref Filter filter)
         {
             var player = filter.Player;
@@ -13,21 +21,14 @@ namespace Quantum
 
             if (input->Interact.IsDown)
             {
-                frame.Physics3D.Raycast(
-                    new FPVector3(filter.Transform->Position.X, player->CameraHeight, filter.Transform->Position.Z),
-                    filter.Transform->Forward,
+                var hit = frame.Physics3D.Raycast(
+                    input->CameraPosition,
+                    input->CameraForward,
                     player->InteractionDistance,
                     ~player->LocalMask,
                     QueryOptions.HitSolids
                     );
             }
-        }
-
-        public struct Filter
-        {
-            public EntityRef Entity;
-            public Player* Player;
-            public Transform3D* Transform;
         }
     }
 }

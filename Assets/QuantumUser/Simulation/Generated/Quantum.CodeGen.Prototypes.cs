@@ -60,6 +60,8 @@ namespace Quantum.Prototypes {
     public Button Run;
     public Button Crouch;
     public Button Interact;
+    public FPVector3 CameraPosition;
+    public FPVector3 CameraForward;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -85,6 +87,8 @@ namespace Quantum.Prototypes {
         result.Run = this.Run;
         result.Crouch = this.Crouch;
         result.Interact = this.Interact;
+        result.CameraPosition = this.CameraPosition;
+        result.CameraForward = this.CameraForward;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
@@ -246,7 +250,6 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
-    public FP CameraHeight;
     public FP InteractionDistance;
     public LayerMask LocalMask;
     public FP WalkSpeed;
@@ -271,7 +274,6 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
-        result.CameraHeight = this.CameraHeight;
         result.InteractionDistance = this.InteractionDistance;
         result.LocalMask = this.LocalMask;
         result.WalkSpeed = this.WalkSpeed;

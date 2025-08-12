@@ -8,8 +8,9 @@ namespace Quantum
     {
         public static float LookSensitivity = 3f;
 
-        [SerializeField]
-        private QuantumEntityViewUpdater _entityViewUpdater;
+        [SerializeField] private QuantumEntityViewUpdater _entityViewUpdater;
+
+        [SerializeField] private GameObject _playerCameraObject;
 
         private Quantum.Input _accumulatedInput;
         private bool _resetAccumulatedInput;
@@ -23,6 +24,12 @@ namespace Quantum
         private void Update()
         {
             AccumulateInput();
+        }
+
+        private void LateUpdate()
+        {
+            _accumulatedInput.CameraPosition = _playerCameraObject.transform.position.ToFPVector3();
+            _accumulatedInput.CameraForward = _playerCameraObject.transform.forward.ToFPVector3();
         }
 
         private void AccumulateInput()

@@ -543,7 +543,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 256;
+    public const Int32 SIZE = 304;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(1)]
     public Byte InterpolationOffset;
@@ -561,6 +561,10 @@ namespace Quantum {
     public Button Crouch;
     [FieldOffset(16)]
     public Button Interact;
+    [FieldOffset(256)]
+    public FPVector3 CameraPosition;
+    [FieldOffset(232)]
+    public FPVector3 CameraForward;
     [FieldOffset(124)]
     public Button _left;
     [FieldOffset(148)]
@@ -589,7 +593,7 @@ namespace Quantum {
     public Byte _analogRightTrigger;
     [FieldOffset(2)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(232)]
+    [FieldOffset(280)]
     public QuantumThumbSticks ThumbSticks;
     public override readonly Int32 GetHashCode() {
       unchecked { 
@@ -602,6 +606,8 @@ namespace Quantum {
         hash = hash * 31 + Run.GetHashCode();
         hash = hash * 31 + Crouch.GetHashCode();
         hash = hash * 31 + Interact.GetHashCode();
+        hash = hash * 31 + CameraPosition.GetHashCode();
+        hash = hash * 31 + CameraForward.GetHashCode();
         hash = hash * 31 + _left.GetHashCode();
         hash = hash * 31 + _right.GetHashCode();
         hash = hash * 31 + _up.GetHashCode();
@@ -689,6 +695,8 @@ namespace Quantum {
         Button.Serialize(&p->_up, serializer);
         FPVector2.Serialize(&p->LookRotationDelta, serializer);
         FPVector2.Serialize(&p->MoveDirection, serializer);
+        FPVector3.Serialize(&p->CameraForward, serializer);
+        FPVector3.Serialize(&p->CameraPosition, serializer);
         Quantum.QuantumThumbSticks.Serialize(&p->ThumbSticks, serializer);
     }
   }
@@ -1129,7 +1137,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2152;
+    public const Int32 SIZE = 2440;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1153,12 +1161,12 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[1536];
-    [FieldOffset(2144)]
+    private fixed Byte _input_[1824];
+    [FieldOffset(2432)]
     public BitSet6 PlayerLastConnectionState;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 256, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 304, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -1341,35 +1349,33 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 104;
+    public const Int32 SIZE = 96;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
-    public FP CameraHeight;
-    [FieldOffset(56)]
+    [FieldOffset(48)]
     public FP InteractionDistance;
     [FieldOffset(0)]
     public LayerMask LocalMask;
-    [FieldOffset(96)]
-    public FP WalkSpeed;
     [FieldOffset(88)]
+    public FP WalkSpeed;
+    [FieldOffset(80)]
     public FP RunSpeed;
-    [FieldOffset(32)]
-    public FP CrouchSpeed;
-    [FieldOffset(64)]
-    public FP JumpForce;
-    [FieldOffset(48)]
-    public FP HeightStanding;
-    [FieldOffset(40)]
-    public FP HeightCrouching;
     [FieldOffset(24)]
+    public FP CrouchSpeed;
+    [FieldOffset(56)]
+    public FP JumpForce;
+    [FieldOffset(40)]
+    public FP HeightStanding;
+    [FieldOffset(32)]
+    public FP HeightCrouching;
+    [FieldOffset(16)]
     public FP CrouchLerpSpeed;
     [FieldOffset(4)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
-    [FieldOffset(80)]
+    [FieldOffset(72)]
     [HideInInspector()]
     public FP LookYaw;
-    [FieldOffset(72)]
+    [FieldOffset(64)]
     [HideInInspector()]
     public FP LookPitch;
     [FieldOffset(8)]
@@ -1378,7 +1384,6 @@ namespace Quantum {
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
-        hash = hash * 31 + CameraHeight.GetHashCode();
         hash = hash * 31 + InteractionDistance.GetHashCode();
         hash = hash * 31 + LocalMask.GetHashCode();
         hash = hash * 31 + WalkSpeed.GetHashCode();
@@ -1400,7 +1405,6 @@ namespace Quantum {
         LayerMask.Serialize(&p->LocalMask, serializer);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
         QBoolean.Serialize(&p->IsCrouching, serializer);
-        FP.Serialize(&p->CameraHeight, serializer);
         FP.Serialize(&p->CrouchLerpSpeed, serializer);
         FP.Serialize(&p->CrouchSpeed, serializer);
         FP.Serialize(&p->HeightCrouching, serializer);
@@ -1485,6 +1489,8 @@ namespace Quantum {
       i->Run = i->Run.Update(this.Number, input.Run);
       i->Crouch = i->Crouch.Update(this.Number, input.Crouch);
       i->Interact = i->Interact.Update(this.Number, input.Interact);
+      i->CameraPosition = input.CameraPosition;
+      i->CameraForward = input.CameraForward;
       i->_left = i->_left.Update(this.Number, input._left);
       i->_right = i->_right.Update(this.Number, input._right);
       i->_up = i->_up.Update(this.Number, input._up);

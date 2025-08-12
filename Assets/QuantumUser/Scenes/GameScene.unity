@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityViewUpdater: {fileID: 1028571734}
+  _playerCameraObject: {fileID: 792502001}
 --- !u!4 &357471210
 Transform:
   m_ObjectHideFlags: 0
