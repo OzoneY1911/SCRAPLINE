@@ -9,9 +9,12 @@ namespace Quantum
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
             SpawnPlayer(frame, playerRef);
+
+            //if (frame.IsVe)
+            SetLocalLayer(frame, playerRef);
         }
 
-        private void SpawnPlayer(Frame frame, PlayerRef playerRef)
+        private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)
         {
             var data = frame.GetPlayerData(playerRef);
 
@@ -20,6 +23,13 @@ namespace Quantum
             var playerEntity = frame.Create(entityPrototypeAsset);
 
             frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
+
+            return playerEntity;
+        }
+
+        private void SetLocalLayer(Frame frame, PlayerRef playerRef)
+        {
+            
         }
     }
 }

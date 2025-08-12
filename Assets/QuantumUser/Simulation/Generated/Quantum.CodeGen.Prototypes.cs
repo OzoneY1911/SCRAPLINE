@@ -246,6 +246,9 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
+    public FP CameraHeight;
+    public FP InteractionDistance;
+    public LayerMask LocalMask;
     public FP WalkSpeed;
     public FP RunSpeed;
     public FP CrouchSpeed;
@@ -268,6 +271,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+        result.CameraHeight = this.CameraHeight;
+        result.InteractionDistance = this.InteractionDistance;
+        result.LocalMask = this.LocalMask;
         result.WalkSpeed = this.WalkSpeed;
         result.RunSpeed = this.RunSpeed;
         result.CrouchSpeed = this.CrouchSpeed;

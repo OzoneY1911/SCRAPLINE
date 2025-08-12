@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8856330155399545181}
   - component: {fileID: 985955989977323457}
   - component: {fileID: 4772259957220665751}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ MonoBehaviour:
       IsPersistent: 1
       CompoundShapes: []
     LayerSource: 0
-    Layer: 0
+    Layer: 10
     CallbackFlags:
       Value: 0
   PhysicsBody:
@@ -415,6 +415,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
+    CameraHeight:
+      RawValue: 98304
+    InteractionDistance:
+      RawValue: 131072
+    LocalMask:
+      BitMask: 2048
     WalkSpeed:
       RawValue: 327680
     RunSpeed:

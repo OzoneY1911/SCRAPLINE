@@ -13,6 +13,13 @@ namespace Quantum
 
             if (input->Interact.IsDown)
             {
+                frame.Physics3D.Raycast(
+                    new FPVector3(filter.Transform->Position.X, player->CameraHeight, filter.Transform->Position.Z),
+                    filter.Transform->Forward,
+                    player->InteractionDistance,
+                    ~player->LocalMask,
+                    QueryOptions.HitSolids
+                    );
             }
         }
 
@@ -20,6 +27,7 @@ namespace Quantum
         {
             public EntityRef Entity;
             public Player* Player;
+            public Transform3D* Transform;
         }
     }
 }

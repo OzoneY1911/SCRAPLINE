@@ -1,5 +1,10 @@
 component Player
 {
+    FP CameraHeight;
+    FP InteractionDistance;
+
+    LayerMask LocalMask;
+
     FP WalkSpeed;
     FP RunSpeed;
     FP CrouchSpeed;
