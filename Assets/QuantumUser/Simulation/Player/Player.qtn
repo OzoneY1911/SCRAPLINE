@@ -1,5 +1,7 @@
 component Player
 {
+    SByte Strength;
+
     FP InteractionDistance;
 
     LayerMask LocalMask;

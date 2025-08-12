@@ -1,12 +1,14 @@
 using UnityEngine;
-using Photon.Deterministic;
 using Unity.Cinemachine;
 
 namespace Quantum
 {
     public class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
-        [Header("Setup")]
+        [Header("Local Renderers")]
+        public Renderer[] PlayerRenderers;
+
+        [Header("Camera Handle")]
         public Transform CameraHandle;
 
         private float _smoothPitch;
@@ -29,6 +31,11 @@ namespace Quantum
 
                 // Local player is always predicted.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
+
+                foreach (var renderer in PlayerRenderers)
+                {
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                }
             }
             else
             {

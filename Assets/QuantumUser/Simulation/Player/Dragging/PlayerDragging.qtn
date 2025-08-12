@@ -1,0 +1,6 @@
+component PlayerDragging
+{
+    [HideInInspector] Boolean IsDragging;
+    [HideInInspector] entity_ref DraggedEntity;
+    [HideInInspector] FP DragDistance;
+}

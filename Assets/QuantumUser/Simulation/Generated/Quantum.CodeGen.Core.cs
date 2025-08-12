@@ -1273,6 +1273,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Draggable : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 11491;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Draggable*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct KCC : Quantum.IComponent {
     public const Int32 SIZE = 560;
     public const Int32 ALIGNMENT = 8;
@@ -1351,9 +1367,11 @@ namespace Quantum {
   public unsafe partial struct Player : Quantum.IComponent {
     public const Int32 SIZE = 96;
     public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public SByte Strength;
     [FieldOffset(48)]
     public FP InteractionDistance;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     public LayerMask LocalMask;
     [FieldOffset(88)]
     public FP WalkSpeed;
@@ -1369,7 +1387,7 @@ namespace Quantum {
     public FP HeightCrouching;
     [FieldOffset(16)]
     public FP CrouchLerpSpeed;
-    [FieldOffset(4)]
+    [FieldOffset(8)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
     [FieldOffset(72)]
@@ -1378,12 +1396,13 @@ namespace Quantum {
     [FieldOffset(64)]
     [HideInInspector()]
     public FP LookPitch;
-    [FieldOffset(8)]
+    [FieldOffset(12)]
     [HideInInspector()]
     public QBoolean IsCrouching;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
+        hash = hash * 31 + Strength.GetHashCode();
         hash = hash * 31 + InteractionDistance.GetHashCode();
         hash = hash * 31 + LocalMask.GetHashCode();
         hash = hash * 31 + WalkSpeed.GetHashCode();
@@ -1402,6 +1421,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
+        serializer.Stream.Serialize(&p->Strength);
         LayerMask.Serialize(&p->LocalMask, serializer);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
         QBoolean.Serialize(&p->IsCrouching, serializer);
@@ -1415,6 +1435,35 @@ namespace Quantum {
         FP.Serialize(&p->LookYaw, serializer);
         FP.Serialize(&p->RunSpeed, serializer);
         FP.Serialize(&p->WalkSpeed, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct PlayerDragging : Quantum.IComponent {
+    public const Int32 SIZE = 24;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public EntityRef DraggedEntity;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public FP DragDistance;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 10303;
+        hash = hash * 31 + IsDragging.GetHashCode();
+        hash = hash * 31 + DraggedEntity.GetHashCode();
+        hash = hash * 31 + DragDistance.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (PlayerDragging*)ptr;
+        QBoolean.Serialize(&p->IsDragging, serializer);
+        EntityRef.Serialize(&p->DraggedEntity, serializer);
+        FP.Serialize(&p->DragDistance, serializer);
     }
   }
   public static unsafe partial class Constants {
@@ -1437,6 +1486,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Draggable>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Draggable>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCC>();
       BuildSignalsArrayOnComponentRemoved<Quantum.KCC>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCCProcessorLink>();
@@ -1469,6 +1520,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<PhysicsJoints3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.Player>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Player>();
+      BuildSignalsArrayOnComponentAdded<Quantum.PlayerDragging>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.PlayerDragging>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
@@ -1551,6 +1604,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(ComponentTypeRef), ComponentTypeRef.SIZE);
       typeRegistry.Register(typeof(DistanceJoint), DistanceJoint.SIZE);
       typeRegistry.Register(typeof(DistanceJoint3D), DistanceJoint3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.Draggable), Quantum.Draggable.SIZE);
       typeRegistry.Register(typeof(Quantum.EKCCCollisionSource), 1);
       typeRegistry.Register(typeof(Quantum.EKCCIgnoreSource), 1);
       typeRegistry.Register(typeof(Quantum.EKCCProcessorSource), 1);
@@ -1610,6 +1664,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(PhysicsQueryRef), PhysicsQueryRef.SIZE);
       typeRegistry.Register(typeof(PhysicsSceneSettings), PhysicsSceneSettings.SIZE);
       typeRegistry.Register(typeof(Quantum.Player), Quantum.Player.SIZE);
+      typeRegistry.Register(typeof(Quantum.PlayerDragging), Quantum.PlayerDragging.SIZE);
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
       typeRegistry.Register(typeof(Ptr), Ptr.SIZE);
       typeRegistry.Register(typeof(QBoolean), QBoolean.SIZE);
@@ -1633,11 +1688,13 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 3)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 5)
         .AddBuiltInComponents()
+        .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.PlayerDragging>(Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None)
         .Finish();
     }
     [Preserve()]

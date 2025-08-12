@@ -135,6 +135,7 @@ MonoBehaviour:
     - rid: 2198076189493428225
     - rid: 2198076189493428226
     - rid: 2198076189493428227
+    - rid: 2198076189493428228
   - Components:
     - rid: 7023395401642278912
     - rid: 7023395401642278913
@@ -284,6 +285,10 @@ MonoBehaviour:
       data:
         CallbackFlags:
           Value: 4095
+    - rid: 2198076189493428228
+      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
     - rid: 4184922638226817024
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

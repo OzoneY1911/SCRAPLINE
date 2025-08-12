@@ -101,6 +101,24 @@ namespace Quantum.Prototypes.Unity {
       return result;
     }
   }
+  [System.SerializableAttribute()]
+  public unsafe partial class PlayerDraggingPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerDraggingPrototype> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype DraggedEntity;
+    [HideInInspector()]
+    public FP DragDistance;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerDraggingPrototype prototype);
+    public override Quantum.Prototypes.PlayerDraggingPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.PlayerDraggingPrototype();
+      converter.Convert(this.IsDragging, out result.IsDragging);
+      converter.Convert(this.DraggedEntity, out result.DraggedEntity);
+      converter.Convert(this.DragDistance, out result.DragDistance);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
 }
 #pragma warning restore 0109
 #pragma warning restore 1591

@@ -50,6 +50,21 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Draggable))]
+  public unsafe partial class DraggablePrototype : ComponentPrototype<Quantum.Draggable> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Draggable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public Byte InterpolationOffset;
@@ -250,6 +265,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
+    public SByte Strength;
     public FP InteractionDistance;
     public LayerMask LocalMask;
     public FP WalkSpeed;
@@ -274,6 +290,7 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+        result.Strength = this.Strength;
         result.InteractionDistance = this.InteractionDistance;
         result.LocalMask = this.LocalMask;
         result.WalkSpeed = this.WalkSpeed;
@@ -288,6 +305,26 @@ namespace Quantum.Prototypes {
         result.LookPitch = this.LookPitch;
         result.IsCrouching = this.IsCrouching;
         MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerDragging))]
+  public unsafe class PlayerDraggingPrototype : ComponentPrototype<Quantum.PlayerDragging> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public MapEntityId DraggedEntity;
+    [HideInInspector()]
+    public FP DragDistance;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerDragging component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerDragging result, in PrototypeMaterializationContext context = default) {
+        result.IsDragging = this.IsDragging;
+        PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
+        result.DragDistance = this.DragDistance;
     }
   }
   [ExcludeFromPrototype()]
