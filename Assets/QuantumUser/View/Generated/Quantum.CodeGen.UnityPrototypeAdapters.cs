@@ -109,12 +109,29 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.QuantumEntityPrototype DraggedEntity;
     [HideInInspector()]
     public FP DragDistance;
+    [HideInInspector()]
+    public FPVector3 GrabLocalPoint;
+    public FP PushPullStep;
+    public FP MinDragDistance;
+    public FP MaxDragDistance;
+    public FP DampingRatio;
+    public FP SagPerMass;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 DraggedRelativeRotation;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerDraggingPrototype prototype);
     public override Quantum.Prototypes.PlayerDraggingPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.PlayerDraggingPrototype();
       converter.Convert(this.IsDragging, out result.IsDragging);
       converter.Convert(this.DraggedEntity, out result.DraggedEntity);
       converter.Convert(this.DragDistance, out result.DragDistance);
+      converter.Convert(this.GrabLocalPoint, out result.GrabLocalPoint);
+      converter.Convert(this.PushPullStep, out result.PushPullStep);
+      converter.Convert(this.MinDragDistance, out result.MinDragDistance);
+      converter.Convert(this.MaxDragDistance, out result.MaxDragDistance);
+      converter.Convert(this.DampingRatio, out result.DampingRatio);
+      converter.Convert(this.SagPerMass, out result.SagPerMass);
+      converter.Convert(this.DraggedRelativeRotation, out result.DraggedRelativeRotation);
       ConvertUser(converter, ref result);
       return result;
     }

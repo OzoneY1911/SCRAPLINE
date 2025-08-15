@@ -463,6 +463,30 @@ MonoBehaviour:
     DraggedEntity: {fileID: 0}
     DragDistance:
       RawValue: 0
+    GrabLocalPoint:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    PushPullStep:
+      RawValue: 13107
+    MinDragDistance:
+      RawValue: 65536
+    MaxDragDistance:
+      RawValue: 196608
+    DampingRatio:
+      RawValue: 78643
+    SagPerMass:
+      RawValue: 655
+    DraggedRelativeRotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0

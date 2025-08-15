@@ -74,6 +74,7 @@ namespace Quantum
             _accumulatedInput.Run |= keyboard.leftShiftKey.isPressed;
             _accumulatedInput.Crouch |= keyboard.leftCtrlKey.isPressed;
             _accumulatedInput.Interact |= mouse.leftButton.isPressed;
+            _accumulatedInput.SecondaryAction |= mouse.rightButton.isPressed;
 
             // Process mouse input
 
@@ -82,6 +83,9 @@ namespace Quantum
             Vector2 lookRotationDelta = new Vector2(-mouseDelta.y, mouseDelta.x);
             lookRotationDelta *= LookSensitivity / 60f;
             _accumulatedInput.LookRotationDelta += lookRotationDelta.ToFPVector2();
+
+            _accumulatedInput.ScrollDelta += mouse.scroll.ReadValue().y.ToFP();
+            _accumulatedInput.ScrollDelta = FPMath.Clamp(_accumulatedInput.ScrollDelta, -FP._1, FP._1);
         }
 
         public void PollInput(CallbackPollInput callback)
@@ -95,6 +99,7 @@ namespace Quantum
 
             _resetAccumulatedInput = true;
             _accumulatedInput.LookRotationDelta = default;
+            _accumulatedInput.ScrollDelta = FP._0;
         }
     }
 }

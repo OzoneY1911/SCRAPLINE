@@ -25,6 +25,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "4ace8cca-f2fc-4a05-8b60-054d0e6f9def",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "fce36f6d-7236-4690-8c17-2567087418fd",
@@ -55,6 +64,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "3289c619-fc8d-44fb-bafb-c7f8ed2efe8c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SecondaryAction",
+                    "type": "Button",
+                    "id": "4cb887b2-3885-4cd2-8d6b-c599f362a4e6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -169,6 +187,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c23910e9-7f97-4a58-ab2b-fe508534faec",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d212059-3edf-4aaf-86b1-f957f69b8d15",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SecondaryAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

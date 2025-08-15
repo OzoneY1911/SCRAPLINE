@@ -5,10 +5,14 @@ input
 
     FPVector2 MoveDirection;
     FPVector2 LookRotationDelta;
+
+    FP ScrollDelta;
+
     button Jump;
     button Run;
     button Crouch;
     button Interact;
+    button SecondaryAction;
 
     FPVector3 CameraPosition;
     FPVector3 CameraForward;

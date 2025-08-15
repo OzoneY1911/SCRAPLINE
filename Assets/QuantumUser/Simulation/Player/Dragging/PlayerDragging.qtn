@@ -3,4 +3,15 @@ component PlayerDragging
     [HideInInspector] Boolean IsDragging;
     [HideInInspector] entity_ref DraggedEntity;
     [HideInInspector] FP DragDistance;
+    [HideInInspector] FPVector3 GrabLocalPoint;
+
+    FP PushPullStep;
+
+    FP MinDragDistance;
+    FP MaxDragDistance;
+
+    FP DampingRatio;
+    FP SagPerMass;
+
+    [HideInInspector] FPQuaternion DraggedRelativeRotation;
 }

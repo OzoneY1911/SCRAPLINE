@@ -71,10 +71,12 @@ namespace Quantum.Prototypes {
     public Byte InterpolationAlphaEncoded;
     public FPVector2 MoveDirection;
     public FPVector2 LookRotationDelta;
+    public FP ScrollDelta;
     public Button Jump;
     public Button Run;
     public Button Crouch;
     public Button Interact;
+    public Button SecondaryAction;
     public FPVector3 CameraPosition;
     public FPVector3 CameraForward;
     public Button _left;
@@ -98,10 +100,12 @@ namespace Quantum.Prototypes {
         result.InterpolationAlphaEncoded = this.InterpolationAlphaEncoded;
         result.MoveDirection = this.MoveDirection;
         result.LookRotationDelta = this.LookRotationDelta;
+        result.ScrollDelta = this.ScrollDelta;
         result.Jump = this.Jump;
         result.Run = this.Run;
         result.Crouch = this.Crouch;
         result.Interact = this.Interact;
+        result.SecondaryAction = this.SecondaryAction;
         result.CameraPosition = this.CameraPosition;
         result.CameraForward = this.CameraForward;
         result._left = this._left;
@@ -316,6 +320,16 @@ namespace Quantum.Prototypes {
     public MapEntityId DraggedEntity;
     [HideInInspector()]
     public FP DragDistance;
+    [HideInInspector()]
+    public FPVector3 GrabLocalPoint;
+    public FP PushPullStep;
+    public FP MinDragDistance;
+    public FP MaxDragDistance;
+    public FP DampingRatio;
+    public FP SagPerMass;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 DraggedRelativeRotation;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.PlayerDragging component = default;
         Materialize((Frame)f, ref component, in context);
@@ -325,6 +339,13 @@ namespace Quantum.Prototypes {
         result.IsDragging = this.IsDragging;
         PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
         result.DragDistance = this.DragDistance;
+        result.GrabLocalPoint = this.GrabLocalPoint;
+        result.PushPullStep = this.PushPullStep;
+        result.MinDragDistance = this.MinDragDistance;
+        result.MaxDragDistance = this.MaxDragDistance;
+        result.DampingRatio = this.DampingRatio;
+        result.SagPerMass = this.SagPerMass;
+        result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
     }
   }
   [ExcludeFromPrototype()]
