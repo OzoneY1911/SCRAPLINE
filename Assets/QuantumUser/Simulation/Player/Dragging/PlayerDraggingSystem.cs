@@ -138,11 +138,16 @@ namespace Quantum
 
             deltaRot = deltaRot.Normalized; // ensure it's a unit quaternion
 
-            // Compute axis & angle manually
-            FP angle = FP._2 * FPMath.Acos(deltaRot.W);
-            FPVector3 axis;
+            // Clamp W into [-1, 1] to avoid sqrt/acos domain errors
+            FP w = FPMath.Clamp(deltaRot.W, -FP._1, FP._1);
 
-            FP sinHalfAngle = FPMath.Sqrt(FP._1 - deltaRot.W * deltaRot.W);
+            // Compute angle
+            FP angle = FP._2 * FPMath.Acos(w);
+
+            // Safe sqrt
+            FP sinHalfAngle = FPMath.Sqrt(FPMath.Max(FP._0, FP._1 - w * w));
+
+            FPVector3 axis;
             if (FPMath.Abs(sinHalfAngle) > FP.Epsilon)
             {
                 axis = new FPVector3(
