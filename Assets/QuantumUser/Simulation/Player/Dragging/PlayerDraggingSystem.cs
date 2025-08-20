@@ -54,12 +54,12 @@ namespace Quantum
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
 
             var hit = frame.Physics3D.Raycast(
-                    input->CameraPosition,
-                    input->CameraForward,
-                    player->InteractionDistance,
-                    ~player->LocalMask,
-                    QueryOptions.HitSolids
-                    );
+                input->CameraPosition,
+                input->CameraForward,
+                player->InteractionDistance,
+                ~player->LocalMask,
+                QueryOptions.HitSolids
+                );
 
             if (hit.HasValue)
             {

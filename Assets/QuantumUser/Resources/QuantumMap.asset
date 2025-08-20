@@ -140,6 +140,7 @@ MonoBehaviour:
     - rid: 7023395401642278912
     - rid: 7023395401642278913
     - rid: 7023395401642278914
+    - rid: 7023395401642278915
   SerializedTriangleDataUncompressedSize: 8
   references:
     version: 2
@@ -340,3 +341,7 @@ MonoBehaviour:
       data:
         CallbackFlags:
           Value: 0
+    - rid: 7023395401642278915
+      type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
