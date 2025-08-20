@@ -50,15 +50,35 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Draggable))]
+  public unsafe partial class DraggablePrototype : ComponentPrototype<Quantum.Draggable> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Draggable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public Byte InterpolationOffset;
     public Byte InterpolationAlphaEncoded;
     public FPVector2 MoveDirection;
     public FPVector2 LookRotationDelta;
+    public FP ScrollDelta;
     public Button Jump;
     public Button Run;
     public Button Crouch;
+    public Button Interact;
+    public Button SecondaryAction;
+    public FPVector3 CameraPosition;
+    public FPVector3 CameraForward;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -80,9 +100,14 @@ namespace Quantum.Prototypes {
         result.InterpolationAlphaEncoded = this.InterpolationAlphaEncoded;
         result.MoveDirection = this.MoveDirection;
         result.LookRotationDelta = this.LookRotationDelta;
+        result.ScrollDelta = this.ScrollDelta;
         result.Jump = this.Jump;
         result.Run = this.Run;
         result.Crouch = this.Crouch;
+        result.Interact = this.Interact;
+        result.SecondaryAction = this.SecondaryAction;
+        result.CameraPosition = this.CameraPosition;
+        result.CameraForward = this.CameraForward;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
@@ -98,6 +123,21 @@ namespace Quantum.Prototypes {
         result._analogRightTrigger = this._analogRightTrigger;
         result._analogLeftTrigger = this._analogLeftTrigger;
         this.ThumbSticks.Materialize(frame, ref result.ThumbSticks, in context);
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Interactable))]
+  public unsafe partial class InteractablePrototype : ComponentPrototype<Quantum.Interactable> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.Interactable result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Interactable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Interactable result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -244,6 +284,9 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
+    public SByte Strength;
+    public FP InteractionDistance;
+    public LayerMask LocalMask;
     public FP WalkSpeed;
     public FP RunSpeed;
     public FP CrouchSpeed;
@@ -266,6 +309,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+        result.Strength = this.Strength;
+        result.InteractionDistance = this.InteractionDistance;
+        result.LocalMask = this.LocalMask;
         result.WalkSpeed = this.WalkSpeed;
         result.RunSpeed = this.RunSpeed;
         result.CrouchSpeed = this.CrouchSpeed;
@@ -278,6 +324,43 @@ namespace Quantum.Prototypes {
         result.LookPitch = this.LookPitch;
         result.IsCrouching = this.IsCrouching;
         MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerDragging))]
+  public unsafe class PlayerDraggingPrototype : ComponentPrototype<Quantum.PlayerDragging> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public MapEntityId DraggedEntity;
+    [HideInInspector()]
+    public FP DragDistance;
+    [HideInInspector()]
+    public FPVector3 GrabLocalPoint;
+    public FP PushPullStep;
+    public FP MinDragDistance;
+    public FP MaxDragDistance;
+    public FP DampingRatio;
+    public FP SagPerMass;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 DraggedRelativeRotation;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerDragging component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerDragging result, in PrototypeMaterializationContext context = default) {
+        result.IsDragging = this.IsDragging;
+        PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
+        result.DragDistance = this.DragDistance;
+        result.GrabLocalPoint = this.GrabLocalPoint;
+        result.PushPullStep = this.PushPullStep;
+        result.MinDragDistance = this.MinDragDistance;
+        result.MaxDragDistance = this.MaxDragDistance;
+        result.DampingRatio = this.DampingRatio;
+        result.SagPerMass = this.SagPerMass;
+        result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
     }
   }
   [ExcludeFromPrototype()]

@@ -94,8 +94,6 @@ namespace Quantum
             var player = filter.Player;
             var input = frame.GetPlayerInput(player->PlayerRef);
 
-            player->IsCrouching = input->Crouch.IsDown;
-
             ref Shape3D shape = ref filter.Collider->Shape;
 
             FP radius = shape.Capsule.Radius;
@@ -104,22 +102,29 @@ namespace Quantum
 
             FP targetHalfHeight;
 
-            if (filter.Player->IsCrouching)
+            if (input->Crouch.IsDown)
             {
+                player->IsCrouching = true;
                 targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
             }
             else
             {
+                targetHalfHeight = filter.Player->HeightStanding * FP._0_50;
+            }
+
+            if (player->IsCrouching && !input->Crouch.IsDown)
+            {
                 if (PlayerPhysicsUtils.CanStandUp(frame, in filter))
                 {
-                    targetHalfHeight = filter.Player->HeightStanding * FP._0_50;
+                    player->IsCrouching = false;
                 }
                 else
                 {
                     targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
-                    filter.Player->IsCrouching = true;
                 }
             }
+
+            if (currentHalfHeight == targetHalfHeight) return;
 
             FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * filter.Player->CrouchLerpSpeed);
 

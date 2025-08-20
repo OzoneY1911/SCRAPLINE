@@ -1,12 +1,14 @@
 using UnityEngine;
-using Photon.Deterministic;
 using Unity.Cinemachine;
 
 namespace Quantum
 {
     public class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
-        [Header("Setup")]
+        [Header("Local Renderers")]
+        public Renderer[] PlayerRenderers;
+
+        [Header("Camera Handle")]
         public Transform CameraHandle;
 
         private float _smoothPitch;
@@ -29,6 +31,11 @@ namespace Quantum
 
                 // Local player is always predicted.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
+
+                foreach (var renderer in PlayerRenderers)
+                {
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                }
             }
             else
             {
@@ -93,25 +100,6 @@ namespace Quantum
             Vector3 targetScale = player.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
 
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * player.CrouchLerpSpeed.AsFloat);
-        }
-
-        private Vector3 GetAnimationMoveVelocity(KCC kcc)
-        {
-            if (kcc.RealSpeed < FP._0_01)
-                return default;
-
-            var velocity = kcc.RealVelocity;
-
-            // We only care about X an Z directions.
-            velocity.Y = 0;
-
-            if (velocity.SqrMagnitude > 1)
-            {
-                velocity = velocity.Normalized;
-            }
-
-            // Transform velocity vector to local space.
-            return transform.InverseTransformVector(velocity.ToUnityVector3());
         }
     }
 }

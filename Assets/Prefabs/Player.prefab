@@ -102,7 +102,8 @@ GameObject:
   - component: {fileID: 8856330155399545181}
   - component: {fileID: 985955989977323457}
   - component: {fileID: 4772259957220665751}
-  m_Layer: 0
+  - component: {fileID: -7067544655842398182}
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +218,7 @@ MonoBehaviour:
       IsPersistent: 1
       CompoundShapes: []
     LayerSource: 0
-    Layer: 0
+    Layer: 10
     CallbackFlags:
       Value: 0
   PhysicsBody:
@@ -401,6 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7a6ed6feb3bf44ab333167b24b31d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerRenderers:
+  - {fileID: 9003019556155334211}
   CameraHandle: {fileID: 808740679351696482}
 --- !u!114 &4772259957220665751
 MonoBehaviour:
@@ -415,6 +418,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
+    Strength: 5
+    InteractionDistance:
+      RawValue: 131072
+    LocalMask:
+      BitMask: 2048
     WalkSpeed:
       RawValue: 327680
     RunSpeed:
@@ -437,6 +445,48 @@ MonoBehaviour:
       RawValue: 0
     IsCrouching:
       Value: 0
+--- !u!114 &-7067544655842398182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a491ae7b3692c5e49b7c85fd62c77d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
+    IsDragging:
+      Value: 0
+    DraggedEntity: {fileID: 0}
+    DragDistance:
+      RawValue: 0
+    GrabLocalPoint:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    PushPullStep:
+      RawValue: 13107
+    MinDragDistance:
+      RawValue: 65536
+    MaxDragDistance:
+      RawValue: 196608
+    DampingRatio:
+      RawValue: 78643
+    SagPerMass:
+      RawValue: 655
+    DraggedRelativeRotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0

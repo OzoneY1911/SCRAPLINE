@@ -8,8 +8,9 @@ namespace Quantum
     {
         public static float LookSensitivity = 3f;
 
-        [SerializeField]
-        private QuantumEntityViewUpdater _entityViewUpdater;
+        [SerializeField] private QuantumEntityViewUpdater _entityViewUpdater;
+
+        [SerializeField] private GameObject _playerCameraObject;
 
         private Quantum.Input _accumulatedInput;
         private bool _resetAccumulatedInput;
@@ -23,6 +24,12 @@ namespace Quantum
         private void Update()
         {
             AccumulateInput();
+        }
+
+        private void LateUpdate()
+        {
+            _accumulatedInput.CameraPosition = _playerCameraObject.transform.position.ToFPVector3();
+            _accumulatedInput.CameraForward = _playerCameraObject.transform.forward.ToFPVector3();
         }
 
         private void AccumulateInput()
@@ -66,6 +73,8 @@ namespace Quantum
             _accumulatedInput.Jump |= keyboard.spaceKey.isPressed;
             _accumulatedInput.Run |= keyboard.leftShiftKey.isPressed;
             _accumulatedInput.Crouch |= keyboard.leftCtrlKey.isPressed;
+            _accumulatedInput.Interact |= mouse.leftButton.isPressed;
+            _accumulatedInput.SecondaryAction |= mouse.rightButton.isPressed;
 
             // Process mouse input
 
@@ -74,6 +83,9 @@ namespace Quantum
             Vector2 lookRotationDelta = new Vector2(-mouseDelta.y, mouseDelta.x);
             lookRotationDelta *= LookSensitivity / 60f;
             _accumulatedInput.LookRotationDelta += lookRotationDelta.ToFPVector2();
+
+            _accumulatedInput.ScrollDelta += mouse.scroll.ReadValue().y.ToFP();
+            _accumulatedInput.ScrollDelta = FPMath.Clamp(_accumulatedInput.ScrollDelta, -FP._1, FP._1);
         }
 
         public void PollInput(CallbackPollInput callback)
@@ -87,6 +99,7 @@ namespace Quantum
 
             _resetAccumulatedInput = true;
             _accumulatedInput.LookRotationDelta = default;
+            _accumulatedInput.ScrollDelta = FP._0;
         }
     }
 }
