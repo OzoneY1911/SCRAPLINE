@@ -22,8 +22,22 @@ MonoBehaviour:
   - sa
   - us
   _availableScenes:
-  - Name: GameScene
-    ScenePath: Assets/QuantumUser/Scenes/GameScene.unity
+  - Name: HubScene
+    ScenePath: Assets/QuantumUser/Scenes/HubScene.unity
+    Preview: {fileID: 0}
+    RuntimeConfig:
+      Seed: 0
+      Map:
+        Id:
+          Value: 294401359472373322
+      SimulationConfig:
+        Id:
+          Value: 326530903947696056
+      SystemsConfig:
+        Id:
+          Value: 504486853805744320
+  - Name: ProceduralScene
+    ScenePath: Assets/QuantumUser/Scenes/ProceduralScene.unity
     Preview: {fileID: 0}
     RuntimeConfig:
       Seed: 0
@@ -32,10 +46,10 @@ MonoBehaviour:
           Value: 509245598804072393
       SimulationConfig:
         Id:
-          Value: 1901487820675181857
+          Value: 495965110333760304
       SystemsConfig:
         Id:
-          Value: 504486853805744320
+          Value: 481272546664667251
   _machineId: {fileID: -755480892457977500, guid: fbd1d0c57fd428c44b08e505acb8d851, type: 3}
   _codeGenerator: {fileID: 11400000, guid: e38f1fac5a1a5c94da2b4ef21bd48419, type: 2}
   DefaultScenePreview: {fileID: 0}

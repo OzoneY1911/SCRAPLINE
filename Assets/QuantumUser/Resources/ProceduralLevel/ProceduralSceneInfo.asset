@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ef11b24dd8b636479cc530200469ee2, type: 3}
-  m_Name: GameSceneInfo
+  m_Name: ProceduralSceneInfo
   m_EditorClassIdentifier: 
-  Name: 
-  ScenePath: Assets/QuantumUser/Scenes/GameScene.unity
+  Name: ProceduralScene
+  ScenePath: Assets/QuantumUser/Scenes/ProceduralScene.unity
   Preview: {fileID: 0}
   IsHidden: 0
   RuntimeConfig:
@@ -23,7 +23,7 @@ MonoBehaviour:
         Value: 509245598804072393
     SimulationConfig:
       Id:
-        Value: 326530903947696056
+        Value: 495965110333760304
     SystemsConfig:
       Id:
-        Value: 504486853805744320
+        Value: 481272546664667251

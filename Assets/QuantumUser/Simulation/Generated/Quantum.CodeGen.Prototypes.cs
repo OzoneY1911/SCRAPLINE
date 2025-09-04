@@ -129,8 +129,8 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Interactable))]
   public unsafe partial class InteractablePrototype : ComponentPrototype<Quantum.Interactable> {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
+    public Quantum.QEnum32<InteractableType> Type;
+    public AssetRef<Map> TargetMap;
     partial void MaterializeUser(Frame frame, ref Quantum.Interactable result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Interactable component = default;
@@ -138,6 +138,8 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Interactable result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.TargetMap = this.TargetMap;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -282,6 +284,38 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Lever))]
+  public unsafe partial class LeverPrototype : ComponentPrototype<Quantum.Lever> {
+    [HideInInspector()]
+    public QBoolean IsInitialized;
+    [HideInInspector()]
+    public QBoolean IsActivated;
+    [HideInInspector()]
+    public QBoolean IsBeingInteracted;
+    [HideInInspector()]
+    public FP InitialAngle;
+    [HideInInspector()]
+    public FP CurrentAngle;
+    public FP MaxAngle;
+    public FP AngleResetSpeed;
+    partial void MaterializeUser(Frame frame, ref Quantum.Lever result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Lever component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Lever result, in PrototypeMaterializationContext context = default) {
+        result.IsInitialized = this.IsInitialized;
+        result.IsActivated = this.IsActivated;
+        result.IsBeingInteracted = this.IsBeingInteracted;
+        result.InitialAngle = this.InitialAngle;
+        result.CurrentAngle = this.CurrentAngle;
+        result.MaxAngle = this.MaxAngle;
+        result.AngleResetSpeed = this.AngleResetSpeed;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
     public SByte Strength;
@@ -361,6 +395,23 @@ namespace Quantum.Prototypes {
         result.DampingRatio = this.DampingRatio;
         result.SagPerMass = this.SagPerMass;
         result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerLeverDragging))]
+  public unsafe class PlayerLeverDraggingPrototype : ComponentPrototype<Quantum.PlayerLeverDragging> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public MapEntityId DraggedEntity;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerLeverDragging component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerLeverDragging result, in PrototypeMaterializationContext context = default) {
+        result.IsDragging = this.IsDragging;
+        PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
     }
   }
   [ExcludeFromPrototype()]

@@ -1,6 +1,7 @@
 component Interactable
 {
-
+    InteractableType Type;
+    asset_ref<Map> TargetMap;
 }
 
-signal OnInteract();
+signal OnInteract(Interactable* interactable);

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d2fe2c694564034da0046180c7418fb, type: 3}
-  m_Name: GameSystemsConfig
+  m_Name: HubSystemsConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/GameSystemsConfig
+    Path: QuantumUser/Resources/HubLevel/HubSystemsConfig
     Guid:
       Value: 504486853805744320
   Entries:
@@ -71,8 +71,20 @@ MonoBehaviour:
       SystemName: 
       StartDisabled: 0
       Children: []
+    - SystemType:
+        AssemblyQualifiedName: Quantum.PlayerLeverDraggingSystem, Quantum.Simulation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      SystemName: 
+      StartDisabled: 0
+      Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.InteractableSystem, Quantum.Simulation, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.LeverSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

@@ -24,10 +24,7 @@ namespace Quantum
         private void Update()
         {
             AccumulateInput();
-        }
 
-        private void LateUpdate()
-        {
             _accumulatedInput.CameraPosition = _playerCameraObject.transform.position.ToFPVector3();
             _accumulatedInput.CameraForward = _playerCameraObject.transform.forward.ToFPVector3();
         }

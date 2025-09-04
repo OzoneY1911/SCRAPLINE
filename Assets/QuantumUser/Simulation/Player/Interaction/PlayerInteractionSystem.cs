@@ -33,7 +33,7 @@ namespace Quantum
 
                     if (frame.Has<Interactable>(hitEntity))
                     {
-                        frame.Signals.OnInteract();
+                        frame.Signals.OnInteract(frame.Unsafe.GetPointer<Interactable>(hitEntity));
                     }
                 }
             }

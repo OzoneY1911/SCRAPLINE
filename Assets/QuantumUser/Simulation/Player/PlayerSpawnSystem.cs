@@ -7,12 +7,7 @@ namespace Quantum
     {
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
-            var playerEntity = SpawnPlayer(frame, playerRef);
-
-            if (frame.IsPlayerVerifiedOrLocal(playerRef))
-            {
-                SetLocalLayer(frame, playerRef, playerEntity);
-            }
+            SpawnPlayer(frame, playerRef);
         }
 
         private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)
@@ -24,6 +19,11 @@ namespace Quantum
             var playerEntity = frame.Create(entityPrototypeAsset);
 
             frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
+
+            if (frame.IsPlayerVerifiedOrLocal(playerRef))
+            {
+                SetLocalLayer(frame, playerRef, playerEntity);
+            }
 
             return playerEntity;
         }

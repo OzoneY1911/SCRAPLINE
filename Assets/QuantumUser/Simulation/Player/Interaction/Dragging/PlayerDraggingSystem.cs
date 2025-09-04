@@ -43,7 +43,8 @@ namespace Quantum
                     //RotateDraggable(frame, ref filter);
                 }
 
-                UpdateDragging(frame, ref filter);
+                DrivePosition(frame, ref filter);
+                DriveRotation(frame, ref filter);
             }
         }
 
@@ -92,7 +93,7 @@ namespace Quantum
             playerDragging->DraggedEntity = default;
         }
 
-        private void UpdateDragging(Frame frame, ref Filter filter)
+        private void DrivePosition(Frame frame, ref Filter filter)
         {
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var playerDragging = filter.PlayerDragging;
@@ -125,6 +126,32 @@ namespace Quantum
             FPVector3 impulse = deltaVel * 15 * frame.DeltaTime * kd;
 
             draggedBody->AddLinearImpulse(impulse);
+
+            /*
+            UnityEngine.Debug.DrawLine(
+                new UnityEngine.Vector3(
+                    (float) targetPoint.X,
+                    (float) targetPoint.Y,
+                    (float) targetPoint.Z
+                ),
+                new UnityEngine.Vector3(
+                    (float) anchor.X,
+                    (float) anchor.Y,
+                    (float) anchor.Z
+                ),
+                UnityEngine.Color.red
+            );
+            */
+        }
+
+        private void DriveRotation(Frame frame, ref Filter filter)
+        {
+            var input = frame.GetPlayerInput(filter.Player->PlayerRef);
+            var playerDragging = filter.PlayerDragging;
+
+            var draggedBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerDragging->DraggedEntity);
+
+            var draggedTransform = frame.Unsafe.GetPointer<Transform3D>(playerDragging->DraggedEntity);
 
             // --- Rotation drive ---
             FPQuaternion cameraRotation = FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up);

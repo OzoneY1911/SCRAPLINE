@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30f6d93ec78efe4b808efdf1c8e136f, type: 3}
-  m_Name: GameSimulationConfig
+  m_Name: HubSimulationConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/GameSimulationConfig
+    Path: QuantumUser/Resources/HubLevel/HubSimulationConfig
     Guid:
       Value: 326530903947696056
   Entities:
