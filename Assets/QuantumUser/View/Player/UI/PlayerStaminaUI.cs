@@ -12,11 +12,13 @@ public unsafe class PlayerStaminaUI : MonoBehaviour
 
         if (frame == null) return;
 
-        var localPlayerRef = QuantumRunner.Default.Game.GetLocalPlayers()[0];
+        var localPlayers = QuantumRunner.Default.Game.GetLocalPlayers();
+
+        if (localPlayers.Count == 0) return;
 
         var activePlayers = frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers);
 
-        if (activePlayers.TryGetValue(localPlayerRef, out var localPlayerEntity))
+        if (activePlayers.TryGetValue(localPlayers[0], out var localPlayerEntity))
         {
             if (frame.TryGet(localPlayerEntity, out PlayerStamina stamina))
             {

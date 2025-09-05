@@ -11,6 +11,8 @@ namespace Quantum
             public Player* Player;
             public PlayerMovement* Movement;
             public PlayerStamina* Stamina;
+
+            public Health* Health;
         }
 
         public void OnAdded(Frame frame, EntityRef entity, PlayerStamina* stamina)
@@ -26,6 +28,8 @@ namespace Quantum
             if (movement->IsRunning)
             {
                 stamina->Current = FPMath.Max(stamina->Current - stamina->DrainPerSec * frame.DeltaTime, FP._0);
+
+                filter.Health->Current -= stamina->DrainPerSec * frame.DeltaTime;
             }
             else
             {
