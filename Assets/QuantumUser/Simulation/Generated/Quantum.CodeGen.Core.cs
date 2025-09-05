@@ -1312,6 +1312,29 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Health : Quantum.IComponent {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public FP Current;
+    [FieldOffset(8)]
+    public FP Max;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 2111;
+        hash = hash * 31 + Current.GetHashCode();
+        hash = hash * 31 + Max.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Health*)ptr;
+        FP.Serialize(&p->Current, serializer);
+        FP.Serialize(&p->Max, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Interactable : Quantum.IComponent {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -1675,6 +1698,9 @@ namespace Quantum {
         FP.Serialize(&p->RegenPerSec, serializer);
     }
   }
+  public unsafe partial interface ISignalOnEntityDeath : ISignal {
+    void OnEntityDeath(Frame f, EntityRef entity);
+  }
   public unsafe partial interface ISignalOnInteract : ISignal {
     void OnInteract(Frame f, Interactable* interactable);
   }
@@ -1684,6 +1710,7 @@ namespace Quantum {
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnEntityDeath[] _ISignalOnEntityDeathSystems;
     private ISignalOnInteract[] _ISignalOnInteractSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     partial void AllocGen() {
@@ -1697,6 +1724,7 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnEntityDeathSystems = BuildSignalsArray<ISignalOnEntityDeath>();
       _ISignalOnInteractSystems = BuildSignalsArray<ISignalOnInteract>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
@@ -1707,6 +1735,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.Draggable>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Draggable>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Health>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Health>();
       BuildSignalsArrayOnComponentAdded<Quantum.Interactable>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Interactable>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCC>();
@@ -1803,6 +1833,15 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
+      public void OnEntityDeath(EntityRef entity) {
+        var array = _f._ISignalOnEntityDeathSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnEntityDeath(_f, entity);
+          }
+        }
+      }
       public void OnInteract(Interactable* interactable) {
         var array = _f._ISignalOnInteractSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
@@ -1874,6 +1913,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
+      typeRegistry.Register(typeof(Quantum.Health), Quantum.Health.SIZE);
       typeRegistry.Register(typeof(HingeJoint), HingeJoint.SIZE);
       typeRegistry.Register(typeof(HingeJoint3D), HingeJoint3D.SIZE);
       typeRegistry.Register(typeof(Hit), Hit.SIZE);
@@ -1947,9 +1987,10 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 10)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 11)
         .AddBuiltInComponents()
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.Health>(Quantum.Health.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Interactable>(Quantum.Interactable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)

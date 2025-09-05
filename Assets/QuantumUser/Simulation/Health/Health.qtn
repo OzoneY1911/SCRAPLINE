@@ -1,0 +1,9 @@
+component Health
+{
+    [HideInInspector]
+    FP Current;
+
+    FP Max;
+}
+
+signal OnEntityDeath(entity_ref entity);

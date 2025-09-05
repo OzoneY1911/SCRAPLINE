@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 985955989977323457}
   - component: {fileID: 4772259957220665751}
   - component: {fileID: 5275460397998136453}
+  - component: {fileID: 8653802447792491542}
   - component: {fileID: 5930713277451682446}
   - component: {fileID: -7067544655842398182}
   - component: {fileID: 3013892407601267510}
@@ -463,6 +464,23 @@ MonoBehaviour:
       Value: 0
     IsRunning:
       Value: 0
+--- !u!114 &8653802447792491542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8b5d831b07564b9dabb7a44f4411d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
+    Current:
+      RawValue: 0
+    Max:
+      RawValue: 6553600
 --- !u!114 &5930713277451682446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,8 +507,6 @@ MonoBehaviour:
     RecoverThreshold:
       RawValue: 1638400
     IsExhausted:
-      Value: 0
-    IsRegenerating:
       Value: 0
 --- !u!114 &-7067544655842398182
 MonoBehaviour:
