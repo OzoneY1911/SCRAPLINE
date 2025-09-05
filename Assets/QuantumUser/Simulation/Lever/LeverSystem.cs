@@ -21,7 +21,6 @@ namespace Quantum
                 lever->InitialAngle = filter.Transform->Rotation.AsEuler.X;
                 lever->CurrentAngle = lever->InitialAngle;
                 lever->IsInitialized = true;
-                UnityEngine.Debug.Log(lever->InitialAngle);
             }
             
             if (!lever->IsActivated)

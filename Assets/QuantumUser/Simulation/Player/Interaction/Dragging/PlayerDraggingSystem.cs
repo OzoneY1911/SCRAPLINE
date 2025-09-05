@@ -60,7 +60,7 @@ namespace Quantum
                 player->InteractionDistance,
                 ~player->LocalMask,
                 QueryOptions.HitSolids
-                );
+            );
 
             if (hit.HasValue)
             {

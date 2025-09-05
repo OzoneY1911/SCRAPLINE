@@ -6,15 +6,6 @@ component Player
 
     LayerMask LocalMask;
 
-    FP WalkSpeed;
-    FP RunSpeed;
-    FP CrouchSpeed;
-    FP JumpForce;
-
-    FP HeightStanding;
-    FP HeightCrouching;
-    FP CrouchLerpSpeed;
-
     [HideInInspector]
     player_ref PlayerRef;
 
@@ -23,7 +14,4 @@ component Player
 
     [HideInInspector]
     FP LookPitch;
-
-    [HideInInspector]
-    Boolean IsCrouching;
 }

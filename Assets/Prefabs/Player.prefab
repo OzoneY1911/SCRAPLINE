@@ -102,6 +102,8 @@ GameObject:
   - component: {fileID: 8856330155399545181}
   - component: {fileID: 985955989977323457}
   - component: {fileID: 4772259957220665751}
+  - component: {fileID: 5275460397998136453}
+  - component: {fileID: 5930713277451682446}
   - component: {fileID: -7067544655842398182}
   - component: {fileID: 3013892407601267510}
   m_Layer: 10
@@ -424,6 +426,25 @@ MonoBehaviour:
       RawValue: 131072
     LocalMask:
       BitMask: 2048
+    PlayerRef:
+      _index: 0
+    LookYaw:
+      RawValue: 0
+    LookPitch:
+      RawValue: 0
+--- !u!114 &5275460397998136453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe55a06c4a44c544a69d4cf9498876d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
     WalkSpeed:
       RawValue: 327680
     RunSpeed:
@@ -438,13 +459,38 @@ MonoBehaviour:
       RawValue: 58982
     CrouchLerpSpeed:
       RawValue: 655360
-    PlayerRef:
-      _index: 0
-    LookYaw:
-      RawValue: 0
-    LookPitch:
-      RawValue: 0
     IsCrouching:
+      Value: 0
+    IsRunning:
+      Value: 0
+--- !u!114 &5930713277451682446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5ed415a639c2f40a4ab9ec374ea291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
+    Current:
+      RawValue: 0
+    Max:
+      RawValue: 6553600
+    DrainPerSec:
+      RawValue: 1638400
+    RegenPerSec:
+      RawValue: 655360
+    CostPerJump:
+      RawValue: 1638400
+    RecoverThreshold:
+      RawValue: 1638400
+    IsExhausted:
+      Value: 0
+    IsRegenerating:
       Value: 0
 --- !u!114 &-7067544655842398182
 MonoBehaviour:

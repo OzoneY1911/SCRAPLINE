@@ -13,12 +13,14 @@ namespace Quantum
             public PhysicsBody3D* Body;
             public PhysicsCollider3D* Collider;
             public Player* Player;
+            public PlayerMovement* Movement;
+            public PlayerStamina* Stamina;
         }
 
         public override void Update(Frame frame, ref Filter filter)
         {
             if (!filter.Player->PlayerRef.IsValid) return;
-
+            
             HandleRotation(frame, ref filter);
             HandleCrouching(frame, ref filter);
             HandleMovement(frame, ref filter);
@@ -38,9 +40,10 @@ namespace Quantum
 
         private void HandleMovement(Frame frame, ref Filter filter)
         {
-            var player = filter.Player;
-            var input = frame.GetPlayerInput(player->PlayerRef);
+            var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var body = filter.Body;
+            var movement = filter.Movement;
+            var stamina = filter.Stamina;
 
             // Movement on XZ plane
             FPVector3 localMove = new FPVector3(input->MoveDirection.X, 0, input->MoveDirection.Y);
@@ -53,17 +56,22 @@ namespace Quantum
                 worldMove = worldMove.Normalized;
             FPVector3 desiredVelocity;
 
-            if (input->Run.IsDown && !player->IsCrouching)
+            movement->IsRunning =
+                input->Run.IsDown
+                && !movement->IsCrouching
+                && !stamina->IsExhausted;
+
+            if (movement->IsRunning)
             {
-                desiredVelocity = worldMove * player->RunSpeed;
+                desiredVelocity = worldMove * movement->RunSpeed;
             }
-            else if (player->IsCrouching)
+            else if (movement->IsCrouching)
             {
-                desiredVelocity = worldMove * player->CrouchSpeed;
+                desiredVelocity = worldMove * movement->CrouchSpeed;
             }
             else
             {
-                desiredVelocity = worldMove * player->WalkSpeed;
+                desiredVelocity = worldMove * movement->WalkSpeed;
             }
 
             // Current velocity
@@ -79,20 +87,23 @@ namespace Quantum
 
         private void HandleJumping(Frame frame, ref Filter filter)
         {
-            var player = filter.Player;
-            var input = frame.GetPlayerInput(player->PlayerRef);
+            var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var body = filter.Body;
+            var movement = filter.Movement;
+            var stamina = filter.Stamina;
 
-            if (input->Jump.WasPressed && PlayerPhysicsUtils.IsGrounded(frame, in filter))
+            if (input->Jump.WasPressed && PlayerPhysicsUtils.IsGrounded(frame, in filter) && stamina->Current >= stamina->CostPerJump)
             {
-                body->AddLinearImpulse(FPVector3.Up * player->JumpForce * body->Mass);
+                body->AddLinearImpulse(FPVector3.Up * filter.Movement->JumpForce * body->Mass);
+
+                frame.Signals.OnPlayerJump(filter.Entity);
             }
         }
 
         private void HandleCrouching(Frame frame, ref Filter filter)
         {
-            var player = filter.Player;
-            var input = frame.GetPlayerInput(player->PlayerRef);
+            var input = frame.GetPlayerInput(filter.Player->PlayerRef);
+            var movement = filter.Movement;
 
             ref Shape3D shape = ref filter.Collider->Shape;
 
@@ -104,29 +115,29 @@ namespace Quantum
 
             if (input->Crouch.IsDown)
             {
-                player->IsCrouching = true;
-                targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
+                movement->IsCrouching = true;
+                targetHalfHeight = movement->HeightCrouching * FP._0_50;
             }
             else
             {
-                targetHalfHeight = filter.Player->HeightStanding * FP._0_50;
+                targetHalfHeight = movement->HeightStanding * FP._0_50;
             }
 
-            if (player->IsCrouching && !input->Crouch.IsDown)
+            if (movement->IsCrouching && !input->Crouch.IsDown)
             {
                 if (PlayerPhysicsUtils.CanStandUp(frame, in filter))
                 {
-                    player->IsCrouching = false;
+                    movement->IsCrouching = false;
                 }
                 else
                 {
-                    targetHalfHeight = filter.Player->HeightCrouching * FP._0_50;
+                    targetHalfHeight = movement->HeightCrouching * FP._0_50;
                 }
             }
 
             if (currentHalfHeight == targetHalfHeight) return;
 
-            FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * filter.Player->CrouchLerpSpeed);
+            FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * movement->CrouchLerpSpeed);
 
             FPVector3 posOffset = new FPVector3(0, newHalfHeight, 0);
 

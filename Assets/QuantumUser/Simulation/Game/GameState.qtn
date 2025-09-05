@@ -1,4 +1,4 @@
 global
 {
-
+    dictionary<player_ref, entity_ref> ActivePlayers;
 }

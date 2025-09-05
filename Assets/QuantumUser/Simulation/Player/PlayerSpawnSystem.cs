@@ -3,11 +3,25 @@ using UnityEngine.Scripting;
 namespace Quantum
 {
     [Preserve]
-    public unsafe class PlayerSpawnSystem : SystemSignalsOnly, ISignalOnPlayerAdded
+    public unsafe class PlayerSpawnSystem : SystemSignalsOnly, ISignalOnPlayerAdded, ISignalOnPlayerRemoved
     {
+        public override void OnInit(Frame frame)
+        {
+            base.OnInit(frame);
+
+            frame.Global->ActivePlayers = frame.AllocateDictionary<PlayerRef, EntityRef>(frame.MaxPlayerCount);
+        }
+
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
-            SpawnPlayer(frame, playerRef);
+            var playerEntity = SpawnPlayer(frame, playerRef);
+
+            frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers).Add(playerRef, playerEntity);
+        }
+
+        public void OnPlayerRemoved(Frame frame, PlayerRef playerRef)
+        {
+            frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers).Remove(playerRef);
         }
 
         private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)

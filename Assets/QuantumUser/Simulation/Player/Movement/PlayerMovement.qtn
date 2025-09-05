@@ -1,0 +1,19 @@
+component PlayerMovement
+{
+    FP WalkSpeed;
+    FP RunSpeed;
+    FP CrouchSpeed;
+    FP JumpForce;
+
+    FP HeightStanding;
+    FP HeightCrouching;
+    FP CrouchLerpSpeed;
+
+    [HideInInspector]
+    Boolean IsCrouching;
+
+    [HideInInspector]
+    Boolean IsRunning;
+}
+
+signal OnPlayerJump(entity_ref entity);

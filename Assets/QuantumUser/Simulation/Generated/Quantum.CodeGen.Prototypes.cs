@@ -321,21 +321,12 @@ namespace Quantum.Prototypes {
     public SByte Strength;
     public FP InteractionDistance;
     public LayerMask LocalMask;
-    public FP WalkSpeed;
-    public FP RunSpeed;
-    public FP CrouchSpeed;
-    public FP JumpForce;
-    public FP HeightStanding;
-    public FP HeightCrouching;
-    public FP CrouchLerpSpeed;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     [HideInInspector()]
     public FP LookYaw;
     [HideInInspector()]
     public FP LookPitch;
-    [HideInInspector()]
-    public QBoolean IsCrouching;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Player component = default;
@@ -346,17 +337,9 @@ namespace Quantum.Prototypes {
         result.Strength = this.Strength;
         result.InteractionDistance = this.InteractionDistance;
         result.LocalMask = this.LocalMask;
-        result.WalkSpeed = this.WalkSpeed;
-        result.RunSpeed = this.RunSpeed;
-        result.CrouchSpeed = this.CrouchSpeed;
-        result.JumpForce = this.JumpForce;
-        result.HeightStanding = this.HeightStanding;
-        result.HeightCrouching = this.HeightCrouching;
-        result.CrouchLerpSpeed = this.CrouchLerpSpeed;
         result.PlayerRef = this.PlayerRef;
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;
-        result.IsCrouching = this.IsCrouching;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -412,6 +395,68 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.PlayerLeverDragging result, in PrototypeMaterializationContext context = default) {
         result.IsDragging = this.IsDragging;
         PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerMovement))]
+  public unsafe partial class PlayerMovementPrototype : ComponentPrototype<Quantum.PlayerMovement> {
+    public FP WalkSpeed;
+    public FP RunSpeed;
+    public FP CrouchSpeed;
+    public FP JumpForce;
+    public FP HeightStanding;
+    public FP HeightCrouching;
+    public FP CrouchLerpSpeed;
+    [HideInInspector()]
+    public QBoolean IsCrouching;
+    [HideInInspector()]
+    public QBoolean IsRunning;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerMovement result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerMovement component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerMovement result, in PrototypeMaterializationContext context = default) {
+        result.WalkSpeed = this.WalkSpeed;
+        result.RunSpeed = this.RunSpeed;
+        result.CrouchSpeed = this.CrouchSpeed;
+        result.JumpForce = this.JumpForce;
+        result.HeightStanding = this.HeightStanding;
+        result.HeightCrouching = this.HeightCrouching;
+        result.CrouchLerpSpeed = this.CrouchLerpSpeed;
+        result.IsCrouching = this.IsCrouching;
+        result.IsRunning = this.IsRunning;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerStamina))]
+  public unsafe partial class PlayerStaminaPrototype : ComponentPrototype<Quantum.PlayerStamina> {
+    [HideInInspector()]
+    public FP Current;
+    public FP Max;
+    public FP DrainPerSec;
+    public FP RegenPerSec;
+    public FP CostPerJump;
+    public FP RecoverThreshold;
+    [HideInInspector()]
+    public QBoolean IsExhausted;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerStamina result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerStamina component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerStamina result, in PrototypeMaterializationContext context = default) {
+        result.Current = this.Current;
+        result.Max = this.Max;
+        result.DrainPerSec = this.DrainPerSec;
+        result.RegenPerSec = this.RegenPerSec;
+        result.CostPerJump = this.CostPerJump;
+        result.RecoverThreshold = this.RecoverThreshold;
+        result.IsExhausted = this.IsExhausted;
+        MaterializeUser(frame, ref result, in context);
     }
   }
   [ExcludeFromPrototype()]

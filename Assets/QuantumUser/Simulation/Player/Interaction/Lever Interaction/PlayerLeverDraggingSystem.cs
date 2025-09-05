@@ -40,7 +40,8 @@ namespace Quantum
                     lever->CurrentAngle = FPMath.Clamp(
                         lever->CurrentAngle + (input->LookRotationDelta.X * (FP._2 + FP._0_50)),
                         lever->InitialAngle,
-                        lever->MaxAngle);
+                        lever->MaxAngle
+                    );
 
                     draggedTransform->Rotation = FPQuaternion.Euler(
                         new FPVector3(lever->CurrentAngle, 0, 0));
@@ -55,11 +56,11 @@ namespace Quantum
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
 
             var hit = frame.Physics3D.Raycast(
-            input->CameraPosition,
-            input->CameraForward,
-            player->InteractionDistance,
-            ~player->LocalMask,
-            QueryOptions.HitSolids
+                input->CameraPosition,
+                input->CameraForward,
+                player->InteractionDistance,
+                ~player->LocalMask,
+                QueryOptions.HitSolids
             );
 
             if (hit.HasValue)

@@ -70,6 +70,8 @@ namespace Quantum
             if (predictedFrame.Exists(EntityRef) == false)
                 return;
 
+            var movement = verifiedFrame.Get<PlayerMovement>(EntityRef);
+
             float lookYaw = player.LookYaw.AsFloat;
             float lookPitch = player.LookPitch.AsFloat;
 
@@ -97,9 +99,9 @@ namespace Quantum
 
             CameraHandle.localRotation = Quaternion.Euler(lookPitch, 0.0f, 0.0f);
 
-            Vector3 targetScale = player.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
+            Vector3 targetScale = movement.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
 
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * player.CrouchLerpSpeed.AsFloat);
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
         }
     }
 }
