@@ -1153,8 +1153,6 @@ namespace Quantum {
   public unsafe partial struct _globals_ {
     public const Int32 SIZE = 2592;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(2588)]
-    private fixed Byte _alignment_padding_[4];
     [FieldOffset(0)]
     public AssetRef<Map> Map;
     [FieldOffset(8)]
@@ -1182,6 +1180,8 @@ namespace Quantum {
     public BitSet6 PlayerLastConnectionState;
     [FieldOffset(2584)]
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
+    [FieldOffset(2588)]
+    public QDictionaryPtr<PlayerRef, EntityRef> AlivePlayers;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
@@ -1203,11 +1203,13 @@ namespace Quantum {
         hash = hash * 31 + HashCodeUtils.GetArrayHashCode(input);
         hash = hash * 31 + PlayerLastConnectionState.GetHashCode();
         hash = hash * 31 + ActivePlayers.GetHashCode();
+        hash = hash * 31 + AlivePlayers.GetHashCode();
         return hash;
       }
     }
     partial void ClearPointersPartial(FrameBase f, EntityRef entity) {
       ActivePlayers = default;
+      AlivePlayers = default;
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (_globals_*)ptr;
@@ -1224,6 +1226,7 @@ namespace Quantum {
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
         QDictionary.Serialize(&p->ActivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
+        QDictionary.Serialize(&p->AlivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
     }
   }
   [StructLayout(LayoutKind.Explicit)]

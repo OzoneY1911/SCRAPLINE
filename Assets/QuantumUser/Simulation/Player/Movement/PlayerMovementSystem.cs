@@ -58,6 +58,7 @@ namespace Quantum
 
             movement->IsRunning =
                 input->Run.IsDown
+                && localMove != FPVector3.Zero
                 && !movement->IsCrouching
                 && !stamina->IsExhausted;
 

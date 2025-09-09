@@ -1,4 +1,5 @@
 using Photon.Deterministic;
+using UnityEngine;
 
 namespace Quantum
 {
@@ -20,6 +21,7 @@ namespace Quantum
         {
             if (filter.Health->Current <= 0)
             {
+                frame.Events.EntityDeath(filter.Entity);
                 frame.Signals.OnEntityDeath(filter.Entity);
             }
         }

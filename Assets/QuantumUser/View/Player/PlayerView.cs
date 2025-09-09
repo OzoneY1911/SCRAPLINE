@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections.Generic;
 
 namespace Quantum
 {
@@ -14,10 +15,14 @@ namespace Quantum
         private float _smoothPitch;
         private float _smoothPitchVelocity;
 
+        public static readonly Dictionary<EntityRef, Transform> PlayerTransforms = new();
+
         public override void OnActivate(Frame frame)
         {
             if (frame.TryGet(EntityRef, out Player player) == false)
                 return;
+
+            PlayerTransforms.Add(EntityRef, transform);
 
             bool isLocal = Game.PlayerIsLocal(player.PlayerRef);
             if (isLocal)
@@ -53,6 +58,8 @@ namespace Quantum
 
         public override void OnDeactivate()
         {
+            PlayerTransforms.Remove(EntityRef);
+
             if (ViewContext.LocalPlayerView == this)
             {
                 ViewContext.LocalPlayerView = null;

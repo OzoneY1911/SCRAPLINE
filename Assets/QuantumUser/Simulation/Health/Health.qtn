@@ -7,3 +7,8 @@ component Health
 }
 
 signal OnEntityDeath(entity_ref entity);
+
+event EntityDeath
+{
+    entity_ref Entity;
+}
