@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Quantum
 {
 
@@ -5,9 +7,11 @@ namespace Quantum
     {
         public void OnEntityDeath(Frame frame, EntityRef entity)
         {
-            if (frame.Has<Player>(entity))
+            if (frame.Unsafe.TryGetPointer<Player>(entity, out var player))
             {
-                frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->AlivePlayers).Remove(frame.Unsafe.GetPointer<Player>(entity)->PlayerRef);
+                var activePlayers = frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers);
+
+                frame.ResolveList<EntityRef>(frame.Global->AlivePlayers).Remove(activePlayers[player->PlayerRef]);
 
                 frame.Destroy(entity);
             }

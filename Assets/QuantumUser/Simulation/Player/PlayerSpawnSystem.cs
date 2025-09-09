@@ -10,7 +10,7 @@ namespace Quantum
             base.OnInit(frame);
 
             frame.Global->ActivePlayers = frame.AllocateDictionary<PlayerRef, EntityRef>(frame.MaxPlayerCount);
-            frame.Global->AlivePlayers = frame.AllocateDictionary<PlayerRef, EntityRef>(frame.MaxPlayerCount);
+            frame.Global->AlivePlayers = frame.AllocateList<EntityRef>(frame.MaxPlayerCount);
         }
 
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
@@ -18,13 +18,16 @@ namespace Quantum
             var playerEntity = SpawnPlayer(frame, playerRef);
 
             frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers).Add(playerRef, playerEntity);
-            frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->AlivePlayers).Add(playerRef, playerEntity);
+            frame.ResolveList<EntityRef>(frame.Global->AlivePlayers).Add(playerEntity);
         }
 
         public void OnPlayerRemoved(Frame frame, PlayerRef playerRef)
         {
-            frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers).Remove(playerRef);
-            frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->AlivePlayers).Remove(playerRef);
+            var activePlayers = frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers);
+
+            frame.ResolveList<EntityRef>(frame.Global->AlivePlayers).Remove(activePlayers[playerRef]);
+
+            activePlayers.Remove(playerRef);
         }
 
         private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)

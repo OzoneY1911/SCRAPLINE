@@ -1181,7 +1181,7 @@ namespace Quantum {
     [FieldOffset(2584)]
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
     [FieldOffset(2588)]
-    public QDictionaryPtr<PlayerRef, EntityRef> AlivePlayers;
+    public QListPtr<EntityRef> AlivePlayers;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
@@ -1226,7 +1226,7 @@ namespace Quantum {
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
         QDictionary.Serialize(&p->ActivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
-        QDictionary.Serialize(&p->AlivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
+        QList.Serialize(&p->AlivePlayers, serializer, Statics.SerializeEntityRef);
     }
   }
   [StructLayout(LayoutKind.Explicit)]

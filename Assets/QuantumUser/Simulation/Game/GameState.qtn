@@ -1,5 +1,5 @@
 global
 {
     dictionary<player_ref, entity_ref> ActivePlayers;
-    dictionary<player_ref, entity_ref> AlivePlayers;
+    list<entity_ref> AlivePlayers;
 }
