@@ -393,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 357471210}
   - component: {fileID: 357471209}
+  - component: {fileID: 357471211}
   m_Layer: 0
   m_Name: Player Input
   m_TagString: Untagged
@@ -429,6 +430,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1382638799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &357471211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357471208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80304dc5fc781d042be5cd9c4fa579a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &376375725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,7 +1325,7 @@ MonoBehaviour:
       Owner: {fileID: 683046412}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
+        InputAction: {fileID: -7085714263816889035, guid: 69ee7734dfcb6b24e849c185959073fe, type: 3}
         Gain: 1
         CancelDeltaTime: 0
       InputValue: 0
@@ -1323,7 +1336,7 @@ MonoBehaviour:
       Owner: {fileID: 683046412}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
+        InputAction: {fileID: -7085714263816889035, guid: 69ee7734dfcb6b24e849c185959073fe, type: 3}
         Gain: -1
         CancelDeltaTime: 0
       InputValue: 0
@@ -1334,7 +1347,7 @@ MonoBehaviour:
       Owner: {fileID: 683046412}
       Enabled: 1
       Input:
-        InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
+        InputAction: {fileID: 444046467268696152, guid: 69ee7734dfcb6b24e849c185959073fe, type: 3}
         Gain: -1
         CancelDeltaTime: 0
       InputValue: 0
@@ -1522,6 +1535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db14e189628e3dc49a5fb139e1d80f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputManager: {fileID: 357471211}
 --- !u!1 &792502001
 GameObject:
   m_ObjectHideFlags: 0

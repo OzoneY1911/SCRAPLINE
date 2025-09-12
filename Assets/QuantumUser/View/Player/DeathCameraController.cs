@@ -1,11 +1,13 @@
 using Quantum;
+using Quantum.Physics3D;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public unsafe class DeathCameraController : MonoBehaviour
 {
-    CinemachineCamera _deathCamera;
+    [SerializeField] private InputManager _inputManager;
+
+    private CinemachineCamera _deathCamera;
 
     private int _currentPlayerIndex;
 
@@ -35,6 +37,7 @@ public unsafe class DeathCameraController : MonoBehaviour
             {
                 if (PlayerView.PlayerTransforms.TryGetValue(entity, out var playerTransform))
                 {
+                    _inputManager.SetSoloMap(_inputManager.PlayerControls.DeathCamera);
                     _deathCamera.Follow = playerTransform;
                     break;
                 }
@@ -50,12 +53,11 @@ public unsafe class DeathCameraController : MonoBehaviour
             SwitchToNextPlayer();
         }
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (_inputManager.PlayerControls.DeathCamera.SwitchToNext.WasPressedThisFrame())
         {
             SwitchToNextPlayer();
         }
-
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        else if (_inputManager.PlayerControls.DeathCamera.SwitchToPrevious.WasPressedThisFrame())
         {
             SwitchToPreviousPlayer();
         }

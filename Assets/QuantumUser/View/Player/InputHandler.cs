@@ -1,16 +1,17 @@
 using Photon.Deterministic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Quantum
 {
-    public sealed class PlayerInput : MonoBehaviour
+    public sealed class InputHandler : MonoBehaviour
     {
         public static float LookSensitivity = 3f;
 
         [SerializeField] private QuantumEntityViewUpdater _entityViewUpdater;
 
         [SerializeField] private GameObject _playerCameraObject;
+
+        private PlayerControls _playerControls;
 
         private Quantum.Input _accumulatedInput;
         private bool _resetAccumulatedInput;
@@ -19,6 +20,11 @@ namespace Quantum
         private void OnEnable()
         {
             QuantumCallback.Subscribe(this, (CallbackPollInput callback) => PollInput(callback));
+        }
+
+        private void Start()
+        {
+            _playerControls = GetComponent<InputManager>().PlayerControls;
         }
 
         private void Update()
@@ -41,47 +47,34 @@ namespace Quantum
                 _resetAccumulatedInput = false;
                 _accumulatedInput = default;
             }
-                
-            ProcessStandaloneInput();
+
+            ProcessInput();
         }
 
-        private void ProcessStandaloneInput()
+        private void ProcessInput()
         {
-            Keyboard keyboard = Keyboard.current;
-            Mouse mouse = Mouse.current;
-
-            if (keyboard == null || mouse == null)
-                return;
-
             if (Cursor.lockState != CursorLockMode.Locked)
                 return;
 
             // Process keyboard input
 
-            Vector2 moveDirection = Vector2.zero;
+            _accumulatedInput.MoveDirection = _playerControls.Main.Move.ReadValue<Vector2>().normalized.ToFPVector2();
 
-            if (keyboard.wKey.isPressed) { moveDirection += Vector2.up; }
-            if (keyboard.sKey.isPressed) { moveDirection += Vector2.down; }
-            if (keyboard.aKey.isPressed) { moveDirection += Vector2.left; }
-            if (keyboard.dKey.isPressed) { moveDirection += Vector2.right; }
-
-            _accumulatedInput.MoveDirection = moveDirection.normalized.ToFPVector2();
-
-            _accumulatedInput.Jump |= keyboard.spaceKey.isPressed;
-            _accumulatedInput.Run |= keyboard.leftShiftKey.isPressed;
-            _accumulatedInput.Crouch |= keyboard.leftCtrlKey.isPressed;
-            _accumulatedInput.Interact |= mouse.leftButton.isPressed;
-            _accumulatedInput.SecondaryAction |= mouse.rightButton.isPressed;
+            _accumulatedInput.Jump |= _playerControls.Main.Jump.IsPressed();
+            _accumulatedInput.Run |= _playerControls.Main.Run.IsPressed();
+            _accumulatedInput.Crouch |= _playerControls.Main.Crouch.IsPressed();
+            _accumulatedInput.Interact = _playerControls.Main.Interact.IsPressed();
+            _accumulatedInput.SecondaryAction |= _playerControls.Main.SecondaryAction.IsPressed();
 
             // Process mouse input
 
-            Vector2 mouseDelta = mouse.delta.ReadValue();
+            Vector2 mouseDelta = _playerControls.Main.Look.ReadValue<Vector2>();
 
             Vector2 lookRotationDelta = new Vector2(-mouseDelta.y, mouseDelta.x);
             lookRotationDelta *= LookSensitivity / 60f;
             _accumulatedInput.LookRotationDelta += lookRotationDelta.ToFPVector2();
 
-            _accumulatedInput.ScrollDelta += mouse.scroll.ReadValue().y.ToFP();
+            _accumulatedInput.ScrollDelta += _playerControls.Main.Scroll.ReadValue<Vector2>().y.ToFP();
             _accumulatedInput.ScrollDelta = FPMath.Clamp(_accumulatedInput.ScrollDelta, -FP._1, FP._1);
         }
 

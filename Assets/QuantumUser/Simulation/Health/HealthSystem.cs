@@ -1,9 +1,5 @@
-using Photon.Deterministic;
-using UnityEngine;
-
 namespace Quantum
 {
-
     public unsafe class HealthSystem : SystemMainThreadFilter<HealthSystem.Filter>, ISignalOnComponentAdded<Health>
     {
         public struct Filter
