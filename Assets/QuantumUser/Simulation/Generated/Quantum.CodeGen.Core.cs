@@ -68,6 +68,13 @@ namespace Quantum {
   public enum InteractableType : int {
     ShipStart,
   }
+  public enum ResourceType : int {
+    Metal,
+    Plastic,
+    Paper,
+    Glass,
+    Electronics,
+  }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
     Jump = 1 << 0,
@@ -1979,6 +1986,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.QuantumThumbSticks), Quantum.QuantumThumbSticks.SIZE);
       typeRegistry.Register(typeof(QueryOptions), 2);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
+      typeRegistry.Register(typeof(Quantum.ResourceType), 4);
       typeRegistry.Register(typeof(Shape2D), Shape2D.SIZE);
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
       typeRegistry.Register(typeof(SpringJoint), SpringJoint.SIZE);
@@ -2015,6 +2023,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InputButtons>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InteractableType>();
       FramePrinter.EnsurePrimitiveNotStripped<QueryOptions>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.ResourceType>();
     }
   }
 }
