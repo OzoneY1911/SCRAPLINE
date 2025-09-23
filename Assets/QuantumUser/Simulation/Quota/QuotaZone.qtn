@@ -1,0 +1,9 @@
+component QuotaZone
+{
+    dictionary<ResourceType, FP> ResourceDemands;
+}
+
+event ValuableEnter
+{
+    entity_ref Entity;
+}

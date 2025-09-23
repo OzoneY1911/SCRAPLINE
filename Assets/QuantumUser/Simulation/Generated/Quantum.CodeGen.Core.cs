@@ -1708,6 +1708,60 @@ namespace Quantum {
         FP.Serialize(&p->RegenPerSec, serializer);
     }
   }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct QuotaZone : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public QDictionaryPtr<ResourceType, FP> ResourceDemands;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 9241;
+        hash = hash * 31 + ResourceDemands.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      ResourceDemands = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.QuotaZone*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (QuotaZone*)ptr;
+        QDictionary.Serialize(&p->ResourceDemands, serializer, Statics.SerializeResourceType, Statics.SerializeFP);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Valuable : Quantum.IComponent {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public FP CurrentValue;
+    [FieldOffset(0)]
+    public QDictionaryPtr<ResourceType, FP> Resources;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 3511;
+        hash = hash * 31 + CurrentValue.GetHashCode();
+        hash = hash * 31 + Resources.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      Resources = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.Valuable*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Valuable*)ptr;
+        QDictionary.Serialize(&p->Resources, serializer, Statics.SerializeResourceType, Statics.SerializeFP);
+        FP.Serialize(&p->CurrentValue, serializer);
+    }
+  }
   public unsafe partial interface ISignalOnEntityDeath : ISignal {
     void OnEntityDeath(Frame f, EntityRef entity);
   }
@@ -1791,12 +1845,16 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerMovement>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerStamina>();
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerStamina>();
+      BuildSignalsArrayOnComponentAdded<Quantum.QuotaZone>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.QuotaZone>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
       BuildSignalsArrayOnComponentRemoved<Transform2DVertical>();
       BuildSignalsArrayOnComponentAdded<Transform3D>();
       BuildSignalsArrayOnComponentRemoved<Transform3D>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Valuable>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Valuable>();
       BuildSignalsArrayOnComponentAdded<View>();
       BuildSignalsArrayOnComponentRemoved<View>();
     }
@@ -1876,6 +1934,8 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
+    public static FrameSerializer.Delegate SerializeResourceType;
+    public static FrameSerializer.Delegate SerializeFP;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeEntityRef;
     public static FrameSerializer.Delegate SerializeInput;
@@ -1883,6 +1943,8 @@ namespace Quantum {
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
+      SerializeResourceType = (v, s) => {{ s.Stream.Serialize((Int32*)v); }};
+      SerializeFP = FP.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
       SerializeEntityRef = EntityRef.Serialize;
       SerializeInput = Quantum.Input.Serialize;
@@ -1985,6 +2047,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.QuantumRegularThumbSticks), Quantum.QuantumRegularThumbSticks.SIZE);
       typeRegistry.Register(typeof(Quantum.QuantumThumbSticks), Quantum.QuantumThumbSticks.SIZE);
       typeRegistry.Register(typeof(QueryOptions), 2);
+      typeRegistry.Register(typeof(Quantum.QuotaZone), Quantum.QuotaZone.SIZE);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
       typeRegistry.Register(typeof(Quantum.ResourceType), 4);
       typeRegistry.Register(typeof(Shape2D), Shape2D.SIZE);
@@ -1994,11 +2057,12 @@ namespace Quantum {
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.Valuable), Quantum.Valuable.SIZE);
       typeRegistry.Register(typeof(View), View.SIZE);
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 11)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 13)
         .AddBuiltInComponents()
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Health>(Quantum.Health.Serialize, null, null, ComponentFlags.None)
@@ -2011,6 +2075,8 @@ namespace Quantum {
         .Add<Quantum.PlayerLeverDragging>(Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerMovement>(Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerStamina>(Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.QuotaZone>(Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.Valuable>(Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None)
         .Finish();
     }
     [Preserve()]

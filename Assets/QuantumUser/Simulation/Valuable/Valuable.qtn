@@ -1,0 +1,5 @@
+component Valuable
+{
+    FP CurrentValue;
+    dictionary<ResourceType, FP> Resources;
+}

@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 2;
+        eventCount = 3;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -62,11 +62,18 @@ namespace Quantum {
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
           case EventEntityDeath.ID: result = typeof(EventEntityDeath); return;
+          case EventValuableEnter.ID: result = typeof(EventValuableEnter); return;
           default: break;
         }
       }
       public EventEntityDeath EntityDeath(EntityRef Entity) {
         var ev = _f.Context.AcquireEvent<EventEntityDeath>(EventEntityDeath.ID);
+        ev.Entity = Entity;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventValuableEnter ValuableEnter(EntityRef Entity) {
+        var ev = _f.Context.AcquireEvent<EventValuableEnter>(EventValuableEnter.ID);
         ev.Entity = Entity;
         _f.AddEvent(ev);
         return ev;
@@ -93,6 +100,31 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 41;
+        hash = hash * 31 + Entity.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventValuableEnter : EventBase {
+    public new const Int32 ID = 2;
+    public EntityRef Entity;
+    protected EventValuableEnter(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventValuableEnter() : 
+        base(2, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 43;
         hash = hash * 31 + Entity.GetHashCode();
         return hash;
       }
