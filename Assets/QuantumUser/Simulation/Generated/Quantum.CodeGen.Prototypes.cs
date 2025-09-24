@@ -50,12 +50,6 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(System.Collections.Generic.KeyValuePair<ResourceType, FP>))]
-  public unsafe class DictionaryEntry_ResourceType_FP : Quantum.Prototypes.DictionaryEntry {
-    public Quantum.QEnum32<ResourceType> Key;
-    public FP Value;
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Draggable))]
   public unsafe partial class DraggablePrototype : ComponentPrototype<Quantum.Draggable> {
     [HideInInspector()]
@@ -615,9 +609,8 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.QuotaZone))]
   public unsafe partial class QuotaZonePrototype : ComponentPrototype<Quantum.QuotaZone> {
-    [DictionaryAttribute()]
     [DynamicCollectionAttribute()]
-    public DictionaryEntry_ResourceType_FP[] ResourceDemands = {};
+    public Quantum.Prototypes.ResourceDemandPrototype[] ResourceDemands = {};
     partial void MaterializeUser(Frame frame, ref Quantum.QuotaZone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.QuotaZone component = default;
@@ -628,15 +621,37 @@ namespace Quantum.Prototypes {
         if (this.ResourceDemands.Length == 0) {
           result.ResourceDemands = default;
         } else {
-          var dict = frame.AllocateDictionary(out result.ResourceDemands, this.ResourceDemands.Length);
+          var list = frame.AllocateList(out result.ResourceDemands, this.ResourceDemands.Length);
           for (int i = 0; i < this.ResourceDemands.Length; ++i) {
-            Quantum.ResourceType tmpKey = default;
-            FP tmpValue = default;
-            tmpKey = this.ResourceDemands[i].Key;
-            tmpValue = this.ResourceDemands[i].Value;
-            PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
+            Quantum.ResourceDemand tmp = default;
+            this.ResourceDemands[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
           }
         }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ResourceDemand))]
+  public unsafe partial class ResourceDemandPrototype : StructPrototype {
+    public Quantum.QEnum32<ResourceType> Type;
+    public FP Value;
+    partial void MaterializeUser(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.Value = this.Value;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ResourceFraction))]
+  public unsafe partial class ResourceFractionPrototype : StructPrototype {
+    public Quantum.QEnum32<ResourceType> Type;
+    public FP Value;
+    partial void MaterializeUser(Frame frame, ref Quantum.ResourceFraction result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ResourceFraction result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.Value = this.Value;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -644,9 +659,8 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
   public unsafe partial class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
     public FP CurrentValue;
-    [DictionaryAttribute()]
     [DynamicCollectionAttribute()]
-    public DictionaryEntry_ResourceType_FP[] Resources = {};
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
     partial void MaterializeUser(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Valuable component = default;
@@ -655,16 +669,14 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
         result.CurrentValue = this.CurrentValue;
-        if (this.Resources.Length == 0) {
-          result.Resources = default;
+        if (this.ResourceFractions.Length == 0) {
+          result.ResourceFractions = default;
         } else {
-          var dict = frame.AllocateDictionary(out result.Resources, this.Resources.Length);
-          for (int i = 0; i < this.Resources.Length; ++i) {
-            Quantum.ResourceType tmpKey = default;
-            FP tmpValue = default;
-            tmpKey = this.Resources[i].Key;
-            tmpValue = this.Resources[i].Value;
-            PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
+          var list = frame.AllocateList(out result.ResourceFractions, this.ResourceFractions.Length);
+          for (int i = 0; i < this.ResourceFractions.Length; ++i) {
+            Quantum.ResourceFraction tmp = default;
+            this.ResourceFractions[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
           }
         }
         MaterializeUser(frame, ref result, in context);

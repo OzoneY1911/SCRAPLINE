@@ -1,9 +1,19 @@
 component QuotaZone
 {
-    dictionary<ResourceType, FP> ResourceDemands;
+    list<ResourceDemand> ResourceDemands;
+}
+
+event QuotaZoneInitialized
+{
+    entity_ref Entity;
 }
 
 event ValuableEnter
+{
+    entity_ref Entity;
+}
+
+event ValuableExit
 {
     entity_ref Entity;
 }

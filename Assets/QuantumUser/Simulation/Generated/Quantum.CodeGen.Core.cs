@@ -1157,6 +1157,50 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct ResourceDemand {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public ResourceType Type;
+    [FieldOffset(8)]
+    public FP Value;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 3221;
+        hash = hash * 31 + (Int32)Type;
+        hash = hash * 31 + Value.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (ResourceDemand*)ptr;
+        serializer.Stream.Serialize((Int32*)&p->Type);
+        FP.Serialize(&p->Value, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct ResourceFraction {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public ResourceType Type;
+    [FieldOffset(8)]
+    public FP Value;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 4663;
+        hash = hash * 31 + (Int32)Type;
+        hash = hash * 31 + Value.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (ResourceFraction*)ptr;
+        serializer.Stream.Serialize((Int32*)&p->Type);
+        FP.Serialize(&p->Value, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
     public const Int32 SIZE = 2592;
     public const Int32 ALIGNMENT = 8;
@@ -1713,7 +1757,7 @@ namespace Quantum {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    public QDictionaryPtr<ResourceType, FP> ResourceDemands;
+    public QListPtr<ResourceDemand> ResourceDemands;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 9241;
@@ -1730,7 +1774,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (QuotaZone*)ptr;
-        QDictionary.Serialize(&p->ResourceDemands, serializer, Statics.SerializeResourceType, Statics.SerializeFP);
+        QList.Serialize(&p->ResourceDemands, serializer, Statics.SerializeResourceDemand);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1740,17 +1784,17 @@ namespace Quantum {
     [FieldOffset(8)]
     public FP CurrentValue;
     [FieldOffset(0)]
-    public QDictionaryPtr<ResourceType, FP> Resources;
+    public QListPtr<ResourceFraction> ResourceFractions;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3511;
         hash = hash * 31 + CurrentValue.GetHashCode();
-        hash = hash * 31 + Resources.GetHashCode();
+        hash = hash * 31 + ResourceFractions.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
-      Resources = default;
+      ResourceFractions = default;
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
       var p = (Quantum.Valuable*)ptr;
@@ -1758,7 +1802,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Valuable*)ptr;
-        QDictionary.Serialize(&p->Resources, serializer, Statics.SerializeResourceType, Statics.SerializeFP);
+        QList.Serialize(&p->ResourceFractions, serializer, Statics.SerializeResourceFraction);
         FP.Serialize(&p->CurrentValue, serializer);
     }
   }
@@ -1934,8 +1978,8 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
-    public static FrameSerializer.Delegate SerializeResourceType;
-    public static FrameSerializer.Delegate SerializeFP;
+    public static FrameSerializer.Delegate SerializeResourceDemand;
+    public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeEntityRef;
     public static FrameSerializer.Delegate SerializeInput;
@@ -1943,8 +1987,8 @@ namespace Quantum {
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
-      SerializeResourceType = (v, s) => {{ s.Stream.Serialize((Int32*)v); }};
-      SerializeFP = FP.Serialize;
+      SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
+      SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
       SerializeEntityRef = EntityRef.Serialize;
       SerializeInput = Quantum.Input.Serialize;
@@ -2049,6 +2093,8 @@ namespace Quantum {
       typeRegistry.Register(typeof(QueryOptions), 2);
       typeRegistry.Register(typeof(Quantum.QuotaZone), Quantum.QuotaZone.SIZE);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
+      typeRegistry.Register(typeof(Quantum.ResourceDemand), Quantum.ResourceDemand.SIZE);
+      typeRegistry.Register(typeof(Quantum.ResourceFraction), Quantum.ResourceFraction.SIZE);
       typeRegistry.Register(typeof(Quantum.ResourceType), 4);
       typeRegistry.Register(typeof(Shape2D), Shape2D.SIZE);
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
