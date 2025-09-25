@@ -54,15 +54,29 @@ namespace Quantum
                 {
                     if (resourceFraction.Type == resourceDemands[i].Type)
                     {
+                        var demandPtr = resourceDemands.GetPointer(i);
+
                         var resourceContribution = resourceFraction.Value * valuable->CurrentValue;
 
-                        resourceDemands.GetPointer(i)->Collected += isIncremental
+                        demandPtr->Collected += isIncremental
                             ? resourceContribution
                             : -resourceContribution;
+
+                        demandPtr->IsSatisfied = demandPtr->Collected >= demandPtr->Value;
                     }
                 }
             }
             frame.Events.QuotaZoneUpdated(entity);
+
+            foreach (var demand in resourceDemands)
+            {
+                if (!demand.IsSatisfied)
+                {
+                    quotaZone->IsSatisfied = false;
+                    return;
+                }
+                quotaZone->IsSatisfied = true;
+            }
         }
     }
 }

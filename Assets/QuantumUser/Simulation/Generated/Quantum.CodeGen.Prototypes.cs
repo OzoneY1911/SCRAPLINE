@@ -641,11 +641,13 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum32<ResourceType> Type;
     public FP Value;
     public FP Collected;
+    public QBoolean IsSatisfied;
     partial void MaterializeUser(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context = default) {
         result.Type = this.Type;
         result.Value = this.Value;
         result.Collected = this.Collected;
+        result.IsSatisfied = this.IsSatisfied;
         MaterializeUser(frame, ref result, in context);
     }
   }

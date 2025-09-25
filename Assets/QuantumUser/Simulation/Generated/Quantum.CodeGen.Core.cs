@@ -1160,23 +1160,27 @@ namespace Quantum {
   public unsafe partial struct ResourceDemand {
     public const Int32 SIZE = 24;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     public ResourceType Type;
     [FieldOffset(16)]
     public FP Value;
     [FieldOffset(8)]
     public FP Collected;
+    [FieldOffset(0)]
+    public QBoolean IsSatisfied;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3221;
         hash = hash * 31 + (Int32)Type;
         hash = hash * 31 + Value.GetHashCode();
         hash = hash * 31 + Collected.GetHashCode();
+        hash = hash * 31 + IsSatisfied.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (ResourceDemand*)ptr;
+        QBoolean.Serialize(&p->IsSatisfied, serializer);
         serializer.Stream.Serialize((Int32*)&p->Type);
         FP.Serialize(&p->Collected, serializer);
         FP.Serialize(&p->Value, serializer);
