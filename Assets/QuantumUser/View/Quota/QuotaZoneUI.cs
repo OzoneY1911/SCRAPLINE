@@ -17,8 +17,7 @@ public unsafe class QuotaZoneUI : MonoBehaviour
     private void OnEnable()
     {
         QuantumEvent.Subscribe<EventQuotaZoneInitialized>(this, OnEventQuotaZoneInitialized);
-        QuantumEvent.Subscribe<EventValuableEnter>(this, OnEventValuableEnter);
-        QuantumEvent.Subscribe<EventValuableExit>(this, OnEventValuableExit);
+        QuantumEvent.Subscribe<EventQuotaZoneUpdated>(this, OnEventQuotaZoneUpdated);
     }
 
     private void OnEventQuotaZoneInitialized(EventQuotaZoneInitialized e)
@@ -51,11 +50,9 @@ public unsafe class QuotaZoneUI : MonoBehaviour
         }
     }
 
-    private void OnEventValuableEnter(EventValuableEnter e) => UpdateProgressBars(e.Entity, true);
+    private void OnEventQuotaZoneUpdated(EventQuotaZoneUpdated e) => UpdateProgressBars(e.Entity);
 
-    private void OnEventValuableExit(EventValuableExit e) => UpdateProgressBars(e.Entity, false);
-
-    private void UpdateProgressBars(EntityRef entity, bool isIncremental)
+    private void UpdateProgressBars(EntityRef entity)
     {
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
@@ -63,27 +60,14 @@ public unsafe class QuotaZoneUI : MonoBehaviour
         var frame = game.Frames.Verified;
         if (frame == null) return;
 
-        if (frame.Unsafe.TryGetPointer<Valuable>(entity, out var valuable))
+        if (frame.Unsafe.TryGetPointer<QuotaZone>(entity, out var quotaZone))
         {
-            var resourceFractions = frame.ResolveList<ResourceFraction>(valuable->ResourceFractions);
+            var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
 
-            foreach (var resourceFraction in resourceFractions)
+            for (int i = 0; i < _progressBars.Count; i++)
             {
-                foreach (var progressBar in _progressBars)
-                {
-                    if (progressBar.Type == resourceFraction.Type)
-                    {
-                        if (isIncremental)
-                        {
-                            progressBar.CurrentValue += resourceFraction.Value.AsFloat * valuable->CurrentValue.AsFloat;
-                        }
-                        else
-                        {
-                            progressBar.CurrentValue -= resourceFraction.Value.AsFloat * valuable->CurrentValue.AsFloat;
-                        }
-                        progressBar.BarImage.fillAmount = progressBar.CurrentValue / progressBar.MaxValue;
-                    }
-                }
+                _progressBars[i].CurrentValue = resourceDemands[i].Collected.AsFloat;
+                _progressBars[i].BarImage.fillAmount = _progressBars[i].CurrentValue / _progressBars[i].MaxValue;
             }
         }
     }

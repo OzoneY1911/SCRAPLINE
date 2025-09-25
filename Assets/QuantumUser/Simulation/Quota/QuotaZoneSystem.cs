@@ -27,7 +27,7 @@ namespace Quantum
         {
             if (frame.Has<Valuable>(triggerInfo.Entity))
             {
-                frame.Events.ValuableEnter(triggerInfo.Entity);
+                UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, true);
             }
         }
 
@@ -35,8 +35,34 @@ namespace Quantum
         {
             if (frame.Has<Valuable>(triggerInfo.Entity))
             {
-                frame.Events.ValuableExit(triggerInfo.Entity);
+                UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, false);
             }
+        }
+
+        private void UpdateQuotaZone(Frame frame, EntityRef entity, EntityRef valuableEntity, bool isIncremental)
+        {
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(entity, out QuotaZone* quotaZone)) return;
+
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+
+            var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
+            var resourceFractions = frame.ResolveList<ResourceFraction>(valuable->ResourceFractions);
+
+            foreach (var resourceFraction in resourceFractions)
+            {
+                for (int i = 0; i < resourceDemands.Count; i++)
+                {
+                    if (resourceFraction.Type == resourceDemands[i].Type)
+                    {
+                        var resourceContribution = resourceFraction.Value * valuable->CurrentValue;
+
+                        resourceDemands.GetPointer(i)->Collected += isIncremental
+                            ? resourceContribution
+                            : -resourceContribution;
+                    }
+                }
+            }
+            frame.Events.QuotaZoneUpdated(entity);
         }
     }
 }

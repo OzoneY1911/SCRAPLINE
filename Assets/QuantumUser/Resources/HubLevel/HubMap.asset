@@ -229,6 +229,8 @@ MonoBehaviour:
       type: {class: QuotaZonePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         ResourceDemands: []
+        IsSatisfied:
+          Value: 0
     - rid: 1873557336157585408
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

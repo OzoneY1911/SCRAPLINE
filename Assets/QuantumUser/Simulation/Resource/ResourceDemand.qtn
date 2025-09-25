@@ -2,4 +2,5 @@ struct ResourceDemand
 {
     ResourceType Type;
     FP Value;
+    FP Collected;
 }

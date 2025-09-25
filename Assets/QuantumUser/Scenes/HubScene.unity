@@ -486,6 +486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prototype:
     ResourceDemands: []
+    IsSatisfied:
+      Value: 0
 --- !u!1 &166760589
 GameObject:
   m_ObjectHideFlags: 0

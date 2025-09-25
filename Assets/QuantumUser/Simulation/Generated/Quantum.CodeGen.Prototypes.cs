@@ -609,8 +609,11 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.QuotaZone))]
   public unsafe partial class QuotaZonePrototype : ComponentPrototype<Quantum.QuotaZone> {
+    [HideInInspector()]
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ResourceDemandPrototype[] ResourceDemands = {};
+    [HideInInspector()]
+    public QBoolean IsSatisfied;
     partial void MaterializeUser(Frame frame, ref Quantum.QuotaZone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.QuotaZone component = default;
@@ -628,6 +631,7 @@ namespace Quantum.Prototypes {
             list.Add(tmp);
           }
         }
+        result.IsSatisfied = this.IsSatisfied;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -636,10 +640,12 @@ namespace Quantum.Prototypes {
   public unsafe partial class ResourceDemandPrototype : StructPrototype {
     public Quantum.QEnum32<ResourceType> Type;
     public FP Value;
+    public FP Collected;
     partial void MaterializeUser(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context = default) {
         result.Type = this.Type;
         result.Value = this.Value;
+        result.Collected = this.Collected;
         MaterializeUser(frame, ref result, in context);
     }
   }

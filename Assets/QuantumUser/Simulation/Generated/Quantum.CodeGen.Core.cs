@@ -1158,23 +1158,27 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct ResourceDemand {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 24;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public ResourceType Type;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
     public FP Value;
+    [FieldOffset(8)]
+    public FP Collected;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3221;
         hash = hash * 31 + (Int32)Type;
         hash = hash * 31 + Value.GetHashCode();
+        hash = hash * 31 + Collected.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (ResourceDemand*)ptr;
         serializer.Stream.Serialize((Int32*)&p->Type);
+        FP.Serialize(&p->Collected, serializer);
         FP.Serialize(&p->Value, serializer);
     }
   }
@@ -1754,14 +1758,19 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct QuotaZone : Quantum.IComponent {
-    public const Int32 SIZE = 4;
+    public const Int32 SIZE = 8;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
+    [HideInInspector()]
     public QListPtr<ResourceDemand> ResourceDemands;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public QBoolean IsSatisfied;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 9241;
         hash = hash * 31 + ResourceDemands.GetHashCode();
+        hash = hash * 31 + IsSatisfied.GetHashCode();
         return hash;
       }
     }
@@ -1774,6 +1783,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (QuotaZone*)ptr;
+        QBoolean.Serialize(&p->IsSatisfied, serializer);
         QList.Serialize(&p->ResourceDemands, serializer, Statics.SerializeResourceDemand);
     }
   }

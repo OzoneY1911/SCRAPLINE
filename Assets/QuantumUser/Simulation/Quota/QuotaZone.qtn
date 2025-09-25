@@ -1,6 +1,10 @@
 component QuotaZone
 {
+    [HideInInspector]
     list<ResourceDemand> ResourceDemands;
+
+    [HideInInspector]
+    Boolean IsSatisfied;
 }
 
 event QuotaZoneInitialized
@@ -8,12 +12,7 @@ event QuotaZoneInitialized
     entity_ref Entity;
 }
 
-event ValuableEnter
-{
-    entity_ref Entity;
-}
-
-event ValuableExit
+event QuotaZoneUpdated
 {
     entity_ref Entity;
 }
