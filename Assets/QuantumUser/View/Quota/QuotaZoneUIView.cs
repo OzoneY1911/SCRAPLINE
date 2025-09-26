@@ -3,7 +3,7 @@ using Quantum;
 using TMPro;
 using UnityEngine;
 
-public unsafe class QuotaZoneUI : MonoBehaviour
+public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 {
     [Header("Resource Demand")]
     [SerializeField] private TextMeshPro _resourceDemandsTMP;
@@ -14,14 +14,17 @@ public unsafe class QuotaZoneUI : MonoBehaviour
 
     private List<QuotaZoneProgressBar> _progressBars = new();
 
-    private void OnEnable()
+    public override void OnActivate(Frame frame)
     {
-        QuantumEvent.Subscribe<EventQuotaZoneInitialized>(this, OnEventQuotaZoneInitialized);
         QuantumEvent.Subscribe<EventQuotaZoneUpdated>(this, OnEventQuotaZoneUpdated);
+        QuantumEvent.Subscribe<EventQuotaZoneActivated>(this, OnEventQuotaZoneActivated);
+        QuantumEvent.Subscribe<EventQuotaZoneCompleted>(this, OnEventQuotaZoneCompleted);
     }
 
-    private void OnEventQuotaZoneInitialized(EventQuotaZoneInitialized e)
+    private void OnEventQuotaZoneActivated(EventQuotaZoneActivated e)
     {
+        if (e.Entity != EntityRef) return;
+
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
 
@@ -46,18 +49,23 @@ public unsafe class QuotaZoneUI : MonoBehaviour
             }
             _resourceDemandsTMP.text = demandsText;
 
-            QuantumEvent.UnsubscribeListener<EventQuotaZoneInitialized>(this);
+            QuantumEvent.UnsubscribeListener<EventQuotaZoneActivated>(this);
         }
     }
 
-    private void OnEventQuotaZoneUpdated(EventQuotaZoneUpdated e) => UpdateProgressBars(e.Entity);
+    private void OnEventQuotaZoneUpdated(EventQuotaZoneUpdated e)
+    {
+        if (e.Entity != EntityRef) return;
+
+        UpdateProgressBars(e.Entity);
+    }
 
     private void UpdateProgressBars(EntityRef entity)
     {
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
 
-        var frame = game.Frames.Verified;
+        var frame = game.Frames.Predicted;
         if (frame == null) return;
 
         if (frame.Unsafe.TryGetPointer<QuotaZone>(entity, out var quotaZone))
@@ -70,5 +78,24 @@ public unsafe class QuotaZoneUI : MonoBehaviour
                 _progressBars[i].BarImage.fillAmount = _progressBars[i].CurrentValue / _progressBars[i].MaxValue;
             }
         }
+    }
+
+    private void OnEventQuotaZoneCompleted(EventQuotaZoneCompleted e)
+    {
+        if (e.Entity != EntityRef) return;
+
+        var game = QuantumRunner.Default.Game;
+        if (game == null) return;
+
+        var frame = game.Frames.Verified;
+        if (frame == null) return;
+
+        foreach (var progressBar in _progressBars)
+        {
+            Destroy(progressBar.gameObject);
+        }
+        _resourceDemandsTMP.text = "COMPLETED";
+
+        QuantumEvent.UnsubscribeListener<EventQuotaZoneActivated>(this);
     }
 }

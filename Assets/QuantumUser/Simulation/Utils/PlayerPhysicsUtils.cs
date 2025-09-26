@@ -33,7 +33,7 @@ namespace Quantum
 
             Shape3D standShape = Shape3D.CreateCapsule(radius, (standingHeight * FP._0_50) - radius, posOffset);
 
-            var hits = frame.Physics3D.OverlapShape(filter.Transform->Position, filter.Transform->Rotation, standShape);
+            var hits = frame.Physics3D.OverlapShape(filter.Transform->Position, filter.Transform->Rotation, standShape, options: QueryOptions.HitSolids);
 
             for (int i = 0; i < hits.Count; i++)
             {

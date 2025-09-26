@@ -22,10 +22,7 @@ public unsafe class DeathCameraController : MonoBehaviour
 
     private void OnEventEntityDeath(EventEntityDeath e)
     {
-        var game = QuantumRunner.Default.Game;
-        if (game == null) return;
-
-        var frame = game.Frames.Verified;
+        var frame = QuantumRunner.Default.Game.Frames.Verified;
         if (frame == null) return;
 
         if (frame.Has<Player>(e.Entity))
@@ -64,10 +61,7 @@ public unsafe class DeathCameraController : MonoBehaviour
 
     private void SwitchToNextPlayer()
     {
-        var game = QuantumRunner.Default.Game;
-        if (game == null) return;
-
-        var frame = game.Frames.Verified;
+        var frame = QuantumRunner.Default.Game.Frames.Verified;
         if (frame == null) return;
 
         var alivePlayers = frame.ResolveList<EntityRef>(frame.Global->AlivePlayers);
@@ -89,10 +83,7 @@ public unsafe class DeathCameraController : MonoBehaviour
 
     private void SwitchToPreviousPlayer()
     {
-        var game = QuantumRunner.Default.Game;
-        if (game == null) return;
-
-        var frame = game.Frames.Verified;
+        var frame = QuantumRunner.Default.Game.Frames.Verified;
         if (frame == null) return;
 
         var alivePlayers = frame.ResolveList<EntityRef>(frame.Global->AlivePlayers);

@@ -2,4 +2,6 @@ global
 {
     dictionary<player_ref, entity_ref> ActivePlayers;
     list<entity_ref> AlivePlayers;
+
+    FP PlayerMoney;
 }

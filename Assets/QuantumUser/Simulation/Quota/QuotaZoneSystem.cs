@@ -1,10 +1,12 @@
 namespace Quantum
 {
-    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>
+    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone
     {
         public void OnAdded(Frame frame, EntityRef entity, QuotaZone* quotaZone)
         {
             quotaZone->ResourceDemands = frame.AllocateList<ResourceDemand>(2);
+            quotaZone->InZoneValuables = frame.AllocateHashSet<EntityRef>();
+
             var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
 
             resourceDemands.Add(
@@ -19,23 +21,52 @@ namespace Quantum
                     Type = ResourceType.Plastic,
                     Value = 500
                 });
-
-            frame.Events.QuotaZoneInitialized(entity);
         }
 
         public void OnTriggerEnter3D(Frame frame, TriggerInfo3D triggerInfo)
         {
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Other, out QuotaZone* quotaZone)) return;
+
             if (frame.Has<Valuable>(triggerInfo.Entity))
             {
+                var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+                inZoneValuables.Add(triggerInfo.Entity);
+
+                if (!quotaZone->IsActivated) return;
+
                 UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, true);
             }
         }
 
         public void OnTriggerExit3D(Frame frame, ExitInfo3D triggerInfo)
         {
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Other, out QuotaZone* quotaZone)) return;
+
             if (frame.Has<Valuable>(triggerInfo.Entity))
             {
+                var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+                inZoneValuables.Remove(triggerInfo.Entity);
+
+                if (!quotaZone->IsActivated) return;
+
                 UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, false);
+            }
+        }
+
+        public void OnActivateQuotaZone(Frame frame, EntityRef entity)
+        {
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(entity, out var quotaZone)) return;
+
+            quotaZone->IsActivated = true;
+            frame.Events.QuotaZoneActivated(entity);
+
+            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+            if (inZoneValuables.Count != 0)
+            {
+                foreach (var inZoneValuable in inZoneValuables)
+                {
+                    UpdateQuotaZone(frame, entity, inZoneValuable, true);
+                }
             }
         }
 
@@ -76,6 +107,28 @@ namespace Quantum
                     return;
                 }
                 quotaZone->IsSatisfied = true;
+            }
+        }
+
+        public void OnCompleteQuotaZone(Frame frame, EntityRef entity)
+        {
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(entity, out var quotaZone)) return;
+
+            var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
+
+            quotaZone->IsCompleted = true;
+            frame.Events.QuotaZoneCompleted(entity);
+
+            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+            foreach (var inZoneValuable in inZoneValuables)
+            {
+                frame.Destroy(inZoneValuable);
+            }
+            inZoneValuables.Clear();
+
+            foreach (var resourceDemand in resourceDemands)
+            {
+                frame.Global->PlayerMoney += resourceDemand.Collected;
             }
         }
     }

@@ -1,7 +1,15 @@
 component Interactable
 {
+    [HideInInspector]
+    entity_ref Entity;
+
     InteractableType Type;
-    asset_ref<Map> TargetMap;
+    GameplayTimer CooldownTimer;
 }
 
 signal OnInteract(Interactable* interactable);
+
+event InteractableInteracted
+{
+    entity_ref Entity;
+}

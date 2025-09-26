@@ -1,4 +1,6 @@
 enum InteractableType
 {
-    ShipStart
+    MapChanger,
+    QuotaZoneInteractor,
+    InteractableAnimator
 }

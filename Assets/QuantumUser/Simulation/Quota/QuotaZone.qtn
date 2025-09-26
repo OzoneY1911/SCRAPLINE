@@ -4,15 +4,32 @@ component QuotaZone
     list<ResourceDemand> ResourceDemands;
 
     [HideInInspector]
+    hash_set<entity_ref> InZoneValuables;
+
+    [HideInInspector]
+    Boolean IsActivated;
+
+    [HideInInspector]
     Boolean IsSatisfied;
+
+    [HideInInspector]
+    Boolean IsCompleted;
 }
 
-event QuotaZoneInitialized
+signal OnActivateQuotaZone(entity_ref entity);
+signal OnCompleteQuotaZone(entity_ref entity);
+
+event QuotaZoneActivated
 {
     entity_ref Entity;
 }
 
 event QuotaZoneUpdated
+{
+    entity_ref Entity;
+}
+
+event QuotaZoneCompleted
 {
     entity_ref Entity;
 }

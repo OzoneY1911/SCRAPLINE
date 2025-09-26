@@ -1,0 +1,16 @@
+struct GameplayTimer
+{
+    GameplayTimerType Type;
+    FP Duration;
+
+    [HideInInspector]
+    FP Remaining;
+
+    [HideInInspector]
+    Boolean IsRunning;
+}
+
+enum GameplayTimerType
+{
+    Countdown
+}
