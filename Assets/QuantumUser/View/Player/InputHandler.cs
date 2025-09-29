@@ -63,7 +63,7 @@ namespace Quantum
             _accumulatedInput.Jump |= _playerControls.Main.Jump.IsPressed();
             _accumulatedInput.Run |= _playerControls.Main.Run.IsPressed();
             _accumulatedInput.Crouch |= _playerControls.Main.Crouch.IsPressed();
-            _accumulatedInput.Interact = _playerControls.Main.Interact.IsPressed();
+            _accumulatedInput.Interact |= _playerControls.Main.Interact.IsPressed();
             _accumulatedInput.SecondaryAction |= _playerControls.Main.SecondaryAction.IsPressed();
 
             // Process mouse input
