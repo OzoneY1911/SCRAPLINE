@@ -1,0 +1,7 @@
+enum Axis
+{
+    None,
+    X,
+    Y,
+    Z
+}

@@ -43,8 +43,8 @@ namespace Quantum
                         lever->MaxAngle
                     );
 
-                    draggedTransform->Rotation = FPQuaternion.Euler(
-                        new FPVector3(lever->CurrentAngle, 0, 0));
+                    draggedTransform->Rotation = lever->InitialRotation * FPQuaternion.Euler(
+                        new FPVector3(lever->CurrentAngle - lever->InitialAngle, 0, 0));
                 }
             }
         }

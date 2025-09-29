@@ -392,6 +392,9 @@ namespace Quantum.Prototypes {
     public QBoolean IsActivated;
     [HideInInspector()]
     public QBoolean IsBeingInteracted;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 InitialRotation;
     [HideInInspector()]
     public FP InitialAngle;
     [HideInInspector()]
@@ -408,6 +411,7 @@ namespace Quantum.Prototypes {
         result.IsInitialized = this.IsInitialized;
         result.IsActivated = this.IsActivated;
         result.IsBeingInteracted = this.IsBeingInteracted;
+        result.InitialRotation = FPQuaternion.Euler(this.InitialRotation);
         result.InitialAngle = this.InitialAngle;
         result.CurrentAngle = this.CurrentAngle;
         result.MaxAngle = this.MaxAngle;

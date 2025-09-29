@@ -18,6 +18,7 @@ namespace Quantum
 
             if (!lever->IsInitialized)
             {
+                lever->InitialRotation = filter.Transform->Rotation;
                 lever->InitialAngle = filter.Transform->Rotation.AsEuler.X;
                 lever->CurrentAngle = lever->InitialAngle;
                 lever->IsInitialized = true;
@@ -46,7 +47,9 @@ namespace Quantum
 
             if (!lever->IsBeingInteracted)
             {
-                FP targetAngle = (lever->CurrentAngle - lever->InitialAngle > lever->MaxAngle - lever->CurrentAngle)
+                var deltaAngle = lever->CurrentAngle - lever->InitialAngle;
+
+                var targetAngle = (deltaAngle > lever->MaxAngle - lever->CurrentAngle)
                     ? lever->MaxAngle
                     : lever->InitialAngle;
 
@@ -55,8 +58,7 @@ namespace Quantum
                     targetAngle,
                     lever->AngleResetSpeed * frame.DeltaTime);
 
-                filter.Transform->Rotation = FPQuaternion.Euler(
-                    new FPVector3(lever->CurrentAngle, 0, 0));
+                filter.Transform->Rotation = filter.Lever->InitialRotation * FPQuaternion.Euler(new FPVector3(deltaAngle, 0, 0));
             }
         }
     }

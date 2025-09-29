@@ -49,6 +49,12 @@ namespace Quantum {
   using RuntimeInitializeOnLoadMethodAttribute = UnityEngine.RuntimeInitializeOnLoadMethodAttribute;
   #endif //;
   
+  public enum Axis : int {
+    None,
+    X,
+    Y,
+    Z,
+  }
   public enum EKCCCollisionSource : byte {
     None = 0,
     Entity = 1,
@@ -1620,7 +1626,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Lever : Quantum.IComponent {
-    public const Int32 SIZE = 48;
+    public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     [HideInInspector()]
@@ -1631,6 +1637,9 @@ namespace Quantum {
     [FieldOffset(4)]
     [HideInInspector()]
     public QBoolean IsBeingInteracted;
+    [FieldOffset(48)]
+    [HideInInspector()]
+    public FPQuaternion InitialRotation;
     [FieldOffset(32)]
     [HideInInspector()]
     public FP InitialAngle;
@@ -1647,6 +1656,7 @@ namespace Quantum {
         hash = hash * 31 + IsInitialized.GetHashCode();
         hash = hash * 31 + IsActivated.GetHashCode();
         hash = hash * 31 + IsBeingInteracted.GetHashCode();
+        hash = hash * 31 + InitialRotation.GetHashCode();
         hash = hash * 31 + InitialAngle.GetHashCode();
         hash = hash * 31 + CurrentAngle.GetHashCode();
         hash = hash * 31 + MaxAngle.GetHashCode();
@@ -1663,6 +1673,7 @@ namespace Quantum {
         FP.Serialize(&p->CurrentAngle, serializer);
         FP.Serialize(&p->InitialAngle, serializer);
         FP.Serialize(&p->MaxAngle, serializer);
+        FPQuaternion.Serialize(&p->InitialRotation, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2188,6 +2199,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.AnimationTrigger), Quantum.AnimationTrigger.SIZE);
       typeRegistry.Register(typeof(AssetGuid), AssetGuid.SIZE);
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
+      typeRegistry.Register(typeof(Quantum.Axis), 4);
       typeRegistry.Register(typeof(Quantum.BitSet1024), Quantum.BitSet1024.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet128), Quantum.BitSet128.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet2048), Quantum.BitSet2048.SIZE);
@@ -2329,6 +2341,7 @@ namespace Quantum {
     [Preserve()]
     public static void EnsureNotStrippedGen() {
       FramePrinter.EnsureNotStripped();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.Axis>();
       FramePrinter.EnsurePrimitiveNotStripped<CallbackFlags>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EKCCCollisionSource>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EKCCIgnoreSource>();

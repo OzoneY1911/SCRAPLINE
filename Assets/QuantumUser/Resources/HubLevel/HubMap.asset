@@ -504,6 +504,13 @@ MonoBehaviour:
           Value: 0
         IsBeingInteracted:
           Value: 0
+        InitialRotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
         InitialAngle:
           RawValue: 0
         CurrentAngle:
