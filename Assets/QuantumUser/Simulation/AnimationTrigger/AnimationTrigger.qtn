@@ -7,12 +7,7 @@ component AnimationTrigger
     UInt16 InTriggerCount;
 }
 
-event AnimationTriggerEnter
-{
-    entity_ref Entity;
-}
-
-event AnimationTriggerExit
+event AnimationTriggered
 {
     entity_ref Entity;
 }

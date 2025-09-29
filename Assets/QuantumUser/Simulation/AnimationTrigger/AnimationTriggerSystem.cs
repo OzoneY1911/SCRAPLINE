@@ -13,7 +13,7 @@ namespace Quantum
                 if (animationTrigger->InTriggerCount > 1) return;
 
                 animationTrigger->IsToggled = true;
-                frame.Events.AnimationTriggerEnter(triggerInfo.Entity);
+                frame.Events.AnimationTriggered(triggerInfo.Entity);
             }
         }
 
@@ -28,7 +28,7 @@ namespace Quantum
                 if (animationTrigger->InTriggerCount != 0) return;
 
                 animationTrigger->IsToggled = false;
-                frame.Events.AnimationTriggerExit(triggerInfo.Entity);
+                frame.Events.AnimationTriggered(triggerInfo.Entity);
             }
         }
     }
