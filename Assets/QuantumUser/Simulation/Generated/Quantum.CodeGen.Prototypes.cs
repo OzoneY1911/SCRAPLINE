@@ -767,6 +767,19 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Teleporter))]
+  public unsafe class TeleporterPrototype : ComponentPrototype<Quantum.Teleporter> {
+    public MapEntityId ExitEntity;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Teleporter component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Teleporter result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.ExitEntity, in context, out result.ExitEntity);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
   public unsafe partial class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
     public FP CurrentValue;

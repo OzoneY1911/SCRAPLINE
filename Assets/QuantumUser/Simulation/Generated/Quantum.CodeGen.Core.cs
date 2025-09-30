@@ -1944,6 +1944,24 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Teleporter : Quantum.IComponent {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public EntityRef ExitEntity;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 6421;
+        hash = hash * 31 + ExitEntity.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Teleporter*)ptr;
+        EntityRef.Serialize(&p->ExitEntity, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Valuable : Quantum.IComponent {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -2075,6 +2093,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerStamina>();
       BuildSignalsArrayOnComponentAdded<Quantum.QuotaZone>();
       BuildSignalsArrayOnComponentRemoved<Quantum.QuotaZone>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Teleporter>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Teleporter>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
@@ -2309,6 +2329,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
       typeRegistry.Register(typeof(SpringJoint), SpringJoint.SIZE);
       typeRegistry.Register(typeof(SpringJoint3D), SpringJoint3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.Teleporter), Quantum.Teleporter.SIZE);
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
@@ -2317,7 +2338,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 17)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 18)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
@@ -2335,6 +2356,7 @@ namespace Quantum {
         .Add<Quantum.PlayerMovement>(Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerStamina>(Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.QuotaZone>(Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.Teleporter>(Quantum.Teleporter.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Valuable>(Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None)
         .Finish();
     }

@@ -205,6 +205,13 @@ MonoBehaviour:
     - rid: 1562209493956165633
     - rid: 1562209493956165634
     - rid: 1562209493956165635
+  - Components:
+    - rid: 3403422700570411008
+    - rid: 3403422700570411009
+    - rid: 3403422700570411010
+    - rid: 3403422700570411011
+  - Components:
+    - rid: 6122457757833494528
   SerializedTriangleDataUncompressedSize: 8
   references:
     version: 2
@@ -1259,6 +1266,90 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+    - rid: 3403422700570411008
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: -655360
+          Z:
+            RawValue: 0
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+    - rid: 3403422700570411009
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 6553600
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 6553600
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 0
+        IsTrigger: 1
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 3403422700570411010
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 128
+    - rid: 3403422700570411011
+      type: {class: TeleporterPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        ExitEntity:
+          SceneIndexPlusOne: 14
+    - rid: 6122457757833494528
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 655360
+          Z:
+            RawValue: 0
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
     - rid: 6762150021543493632
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
