@@ -27,6 +27,8 @@ public unsafe class DeathCameraController : MonoBehaviour
 
         if (frame.Has<Player>(e.Entity))
         {
+            if (!QuantumRunner.Default.Game.PlayerIsLocal(frame.Unsafe.GetPointer<Player>(e.Entity)->PlayerRef)) return;
+
             var alivePlayers = frame.ResolveList<EntityRef>(frame.Global->AlivePlayers);
 
             foreach (var entity in alivePlayers)
