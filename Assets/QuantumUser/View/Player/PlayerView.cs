@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Quantum
 {
-    public class PlayerView : QuantumEntityViewComponent<SceneContext>
+    public unsafe class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
         [Header("Local Renderers")]
         public Renderer[] PlayerRenderers;
@@ -19,19 +19,19 @@ namespace Quantum
 
         public override void OnActivate(Frame frame)
         {
-            if (frame.TryGet(EntityRef, out Player player) == false)
-                return;
+            if (!frame.Unsafe.TryGetPointer<Player>(EntityRef, out Player* player)) return;
+            
+            PlayerTransforms[EntityRef] = transform;
 
-            PlayerTransforms.Add(EntityRef, transform);
+            bool isLocal = Game.PlayerIsLocal(player->PlayerRef);
 
-            bool isLocal = Game.PlayerIsLocal(player.PlayerRef);
             if (isLocal)
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
 
                 ViewContext.LocalPlayerView = this;
-                ViewContext.LocalPlayer = player.PlayerRef;
+                ViewContext.LocalPlayer = player->PlayerRef;
                 ViewContext.LocalPlayerEntity = EntityRef;
 
                 // Local player is always predicted.
