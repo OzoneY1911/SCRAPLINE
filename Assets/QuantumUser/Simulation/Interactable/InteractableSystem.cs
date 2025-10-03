@@ -50,10 +50,13 @@ namespace Quantum
                     }
 
                     interactableAnimator->IsToggled = !interactableAnimator->IsToggled;
-
                     frame.Events.InteractableInteracted(interactable->Entity);
                     break;
-                default:
+                case InteractableType.GameLocationSelector:
+                    var locationSelector = frame.Unsafe.GetPointer<InteractableGameLocationSelector>(interactable->Entity);
+
+                    frame.Global->SelectedLocation = locationSelector->TargetLocation;
+                    frame.Events.GameLocationSelected(interactable->Entity);
                     break;
             }
         }

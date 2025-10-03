@@ -84,6 +84,16 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.GameLocation))]
+  public unsafe partial class GameLocationPrototype : StructPrototype {
+    public Quantum.QEnum32<GameLocationType> Type;
+    partial void MaterializeUser(Frame frame, ref Quantum.GameLocation result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.GameLocation result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.GameplayTimer))]
   public unsafe partial class GameplayTimerPrototype : StructPrototype {
     public Quantum.QEnum32<GameplayTimerType> Type;
@@ -212,6 +222,21 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.InteractableAnimator result, in PrototypeMaterializationContext context = default) {
         result.IsToggled = this.IsToggled;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableGameLocationSelector))]
+  public unsafe partial class InteractableGameLocationSelectorPrototype : ComponentPrototype<Quantum.InteractableGameLocationSelector> {
+    public Quantum.Prototypes.GameLocationPrototype TargetLocation;
+    partial void MaterializeUser(Frame frame, ref Quantum.InteractableGameLocationSelector result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableGameLocationSelector component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableGameLocationSelector result, in PrototypeMaterializationContext context = default) {
+        this.TargetLocation.Materialize(frame, ref result.TargetLocation, in context);
         MaterializeUser(frame, ref result, in context);
     }
   }

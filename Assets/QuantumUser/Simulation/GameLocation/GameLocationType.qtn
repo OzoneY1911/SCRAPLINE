@@ -1,0 +1,7 @@
+enum GameLocationType
+{
+    None,
+    Factory,
+    Hospital,
+    Bunker
+}

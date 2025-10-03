@@ -71,6 +71,12 @@ namespace Quantum {
     StaticCollider = 2,
     EntityCollider = 3,
   }
+  public enum GameLocationType : int {
+    None,
+    Factory,
+    Hospital,
+    Bunker,
+  }
   public enum GameplayTimerType : int {
     Countdown,
   }
@@ -78,6 +84,7 @@ namespace Quantum {
     MapChanger,
     QuotaZoneInteractor,
     InteractableAnimator,
+    GameLocationSelector,
   }
   public enum ResourceType : int {
     Metal,
@@ -561,6 +568,24 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (BitSet6*)ptr;
         serializer.Stream.SerializeBuffer(&p->Bits[0], 1);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct GameLocation {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public GameLocationType Type;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 1499;
+        hash = hash * 31 + (Int32)Type;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (GameLocation*)ptr;
+        serializer.Stream.Serialize((Int32*)&p->Type);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1253,7 +1278,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2600;
+    public const Int32 SIZE = 2608;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1280,12 +1305,14 @@ namespace Quantum {
     private fixed Byte _input_[1968];
     [FieldOffset(2576)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2584)]
-    public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
     [FieldOffset(2588)]
-    public QListPtr<EntityRef> AlivePlayers;
+    public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
     [FieldOffset(2592)]
+    public QListPtr<EntityRef> AlivePlayers;
+    [FieldOffset(2600)]
     public FP PlayerMoney;
+    [FieldOffset(2584)]
+    public GameLocation SelectedLocation;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
@@ -1309,6 +1336,7 @@ namespace Quantum {
         hash = hash * 31 + ActivePlayers.GetHashCode();
         hash = hash * 31 + AlivePlayers.GetHashCode();
         hash = hash * 31 + PlayerMoney.GetHashCode();
+        hash = hash * 31 + SelectedLocation.GetHashCode();
         return hash;
       }
     }
@@ -1330,6 +1358,7 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->PlayerConnectedCount);
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
+        Quantum.GameLocation.Serialize(&p->SelectedLocation, serializer);
         QDictionary.Serialize(&p->ActivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
         QList.Serialize(&p->AlivePlayers, serializer, Statics.SerializeEntityRef);
         FP.Serialize(&p->PlayerMoney, serializer);
@@ -1511,6 +1540,24 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableAnimator*)ptr;
         QBoolean.Serialize(&p->IsToggled, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct InteractableGameLocationSelector : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public GameLocation TargetLocation;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 11491;
+        hash = hash * 31 + TargetLocation.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (InteractableGameLocationSelector*)ptr;
+        Quantum.GameLocation.Serialize(&p->TargetLocation, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2045,6 +2092,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Interactable>();
       BuildSignalsArrayOnComponentAdded<Quantum.InteractableAnimator>();
       BuildSignalsArrayOnComponentRemoved<Quantum.InteractableAnimator>();
+      BuildSignalsArrayOnComponentAdded<Quantum.InteractableGameLocationSelector>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.InteractableGameLocationSelector>();
       BuildSignalsArrayOnComponentAdded<Quantum.InteractableMapChanger>();
       BuildSignalsArrayOnComponentRemoved<Quantum.InteractableMapChanger>();
       BuildSignalsArrayOnComponentAdded<Quantum.InteractableQuotaZone>();
@@ -2253,6 +2302,8 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
+      typeRegistry.Register(typeof(Quantum.GameLocation), Quantum.GameLocation.SIZE);
+      typeRegistry.Register(typeof(Quantum.GameLocationType), 4);
       typeRegistry.Register(typeof(Quantum.GameplayTimer), Quantum.GameplayTimer.SIZE);
       typeRegistry.Register(typeof(Quantum.GameplayTimerType), 4);
       typeRegistry.Register(typeof(Quantum.Health), Quantum.Health.SIZE);
@@ -2269,6 +2320,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(IntVector3), IntVector3.SIZE);
       typeRegistry.Register(typeof(Quantum.Interactable), Quantum.Interactable.SIZE);
       typeRegistry.Register(typeof(Quantum.InteractableAnimator), Quantum.InteractableAnimator.SIZE);
+      typeRegistry.Register(typeof(Quantum.InteractableGameLocationSelector), Quantum.InteractableGameLocationSelector.SIZE);
       typeRegistry.Register(typeof(Quantum.InteractableMapChanger), Quantum.InteractableMapChanger.SIZE);
       typeRegistry.Register(typeof(Quantum.InteractableQuotaZone), Quantum.InteractableQuotaZone.SIZE);
       typeRegistry.Register(typeof(Quantum.InteractableType), 4);
@@ -2338,13 +2390,14 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 18)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 19)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Health>(Quantum.Health.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Interactable>(Quantum.Interactable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableAnimator>(Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.InteractableGameLocationSelector>(Quantum.InteractableGameLocationSelector.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableMapChanger>(Quantum.InteractableMapChanger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableQuotaZone>(Quantum.InteractableQuotaZone.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
@@ -2368,6 +2421,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EKCCCollisionSource>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EKCCIgnoreSource>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.EKCCProcessorSource>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.GameLocationType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.GameplayTimerType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InputButtons>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InteractableType>();

@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 7;
+        eventCount = 8;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -62,6 +62,7 @@ namespace Quantum {
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
           case EventAnimationTriggered.ID: result = typeof(EventAnimationTriggered); return;
+          case EventGameLocationSelected.ID: result = typeof(EventGameLocationSelected); return;
           case EventEntityDeath.ID: result = typeof(EventEntityDeath); return;
           case EventInteractableInteracted.ID: result = typeof(EventInteractableInteracted); return;
           case EventQuotaZoneActivated.ID: result = typeof(EventQuotaZoneActivated); return;
@@ -72,6 +73,12 @@ namespace Quantum {
       }
       public EventAnimationTriggered AnimationTriggered(EntityRef Entity) {
         var ev = _f.Context.AcquireEvent<EventAnimationTriggered>(EventAnimationTriggered.ID);
+        ev.Entity = Entity;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventGameLocationSelected GameLocationSelected(EntityRef Entity) {
+        var ev = _f.Context.AcquireEvent<EventGameLocationSelected>(EventGameLocationSelected.ID);
         ev.Entity = Entity;
         _f.AddEvent(ev);
         return ev;
@@ -133,13 +140,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventEntityDeath : EventBase {
+  public unsafe partial class EventGameLocationSelected : EventBase {
     public new const Int32 ID = 2;
     public EntityRef Entity;
-    protected EventEntityDeath(Int32 id, EventFlags flags) : 
+    protected EventGameLocationSelected(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventEntityDeath() : 
+    public EventGameLocationSelected() : 
         base(2, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -158,13 +165,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventInteractableInteracted : EventBase {
+  public unsafe partial class EventEntityDeath : EventBase {
     public new const Int32 ID = 3;
     public EntityRef Entity;
-    protected EventInteractableInteracted(Int32 id, EventFlags flags) : 
+    protected EventEntityDeath(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventInteractableInteracted() : 
+    public EventEntityDeath() : 
         base(3, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -183,13 +190,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventQuotaZoneActivated : EventBase {
+  public unsafe partial class EventInteractableInteracted : EventBase {
     public new const Int32 ID = 4;
     public EntityRef Entity;
-    protected EventQuotaZoneActivated(Int32 id, EventFlags flags) : 
+    protected EventInteractableInteracted(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventQuotaZoneActivated() : 
+    public EventInteractableInteracted() : 
         base(4, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -208,13 +215,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventQuotaZoneUpdated : EventBase {
+  public unsafe partial class EventQuotaZoneActivated : EventBase {
     public new const Int32 ID = 5;
     public EntityRef Entity;
-    protected EventQuotaZoneUpdated(Int32 id, EventFlags flags) : 
+    protected EventQuotaZoneActivated(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventQuotaZoneUpdated() : 
+    public EventQuotaZoneActivated() : 
         base(5, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -233,13 +240,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventQuotaZoneCompleted : EventBase {
+  public unsafe partial class EventQuotaZoneUpdated : EventBase {
     public new const Int32 ID = 6;
     public EntityRef Entity;
-    protected EventQuotaZoneCompleted(Int32 id, EventFlags flags) : 
+    protected EventQuotaZoneUpdated(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventQuotaZoneCompleted() : 
+    public EventQuotaZoneUpdated() : 
         base(6, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -253,6 +260,31 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 61;
+        hash = hash * 31 + Entity.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventQuotaZoneCompleted : EventBase {
+    public new const Int32 ID = 7;
+    public EntityRef Entity;
+    protected EventQuotaZoneCompleted(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventQuotaZoneCompleted() : 
+        base(7, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 67;
         hash = hash * 31 + Entity.GetHashCode();
         return hash;
       }

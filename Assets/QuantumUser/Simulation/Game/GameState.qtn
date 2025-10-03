@@ -4,4 +4,6 @@ global
     list<entity_ref> AlivePlayers;
 
     FP PlayerMoney;
+
+    GameLocation SelectedLocation;
 }
