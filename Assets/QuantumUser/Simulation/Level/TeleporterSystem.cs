@@ -10,7 +10,7 @@ namespace Quantum
 
             if (!frame.Unsafe.TryGetPointer<Transform3D>(teleporter->ExitEntity, out var exitTransform)) return;
 
-            otherTransform->Position = exitTransform->Position;
+            otherTransform->Teleport(frame, exitTransform->Position);
         }
     }
 }
