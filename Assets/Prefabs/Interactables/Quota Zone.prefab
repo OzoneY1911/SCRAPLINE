@@ -360,7 +360,7 @@ MonoBehaviour:
     LayerSource: 0
     Layer: 0
     CallbackFlags:
-      Value: 3072
+      Value: 384
   PhysicsBody:
     IsEnabled: 0
     Config2D: 116

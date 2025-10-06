@@ -25,31 +25,31 @@ namespace Quantum
 
         public void OnTriggerEnter3D(Frame frame, TriggerInfo3D triggerInfo)
         {
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Other, out QuotaZone* quotaZone)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
 
-            if (frame.Has<Valuable>(triggerInfo.Entity))
+            if (frame.Has<Valuable>(triggerInfo.Other))
             {
                 var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
                 inZoneValuables.Add(triggerInfo.Entity);
 
                 if (!quotaZone->IsActivated) return;
 
-                UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, true);
+                UpdateQuotaZone(frame, triggerInfo.Entity, triggerInfo.Other, true);
             }
         }
 
         public void OnTriggerExit3D(Frame frame, ExitInfo3D triggerInfo)
         {
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Other, out QuotaZone* quotaZone)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
 
-            if (frame.Has<Valuable>(triggerInfo.Entity))
+            if (frame.Has<Valuable>(triggerInfo.Other))
             {
                 var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
-                inZoneValuables.Remove(triggerInfo.Entity);
+                inZoneValuables.Remove(triggerInfo.Other);
 
                 if (!quotaZone->IsActivated) return;
 
-                UpdateQuotaZone(frame, triggerInfo.Other, triggerInfo.Entity, false);
+                UpdateQuotaZone(frame, triggerInfo.Entity, triggerInfo.Other, false);
             }
         }
 
