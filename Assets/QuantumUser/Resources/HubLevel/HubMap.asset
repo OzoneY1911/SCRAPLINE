@@ -883,7 +883,7 @@ MonoBehaviour:
       type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         CallbackFlags:
-          Value: 0
+          Value: 18
     - rid: 6021104984291016708
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
@@ -893,6 +893,8 @@ MonoBehaviour:
       data:
         CurrentValue:
           RawValue: 19660800
+        Fragility:
+          RawValue: 1638400
         ResourceFractions:
         - Type:
             Value: 0

@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 8;
+        eventCount = 9;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -68,6 +68,7 @@ namespace Quantum {
           case EventQuotaZoneActivated.ID: result = typeof(EventQuotaZoneActivated); return;
           case EventQuotaZoneUpdated.ID: result = typeof(EventQuotaZoneUpdated); return;
           case EventQuotaZoneCompleted.ID: result = typeof(EventQuotaZoneCompleted); return;
+          case EventValuableHit.ID: result = typeof(EventValuableHit); return;
           default: break;
         }
       }
@@ -110,6 +111,14 @@ namespace Quantum {
       public EventQuotaZoneCompleted QuotaZoneCompleted(EntityRef Entity) {
         var ev = _f.Context.AcquireEvent<EventQuotaZoneCompleted>(EventQuotaZoneCompleted.ID);
         ev.Entity = Entity;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventValuableHit ValuableHit(EntityRef Entity, FPVector3 Position, FP HitDamage) {
+        var ev = _f.Context.AcquireEvent<EventValuableHit>(EventValuableHit.ID);
+        ev.Entity = Entity;
+        ev.Position = Position;
+        ev.HitDamage = HitDamage;
         _f.AddEvent(ev);
         return ev;
       }
@@ -286,6 +295,35 @@ namespace Quantum {
       unchecked {
         var hash = 67;
         hash = hash * 31 + Entity.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventValuableHit : EventBase {
+    public new const Int32 ID = 8;
+    public EntityRef Entity;
+    public FPVector3 Position;
+    public FP HitDamage;
+    protected EventValuableHit(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventValuableHit() : 
+        base(8, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 71;
+        hash = hash * 31 + Entity.GetHashCode();
+        hash = hash * 31 + Position.GetHashCode();
+        hash = hash * 31 + HitDamage.GetHashCode();
         return hash;
       }
     }

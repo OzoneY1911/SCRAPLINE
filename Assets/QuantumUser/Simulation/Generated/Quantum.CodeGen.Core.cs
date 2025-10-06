@@ -2010,16 +2010,19 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Valuable : Quantum.IComponent {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 24;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public FP CurrentValue;
+    [FieldOffset(16)]
+    public FP Fragility;
     [FieldOffset(0)]
     public QListPtr<ResourceFraction> ResourceFractions;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3511;
         hash = hash * 31 + CurrentValue.GetHashCode();
+        hash = hash * 31 + Fragility.GetHashCode();
         hash = hash * 31 + ResourceFractions.GetHashCode();
         return hash;
       }
@@ -2035,6 +2038,7 @@ namespace Quantum {
         var p = (Valuable*)ptr;
         QList.Serialize(&p->ResourceFractions, serializer, Statics.SerializeResourceFraction);
         FP.Serialize(&p->CurrentValue, serializer);
+        FP.Serialize(&p->Fragility, serializer);
     }
   }
   public unsafe partial interface ISignalOnEntityDeath : ISignal {

@@ -808,6 +808,7 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
   public unsafe partial class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
     public FP CurrentValue;
+    public FP Fragility;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
     partial void MaterializeUser(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context);
@@ -818,6 +819,7 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
         result.CurrentValue = this.CurrentValue;
+        result.Fragility = this.Fragility;
         if (this.ResourceFractions.Length == 0) {
           result.ResourceFractions = default;
         } else {

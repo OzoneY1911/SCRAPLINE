@@ -1,5 +1,13 @@
 component Valuable
 {
     FP CurrentValue;
+    FP Fragility;
     list<ResourceFraction> ResourceFractions;
+}
+
+event ValuableHit
+{
+    entity_ref Entity;
+    FPVector3 Position;
+    FP HitDamage;
 }

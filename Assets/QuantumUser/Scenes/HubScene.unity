@@ -1205,12 +1205,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80304dc5fc781d042be5cd9c4fa579a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &376375725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7300735819440599197, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
+  m_PrefabInstance: {fileID: 222212009900771816}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &376375726 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2630780138089516836, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
   m_PrefabInstance: {fileID: 222212009900771816}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 376375725}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
@@ -1221,6 +1226,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6098652296791538118, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
   m_PrefabInstance: {fileID: 222212009900771816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &376375733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376375725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3344b44c36736b47b045b022ca446c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagePrefab: {fileID: 2519525783720581877, guid: 979e034356ed9f247afb855759bef4e3, type: 3}
 --- !u!1 &432616989
 GameObject:
   m_ObjectHideFlags: 0
@@ -4000,7 +4018,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1844303711443977819, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
       propertyPath: PhysicsCollider.CallbackFlags.Value
-      value: 0
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6098652296791538118, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4046,10 +4064,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test Valuable
       objectReference: {fileID: 0}
+    - target: {fileID: 7377497416048120456, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
+      propertyPath: Prototype.Fragility.RawValue
+      value: 1638400
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7300735819440599197, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 376375733}
   m_SourcePrefab: {fileID: 100100000, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
 --- !u!1001 &2657800986513481254
 PrefabInstance:
