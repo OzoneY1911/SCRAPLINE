@@ -196,12 +196,12 @@ MonoBehaviour:
       CapsuleRadius:
         RawValue: 32768
       CapsuleHeight:
-        RawValue: 131072
+        RawValue: 117965
       PositionOffset:
         X:
           RawValue: 0
         Y:
-          RawValue: 65536
+          RawValue: 0
         Z:
           RawValue: 0
       BoxExtents:

@@ -24,7 +24,7 @@ namespace Quantum
             FPVector3 relativeVelocity = entityVelocity - otherVelocity;
             FP hitPower = relativeVelocity.Magnitude;
 
-            if (hitPower < 2) return;
+            if (hitPower < 2 || valuable->Fragility == 0) return;
 
             var hitDamage = hitPower * valuable->Fragility;
 

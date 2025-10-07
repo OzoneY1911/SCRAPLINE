@@ -207,8 +207,8 @@ Transform:
   m_GameObject: {fileID: 1471622299828987993}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalPosition: {x: -1, y: 0.5, z: 0.4}
+  m_LocalScale: {x: 3, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7892308886765407782}
@@ -591,7 +591,7 @@ Transform:
   m_GameObject: {fileID: 2917250935382254647}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.5, y: 2, z: 3.144}
+  m_LocalPosition: {x: -2.5, y: 2.1, z: 1.5439999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -623,7 +623,7 @@ Transform:
   m_GameObject: {fileID: 3725516158600646480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.5, y: 2, z: -1.25}
+  m_LocalPosition: {x: -2.5, y: 1.7, z: -1.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -730,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 5013350053648919694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.63, y: 0.5, z: 7.54}
+  m_LocalPosition: {x: -11.63, y: 0, z: 7.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -767,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 5939564269977445166}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4000001, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -839,6 +839,7 @@ GameObject:
   - component: {fileID: 4031671721025402487}
   - component: {fileID: 3618441912973186532}
   - component: {fileID: 3745268630319235775}
+  - component: {fileID: 7218620343768893064}
   - component: {fileID: 5973271617764406446}
   - component: {fileID: 481384033549991978}
   - component: {fileID: 1783694329386287992}
@@ -859,7 +860,7 @@ Transform:
   m_GameObject: {fileID: 6338079009813425835}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.287, y: 1.43, z: -3.913}
+  m_LocalPosition: {x: 0.28699994, y: 0, z: -2.913}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -872,7 +873,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6338079009813425835}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -8520314321515009326, guid: d414c457e1884d344abea53cd69f5b54, type: 3}
 --- !u!23 &3745268630319235775
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -918,6 +919,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7218620343768893064
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338079009813425835}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.39999998, y: 1.2979896, z: 0.6}
+  m_Center: {x: 0, y: 0.6489948, z: 0}
 --- !u!114 &5973271617764406446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,9 +965,9 @@ MonoBehaviour:
     Material:
       Id:
         Value: 0
-    SourceCollider: {fileID: 0}
+    SourceCollider: {fileID: 7218620343768893064}
     SourceShapeSettings:
-      IsScaledBySource: 0
+      IsScaledBySource: 1
       CapsuleDirection2D: 0
       CapsuleDirection3D: 0
     Shape2D:
@@ -978,7 +1000,7 @@ MonoBehaviour:
       IsPersistent: 1
       CompoundShapes: []
     Shape3D:
-      ShapeType: 1
+      ShapeType: 2
       SphereRadius:
         RawValue: 32768
       CapsuleRadius:
@@ -989,16 +1011,16 @@ MonoBehaviour:
         X:
           RawValue: 0
         Y:
-          RawValue: 0
+          RawValue: 42532
         Z:
           RawValue: 0
       BoxExtents:
         X:
-          RawValue: 32768
+          RawValue: 13107
         Y:
-          RawValue: 32768
+          RawValue: 42532
         Z:
-          RawValue: 32768
+          RawValue: 19660
       RotationOffset:
         X:
           RawValue: 0

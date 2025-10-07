@@ -30,7 +30,7 @@ namespace Quantum
             if (frame.Has<Valuable>(triggerInfo.Other))
             {
                 var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
-                inZoneValuables.Add(triggerInfo.Entity);
+                inZoneValuables.Add(triggerInfo.Other);
 
                 if (!quotaZone->IsActivated) return;
 

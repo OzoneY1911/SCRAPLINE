@@ -59,5 +59,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a301f671ec843684a85c6bc200189bf4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 670623449049717002}
   m_SourcePrefab: {fileID: 100100000, guid: a301f671ec843684a85c6bc200189bf4, type: 3}
+--- !u!1 &4646137303962644273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a301f671ec843684a85c6bc200189bf4, type: 3}
+  m_PrefabInstance: {fileID: 5529026793437090400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &670623449049717002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4646137303962644273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mesh: {fileID: -1243895824238798610, guid: a301f671ec843684a85c6bc200189bf4, type: 3}
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+  SmoothSphereMeshCollisions: 0
