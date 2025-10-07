@@ -65,10 +65,10 @@ PrefabInstance:
       addedObject: {fileID: 8022036928451774145}
     - targetCorrespondingSourceObject: {fileID: 6490332797906621576, guid: d8dff7de5c39e7a47a8d55a1af2d72bd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5896183521251023447}
+      addedObject: {fileID: 3158427531350021431}
     - targetCorrespondingSourceObject: {fileID: 6490332797906621576, guid: d8dff7de5c39e7a47a8d55a1af2d72bd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7639534882632054333}
+      addedObject: {fileID: 2808332909384639893}
   m_SourcePrefab: {fileID: 100100000, guid: d8dff7de5c39e7a47a8d55a1af2d72bd, type: 3}
 --- !u!1 &1136938405599933041 stripped
 GameObject:
@@ -102,7 +102,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6490332797906621576, guid: d8dff7de5c39e7a47a8d55a1af2d72bd, type: 3}
   m_PrefabInstance: {fileID: 217965695294852896}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &5896183521251023447
+--- !u!65 &3158427531350021431
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4, y: 3.9999995, z: 2.28}
   m_Center: {x: 0, y: 1.9999998, z: -0.37933424}
---- !u!114 &7639534882632054333
+--- !u!114 &2808332909384639893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,227 +132,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 6418779489380064168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 836dcb7e0f6259748b850a10912ce727, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransformMode: 1
-  Transform2DVertical:
-    IsEnabled: 0
-    Height:
+  SourceCollider: {fileID: 3158427531350021431}
+  Size:
+    X:
+      RawValue: 91750
+    Y:
+      RawValue: 262143
+    Z:
+      RawValue: 149422
+  PositionOffset:
+    X:
       RawValue: 0
-    PositionOffset:
+    Y:
+      RawValue: 131071
+    Z:
+      RawValue: -24860
+  RotationOffset:
+    X:
       RawValue: 0
-  PhysicsCollider:
-    IsEnabled: 1
-    IsTrigger: 0
-    Material:
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
       Id:
         Value: 0
-    SourceCollider: {fileID: 5896183521251023447}
-    SourceShapeSettings:
-      IsScaledBySource: 1
-      CapsuleDirection2D: 0
-      CapsuleDirection3D: 0
-    Shape2D:
-      ShapeType: 0
-      PolygonCollider:
-        Id:
-          Value: 0
-      CircleRadius:
-        RawValue: 32768
-      CapsuleSize:
-        X:
-          RawValue: 65536
-        Y:
-          RawValue: 131072
-      EdgeExtent:
-        RawValue: 32768
-      BoxExtents:
-        X:
-          RawValue: 32768
-        Y:
-          RawValue: 32768
-      PositionOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-      RotationOffset:
-        RawValue: 0
-      UserTag: 0
-      IsPersistent: 1
-      CompoundShapes: []
-    Shape3D:
-      ShapeType: 2
-      SphereRadius:
-        RawValue: 32768
-      CapsuleRadius:
-        RawValue: 32768
-      CapsuleHeight:
-        RawValue: 131072
-      PositionOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 131071
-        Z:
-          RawValue: -24860
-      BoxExtents:
-        X:
-          RawValue: 45875
-        Y:
-          RawValue: 131072
-        Z:
-          RawValue: 74711
-      RotationOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-      UserTag: 0
-      IsPersistent: 1
-      CompoundShapes: []
-    LayerSource: 0
-    Layer: 0
-    CallbackFlags:
-      Value: 0
-  PhysicsBody:
-    IsEnabled: 0
-    Config2D: 116
-    Config3D: 58
-    RotationFreeze: 0
-    InertiaMode: 0
-    Mass:
-      RawValue: 65536
-    Drag:
-      RawValue: 32768
-    AngularDrag:
-      RawValue: 32768
-    ExplicitInertia2D:
-      RawValue: 65536
-    ExplicitInertia3D:
-      X:
-        RawValue: 65536
-      Y:
-        RawValue: 65536
-      Z:
-        RawValue: 65536
-    CenterOfMass2D:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-    CenterOfMass3D:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    ParametricInertiaShape2D:
-      ShapeType: 0
-      PolygonCollider:
-        Id:
-          Value: 0
-      CircleRadius:
-        RawValue: 32768
-      CapsuleSize:
-        X:
-          RawValue: 65536
-        Y:
-          RawValue: 131072
-      EdgeExtent:
-        RawValue: 32768
-      BoxExtents:
-        X:
-          RawValue: 32768
-        Y:
-          RawValue: 32768
-      PositionOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-      RotationOffset:
-        RawValue: 0
-      UserTag: 0
-      IsPersistent: 1
-      CompoundShapes: []
-    ParametricInertiaShape3D:
-      ShapeType: 0
-      SphereRadius:
-        RawValue: 32768
-      CapsuleRadius:
-        RawValue: 32768
-      CapsuleHeight:
-        RawValue: 131072
-      PositionOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-      BoxExtents:
-        X:
-          RawValue: 32768
-        Y:
-          RawValue: 32768
-        Z:
-          RawValue: 32768
-      RotationOffset:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-      UserTag: 0
-      IsPersistent: 1
-      CompoundShapes: []
-    InertiaScale:
-      _hasValue: 0
-      _value:
-        RawValue: 65536
-    GravityScale:
-      _hasValue: 0
-      _value:
-        RawValue: 65536
-  NavMeshPathfinder:
-    IsEnabled: 0
-    NavMeshAgentConfig:
+    Asset:
       Id:
         Value: 0
-    InitialTarget:
-      IsEnabled: 0
-      Target: {fileID: 0}
-      Position:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-      NavMesh:
-        Reference: {fileID: 0}
-        Asset:
-          Id:
-            Value: 0
-        Name: 
-  NavMeshSteeringAgent:
-    IsEnabled: 0
-    MaxSpeed:
-      IsEnabled: 0
-      Value:
-        RawValue: 0
-    Acceleration:
-      IsEnabled: 0
-      Value:
-        RawValue: 0
-  NavMeshAvoidanceAgent:
-    IsEnabled: 0
-  View:
-    Id:
-      Value: 0
+    Trigger: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 685424828041866321}
   - component: {fileID: 8692916324032638166}
   - component: {fileID: 7299040365573052374}
-  - component: {fileID: 58160734045691098}
+  - component: {fileID: 8920213329994896892}
   m_Layer: 0
   m_Name: CORNER_90_S
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &58160734045691098
+--- !u!114 &8920213329994896892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -62,14 +62,38 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d0b1d5d449fed14bacaf87dfaf8aa9d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 594855624446468373}
+      addedObject: {fileID: -6112717200547251361}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d0b1d5d449fed14bacaf87dfaf8aa9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8148566299316423541}
   m_SourcePrefab: {fileID: 100100000, guid: 0d0b1d5d449fed14bacaf87dfaf8aa9d, type: 3}
 --- !u!1 &3896540586717606204 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d0b1d5d449fed14bacaf87dfaf8aa9d, type: 3}
   m_PrefabInstance: {fileID: 4238488498341727341}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &594855624446468373
+--- !u!65 &-6112717200547251361
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896540586717606204}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 4, z: 0.19999999}
+  m_Center: {x: -2, y: 2, z: -0.09999998}
+--- !u!114 &8148566299316423541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,10 +102,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 3896540586717606204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mesh: {fileID: -7091837595440923632, guid: 0d0b1d5d449fed14bacaf87dfaf8aa9d, type: 3}
+  SourceCollider: {fileID: -6112717200547251361}
+  Size:
+    X:
+      RawValue: 262144
+    Y:
+      RawValue: 262144
+    Z:
+      RawValue: 13107
+  PositionOffset:
+    X:
+      RawValue: -131072
+    Y:
+      RawValue: 131072
+    Z:
+      RawValue: -6553
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -91,4 +136,3 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
