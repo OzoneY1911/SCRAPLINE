@@ -1,0 +1,7 @@
+[Serializable]
+struct ProceduralRoom
+{
+    asset_ref<Map> MapAsset;
+    asset_ref<EntityPrototype> Prototype;
+    list<FPPoint> ExitPoints;
+}

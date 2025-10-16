@@ -1,0 +1,5 @@
+struct FPPoint
+{
+    FPVector3 Position;
+    FPVector3 RotationEuler;
+}

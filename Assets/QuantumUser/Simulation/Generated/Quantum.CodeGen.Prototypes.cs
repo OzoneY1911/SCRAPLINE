@@ -84,6 +84,18 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.FPPoint))]
+  public unsafe partial class FPPointPrototype : StructPrototype {
+    public FPVector3 Position;
+    public FPVector3 RotationEuler;
+    partial void MaterializeUser(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context = default) {
+        result.Position = this.Position;
+        result.RotationEuler = this.RotationEuler;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.GameLocation))]
   public unsafe partial class GameLocationPrototype : StructPrototype {
     public Quantum.QEnum32<GameLocationType> Type;
@@ -243,7 +255,17 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
   public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
-    public AssetRef<Map> TargetMap;
+    public UInt16 ProceduralMapSize;
+    public AssetRef<Map> ProceduralMapAsset;
+    public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
+    [HideInInspector()]
+    public Transform3D OffsetTransform;
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public FPBounds3[] PlacedBounds = {};
     partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
@@ -251,7 +273,31 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
-        result.TargetMap = this.TargetMap;
+        result.ProceduralMapSize = this.ProceduralMapSize;
+        result.ProceduralMapAsset = this.ProceduralMapAsset;
+        this.StartRoom.Materialize(frame, ref result.StartRoom, in context);
+        this.DeadEndRoom.Materialize(frame, ref result.DeadEndRoom, in context);
+        if (this.ProceduralRooms.Length == 0) {
+          result.ProceduralRooms = default;
+        } else {
+          var list = frame.AllocateList(out result.ProceduralRooms, this.ProceduralRooms.Length);
+          for (int i = 0; i < this.ProceduralRooms.Length; ++i) {
+            Quantum.ProceduralRoom tmp = default;
+            this.ProceduralRooms[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        result.OffsetTransform = this.OffsetTransform;
+        if (this.PlacedBounds.Length == 0) {
+          result.PlacedBounds = default;
+        } else {
+          var list = frame.AllocateList(out result.PlacedBounds, this.PlacedBounds.Length);
+          for (int i = 0; i < this.PlacedBounds.Length; ++i) {
+            FPBounds3 tmp = default;
+            tmp = this.PlacedBounds[i];
+            list.Add(tmp);
+          }
+        }
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -445,6 +491,45 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedChildEntity))]
+  public unsafe partial class NestedChildEntityPrototype : StructPrototype {
+    public AssetRef<EntityPrototype> Prototype;
+    public FPVector3 SpawnPosition;
+    public FPVector3 SpawnRotation;
+    partial void MaterializeUser(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context = default) {
+        result.Prototype = this.Prototype;
+        result.SpawnPosition = this.SpawnPosition;
+        result.SpawnRotation = this.SpawnRotation;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedParentEntity))]
+  public unsafe partial class NestedParentEntityPrototype : ComponentPrototype<Quantum.NestedParentEntity> {
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.NestedChildEntityPrototype[] NestedEntities = {};
+    partial void MaterializeUser(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.NestedParentEntity component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context = default) {
+        if (this.NestedEntities.Length == 0) {
+          result.NestedEntities = default;
+        } else {
+          var list = frame.AllocateList(out result.NestedEntities, this.NestedEntities.Length);
+          for (int i = 0; i < this.NestedEntities.Length; ++i) {
+            Quantum.NestedChildEntity tmp = default;
+            this.NestedEntities[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
     public SByte Strength;
@@ -585,6 +670,30 @@ namespace Quantum.Prototypes {
         result.CostPerJump = this.CostPerJump;
         result.RecoverThreshold = this.RecoverThreshold;
         result.IsExhausted = this.IsExhausted;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ProceduralRoom))]
+  public unsafe partial class ProceduralRoomPrototype : StructPrototype {
+    public AssetRef<Map> MapAsset;
+    public AssetRef<EntityPrototype> Prototype;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.FPPointPrototype[] ExitPoints = {};
+    partial void MaterializeUser(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context = default) {
+        result.MapAsset = this.MapAsset;
+        result.Prototype = this.Prototype;
+        if (this.ExitPoints.Length == 0) {
+          result.ExitPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.ExitPoints, this.ExitPoints.Length);
+          for (int i = 0; i < this.ExitPoints.Length; ++i) {
+            Quantum.FPPoint tmp = default;
+            this.ExitPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
         MaterializeUser(frame, ref result, in context);
     }
   }

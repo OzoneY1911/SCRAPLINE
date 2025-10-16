@@ -1,0 +1,6 @@
+struct NestedChildEntity
+{
+    asset_ref<EntityPrototype> Prototype;
+    FPVector3 SpawnPosition;
+    FPVector3 SpawnRotation;
+}

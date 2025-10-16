@@ -139,7 +139,7 @@ namespace Quantum
             if (currentHalfHeight == targetHalfHeight) return;
 
             FP newHalfHeight = FPMath.Lerp(currentHalfHeight, targetHalfHeight, frame.DeltaTime * movement->CrouchLerpSpeed);
-
+            
             FPVector3 posOffset = new FPVector3(0, newHalfHeight, 0);
 
             shape = Shape3D.CreateCapsule(radius, newHalfHeight - shape.Capsule.Radius, posOffset);

@@ -571,6 +571,28 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct FPPoint {
+    public const Int32 SIZE = 48;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public FPVector3 Position;
+    [FieldOffset(24)]
+    public FPVector3 RotationEuler;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 1301;
+        hash = hash * 31 + Position.GetHashCode();
+        hash = hash * 31 + RotationEuler.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (FPPoint*)ptr;
+        FPVector3.Serialize(&p->Position, serializer);
+        FPVector3.Serialize(&p->RotationEuler, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct GameLocation {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -1015,6 +1037,62 @@ namespace Quantum {
         var p = (KCCModifier*)ptr;
         AssetRef.Serialize(&p->Processor, serializer);
         EntityRef.Serialize(&p->Entity, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct NestedChildEntity {
+    public const Int32 SIZE = 56;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public AssetRef<EntityPrototype> Prototype;
+    [FieldOffset(8)]
+    public FPVector3 SpawnPosition;
+    [FieldOffset(32)]
+    public FPVector3 SpawnRotation;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 11257;
+        hash = hash * 31 + Prototype.GetHashCode();
+        hash = hash * 31 + SpawnPosition.GetHashCode();
+        hash = hash * 31 + SpawnRotation.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (NestedChildEntity*)ptr;
+        AssetRef.Serialize(&p->Prototype, serializer);
+        FPVector3.Serialize(&p->SpawnPosition, serializer);
+        FPVector3.Serialize(&p->SpawnRotation, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
+  public unsafe partial struct ProceduralRoom {
+    public const Int32 SIZE = 24;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(16)]
+    public AssetRef<Map> MapAsset;
+    [FieldOffset(8)]
+    public AssetRef<EntityPrototype> Prototype;
+    [FieldOffset(0)]
+    public QListPtr<FPPoint> ExitPoints;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 1459;
+        hash = hash * 31 + MapAsset.GetHashCode();
+        hash = hash * 31 + Prototype.GetHashCode();
+        hash = hash * 31 + ExitPoints.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      ExitPoints = default;
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (ProceduralRoom*)ptr;
+        QList.Serialize(&p->ExitPoints, serializer, Statics.SerializeFPPoint);
+        AssetRef.Serialize(&p->Prototype, serializer);
+        AssetRef.Serialize(&p->MapAsset, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1562,20 +1640,56 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 136;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
-    public AssetRef<Map> TargetMap;
+    public UInt16 ProceduralMapSize;
+    [FieldOffset(16)]
+    public AssetRef<Map> ProceduralMapAsset;
+    [FieldOffset(48)]
+    public ProceduralRoom StartRoom;
+    [FieldOffset(24)]
+    public ProceduralRoom DeadEndRoom;
+    [FieldOffset(8)]
+    public QListPtr<ProceduralRoom> ProceduralRooms;
+    [FieldOffset(72)]
+    [HideInInspector()]
+    public Transform3D OffsetTransform;
+    [FieldOffset(4)]
+    [HideInInspector()]
+    public QListPtr<FPBounds3> PlacedBounds;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
-        hash = hash * 31 + TargetMap.GetHashCode();
+        hash = hash * 31 + ProceduralMapSize.GetHashCode();
+        hash = hash * 31 + ProceduralMapAsset.GetHashCode();
+        hash = hash * 31 + StartRoom.GetHashCode();
+        hash = hash * 31 + DeadEndRoom.GetHashCode();
+        hash = hash * 31 + ProceduralRooms.GetHashCode();
+        hash = hash * 31 + OffsetTransform.GetHashCode();
+        hash = hash * 31 + PlacedBounds.GetHashCode();
         return hash;
       }
     }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      StartRoom.ClearPointers(f, entity);
+      DeadEndRoom.ClearPointers(f, entity);
+      ProceduralRooms = default;
+      PlacedBounds = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.InteractableMapChanger*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
-        AssetRef.Serialize(&p->TargetMap, serializer);
+        serializer.Stream.Serialize(&p->ProceduralMapSize);
+        QList.Serialize(&p->PlacedBounds, serializer, Statics.SerializeFPBounds3);
+        QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
+        AssetRef.Serialize(&p->ProceduralMapAsset, serializer);
+        Quantum.ProceduralRoom.Serialize(&p->DeadEndRoom, serializer);
+        Quantum.ProceduralRoom.Serialize(&p->StartRoom, serializer);
+        Transform3D.Serialize(&p->OffsetTransform, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1721,6 +1835,31 @@ namespace Quantum {
         FP.Serialize(&p->InitialAngle, serializer);
         FP.Serialize(&p->MaxAngle, serializer);
         FPQuaternion.Serialize(&p->InitialRotation, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct NestedParentEntity : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public QListPtr<NestedChildEntity> NestedEntities;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 5147;
+        hash = hash * 31 + NestedEntities.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      NestedEntities = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.NestedParentEntity*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (NestedParentEntity*)ptr;
+        QList.Serialize(&p->NestedEntities, serializer, Statics.SerializeNestedChildEntity);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2118,6 +2257,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<NavMeshPathfinder>();
       BuildSignalsArrayOnComponentAdded<NavMeshSteeringAgent>();
       BuildSignalsArrayOnComponentRemoved<NavMeshSteeringAgent>();
+      BuildSignalsArrayOnComponentAdded<Quantum.NestedParentEntity>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.NestedParentEntity>();
       BuildSignalsArrayOnComponentAdded<PhysicsBody2D>();
       BuildSignalsArrayOnComponentRemoved<PhysicsBody2D>();
       BuildSignalsArrayOnComponentAdded<PhysicsBody3D>();
@@ -2250,18 +2391,26 @@ namespace Quantum {
     }
   }
   public unsafe partial class Statics {
+    public static FrameSerializer.Delegate SerializeFPBounds3;
+    public static FrameSerializer.Delegate SerializeProceduralRoom;
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
+    public static FrameSerializer.Delegate SerializeNestedChildEntity;
+    public static FrameSerializer.Delegate SerializeFPPoint;
     public static FrameSerializer.Delegate SerializeEntityRef;
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
+      SerializeFPBounds3 = FPBounds3.Serialize;
+      SerializeProceduralRoom = Quantum.ProceduralRoom.Serialize;
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
+      SerializeNestedChildEntity = Quantum.NestedChildEntity.Serialize;
+      SerializeFPPoint = Quantum.FPPoint.Serialize;
       SerializeEntityRef = EntityRef.Serialize;
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
@@ -2301,6 +2450,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPMatrix2x2), FPMatrix2x2.SIZE);
       typeRegistry.Register(typeof(FPMatrix3x3), FPMatrix3x3.SIZE);
       typeRegistry.Register(typeof(FPMatrix4x4), FPMatrix4x4.SIZE);
+      typeRegistry.Register(typeof(Quantum.FPPoint), Quantum.FPPoint.SIZE);
       typeRegistry.Register(typeof(FPQuaternion), FPQuaternion.SIZE);
       typeRegistry.Register(typeof(FPVector2), FPVector2.SIZE);
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
@@ -2345,6 +2495,8 @@ namespace Quantum {
       typeRegistry.Register(typeof(NavMeshPathfinder), NavMeshPathfinder.SIZE);
       typeRegistry.Register(typeof(NavMeshRegionMask), NavMeshRegionMask.SIZE);
       typeRegistry.Register(typeof(NavMeshSteeringAgent), NavMeshSteeringAgent.SIZE);
+      typeRegistry.Register(typeof(Quantum.NestedChildEntity), Quantum.NestedChildEntity.SIZE);
+      typeRegistry.Register(typeof(Quantum.NestedParentEntity), Quantum.NestedParentEntity.SIZE);
       typeRegistry.Register(typeof(NullableFP), NullableFP.SIZE);
       typeRegistry.Register(typeof(NullableFPVector2), NullableFPVector2.SIZE);
       typeRegistry.Register(typeof(NullableFPVector3), NullableFPVector3.SIZE);
@@ -2366,6 +2518,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.PlayerMovement), Quantum.PlayerMovement.SIZE);
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
       typeRegistry.Register(typeof(Quantum.PlayerStamina), Quantum.PlayerStamina.SIZE);
+      typeRegistry.Register(typeof(Quantum.ProceduralRoom), Quantum.ProceduralRoom.SIZE);
       typeRegistry.Register(typeof(Ptr), Ptr.SIZE);
       typeRegistry.Register(typeof(QBoolean), QBoolean.SIZE);
       typeRegistry.Register(typeof(Quantum.Ptr), Quantum.Ptr.SIZE);
@@ -2394,7 +2547,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 19)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 20)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
@@ -2402,11 +2555,12 @@ namespace Quantum {
         .Add<Quantum.Interactable>(Quantum.Interactable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableAnimator>(Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableGameLocationSelector>(Quantum.InteractableGameLocationSelector.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.InteractableMapChanger>(Quantum.InteractableMapChanger.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.InteractableMapChanger>(Quantum.InteractableMapChanger.Serialize, null, Quantum.InteractableMapChanger.OnRemoved, ComponentFlags.None)
         .Add<Quantum.InteractableQuotaZone>(Quantum.InteractableQuotaZone.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Lever>(Quantum.Lever.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.NestedParentEntity>(Quantum.NestedParentEntity.Serialize, null, Quantum.NestedParentEntity.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerDragging>(Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerLeverDragging>(Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None)

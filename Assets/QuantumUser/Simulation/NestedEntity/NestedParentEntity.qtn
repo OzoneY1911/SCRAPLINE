@@ -1,0 +1,4 @@
+component NestedParentEntity
+{
+    list<NestedChildEntity> NestedEntities;
+}

@@ -1,3 +1,4 @@
+using Photon.Deterministic;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -17,9 +18,10 @@ namespace Quantum
             switch (interactable->Type)
             {
                 case InteractableType.MapChanger:
-                    var interactableMapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
-
-                    frame.Map = frame.FindAsset(interactableMapChanger->TargetMap);
+                    ProceduralGenerator.GenerateMap(frame, interactable, out var generatedMap);
+                                        
+                    frame.AddAsset(generatedMap);
+                    frame.Map = generatedMap;
                     break;
                 case InteractableType.QuotaZoneInteractor:
                     var interactableQuotaZone = frame.Unsafe.GetPointer<InteractableQuotaZone>(interactable->Entity);
