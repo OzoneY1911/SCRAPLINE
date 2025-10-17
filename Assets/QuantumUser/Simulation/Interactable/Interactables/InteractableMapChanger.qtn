@@ -1,14 +1,9 @@
 component InteractableMapChanger
 {
-    UInt16 ProceduralMapSize;
-    asset_ref<Map> ProceduralMapAsset;
+    UInt16 BranchDepth;
+    UInt16 BranchWidth;
+    asset_ref<Map> SourceMapAsset;
     ProceduralRoom StartRoom;
     ProceduralRoom DeadEndRoom;
     list<ProceduralRoom> ProceduralRooms;
-
-    [HideInInspector]
-    Transform3D OffsetTransform;
-
-    [HideInInspector]
-    list<FPBounds3> PlacedBounds;
 }

@@ -1640,34 +1640,29 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 136;
+    public const Int32 SIZE = 64;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
-    public UInt16 ProceduralMapSize;
-    [FieldOffset(16)]
-    public AssetRef<Map> ProceduralMapAsset;
-    [FieldOffset(48)]
-    public ProceduralRoom StartRoom;
-    [FieldOffset(24)]
-    public ProceduralRoom DeadEndRoom;
+    public UInt16 BranchDepth;
+    [FieldOffset(2)]
+    public UInt16 BranchWidth;
     [FieldOffset(8)]
-    public QListPtr<ProceduralRoom> ProceduralRooms;
-    [FieldOffset(72)]
-    [HideInInspector()]
-    public Transform3D OffsetTransform;
+    public AssetRef<Map> SourceMapAsset;
+    [FieldOffset(40)]
+    public ProceduralRoom StartRoom;
+    [FieldOffset(16)]
+    public ProceduralRoom DeadEndRoom;
     [FieldOffset(4)]
-    [HideInInspector()]
-    public QListPtr<FPBounds3> PlacedBounds;
+    public QListPtr<ProceduralRoom> ProceduralRooms;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
-        hash = hash * 31 + ProceduralMapSize.GetHashCode();
-        hash = hash * 31 + ProceduralMapAsset.GetHashCode();
+        hash = hash * 31 + BranchDepth.GetHashCode();
+        hash = hash * 31 + BranchWidth.GetHashCode();
+        hash = hash * 31 + SourceMapAsset.GetHashCode();
         hash = hash * 31 + StartRoom.GetHashCode();
         hash = hash * 31 + DeadEndRoom.GetHashCode();
         hash = hash * 31 + ProceduralRooms.GetHashCode();
-        hash = hash * 31 + OffsetTransform.GetHashCode();
-        hash = hash * 31 + PlacedBounds.GetHashCode();
         return hash;
       }
     }
@@ -1675,7 +1670,6 @@ namespace Quantum {
       StartRoom.ClearPointers(f, entity);
       DeadEndRoom.ClearPointers(f, entity);
       ProceduralRooms = default;
-      PlacedBounds = default;
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
       var p = (Quantum.InteractableMapChanger*)ptr;
@@ -1683,13 +1677,12 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
-        serializer.Stream.Serialize(&p->ProceduralMapSize);
-        QList.Serialize(&p->PlacedBounds, serializer, Statics.SerializeFPBounds3);
+        serializer.Stream.Serialize(&p->BranchDepth);
+        serializer.Stream.Serialize(&p->BranchWidth);
         QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
-        AssetRef.Serialize(&p->ProceduralMapAsset, serializer);
+        AssetRef.Serialize(&p->SourceMapAsset, serializer);
         Quantum.ProceduralRoom.Serialize(&p->DeadEndRoom, serializer);
         Quantum.ProceduralRoom.Serialize(&p->StartRoom, serializer);
-        Transform3D.Serialize(&p->OffsetTransform, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2391,7 +2384,6 @@ namespace Quantum {
     }
   }
   public unsafe partial class Statics {
-    public static FrameSerializer.Delegate SerializeFPBounds3;
     public static FrameSerializer.Delegate SerializeProceduralRoom;
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
@@ -2404,7 +2396,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
-      SerializeFPBounds3 = FPBounds3.Serialize;
       SerializeProceduralRoom = Quantum.ProceduralRoom.Serialize;
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;

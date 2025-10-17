@@ -4068,16 +4068,32 @@ PrefabInstance:
       value: Click me to load procedural map
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.MapSize
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.BranchDepth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.BranchWidth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.RoomMap.Id.Value
       value: 388544209963660083
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralMapSize
-      value: 256
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.SourceMapAsset.Id.Value
+      value: 509245598804072393
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralMapAsset.Id.Value
@@ -4085,7 +4101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.MapAsset.Id.Value
-      value: 443342210357901759
+      value: 443815030930943052
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.TargetMapColliders.Id.Value
@@ -4097,7 +4113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.Prototype.Id.Value
-      value: 1363885575053911352
+      value: 1449935794052710650
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.DeadEndRoom.MapAsset.Id.Value
@@ -4106,6 +4122,14 @@ PrefabInstance:
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.DeadEndRoom.Prototype.Id.Value
       value: 1283148314347637932
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPrototypes.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.ExitTransforms.Array.size
@@ -4117,19 +4141,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].MapAsset.Id.Value
-      value: 443815030930943052
+      value: 443342210357901759
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].MapAsset.Id.Value
-      value: 481931534441385970
+      value: 443815030930943052
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].MapAsset.Id.Value
-      value: 399854046788688906
+      value: 481931534441385970
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[3].MapAsset.Id.Value
-      value: 0
+      value: 399854046788688906
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[4].MapAsset.Id.Value
@@ -4141,19 +4165,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].Prototype.Id.Value
-      value: 1449935794052710650
+      value: 1363885575053911352
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].Prototype.Id.Value
-      value: 1388393011496185344
+      value: 1449935794052710650
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].Prototype.Id.Value
-      value: 1365425078138554914
+      value: 1388393011496185344
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[3].Prototype.Id.Value
-      value: 0
+      value: 1365425078138554914
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[4].Prototype.Id.Value
@@ -4173,19 +4197,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
-      propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
-      propertyPath: Prototype.ProceduralRooms.Array.data[3].ExitPoints.Array.size
+      propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[3].ExitPoints.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[4].ExitPoints.Array.size
@@ -4194,6 +4218,30 @@ PrefabInstance:
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[5].ExitPoints.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[0].Position.X.RawValue
+      value: -393216
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 393216
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[1].Position.X.RawValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[1].Position.Z.RawValue
+      value: 655360
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[2].Position.X.RawValue
+      value: 262144
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[2].Position.Z.RawValue
+      value: 262144
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitTransforms.Array.size
@@ -4216,6 +4264,18 @@ PrefabInstance:
       value: 393216
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[0].RotationEuler.Y.RawValue
+      value: -5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[1].RotationEuler.Y.RawValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[2].RotationEuler.Y.RawValue
+      value: 5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Z.RawValue
       value: 393216
       objectReference: {fileID: 0}
@@ -4229,19 +4289,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Position.X.RawValue
-      value: -262144
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
-      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Position.Z.RawValue
-      value: 262144
-      objectReference: {fileID: 0}
-    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
-      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Position.X.RawValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 393216
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Position.X.RawValue
+      value: 131072
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Position.Z.RawValue
-      value: 655360
+      value: 131072
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Rotation.Y.RawValue
@@ -4261,19 +4321,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[0].Position.X.RawValue
-      value: -262144
+      value: -393216
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[0].Position.Z.RawValue
-      value: 262144
+      value: 393216
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[1].Position.X.RawValue
-      value: 131072
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[1].Position.Z.RawValue
-      value: 131072
+      value: 655360
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[1].Rotation.Y.RawValue
@@ -4281,11 +4341,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[2].Position.X.RawValue
-      value: 131072
+      value: 262144
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[2].Position.Z.RawValue
-      value: 131072
+      value: 262144
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[2].Rotation.Y.RawValue
@@ -4301,11 +4361,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.data[1].Position.X.RawValue
-      value: 0
+      value: 131072
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.data[1].Position.Z.RawValue
-      value: 393216
+      value: 131072
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.data[1].Rotation.Y.RawValue
@@ -4589,11 +4649,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].RotationEuler.Y.RawValue
-      value: -5898240
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].RotationEuler.Y.RawValue
-      value: 0
+      value: 5898240
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[2].RotationEuler.Y.RawValue
@@ -4605,7 +4665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[1].RotationEuler.Y.RawValue
-      value: 5898240
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].ExitPoints.Array.data[2].RotationEuler.Y.RawValue
@@ -4617,7 +4677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.data[1].RotationEuler.Y.RawValue
-      value: 0
+      value: 5898240
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].ExitPoints.Array.data[2].RotationEuler.Y.RawValue

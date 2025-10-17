@@ -5,18 +5,20 @@ namespace Quantum
 {
     public static class FPBounds3Extensions
     {
-        public static FPBounds3 ToWorldBounds(this MapStaticCollider3D collider, Transform3D offsetTransform)
+        public static FPBounds3 ToWorldBounds(this MapStaticCollider3D collider, FPPoint offsetPoint)
         {
             // Collider local center and half-size
             FPVector3 localCenter = collider.Position;
             FPVector3 localExtents = collider.BoxExtents;
 
-            // Transform to world
-            FPVector3 worldCenter = offsetTransform.Position + offsetTransform.Rotation * localCenter;
+            FPQuaternion offsetRotation = FPQuaternion.Euler(offsetPoint.RotationEuler);
 
-            FPVector3 axisX = offsetTransform.Rotation * new FPVector3(localExtents.X, FP._0, FP._0);
-            FPVector3 axisY = offsetTransform.Rotation * new FPVector3(FP._0, localExtents.Y, FP._0);
-            FPVector3 axisZ = offsetTransform.Rotation * new FPVector3(FP._0, FP._0, localExtents.Z);
+            // Transform to world
+            FPVector3 worldCenter = offsetPoint.Position + offsetRotation * localCenter;
+
+            FPVector3 axisX = offsetRotation * new FPVector3(localExtents.X, FP._0, FP._0);
+            FPVector3 axisY = offsetRotation * new FPVector3(FP._0, localExtents.Y, FP._0);
+            FPVector3 axisZ = offsetRotation * new FPVector3(FP._0, FP._0, localExtents.Z);
 
             FPVector3 rotatedExtents = new FPVector3(
                 FPMath.Abs(axisX.X) + FPMath.Abs(axisY.X) + FPMath.Abs(axisZ.X),
@@ -27,7 +29,7 @@ namespace Quantum
             return new FPBounds3(worldCenter, rotatedExtents);
         }
 
-        public static FPBounds3 GetMapBounds(this Map map, Transform3D offset)
+        public static FPBounds3 GetMapBounds(this Map map, FPPoint offset)
         {
             bool initialized = false;
             FPBounds3 result = default;

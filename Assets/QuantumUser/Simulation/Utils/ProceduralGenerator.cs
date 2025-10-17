@@ -1,128 +1,176 @@
 ﻿using Photon.Deterministic;
 using Quantum;
-using System.Collections.Generic;
+using Quantum.Collections;
 
 public unsafe static class ProceduralGenerator
 {
-    public static void GenerateMap(Frame frame, Interactable* interactable, out DynamicMap generatedMap)
+    public static DynamicMap GenerateMap(Frame frame, Interactable* interactable)
     {
-        var changer = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
+        var generatedMapData = new GeneratedMapData(
+            frame,
+            frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity)
+            );
 
-        var baseMap = frame.FindAsset(changer->ProceduralMapAsset);
-        generatedMap = DynamicMap.FromStaticMap<DynamicMap>(baseMap);
+        var spawnPoint = new FPPoint();
+        var startRoomExitPoints = frame.ResolveList<FPPoint>(generatedMapData.StartRoom.ExitPoints);
 
-        var allRooms = frame.ResolveList<ProceduralRoom>(changer->ProceduralRooms);
-        var deadEnd = changer->DeadEndRoom;
+        GenerateRoom(frame, generatedMapData.StartRoom, spawnPoint, ref generatedMapData);
 
-        var startTransform = Transform3D.Create(FPVector3.Zero, FPQuaternion.Identity);
-        var startRoom = allRooms[frame.RNG->Next(0, allRooms.Count)];
-
-        List<FPBounds3> placedBounds = new();
-        int maxRooms = changer->ProceduralMapSize;
-
-        // Place starting room
-        var rootNode = new RoomNode(startRoom, startTransform);
-        var roomQueue = new Queue<RoomNode>();
-        roomQueue.Enqueue(rootNode);
-
-        PlaceRoom(frame, ref generatedMap, ref rootNode, placedBounds);
-
-        int roomCount = 1;
-
-        // --- Breadth-first room generation ---
-        while (roomQueue.Count > 0 && roomCount < maxRooms)
+        foreach (var startRoomExitPoint in startRoomExitPoints)
         {
-            var currentNode = roomQueue.Dequeue();
+            GenerateBranch(frame, startRoomExitPoint, ref generatedMapData);
+        }
 
-            var exits = frame.ResolveList<FPPoint>(currentNode.Room.ExitPoints);
+        return generatedMapData.Map;
+    }
 
-            foreach (var exit in exits)
+    private static void GenerateBranch(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData)
+    {
+        QList<FPPoint> currentExitPoints = frame.AllocateList<FPPoint>();
+        QList<FPPoint> nextExitPoints = frame.AllocateList<FPPoint>();
+
+        currentExitPoints.Add(spawnPoint);
+
+        ushort branchDepth = 0;
+
+        while (currentExitPoints.Count > 0)
+        {
+            if (branchDepth >= mapData.BranchDepth) break;
+
+            foreach (var currentExitPoint in currentExitPoints)
             {
-                if (roomCount >= maxRooms)
-                    break;
+                var randomRoom = GetRandomRoom(frame, ref mapData);
 
-                // Compute world-space transform of exit
-                var exitWorld = Transform3D.Create(
-                    currentNode.Transform.Position + currentNode.Transform.Rotation * exit.Position,
-                    currentNode.Transform.Rotation * FPQuaternion.Euler(exit.RotationEuler)
-                );
-
-                bool placed = false;
-
-                // Try several random rooms
-                for (int attempt = 0; attempt < 5; attempt++)
+                var randomRoomMap = frame.FindAsset(randomRoom.MapAsset);
+                var roomBounds = randomRoomMap.GetMapBounds(currentExitPoint);
+                if (roomBounds.OverlapsCollection(mapData.Bounds))
                 {
-                    var candidate = allRooms[frame.RNG->Next(0, allRooms.Count)];
-                    var candidateMap = frame.FindAsset(candidate.MapAsset);
-                    var candidateBounds = candidateMap.GetMapBounds(exitWorld);
-
-                    if (!IsOverlapping(candidateBounds, placedBounds))
-                    {
-                        var node = new RoomNode(candidate, exitWorld);
-                        PlaceRoom(frame, ref generatedMap, ref node, placedBounds);
-                        roomQueue.Enqueue(node);
-                        placed = true;
-                        roomCount++;
-                        break;
-                    }
+                    TryGenerateDeadRoom(frame, currentExitPoint, ref mapData);
+                    continue;
                 }
 
-                // If no room fit, add a dead-end
-                if (!placed)
+                // direction from root to this exit in world space
+                // get branch root rotation as quaternion
+                // right axis in world space (local +X)
+                // signed lateral distance from the branch's center line
+                var delta = currentExitPoint.Position - spawnPoint.Position;
+                var rootRight = FPQuaternion.Euler(spawnPoint.RotationEuler) * FPVector3.Right;
+                var rootRightDistance = FPMath.Abs(FPVector3.Dot(delta, rootRight));
+
+                if (rootRightDistance > mapData.BranchWidth)
                 {
-                    var deadEndMap = frame.FindAsset(deadEnd.MapAsset);
-                    var deadEndBounds = deadEndMap.GetMapBounds(exitWorld);
-                    if (!IsOverlapping(deadEndBounds, placedBounds))
-                    {
-                        var deadNode = new RoomNode(deadEnd, exitWorld);
-                        PlaceRoom(frame, ref generatedMap, ref deadNode, placedBounds);
-                        roomCount++;
-                    }
+                    TryGenerateDeadRoom(frame, currentExitPoint, ref mapData);
+                    continue;
                 }
+
+                // Generate this room
+                GenerateRoom(frame, randomRoom, currentExitPoint, ref mapData);
+
+                // Calculate world rotation of this room
+                var spawnRotation = FPQuaternion.Euler(currentExitPoint.RotationEuler);
+                var exitPoints = frame.ResolveList<FPPoint>(randomRoom.ExitPoints);
+
+                foreach (var exitPoint in exitPoints)
+                {
+                    var offsetExitPoint = new FPPoint();
+                    offsetExitPoint.Position = currentExitPoint.Position + spawnRotation * exitPoint.Position;
+                    offsetExitPoint.RotationEuler = (spawnRotation * FPQuaternion.Euler(exitPoint.RotationEuler)).AsEuler;
+
+                    nextExitPoints.Add(offsetExitPoint);
+                }
+            }
+
+            if (branchDepth + 1 >= mapData.BranchDepth || nextExitPoints.Count == 0)
+            {
+                foreach (var exitPoint in currentExitPoints)
+                {
+                    TryGenerateDeadRoom(frame, exitPoint, ref mapData);
+                }
+            }
+
+            currentExitPoints.Clear();
+            var temp = currentExitPoints;
+            currentExitPoints = nextExitPoints;
+            nextExitPoints = temp;
+
+            branchDepth++;
+
+            if (branchDepth >= mapData.BranchDepth)
+            {
+                foreach (var exitPoint in currentExitPoints)
+                {
+                    TryGenerateDeadRoom(frame, exitPoint, ref mapData);
+                }
+                break;
             }
         }
     }
 
-    private static bool IsOverlapping(FPBounds3 bounds, List<FPBounds3> placed)
+    private static void GenerateRoom(Frame frame, ProceduralRoom room, FPPoint spawnPoint, ref GeneratedMapData mapData)
     {
-        foreach (var b in placed)
-            if (bounds.Overlaps(b))
-                return true;
-        return false;
-    }
+        var mapAsset = frame.FindAsset(room.MapAsset);
+        var bounds = mapAsset.GetMapBounds(spawnPoint);
 
-    private static void PlaceRoom(Frame frame, ref DynamicMap map, ref RoomNode node, List<FPBounds3> placedBounds)
-    {
-        var mapAsset = frame.FindAsset(node.Room.MapAsset);
-        var bounds = mapAsset.GetMapBounds(node.Transform);
+        mapData.Bounds.Add(bounds);
 
-        placedBounds.Add(bounds);
+        var spawnRotation = FPQuaternion.Euler(spawnPoint.RotationEuler);
 
         // Add colliders
         foreach (var collider in mapAsset.StaticColliders3D)
         {
             var offsetCollider = collider;
-            offsetCollider.Position = node.Transform.Position + node.Transform.Rotation * collider.Position;
-            offsetCollider.Rotation = node.Transform.Rotation * collider.Rotation;
-            map.AddCollider3D(frame, offsetCollider);
+            offsetCollider.Position = spawnPoint.Position + spawnRotation * collider.Position;
+            offsetCollider.Rotation = spawnRotation * collider.Rotation;
+            mapData.Map.AddCollider3D(frame, offsetCollider);
         }
 
         // Spawn room entity
-        var entity = frame.Create(node.Room.Prototype);
-        var transform = frame.Unsafe.GetPointer<Transform3D>(entity);
-        transform->Teleport(frame, node.Transform.Position);
-        transform->Teleport(frame, node.Transform.Rotation);
+        var roomEntity = frame.Create(room.Prototype);
+        var roomTransform = frame.Unsafe.GetPointer<Transform3D>(roomEntity);
+        roomTransform->Teleport(frame, spawnPoint.Position);
+        roomTransform->Teleport(frame, spawnRotation);
     }
 
-    private struct RoomNode
+    private static void TryGenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData, bool checkOverlap = true)
     {
-        public ProceduralRoom Room;
-        public Transform3D Transform;
-
-        public RoomNode(ProceduralRoom room, Transform3D transform)
+        GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
+        /*
+        var deadRoomMap = frame.FindAsset(mapData.DeadEndRoom.MapAsset);
+        var deadRoomBounds = deadRoomMap.GetMapBounds(spawnPoint);
+        if (!deadRoomBounds.OverlapsCollection(mapData.Bounds))
         {
-            Room = room;
-            Transform = transform;
+            GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
+        }
+        */
+    }
+
+    private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
+    {
+        var randomIndex = frame.RNG->Next(0, mapData.AllRooms.Count);
+        return mapData.AllRooms[randomIndex]; ;
+    }
+
+    private struct GeneratedMapData
+    {
+        public DynamicMap Map;
+        public QList<FPBounds3> Bounds;
+        public ushort BranchDepth;
+        public ushort BranchWidth;
+        public QList<ProceduralRoom> AllRooms { get; private set; }
+        public ProceduralRoom StartRoom { get; private set; }
+        public ProceduralRoom DeadEndRoom { get; private set; }
+
+        public GeneratedMapData(Frame frame, InteractableMapChanger* config)
+        {
+            Map = DynamicMap.FromStaticMap<DynamicMap>(
+                frame.FindAsset(config->SourceMapAsset)
+                );
+            Bounds = frame.AllocateList<FPBounds3>();
+            BranchDepth = config->BranchDepth;
+            BranchWidth = config->BranchWidth;
+            AllRooms = frame.ResolveList<ProceduralRoom>(config->ProceduralRooms);
+            StartRoom = config->StartRoom;
+            DeadEndRoom = config->DeadEndRoom;
         }
     }
 }

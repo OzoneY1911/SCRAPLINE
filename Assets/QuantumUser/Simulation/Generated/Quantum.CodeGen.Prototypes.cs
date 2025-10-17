@@ -255,17 +255,13 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
   public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
-    public UInt16 ProceduralMapSize;
-    public AssetRef<Map> ProceduralMapAsset;
+    public UInt16 BranchDepth;
+    public UInt16 BranchWidth;
+    public AssetRef<Map> SourceMapAsset;
     public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
     public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
-    [HideInInspector()]
-    public Transform3D OffsetTransform;
-    [HideInInspector()]
-    [DynamicCollectionAttribute()]
-    public FPBounds3[] PlacedBounds = {};
     partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
@@ -273,8 +269,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
-        result.ProceduralMapSize = this.ProceduralMapSize;
-        result.ProceduralMapAsset = this.ProceduralMapAsset;
+        result.BranchDepth = this.BranchDepth;
+        result.BranchWidth = this.BranchWidth;
+        result.SourceMapAsset = this.SourceMapAsset;
         this.StartRoom.Materialize(frame, ref result.StartRoom, in context);
         this.DeadEndRoom.Materialize(frame, ref result.DeadEndRoom, in context);
         if (this.ProceduralRooms.Length == 0) {
@@ -284,17 +281,6 @@ namespace Quantum.Prototypes {
           for (int i = 0; i < this.ProceduralRooms.Length; ++i) {
             Quantum.ProceduralRoom tmp = default;
             this.ProceduralRooms[i].Materialize(frame, ref tmp, in context);
-            list.Add(tmp);
-          }
-        }
-        result.OffsetTransform = this.OffsetTransform;
-        if (this.PlacedBounds.Length == 0) {
-          result.PlacedBounds = default;
-        } else {
-          var list = frame.AllocateList(out result.PlacedBounds, this.PlacedBounds.Length);
-          for (int i = 0; i < this.PlacedBounds.Length; ++i) {
-            FPBounds3 tmp = default;
-            tmp = this.PlacedBounds[i];
             list.Add(tmp);
           }
         }

@@ -18,7 +18,7 @@ namespace Quantum
             switch (interactable->Type)
             {
                 case InteractableType.MapChanger:
-                    ProceduralGenerator.GenerateMap(frame, interactable, out var generatedMap);
+                    var generatedMap = ProceduralGenerator.GenerateMap(frame, interactable);
                                         
                     frame.AddAsset(generatedMap);
                     frame.Map = generatedMap;

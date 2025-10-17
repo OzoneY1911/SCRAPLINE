@@ -1454,28 +1454,13 @@ MonoBehaviour:
     - rid: 2734434552981225476
       type: {class: InteractableMapChangerPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
-        ProceduralMapSize: 256
-        ProceduralMapAsset:
+        BranchDepth: 20
+        BranchWidth: 10
+        SourceMapAsset:
           Id:
             Value: 509245598804072393
         StartRoom:
           MapAsset:
-            Id:
-              Value: 443342210357901759
-          Prototype:
-            Id:
-              Value: 1363885575053911352
-          ExitPoints: []
-        DeadEndRoom:
-          MapAsset:
-            Id:
-              Value: 434676219065444762
-          Prototype:
-            Id:
-              Value: 1283148314347637932
-          ExitPoints: []
-        ProceduralRooms:
-        - MapAsset:
             Id:
               Value: 443815030930943052
           Prototype:
@@ -1484,11 +1469,11 @@ MonoBehaviour:
           ExitPoints:
           - Position:
               X:
-                RawValue: -262144
+                RawValue: -393216
               Y:
                 RawValue: 0
               Z:
-                RawValue: 262144
+                RawValue: 393216
             RotationEuler:
               X:
                 RawValue: 0
@@ -1512,11 +1497,90 @@ MonoBehaviour:
                 RawValue: 0
           - Position:
               X:
-                RawValue: 131072
+                RawValue: 262144
               Y:
                 RawValue: 0
               Z:
-                RawValue: 131072
+                RawValue: 262144
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 5898240
+              Z:
+                RawValue: 0
+        DeadEndRoom:
+          MapAsset:
+            Id:
+              Value: 434676219065444762
+          Prototype:
+            Id:
+              Value: 1283148314347637932
+          ExitPoints: []
+        ProceduralRooms:
+        - MapAsset:
+            Id:
+              Value: 443342210357901759
+          Prototype:
+            Id:
+              Value: 1363885575053911352
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 393216
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+        - MapAsset:
+            Id:
+              Value: 443815030930943052
+          Prototype:
+            Id:
+              Value: 1449935794052710650
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: -393216
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 393216
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5898240
+              Z:
+                RawValue: 0
+          - Position:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 655360
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+          - Position:
+              X:
+                RawValue: 262144
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 262144
             RotationEuler:
               X:
                 RawValue: 0
@@ -1608,24 +1672,6 @@ MonoBehaviour:
                 RawValue: 5898240
               Z:
                 RawValue: 0
-        OffsetTransform:
-          Position:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          Rotation:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-            W:
-              RawValue: 0
-        PlacedBounds: []
     - rid: 4070471857256529920
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
