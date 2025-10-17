@@ -58,14 +58,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -592930629494474459}
+      addedObject: {fileID: 6344991608447621185}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6978304567732753712}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6558232725165366696}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6983246393681835130}
   m_SourcePrefab: {fileID: 100100000, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
 --- !u!1 &2781987214011552735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
   m_PrefabInstance: {fileID: 3052019361081159310}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-592930629494474459
+--- !u!114 &6344991608447621185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,10 +83,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2781987214011552735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mesh: {fileID: -5565719832236187128, guid: 3a2d582af3ded6b449e72755e2a15485, type: 3}
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 65536
+    Y:
+      RawValue: 262144
+    Z:
+      RawValue: 13107
+  PositionOffset:
+    X:
+      RawValue: -98304
+    Y:
+      RawValue: 131072
+    Z:
+      RawValue: -6553
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -87,4 +117,132 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
+--- !u!114 &6978304567732753712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781987214011552735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 65536
+    Y:
+      RawValue: 262144
+    Z:
+      RawValue: 13107
+  PositionOffset:
+    X:
+      RawValue: 98303
+    Y:
+      RawValue: 131072
+    Z:
+      RawValue: -6553
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+--- !u!114 &6558232725165366696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781987214011552735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 131072
+    Y:
+      RawValue: 131072
+    Z:
+      RawValue: 13107
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 196608
+    Z:
+      RawValue: -6553
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+--- !u!114 &6983246393681835130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781987214011552735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 131072
+    Y:
+      RawValue: 3276
+    Z:
+      RawValue: 13107
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: -1638
+    Z:
+      RawValue: -6553
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0

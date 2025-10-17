@@ -133,15 +133,12 @@ public unsafe static class ProceduralGenerator
 
     private static void TryGenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData, bool checkOverlap = true)
     {
-        GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
-        /*
         var deadRoomMap = frame.FindAsset(mapData.DeadEndRoom.MapAsset);
         var deadRoomBounds = deadRoomMap.GetMapBounds(spawnPoint);
         if (!deadRoomBounds.OverlapsCollection(mapData.Bounds))
         {
             GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
         }
-        */
     }
 
     private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
