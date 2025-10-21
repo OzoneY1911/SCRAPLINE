@@ -45,7 +45,7 @@ public unsafe static class ProceduralGenerator
                 var roomBounds = randomRoomMap.GetMapBounds(currentExitPoint);
                 if (roomBounds.OverlapsCollection(mapData.Bounds))
                 {
-                    TryGenerateDeadRoom(frame, currentExitPoint, ref mapData);
+                    GenerateDeadRoom(frame, currentExitPoint, ref mapData);
                     continue;
                 }
 
@@ -59,11 +59,10 @@ public unsafe static class ProceduralGenerator
 
                 if (rootRightDistance > mapData.BranchWidth)
                 {
-                    TryGenerateDeadRoom(frame, currentExitPoint, ref mapData);
+                    GenerateDeadRoom(frame, currentExitPoint, ref mapData);
                     continue;
                 }
-
-                // Generate this room
+                
                 GenerateRoom(frame, randomRoom, currentExitPoint, ref mapData);
 
                 // Calculate world rotation of this room
@@ -84,7 +83,7 @@ public unsafe static class ProceduralGenerator
             {
                 foreach (var exitPoint in currentExitPoints)
                 {
-                    TryGenerateDeadRoom(frame, exitPoint, ref mapData);
+                    GenerateDeadRoom(frame, exitPoint, ref mapData);
                 }
             }
 
@@ -99,7 +98,7 @@ public unsafe static class ProceduralGenerator
             {
                 foreach (var exitPoint in currentExitPoints)
                 {
-                    TryGenerateDeadRoom(frame, exitPoint, ref mapData);
+                    GenerateDeadRoom(frame, exitPoint, ref mapData);
                 }
                 break;
             }
@@ -131,14 +130,9 @@ public unsafe static class ProceduralGenerator
         roomTransform->Teleport(frame, spawnRotation);
     }
 
-    private static void TryGenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData, bool checkOverlap = true)
+    private static void GenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData, bool checkOverlap = true)
     {
-        var deadRoomMap = frame.FindAsset(mapData.DeadEndRoom.MapAsset);
-        var deadRoomBounds = deadRoomMap.GetMapBounds(spawnPoint);
-        if (!deadRoomBounds.OverlapsCollection(mapData.Bounds))
-        {
-            GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
-        }
+        GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
     }
 
     private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
