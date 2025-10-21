@@ -492,15 +492,15 @@ MonoBehaviour:
         RawValue: 0
     Position:
       X:
-        RawValue: 0
+        RawValue: 6553
       Y:
-        RawValue: 13107
+        RawValue: 78643
       Z:
-        RawValue: 131072
+        RawValue: 65536
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -509,11 +509,11 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 0
+        RawValue: 6554
       Y:
-        RawValue: 0
+        RawValue: 65536
       Z:
-        RawValue: 0
+        RawValue: 65536
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: CORNER_90_S
@@ -529,22 +529,22 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 65536
       Z:
         RawValue: 0
       W:
-        RawValue: -46340
+        RawValue: 0
     Position:
       X:
-        RawValue: -131072
+        RawValue: 72089
       Y:
-        RawValue: 13107
+        RawValue: 78643
       Z:
-        RawValue: 131072
+        RawValue: 124519
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -553,14 +553,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 0
+        RawValue: 58982
       Y:
-        RawValue: 0
+        RawValue: 65536
       Z:
-        RawValue: 0
+        RawValue: 6554
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: CORNER_90_S (3)
+      Name: CORNER_90_S
       Tag: Untagged
       Layer: 0
       Asset:
@@ -577,18 +577,18 @@ MonoBehaviour:
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: -46340
     Position:
       X:
-        RawValue: 0
+        RawValue: -196608
       Y:
-        RawValue: 13107
+        RawValue: 78643
       Z:
-        RawValue: 262144
+        RawValue: 124518
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -597,14 +597,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 0
+        RawValue: 6554
       Y:
-        RawValue: 0
+        RawValue: 65536
       Z:
-        RawValue: 0
+        RawValue: 65536
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: CORNER_90_S (2)
+      Name: CORNER_90_S (3)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -617,22 +617,22 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 0
+        RawValue: 46340
       Z:
         RawValue: 0
       W:
-        RawValue: 65536
+        RawValue: -46340
     Position:
       X:
-        RawValue: -131072
+        RawValue: -137624
       Y:
-        RawValue: 13107
+        RawValue: 78643
       Z:
-        RawValue: 262144
+        RawValue: 58982
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -641,11 +641,143 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
+        RawValue: 58982
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: CORNER_90_S (3)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 13
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 46340
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 268697
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 6554
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 65536
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: CORNER_90_S (2)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 14
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 46340
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: 6553
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 334233
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: CORNER_90_S (2)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 15
+      MutableMode: 0
+  - Rotation:
+      X:
         RawValue: 0
       Y:
         RawValue: 0
       Z:
         RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -137625
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 327680
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 6554
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 65536
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: CORNER_90_S (1)
@@ -655,16 +787,79 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 16
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -203161
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 268697
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: CORNER_90_S (1)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 17
       MutableMode: 0
   MapEntities:
   - Components:
-    - rid: 6765401900197085184
-  SerializedTriangleDataUncompressedSize: 3512
+    - rid: 8707223704255332352
+  - Components:
+    - rid: 855443713827012608
+  SerializedTriangleDataUncompressedSize: 8
   references:
     version: 2
     RefIds:
-    - rid: 6765401900197085184
+    - rid: 855443713827012608
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -262144
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 262144
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 17694720
+          Z:
+            RawValue: 0
+    - rid: 8707223704255332352
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
