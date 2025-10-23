@@ -215,6 +215,34 @@
             ]
         },
         {
+            "name": "PauseMap",
+            "id": "d7319c8a-a12f-4268-a7a2-bad068fbe6c5",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "43fee4c2-ea23-4e36-b43c-b850ea502c20",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "DeathCamera",
             "id": "387e9699-faa2-46b3-a31b-5c417eac57bf",
             "actions": [

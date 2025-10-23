@@ -1046,23 +1046,19 @@ namespace Quantum {
     [FieldOffset(0)]
     public AssetRef<EntityPrototype> Prototype;
     [FieldOffset(8)]
-    public FPVector3 SpawnPosition;
-    [FieldOffset(32)]
-    public FPVector3 SpawnRotation;
+    public FPPoint SpawnPoint;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 11257;
         hash = hash * 31 + Prototype.GetHashCode();
-        hash = hash * 31 + SpawnPosition.GetHashCode();
-        hash = hash * 31 + SpawnRotation.GetHashCode();
+        hash = hash * 31 + SpawnPoint.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (NestedChildEntity*)ptr;
         AssetRef.Serialize(&p->Prototype, serializer);
-        FPVector3.Serialize(&p->SpawnPosition, serializer);
-        FPVector3.Serialize(&p->SpawnRotation, serializer);
+        Quantum.FPPoint.Serialize(&p->SpawnPoint, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1356,7 +1352,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2608;
+    public const Int32 SIZE = 2616;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1383,14 +1379,18 @@ namespace Quantum {
     private fixed Byte _input_[1968];
     [FieldOffset(2576)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2588)]
-    public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
     [FieldOffset(2592)]
+    public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
+    [FieldOffset(2596)]
     public QListPtr<EntityRef> AlivePlayers;
-    [FieldOffset(2600)]
+    [FieldOffset(2608)]
     public FP PlayerMoney;
-    [FieldOffset(2584)]
+    [FieldOffset(2588)]
     public GameLocation SelectedLocation;
+    [FieldOffset(2584)]
+    public UInt16 QuotaZoneCount;
+    [FieldOffset(2600)]
+    public QListPtr<QuotaZone> QuotaZones;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
@@ -1415,12 +1415,15 @@ namespace Quantum {
         hash = hash * 31 + AlivePlayers.GetHashCode();
         hash = hash * 31 + PlayerMoney.GetHashCode();
         hash = hash * 31 + SelectedLocation.GetHashCode();
+        hash = hash * 31 + QuotaZoneCount.GetHashCode();
+        hash = hash * 31 + QuotaZones.GetHashCode();
         return hash;
       }
     }
     partial void ClearPointersPartial(FrameBase f, EntityRef entity) {
       ActivePlayers = default;
       AlivePlayers = default;
+      QuotaZones = default;
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (_globals_*)ptr;
@@ -1436,9 +1439,11 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->PlayerConnectedCount);
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
+        serializer.Stream.Serialize(&p->QuotaZoneCount);
         Quantum.GameLocation.Serialize(&p->SelectedLocation, serializer);
         QDictionary.Serialize(&p->ActivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
         QList.Serialize(&p->AlivePlayers, serializer, Statics.SerializeEntityRef);
+        QList.Serialize(&p->QuotaZones, serializer, Statics.SerializeQuotaZone);
         FP.Serialize(&p->PlayerMoney, serializer);
     }
   }
@@ -1640,7 +1645,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 64;
+    public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public UInt16 BranchDepth;
@@ -1648,10 +1653,12 @@ namespace Quantum {
     public UInt16 BranchWidth;
     [FieldOffset(8)]
     public AssetRef<Map> SourceMapAsset;
-    [FieldOffset(40)]
+    [FieldOffset(64)]
     public ProceduralRoom StartRoom;
     [FieldOffset(16)]
     public ProceduralRoom DeadEndRoom;
+    [FieldOffset(40)]
+    public ProceduralRoom QuotaZoneRoom;
     [FieldOffset(4)]
     public QListPtr<ProceduralRoom> ProceduralRooms;
     public override readonly Int32 GetHashCode() {
@@ -1662,6 +1669,7 @@ namespace Quantum {
         hash = hash * 31 + SourceMapAsset.GetHashCode();
         hash = hash * 31 + StartRoom.GetHashCode();
         hash = hash * 31 + DeadEndRoom.GetHashCode();
+        hash = hash * 31 + QuotaZoneRoom.GetHashCode();
         hash = hash * 31 + ProceduralRooms.GetHashCode();
         return hash;
       }
@@ -1669,6 +1677,7 @@ namespace Quantum {
     public void ClearPointers(FrameBase f, EntityRef entity) {
       StartRoom.ClearPointers(f, entity);
       DeadEndRoom.ClearPointers(f, entity);
+      QuotaZoneRoom.ClearPointers(f, entity);
       ProceduralRooms = default;
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
@@ -1682,6 +1691,7 @@ namespace Quantum {
         QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
         AssetRef.Serialize(&p->SourceMapAsset, serializer);
         Quantum.ProceduralRoom.Serialize(&p->DeadEndRoom, serializer);
+        Quantum.ProceduralRoom.Serialize(&p->QuotaZoneRoom, serializer);
         Quantum.ProceduralRoom.Serialize(&p->StartRoom, serializer);
     }
   }
@@ -2394,6 +2404,7 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
+    public static FrameSerializer.Delegate SerializeQuotaZone;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
       SerializeProceduralRoom = Quantum.ProceduralRoom.Serialize;
@@ -2406,6 +2417,7 @@ namespace Quantum {
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
+      SerializeQuotaZone = Quantum.QuotaZone.Serialize;
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {

@@ -260,6 +260,7 @@ namespace Quantum.Prototypes {
     public AssetRef<Map> SourceMapAsset;
     public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
     public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype QuotaZoneRoom;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
     partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
@@ -274,6 +275,7 @@ namespace Quantum.Prototypes {
         result.SourceMapAsset = this.SourceMapAsset;
         this.StartRoom.Materialize(frame, ref result.StartRoom, in context);
         this.DeadEndRoom.Materialize(frame, ref result.DeadEndRoom, in context);
+        this.QuotaZoneRoom.Materialize(frame, ref result.QuotaZoneRoom, in context);
         if (this.ProceduralRooms.Length == 0) {
           result.ProceduralRooms = default;
         } else {
@@ -480,13 +482,11 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.NestedChildEntity))]
   public unsafe partial class NestedChildEntityPrototype : StructPrototype {
     public AssetRef<EntityPrototype> Prototype;
-    public FPVector3 SpawnPosition;
-    public FPVector3 SpawnRotation;
+    public Quantum.Prototypes.FPPointPrototype SpawnPoint;
     partial void MaterializeUser(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context = default) {
         result.Prototype = this.Prototype;
-        result.SpawnPosition = this.SpawnPosition;
-        result.SpawnRotation = this.SpawnRotation;
+        this.SpawnPoint.Materialize(frame, ref result.SpawnPoint, in context);
         MaterializeUser(frame, ref result, in context);
     }
   }

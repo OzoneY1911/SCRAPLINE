@@ -301,6 +301,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""PauseMap"",
+            ""id"": ""d7319c8a-a12f-4268-a7a2-bad068fbe6c5"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""43fee4c2-ea23-4e36-b43c-b850ea502c20"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""DeathCamera"",
             ""id"": ""387e9699-faa2-46b3-a31b-5c417eac57bf"",
             ""actions"": [
@@ -978,6 +1006,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_Crouch = m_Main.FindAction("Crouch", throwIfNotFound: true);
         m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
         m_Main_SecondaryAction = m_Main.FindAction("SecondaryAction", throwIfNotFound: true);
+        // PauseMap
+        m_PauseMap = asset.FindActionMap("PauseMap", throwIfNotFound: true);
+        m_PauseMap_Pause = m_PauseMap.FindAction("Pause", throwIfNotFound: true);
         // DeathCamera
         m_DeathCamera = asset.FindActionMap("DeathCamera", throwIfNotFound: true);
         m_DeathCamera_Look = m_DeathCamera.FindAction("Look", throwIfNotFound: true);
@@ -1001,6 +1032,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ~@PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_Main.enabled, "This will cause a leak and performance issues, PlayerControls.Main.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PauseMap.enabled, "This will cause a leak and performance issues, PlayerControls.PauseMap.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_DeathCamera.enabled, "This will cause a leak and performance issues, PlayerControls.DeathCamera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerControls.UI.Disable() has not been called.");
     }
@@ -1247,6 +1279,102 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="MainActions" /> instance referencing this action map.
     /// </summary>
     public MainActions @Main => new MainActions(this);
+
+    // PauseMap
+    private readonly InputActionMap m_PauseMap;
+    private List<IPauseMapActions> m_PauseMapActionsCallbackInterfaces = new List<IPauseMapActions>();
+    private readonly InputAction m_PauseMap_Pause;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "PauseMap".
+    /// </summary>
+    public struct PauseMapActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PauseMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "PauseMap/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_PauseMap_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_PauseMap; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PauseMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PauseMapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PauseMapActions" />
+        public void AddCallbacks(IPauseMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PauseMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PauseMapActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PauseMapActions" />
+        private void UnregisterCallbacks(IPauseMapActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />.
+        /// </summary>
+        /// <seealso cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />
+        public void RemoveCallbacks(IPauseMapActions instance)
+        {
+            if (m_Wrapper.m_PauseMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PauseMapActions.AddCallbacks(IPauseMapActions)" />
+        /// <seealso cref="PauseMapActions.RemoveCallbacks(IPauseMapActions)" />
+        /// <seealso cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />
+        public void SetCallbacks(IPauseMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PauseMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PauseMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PauseMapActions" /> instance referencing this action map.
+    /// </summary>
+    public PauseMapActions @PauseMap => new PauseMapActions(this);
 
     // DeathCamera
     private readonly InputActionMap m_DeathCamera;
@@ -1699,6 +1827,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondaryAction(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PauseMap" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PauseMapActions.AddCallbacks(IPauseMapActions)" />
+    /// <seealso cref="PauseMapActions.RemoveCallbacks(IPauseMapActions)" />
+    public interface IPauseMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "DeathCamera" which allows adding and removing callbacks.

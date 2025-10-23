@@ -6,4 +6,8 @@ global
     FP PlayerMoney;
 
     GameLocation SelectedLocation;
+
+    UInt16 QuotaZoneCount;
+
+    list<QuotaZone> QuotaZones;
 }

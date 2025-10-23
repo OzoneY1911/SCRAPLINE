@@ -4133,7 +4133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralMapAsset.Id.Value
@@ -4164,8 +4164,20 @@ PrefabInstance:
       value: 1283148314347637932
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.MapAsset.Id.Value
+      value: 331496733126133545
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.ExitPoints.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.Prototype.Id.Value
+      value: 1491438987106525156
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.ExitPrototypes.Array.size
@@ -4298,6 +4310,10 @@ PrefabInstance:
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[3].ExitTransforms.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 550502
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.ExitTransforms.Array.data[0].Position.Z.RawValue

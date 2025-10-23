@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         _playerControls = new PlayerControls();
+        ToggleCursor();
     }
 
     private void OnEnable()
@@ -23,12 +24,35 @@ public class InputManager : MonoBehaviour
         DisableControls();
     }
 
+    private void Update()
+    {
+        if (_playerControls.PauseMap.Pause.WasPressedThisFrame())
+        {
+            ToggleCursor();
+        }
+    }
+
     private void EnableControls() => _playerControls.Enable();
     private void DisableControls() => _playerControls.Disable();
+
+    private void ToggleCursor()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 
     public void SetSoloMap(InputActionMap map)
     {
         DisableControls();
+        _playerControls.PauseMap.Pause.Enable();
         map.Enable();
     }
 }

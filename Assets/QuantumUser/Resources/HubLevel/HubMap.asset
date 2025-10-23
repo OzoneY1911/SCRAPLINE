@@ -1649,6 +1649,28 @@ MonoBehaviour:
             Id:
               Value: 1283148314347637932
           ExitPoints: []
+        QuotaZoneRoom:
+          MapAsset:
+            Id:
+              Value: 331496733126133545
+          Prototype:
+            Id:
+              Value: 1491438987106525156
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 550502
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
         ProceduralRooms:
         - MapAsset:
             Id:
@@ -1781,27 +1803,6 @@ MonoBehaviour:
                 RawValue: 0
               Y:
                 RawValue: 5898240
-              Z:
-                RawValue: 0
-        - MapAsset:
-            Id:
-              Value: 331496733126133545
-          Prototype:
-            Id:
-              Value: 1491438987106525156
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 550502
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
               Z:
                 RawValue: 0
     - rid: 4070471857256529920

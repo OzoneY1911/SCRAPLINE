@@ -14,8 +14,8 @@ namespace Quantum
                 {
                     var nestedEntity = frame.Create(nestedChild.Prototype);
                     frame.Unsafe.TryGetPointer<Transform3D>(nestedEntity, out var nestedTransform);
-                    nestedTransform->Teleport(frame, nestedChild.SpawnPosition);
-                    nestedTransform->Teleport(frame, FPQuaternion.Euler(nestedChild.SpawnRotation));
+                    nestedTransform->Teleport(frame, nestedChild.SpawnPoint.Position);
+                    nestedTransform->Teleport(frame, FPQuaternion.Euler(nestedChild.SpawnPoint.RotationEuler));
                 }
             }
         }

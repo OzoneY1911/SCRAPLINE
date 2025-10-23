@@ -39,7 +39,16 @@ public unsafe static class ProceduralGenerator
 
             foreach (var currentExitPoint in currentExitPoints)
             {
-                var randomRoom = GetRandomRoom(frame, ref mapData);
+                ProceduralRoom randomRoom;
+                var generateQuotaZone = frame.RNG->NextInclusive(0, 3);
+                if (generateQuotaZone == 0)
+                {
+                    randomRoom = mapData.QuotaZoneRoom;
+                }
+                else
+                {
+                    randomRoom = GetRandomRoom(frame, ref mapData);
+                }
 
                 var randomRoomMap = frame.FindAsset(randomRoom.MapAsset);
                 var roomBounds = randomRoomMap.GetMapBounds(currentExitPoint);
@@ -62,7 +71,7 @@ public unsafe static class ProceduralGenerator
                     GenerateDeadRoom(frame, currentExitPoint, ref mapData);
                     continue;
                 }
-                
+
                 GenerateRoom(frame, randomRoom, currentExitPoint, ref mapData);
 
                 // Calculate world rotation of this room
@@ -76,14 +85,6 @@ public unsafe static class ProceduralGenerator
                     offsetExitPoint.RotationEuler = (spawnRotation * FPQuaternion.Euler(exitPoint.RotationEuler)).AsEuler;
 
                     nextExitPoints.Add(offsetExitPoint);
-                }
-            }
-
-            if (branchDepth + 1 >= mapData.BranchDepth || nextExitPoints.Count == 0)
-            {
-                foreach (var exitPoint in currentExitPoints)
-                {
-                    GenerateDeadRoom(frame, exitPoint, ref mapData);
                 }
             }
 
@@ -130,7 +131,7 @@ public unsafe static class ProceduralGenerator
         roomTransform->Teleport(frame, spawnRotation);
     }
 
-    private static void GenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData, bool checkOverlap = true)
+    private static void GenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData)
     {
         GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
     }
@@ -150,6 +151,7 @@ public unsafe static class ProceduralGenerator
         public QList<ProceduralRoom> AllRooms { get; private set; }
         public ProceduralRoom StartRoom { get; private set; }
         public ProceduralRoom DeadEndRoom { get; private set; }
+        public ProceduralRoom QuotaZoneRoom { get; private set; }
 
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
@@ -162,6 +164,7 @@ public unsafe static class ProceduralGenerator
             AllRooms = frame.ResolveList<ProceduralRoom>(config->ProceduralRooms);
             StartRoom = config->StartRoom;
             DeadEndRoom = config->DeadEndRoom;
+            QuotaZoneRoom = config->QuotaZoneRoom;
         }
     }
 }
