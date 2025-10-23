@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/QuantumUser/Scenes/BakingScene.unity
-    guid: 4caa2620d13bc6a41a989c7828c9f226
-  - enabled: 1
-    path: Assets/QuantumUser/Resources/ProceduralLevel/NewQuantumGameScene.unity
-    guid: d75a63569c8475145bb72eaea8e526d5
-  - enabled: 1
     path: Assets/QuantumUser/Scenes/MenuScene.unity
     guid: 1eeb022131b2a684e960ad2e390a53af
   - enabled: 1
@@ -20,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/QuantumUser/Scenes/ProceduralScene.unity
     guid: a056eb087c7288249a0b3d1286f44e1c
+  - enabled: 0
+    path: Assets/QuantumUser/Scenes/BakingScene.unity
+    guid: 4caa2620d13bc6a41a989c7828c9f226
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 69ee7734dfcb6b24e849c185959073fe, type: 3}
   m_UseUCBPForAssetBundles: 0

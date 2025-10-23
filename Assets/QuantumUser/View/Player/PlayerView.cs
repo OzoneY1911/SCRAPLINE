@@ -27,6 +27,9 @@ namespace Quantum
 
             if (isLocal)
             {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+
                 ViewContext.LocalPlayerView = this;
                 ViewContext.LocalPlayer = player->PlayerRef;
                 ViewContext.LocalPlayerEntity = EntityRef;

@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        ToggleCursor();
     }
 
     private void OnEnable()
