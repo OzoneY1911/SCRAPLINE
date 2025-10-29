@@ -1,10 +1,4 @@
 component InteractableMapChanger
 {
-    UInt16 BranchDepth;
-    UInt16 BranchWidth;
-    asset_ref<Map> SourceMapAsset;
-    ProceduralRoom StartRoom;
-    ProceduralRoom DeadEndRoom;
-    ProceduralRoom QuotaZoneRoom;
-    list<ProceduralRoom> ProceduralRooms;
+    asset_ref<Map> TargetMap;
 }

@@ -1645,54 +1645,20 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 88;
+    public const Int32 SIZE = 8;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
-    public UInt16 BranchDepth;
-    [FieldOffset(2)]
-    public UInt16 BranchWidth;
-    [FieldOffset(8)]
-    public AssetRef<Map> SourceMapAsset;
-    [FieldOffset(64)]
-    public ProceduralRoom StartRoom;
-    [FieldOffset(16)]
-    public ProceduralRoom DeadEndRoom;
-    [FieldOffset(40)]
-    public ProceduralRoom QuotaZoneRoom;
-    [FieldOffset(4)]
-    public QListPtr<ProceduralRoom> ProceduralRooms;
+    public AssetRef<Map> TargetMap;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
-        hash = hash * 31 + BranchDepth.GetHashCode();
-        hash = hash * 31 + BranchWidth.GetHashCode();
-        hash = hash * 31 + SourceMapAsset.GetHashCode();
-        hash = hash * 31 + StartRoom.GetHashCode();
-        hash = hash * 31 + DeadEndRoom.GetHashCode();
-        hash = hash * 31 + QuotaZoneRoom.GetHashCode();
-        hash = hash * 31 + ProceduralRooms.GetHashCode();
+        hash = hash * 31 + TargetMap.GetHashCode();
         return hash;
       }
     }
-    public void ClearPointers(FrameBase f, EntityRef entity) {
-      StartRoom.ClearPointers(f, entity);
-      DeadEndRoom.ClearPointers(f, entity);
-      QuotaZoneRoom.ClearPointers(f, entity);
-      ProceduralRooms = default;
-    }
-    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
-      var p = (Quantum.InteractableMapChanger*)ptr;
-      p->ClearPointers((Frame)frame, entity);
-    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
-        serializer.Stream.Serialize(&p->BranchDepth);
-        serializer.Stream.Serialize(&p->BranchWidth);
-        QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
-        AssetRef.Serialize(&p->SourceMapAsset, serializer);
-        Quantum.ProceduralRoom.Serialize(&p->DeadEndRoom, serializer);
-        Quantum.ProceduralRoom.Serialize(&p->QuotaZoneRoom, serializer);
-        Quantum.ProceduralRoom.Serialize(&p->StartRoom, serializer);
+        AssetRef.Serialize(&p->TargetMap, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2394,7 +2360,6 @@ namespace Quantum {
     }
   }
   public unsafe partial class Statics {
-    public static FrameSerializer.Delegate SerializeProceduralRoom;
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
@@ -2407,7 +2372,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeQuotaZone;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
-      SerializeProceduralRoom = Quantum.ProceduralRoom.Serialize;
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
@@ -2558,7 +2522,7 @@ namespace Quantum {
         .Add<Quantum.Interactable>(Quantum.Interactable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableAnimator>(Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableGameLocationSelector>(Quantum.InteractableGameLocationSelector.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.InteractableMapChanger>(Quantum.InteractableMapChanger.Serialize, null, Quantum.InteractableMapChanger.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.InteractableMapChanger>(Quantum.InteractableMapChanger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableQuotaZone>(Quantum.InteractableQuotaZone.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)

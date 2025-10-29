@@ -353,18 +353,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
         RawValue: -65536
       Y:
         RawValue: 6553
       Z:
-        RawValue: 65535
+        RawValue: 131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -377,14 +377,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
         RawValue: 6554
       Z:
-        RawValue: 65536
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2
+      Name: FLOOR_4x4
       Tag: Untagged
       Layer: 0
       Asset:
@@ -397,18 +397,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
         RawValue: -65536
       Y:
-        RawValue: 150732
+        RawValue: 281804
       Z:
-        RawValue: 65535
+        RawValue: 131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -421,14 +421,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
         RawValue: 6554
       Z:
-        RawValue: 65536
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2 (2)
+      Name: FLOOR_4x4 (2)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -441,18 +441,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
         RawValue: -65536
       Y:
         RawValue: 6553
       Z:
-        RawValue: 196608
+        RawValue: 393216
     PhysicsMaterial:
       Id:
         Value: 0
@@ -465,14 +465,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
         RawValue: 6554
       Z:
-        RawValue: 65536
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2 (1)
+      Name: FLOOR_4x4 (1)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -485,18 +485,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
         RawValue: -65536
       Y:
-        RawValue: 150732
+        RawValue: 281804
       Z:
-        RawValue: 196608
+        RawValue: 393216
     PhysicsMaterial:
       Id:
         Value: 0
@@ -509,14 +509,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
         RawValue: 6554
       Z:
-        RawValue: 65536
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2 (3)
+      Name: FLOOR_4x4 (3)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -529,18 +529,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: -46340
       Z:
         RawValue: 0
       W:
         RawValue: 46340
     Position:
       X:
-        RawValue: -65536
+        RawValue: -203162
       Y:
-        RawValue: 6553
+        RawValue: 144179
       Z:
-        RawValue: 327680
+        RawValue: 131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -553,14 +553,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 6554
+        RawValue: 131072
       Z:
-        RawValue: 65536
+        RawValue: 6554
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2 (4)
+      Name: WALL_4x4
       Tag: Untagged
       Layer: 0
       Asset:
@@ -573,18 +573,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: -46340
       Z:
         RawValue: 0
       W:
         RawValue: 46340
     Position:
       X:
-        RawValue: -65536
+        RawValue: -203162
       Y:
-        RawValue: 150732
+        RawValue: 144179
       Z:
-        RawValue: 327680
+        RawValue: 393216
     PhysicsMaterial:
       Id:
         Value: 0
@@ -597,14 +597,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 6554
+        RawValue: 131072
       Z:
-        RawValue: 65536
+        RawValue: 6554
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: FLOOR_2x2 (5)
+      Name: WALL_4x4 (1)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -617,18 +617,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: -46340
       Z:
         RawValue: 0
       W:
         RawValue: 46340
     Position:
       X:
-        RawValue: 6554
+        RawValue: 72089
       Y:
-        RawValue: 78643
+        RawValue: 144179
       Z:
-        RawValue: 65536
+        RawValue: 393215
     PhysicsMaterial:
       Id:
         Value: 0
@@ -641,14 +641,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 65536
+        RawValue: 131072
       Z:
         RawValue: 6554
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: WALL_2x2
+      Name: WALL_4x4 (2)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -661,18 +661,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: -46340
       Z:
         RawValue: 0
       W:
         RawValue: 46340
     Position:
       X:
-        RawValue: -137625
+        RawValue: 72089
       Y:
-        RawValue: 78643
+        RawValue: 144179
       Z:
-        RawValue: 65536
+        RawValue: 131071
     PhysicsMaterial:
       Id:
         Value: 0
@@ -685,14 +685,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 65536
+        RawValue: 131072
       Z:
         RawValue: 6554
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: WALL_2x2 (1)
+      Name: WALL_4x4 (3)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -705,18 +705,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
-        RawValue: -137625
+        RawValue: 511180
       Y:
-        RawValue: 78643
+        RawValue: 268697
       Z:
-        RawValue: 196608
+        RawValue: -131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -729,14 +729,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 65536
-      Z:
         RawValue: 6554
+      Z:
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: WALL_2x2 (2)
+      Name: FLOOR_4x4
       Tag: Untagged
       Layer: 0
       Asset:
@@ -749,18 +749,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
-        RawValue: -137625
+        RawValue: 511180
       Y:
-        RawValue: 78643
+        RawValue: 268697
       Z:
-        RawValue: 327680
+        RawValue: 131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -773,14 +773,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 65536
-      Z:
         RawValue: 6554
+      Z:
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: WALL_2x2 (3)
+      Name: FLOOR_4x4 (1)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -793,18 +793,18 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
-        RawValue: 6554
+        RawValue: 511180
       Y:
-        RawValue: 78643
+        RawValue: 268697
       Z:
-        RawValue: 196608
+        RawValue: 393216
     PhysicsMaterial:
       Id:
         Value: 0
@@ -817,14 +817,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 65536
+        RawValue: 131072
       Y:
-        RawValue: 65536
-      Z:
         RawValue: 6554
+      Z:
+        RawValue: 131072
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: WALL_2x2 (4)
+      Name: FLOOR_4x4 (2)
       Tag: Untagged
       Layer: 0
       Asset:
@@ -832,50 +832,6 @@ MonoBehaviour:
           Value: 0
       IsTrigger: 0
       ColliderIndex: 17
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 46340
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: 6554
-      Y:
-        RawValue: 78643
-      Z:
-        RawValue: 327680
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 65536
-      Y:
-        RawValue: 65536
-      Z:
-        RawValue: 6554
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: WALL_2x2 (5)
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 18
       MutableMode: 0
   MapEntities:
   - Components:
@@ -978,8 +934,6 @@ MonoBehaviour:
     - rid: 7882679043865182210
     - rid: 7882679043865182211
     - rid: 7882679043865182212
-  - Components:
-    - rid: 8957405444020633600
   SerializedTriangleDataUncompressedSize: 8
   references:
     version: 2
@@ -1586,225 +1540,9 @@ MonoBehaviour:
     - rid: 2734434552981225476
       type: {class: InteractableMapChangerPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
-        BranchDepth: 10
-        BranchWidth: 15
-        SourceMapAsset:
+        TargetMap:
           Id:
-            Value: 509245598804072393
-        StartRoom:
-          MapAsset:
-            Id:
-              Value: 443815030930943052
-          Prototype:
-            Id:
-              Value: 1449935794052710650
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: -393216
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 393216
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: -5898240
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 655360
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 262144
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 262144
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 5898240
-              Z:
-                RawValue: 0
-        DeadEndRoom:
-          MapAsset:
-            Id:
-              Value: 434676219065444762
-          Prototype:
-            Id:
-              Value: 1283148314347637932
-          ExitPoints: []
-        QuotaZoneRoom:
-          MapAsset:
-            Id:
-              Value: 331496733126133545
-          Prototype:
-            Id:
-              Value: 1491438987106525156
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 550502
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 0
-        ProceduralRooms:
-        - MapAsset:
-            Id:
-              Value: 443815030930943052
-          Prototype:
-            Id:
-              Value: 1449935794052710650
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: -393216
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 393216
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: -5898240
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 655360
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 262144
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 262144
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 5898240
-              Z:
-                RawValue: 0
-        - MapAsset:
-            Id:
-              Value: 481931534441385970
-          Prototype:
-            Id:
-              Value: 1388393011496185344
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: -262144
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 262144
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: -5898240
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 131072
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 131072
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 5898240
-              Z:
-                RawValue: 0
-        - MapAsset:
-            Id:
-              Value: 399854046788688906
-          Prototype:
-            Id:
-              Value: 1365425078138554914
-          ExitPoints:
-          - Position:
-              X:
-                RawValue: -262144
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 262144
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: -5898240
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 393216
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 0
-          - Position:
-              X:
-                RawValue: 131072
-              Y:
-                RawValue: 0
-              Z:
-                RawValue: 131072
-            RotationEuler:
-              X:
-                RawValue: 0
-              Y:
-                RawValue: 5898240
-              Z:
-                RawValue: 0
+            Value: 335349104245932771
     - rid: 4070471857256529920
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2904,23 +2642,6 @@ MonoBehaviour:
             RawValue: 0
           Y:
             RawValue: 655360
-          Z:
-            RawValue: 0
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-    - rid: 8957405444020633600
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
           Z:
             RawValue: 0
         Rotation:

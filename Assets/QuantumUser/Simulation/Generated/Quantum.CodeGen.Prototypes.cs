@@ -255,14 +255,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
   public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
-    public UInt16 BranchDepth;
-    public UInt16 BranchWidth;
-    public AssetRef<Map> SourceMapAsset;
-    public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
-    public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
-    public Quantum.Prototypes.ProceduralRoomPrototype QuotaZoneRoom;
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
+    public AssetRef<Map> TargetMap;
     partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
@@ -270,22 +263,7 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
-        result.BranchDepth = this.BranchDepth;
-        result.BranchWidth = this.BranchWidth;
-        result.SourceMapAsset = this.SourceMapAsset;
-        this.StartRoom.Materialize(frame, ref result.StartRoom, in context);
-        this.DeadEndRoom.Materialize(frame, ref result.DeadEndRoom, in context);
-        this.QuotaZoneRoom.Materialize(frame, ref result.QuotaZoneRoom, in context);
-        if (this.ProceduralRooms.Length == 0) {
-          result.ProceduralRooms = default;
-        } else {
-          var list = frame.AllocateList(out result.ProceduralRooms, this.ProceduralRooms.Length);
-          for (int i = 0; i < this.ProceduralRooms.Length; ++i) {
-            Quantum.ProceduralRoom tmp = default;
-            this.ProceduralRooms[i].Materialize(frame, ref tmp, in context);
-            list.Add(tmp);
-          }
-        }
+        result.TargetMap = this.TargetMap;
         MaterializeUser(frame, ref result, in context);
     }
   }

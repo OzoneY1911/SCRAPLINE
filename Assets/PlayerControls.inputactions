@@ -215,13 +215,22 @@
             ]
         },
         {
-            "name": "PauseMap",
+            "name": "PersistentMap",
             "id": "d7319c8a-a12f-4268-a7a2-bad068fbe6c5",
             "actions": [
                 {
                     "name": "Pause",
                     "type": "Button",
                     "id": "4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Chat",
+                    "type": "Button",
+                    "id": "e67bf6ce-bb1d-4132-bf41-e136c617e74a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -237,6 +246,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26b4ff65-91f2-4461-aef1-d65f7d17a95a",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Chat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

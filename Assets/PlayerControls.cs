@@ -301,13 +301,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""PauseMap"",
+            ""name"": ""PersistentMap"",
             ""id"": ""d7319c8a-a12f-4268-a7a2-bad068fbe6c5"",
             ""actions"": [
                 {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Chat"",
+                    ""type"": ""Button"",
+                    ""id"": ""e67bf6ce-bb1d-4132-bf41-e136c617e74a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -323,6 +332,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26b4ff65-91f2-4461-aef1-d65f7d17a95a"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Chat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1006,9 +1026,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_Crouch = m_Main.FindAction("Crouch", throwIfNotFound: true);
         m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
         m_Main_SecondaryAction = m_Main.FindAction("SecondaryAction", throwIfNotFound: true);
-        // PauseMap
-        m_PauseMap = asset.FindActionMap("PauseMap", throwIfNotFound: true);
-        m_PauseMap_Pause = m_PauseMap.FindAction("Pause", throwIfNotFound: true);
+        // PersistentMap
+        m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
+        m_PersistentMap_Pause = m_PersistentMap.FindAction("Pause", throwIfNotFound: true);
+        m_PersistentMap_Chat = m_PersistentMap.FindAction("Chat", throwIfNotFound: true);
         // DeathCamera
         m_DeathCamera = asset.FindActionMap("DeathCamera", throwIfNotFound: true);
         m_DeathCamera_Look = m_DeathCamera.FindAction("Look", throwIfNotFound: true);
@@ -1032,7 +1053,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ~@PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_Main.enabled, "This will cause a leak and performance issues, PlayerControls.Main.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_PauseMap.enabled, "This will cause a leak and performance issues, PlayerControls.PauseMap.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PersistentMap.enabled, "This will cause a leak and performance issues, PlayerControls.PersistentMap.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_DeathCamera.enabled, "This will cause a leak and performance issues, PlayerControls.DeathCamera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerControls.UI.Disable() has not been called.");
     }
@@ -1280,29 +1301,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// </summary>
     public MainActions @Main => new MainActions(this);
 
-    // PauseMap
-    private readonly InputActionMap m_PauseMap;
-    private List<IPauseMapActions> m_PauseMapActionsCallbackInterfaces = new List<IPauseMapActions>();
-    private readonly InputAction m_PauseMap_Pause;
+    // PersistentMap
+    private readonly InputActionMap m_PersistentMap;
+    private List<IPersistentMapActions> m_PersistentMapActionsCallbackInterfaces = new List<IPersistentMapActions>();
+    private readonly InputAction m_PersistentMap_Pause;
+    private readonly InputAction m_PersistentMap_Chat;
     /// <summary>
-    /// Provides access to input actions defined in input action map "PauseMap".
+    /// Provides access to input actions defined in input action map "PersistentMap".
     /// </summary>
-    public struct PauseMapActions
+    public struct PersistentMapActions
     {
         private @PlayerControls m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public PauseMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public PersistentMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "PauseMap/Pause".
+        /// Provides access to the underlying input action "PersistentMap/Pause".
         /// </summary>
-        public InputAction @Pause => m_Wrapper.m_PauseMap_Pause;
+        public InputAction @Pause => m_Wrapper.m_PersistentMap_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "PersistentMap/Chat".
+        /// </summary>
+        public InputAction @Chat => m_Wrapper.m_PersistentMap_Chat;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_PauseMap; }
+        public InputActionMap Get() { return m_Wrapper.m_PersistentMap; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -1310,9 +1336,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="PauseMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="PersistentMapActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(PauseMapActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(PersistentMapActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -1320,14 +1346,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="PauseMapActions" />
-        public void AddCallbacks(IPauseMapActions instance)
+        /// <seealso cref="PersistentMapActions" />
+        public void AddCallbacks(IPersistentMapActions instance)
         {
-            if (instance == null || m_Wrapper.m_PauseMapActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PauseMapActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Add(instance);
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Chat.started += instance.OnChat;
+            @Chat.performed += instance.OnChat;
+            @Chat.canceled += instance.OnChat;
         }
 
         /// <summary>
@@ -1336,21 +1365,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="PauseMapActions" />
-        private void UnregisterCallbacks(IPauseMapActions instance)
+        /// <seealso cref="PersistentMapActions" />
+        private void UnregisterCallbacks(IPersistentMapActions instance)
         {
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Chat.started -= instance.OnChat;
+            @Chat.performed -= instance.OnChat;
+            @Chat.canceled -= instance.OnChat;
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PersistentMapActions.UnregisterCallbacks(IPersistentMapActions)" />.
         /// </summary>
-        /// <seealso cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />
-        public void RemoveCallbacks(IPauseMapActions instance)
+        /// <seealso cref="PersistentMapActions.UnregisterCallbacks(IPersistentMapActions)" />
+        public void RemoveCallbacks(IPersistentMapActions instance)
         {
-            if (m_Wrapper.m_PauseMapActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -1360,21 +1392,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="PauseMapActions.AddCallbacks(IPauseMapActions)" />
-        /// <seealso cref="PauseMapActions.RemoveCallbacks(IPauseMapActions)" />
-        /// <seealso cref="PauseMapActions.UnregisterCallbacks(IPauseMapActions)" />
-        public void SetCallbacks(IPauseMapActions instance)
+        /// <seealso cref="PersistentMapActions.AddCallbacks(IPersistentMapActions)" />
+        /// <seealso cref="PersistentMapActions.RemoveCallbacks(IPersistentMapActions)" />
+        /// <seealso cref="PersistentMapActions.UnregisterCallbacks(IPersistentMapActions)" />
+        public void SetCallbacks(IPersistentMapActions instance)
         {
-            foreach (var item in m_Wrapper.m_PauseMapActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PersistentMapActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PauseMapActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="PauseMapActions" /> instance referencing this action map.
+    /// Provides a new <see cref="PersistentMapActions" /> instance referencing this action map.
     /// </summary>
-    public PauseMapActions @PauseMap => new PauseMapActions(this);
+    public PersistentMapActions @PersistentMap => new PersistentMapActions(this);
 
     // DeathCamera
     private readonly InputActionMap m_DeathCamera;
@@ -1829,11 +1861,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSecondaryAction(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PauseMap" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PersistentMap" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="PauseMapActions.AddCallbacks(IPauseMapActions)" />
-    /// <seealso cref="PauseMapActions.RemoveCallbacks(IPauseMapActions)" />
-    public interface IPauseMapActions
+    /// <seealso cref="PersistentMapActions.AddCallbacks(IPersistentMapActions)" />
+    /// <seealso cref="PersistentMapActions.RemoveCallbacks(IPersistentMapActions)" />
+    public interface IPersistentMapActions
     {
         /// <summary>
         /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -1842,6 +1874,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Chat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChat(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "DeathCamera" which allows adding and removing callbacks.

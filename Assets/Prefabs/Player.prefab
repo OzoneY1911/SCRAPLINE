@@ -154,7 +154,7 @@ MonoBehaviour:
     IsTrigger: 0
     Material:
       Id:
-        Value: 0
+        Value: 274787278079997116
     SourceCollider: {fileID: 0}
     SourceShapeSettings:
       IsScaledBySource: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
       SphereRadius:
         RawValue: 32768
       CapsuleRadius:
-        RawValue: 32768
+        RawValue: 26214
       CapsuleHeight:
         RawValue: 117965
       PositionOffset:

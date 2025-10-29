@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (_playerControls.PauseMap.Pause.WasPressedThisFrame())
+        if (_playerControls.PersistentMap.Pause.WasPressedThisFrame())
         {
             ToggleCursor();
         }
@@ -51,7 +51,7 @@ public class InputManager : MonoBehaviour
     public void SetSoloMap(InputActionMap map)
     {
         DisableControls();
-        _playerControls.PauseMap.Pause.Enable();
+        _playerControls.PersistentMap.Enable();
         map.Enable();
     }
 }
