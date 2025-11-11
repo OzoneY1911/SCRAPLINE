@@ -1379,18 +1379,18 @@ namespace Quantum {
     private fixed Byte _input_[1968];
     [FieldOffset(2576)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2592)]
+    [FieldOffset(2588)]
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
-    [FieldOffset(2596)]
+    [FieldOffset(2592)]
     public QListPtr<EntityRef> AlivePlayers;
     [FieldOffset(2608)]
     public FP PlayerMoney;
-    [FieldOffset(2588)]
-    public GameLocation SelectedLocation;
     [FieldOffset(2584)]
-    public UInt16 QuotaZoneCount;
+    public GameLocation SelectedLocation;
+    [FieldOffset(2596)]
+    public QListPtr<EntityRef> TrackedQuotaZones;
     [FieldOffset(2600)]
-    public QListPtr<QuotaZone> QuotaZones;
+    public EntityRef TrackedInteractableMapChanger;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
@@ -1415,15 +1415,15 @@ namespace Quantum {
         hash = hash * 31 + AlivePlayers.GetHashCode();
         hash = hash * 31 + PlayerMoney.GetHashCode();
         hash = hash * 31 + SelectedLocation.GetHashCode();
-        hash = hash * 31 + QuotaZoneCount.GetHashCode();
-        hash = hash * 31 + QuotaZones.GetHashCode();
+        hash = hash * 31 + TrackedQuotaZones.GetHashCode();
+        hash = hash * 31 + TrackedInteractableMapChanger.GetHashCode();
         return hash;
       }
     }
     partial void ClearPointersPartial(FrameBase f, EntityRef entity) {
       ActivePlayers = default;
       AlivePlayers = default;
-      QuotaZones = default;
+      TrackedQuotaZones = default;
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (_globals_*)ptr;
@@ -1439,11 +1439,11 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->PlayerConnectedCount);
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
-        serializer.Stream.Serialize(&p->QuotaZoneCount);
         Quantum.GameLocation.Serialize(&p->SelectedLocation, serializer);
         QDictionary.Serialize(&p->ActivePlayers, serializer, Statics.SerializePlayerRef, Statics.SerializeEntityRef);
         QList.Serialize(&p->AlivePlayers, serializer, Statics.SerializeEntityRef);
-        QList.Serialize(&p->QuotaZones, serializer, Statics.SerializeQuotaZone);
+        QList.Serialize(&p->TrackedQuotaZones, serializer, Statics.SerializeEntityRef);
+        EntityRef.Serialize(&p->TrackedInteractableMapChanger, serializer);
         FP.Serialize(&p->PlayerMoney, serializer);
     }
   }
@@ -1645,19 +1645,23 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
+    [FieldOffset(8)]
     public AssetRef<Map> TargetMap;
+    [FieldOffset(0)]
+    public QBoolean IsActive;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
         hash = hash * 31 + TargetMap.GetHashCode();
+        hash = hash * 31 + IsActive.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
+        QBoolean.Serialize(&p->IsActive, serializer);
         AssetRef.Serialize(&p->TargetMap, serializer);
     }
   }
@@ -2149,6 +2153,12 @@ namespace Quantum {
         FP.Serialize(&p->Fragility, serializer);
     }
   }
+  public unsafe partial interface ISignalOnCompleteAllQuotaZones : ISignal {
+    void OnCompleteAllQuotaZones(Frame f);
+  }
+  public unsafe partial interface ISignalOnMapChangeAvailable : ISignal {
+    void OnMapChangeAvailable(Frame f);
+  }
   public unsafe partial interface ISignalOnEntityDeath : ISignal {
     void OnEntityDeath(Frame f, EntityRef entity);
   }
@@ -2167,6 +2177,8 @@ namespace Quantum {
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnCompleteAllQuotaZones[] _ISignalOnCompleteAllQuotaZonesSystems;
+    private ISignalOnMapChangeAvailable[] _ISignalOnMapChangeAvailableSystems;
     private ISignalOnEntityDeath[] _ISignalOnEntityDeathSystems;
     private ISignalOnInteract[] _ISignalOnInteractSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
@@ -2183,6 +2195,8 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnCompleteAllQuotaZonesSystems = BuildSignalsArray<ISignalOnCompleteAllQuotaZones>();
+      _ISignalOnMapChangeAvailableSystems = BuildSignalsArray<ISignalOnMapChangeAvailable>();
       _ISignalOnEntityDeathSystems = BuildSignalsArray<ISignalOnEntityDeath>();
       _ISignalOnInteractSystems = BuildSignalsArray<ISignalOnInteract>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
@@ -2312,6 +2326,24 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
+      public void OnCompleteAllQuotaZones() {
+        var array = _f._ISignalOnCompleteAllQuotaZonesSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnCompleteAllQuotaZones(_f);
+          }
+        }
+      }
+      public void OnMapChangeAvailable() {
+        var array = _f._ISignalOnMapChangeAvailableSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnMapChangeAvailable(_f);
+          }
+        }
+      }
       public void OnEntityDeath(EntityRef entity) {
         var array = _f._ISignalOnEntityDeathSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
@@ -2369,7 +2401,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
-    public static FrameSerializer.Delegate SerializeQuotaZone;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
@@ -2381,7 +2412,6 @@ namespace Quantum {
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
-      SerializeQuotaZone = Quantum.QuotaZone.Serialize;
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {

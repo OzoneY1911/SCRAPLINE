@@ -256,6 +256,7 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
   public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
     public AssetRef<Map> TargetMap;
+    public QBoolean IsActive;
     partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
@@ -264,6 +265,7 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
         result.TargetMap = this.TargetMap;
+        result.IsActive = this.IsActive;
         MaterializeUser(frame, ref result, in context);
     }
   }

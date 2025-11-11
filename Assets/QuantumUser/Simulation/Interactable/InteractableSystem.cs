@@ -1,4 +1,3 @@
-using Photon.Deterministic;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -19,6 +18,9 @@ namespace Quantum
             {
                 case InteractableType.MapChanger:
                     var mapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
+
+                    if (!mapChanger->IsActive) return;
+
                     var targetMap = frame.FindAsset<Map>(mapChanger->TargetMap);
                     frame.Map = targetMap;
                     break;
@@ -58,6 +60,8 @@ namespace Quantum
 
                     frame.Global->SelectedLocation = locationSelector->TargetLocation;
                     frame.Events.GameLocationSelected(interactable->Entity);
+
+                    frame.Signals.OnMapChangeAvailable();
                     break;
             }
         }

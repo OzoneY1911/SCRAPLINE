@@ -7,7 +7,9 @@ global
 
     GameLocation SelectedLocation;
 
-    UInt16 QuotaZoneCount;
-
-    list<QuotaZone> QuotaZones;
+    list<entity_ref> TrackedQuotaZones;
+    entity_ref TrackedInteractableMapChanger;
 }
+
+signal OnCompleteAllQuotaZones();
+signal OnMapChangeAvailable();

@@ -66,6 +66,12 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
+      AssemblyQualifiedName: Quantum.LevelStateSystem, Quantum.Simulation, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
       AssemblyQualifiedName: Quantum.PlayerSpawnSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
@@ -106,7 +112,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0
-    Children: []
+    Children:
+    - SystemType:
+        AssemblyQualifiedName: Quantum.InteractableMapChangerSystem, Quantum.Simulation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      SystemName: 
+      StartDisabled: 0
+      Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.LeverSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null

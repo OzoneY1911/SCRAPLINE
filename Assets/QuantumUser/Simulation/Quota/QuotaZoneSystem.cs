@@ -1,7 +1,12 @@
 namespace Quantum
 {
-    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone
+    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnMapChanged
     {
+        public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
+        {
+            frame.ResolveList<EntityRef>(frame.Global->TrackedQuotaZones).Clear();
+        }
+
         public void OnAdded(Frame frame, EntityRef entity, QuotaZone* quotaZone)
         {
             quotaZone->ResourceDemands = frame.AllocateList<ResourceDemand>(2);
@@ -21,6 +26,13 @@ namespace Quantum
                     Type = ResourceType.Plastic,
                     Value = 500
                 });
+
+            if (frame.Global->TrackedQuotaZones.Ptr.Equals(Ptr.Null))
+            {
+                frame.Global->TrackedQuotaZones = frame.AllocateList<EntityRef>();
+            }
+            var trackedQuotaZones = frame.ResolveList<EntityRef>(frame.Global->TrackedQuotaZones);
+            trackedQuotaZones.Add(entity);
         }
 
         public void OnTriggerEnter3D(Frame frame, TriggerInfo3D triggerInfo)
@@ -130,6 +142,14 @@ namespace Quantum
             {
                 frame.Global->PlayerMoney += resourceDemand.Collected;
             }
+
+            var trackedQuotaZones = frame.ResolveList<EntityRef>(frame.Global->TrackedQuotaZones);
+            foreach (var trackedQuotaZone in trackedQuotaZones)
+            {
+                if (!frame.Unsafe.GetPointer<QuotaZone>(trackedQuotaZone)->IsCompleted) return;
+            }
+
+            frame.Signals.OnCompleteAllQuotaZones();
         }
     }
 }

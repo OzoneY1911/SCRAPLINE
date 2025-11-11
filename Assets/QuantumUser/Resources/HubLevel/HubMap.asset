@@ -1543,6 +1543,8 @@ MonoBehaviour:
         TargetMap:
           Id:
             Value: 335349104245932771
+        IsActive:
+          Value: 0
     - rid: 4070471857256529920
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

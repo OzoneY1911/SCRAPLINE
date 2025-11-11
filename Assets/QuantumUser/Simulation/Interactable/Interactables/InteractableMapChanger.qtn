@@ -1,4 +1,6 @@
 component InteractableMapChanger
 {
     asset_ref<Map> TargetMap;
+
+    Boolean IsActive;
 }
