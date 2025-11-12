@@ -314,9 +314,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Chat"",
+                    ""name"": ""ToggleChat"",
                     ""type"": ""Button"",
-                    ""id"": ""e67bf6ce-bb1d-4132-bf41-e136c617e74a"",
+                    ""id"": ""394e348d-4b9f-41d2-bfff-9b26d7525473"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -337,12 +337,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""26b4ff65-91f2-4461-aef1-d65f7d17a95a"",
+                    ""id"": ""d76282fc-da9f-49c7-976d-8b47f35b2c0e"",
                     ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Chat"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""ToggleChat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1029,7 +1029,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // PersistentMap
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
         m_PersistentMap_Pause = m_PersistentMap.FindAction("Pause", throwIfNotFound: true);
-        m_PersistentMap_Chat = m_PersistentMap.FindAction("Chat", throwIfNotFound: true);
+        m_PersistentMap_ToggleChat = m_PersistentMap.FindAction("ToggleChat", throwIfNotFound: true);
         // DeathCamera
         m_DeathCamera = asset.FindActionMap("DeathCamera", throwIfNotFound: true);
         m_DeathCamera_Look = m_DeathCamera.FindAction("Look", throwIfNotFound: true);
@@ -1305,7 +1305,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PersistentMap;
     private List<IPersistentMapActions> m_PersistentMapActionsCallbackInterfaces = new List<IPersistentMapActions>();
     private readonly InputAction m_PersistentMap_Pause;
-    private readonly InputAction m_PersistentMap_Chat;
+    private readonly InputAction m_PersistentMap_ToggleChat;
     /// <summary>
     /// Provides access to input actions defined in input action map "PersistentMap".
     /// </summary>
@@ -1322,9 +1322,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_PersistentMap_Pause;
         /// <summary>
-        /// Provides access to the underlying input action "PersistentMap/Chat".
+        /// Provides access to the underlying input action "PersistentMap/ToggleChat".
         /// </summary>
-        public InputAction @Chat => m_Wrapper.m_PersistentMap_Chat;
+        public InputAction @ToggleChat => m_Wrapper.m_PersistentMap_ToggleChat;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1354,9 +1354,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
-            @Chat.started += instance.OnChat;
-            @Chat.performed += instance.OnChat;
-            @Chat.canceled += instance.OnChat;
+            @ToggleChat.started += instance.OnToggleChat;
+            @ToggleChat.performed += instance.OnToggleChat;
+            @ToggleChat.canceled += instance.OnToggleChat;
         }
 
         /// <summary>
@@ -1371,9 +1371,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
-            @Chat.started -= instance.OnChat;
-            @Chat.performed -= instance.OnChat;
-            @Chat.canceled -= instance.OnChat;
+            @ToggleChat.started -= instance.OnToggleChat;
+            @ToggleChat.performed -= instance.OnToggleChat;
+            @ToggleChat.canceled -= instance.OnToggleChat;
         }
 
         /// <summary>
@@ -1875,12 +1875,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Chat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToggleChat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnChat(InputAction.CallbackContext context);
+        void OnToggleChat(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "DeathCamera" which allows adding and removing callbacks.

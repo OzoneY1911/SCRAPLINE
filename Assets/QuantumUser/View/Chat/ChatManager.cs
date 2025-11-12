@@ -3,13 +3,13 @@ using Photon.Chat;
 using Quantum;
 using System.Collections.Generic;
 using System;
+using Quantum.Menu;
 
 public class ChatManager : MonoBehaviour, IChatClientListener
 {
     private ChatClient _chatClient;
     private string _userName = "Player";
-    private string _channelName = "Text Channel";
-    private string _currentMessage = "";
+    private string _channelName = "Text Chat";
 
     public event Action<string> OnChatUserSubscribed;
     public event Action<string, string> OnMessageReceived;

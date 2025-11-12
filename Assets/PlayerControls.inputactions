@@ -228,9 +228,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Chat",
+                    "name": "ToggleChat",
                     "type": "Button",
-                    "id": "e67bf6ce-bb1d-4132-bf41-e136c617e74a",
+                    "id": "394e348d-4b9f-41d2-bfff-9b26d7525473",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -251,12 +251,12 @@
                 },
                 {
                     "name": "",
-                    "id": "26b4ff65-91f2-4461-aef1-d65f7d17a95a",
+                    "id": "d76282fc-da9f-49c7-976d-8b47f35b2c0e",
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Chat",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ToggleChat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

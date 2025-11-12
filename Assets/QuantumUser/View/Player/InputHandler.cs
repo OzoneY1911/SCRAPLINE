@@ -53,9 +53,6 @@ namespace Quantum
 
         private void ProcessInput()
         {
-            if (Cursor.lockState != CursorLockMode.Locked)
-                return;
-
             // Process keyboard input
 
             _accumulatedInput.MoveDirection = _playerControls.Main.Move.ReadValue<Vector2>().normalized.ToFPVector2();
