@@ -2248,11 +2248,11 @@ MonoBehaviour:
     - rid: 8371447911287881730
     - rid: 8371447911287881731
   - Components:
-    - rid: 6515882079316606976
-    - rid: 6515882079316606977
-    - rid: 6515882079316606978
-    - rid: 6515882079316606979
-    - rid: 6515882079316606980
+    - rid: 4410519879963115520
+    - rid: 4410519879963115521
+    - rid: 4410519879963115522
+    - rid: 4410519879963115523
+    - rid: 4410519879963115524
   - Components:
     - rid: 1299008763423883264
     - rid: 1299008763423883265
@@ -2447,6 +2447,89 @@ MonoBehaviour:
           Value: 0
         IsCompleted:
           Value: 0
+    - rid: 4410519879963115520
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -204013
+          Y:
+            RawValue: 13107
+          Z:
+            RawValue: 883884
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+    - rid: 4410519879963115521
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 42532
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 13107
+            Y:
+              RawValue: 42532
+            Z:
+              RawValue: 19660
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 0
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 4410519879963115522
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 4410519879963115523
+      type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        Entity:
+          SceneIndexPlusOne: 0
+        Type:
+          Value: 1
+        CooldownTimer:
+          Type:
+            Value: 0
+          Duration:
+            RawValue: 0
+          Remaining:
+            RawValue: 0
+          IsRunning:
+            Value: 0
+    - rid: 4410519879963115524
+      type: {class: InteractableQuotaZonePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        TargetQuotaZone:
+          SceneIndexPlusOne: 3
     - rid: 5702426088181858304
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2665,89 +2748,6 @@ MonoBehaviour:
         IsToggled:
           Value: 0
         InTriggerCount: 0
-    - rid: 6515882079316606976
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -204013
-          Y:
-            RawValue: 13107
-          Z:
-            RawValue: 883884
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-    - rid: 6515882079316606977
-      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        ShapeConfig:
-          ShapeType: 2
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 42532
-            Z:
-              RawValue: 0
-          BoxExtents:
-            X:
-              RawValue: 13107
-            Y:
-              RawValue: 42532
-            Z:
-              RawValue: 19660
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-        Layer: 0
-        IsTrigger: 0
-        PhysicsMaterial:
-          Id:
-            Value: 0
-    - rid: 6515882079316606978
-      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        CallbackFlags:
-          Value: 0
-    - rid: 6515882079316606979
-      type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        Entity:
-          SceneIndexPlusOne: 0
-        Type:
-          Value: 1
-        CooldownTimer:
-          Type:
-            Value: 0
-          Duration:
-            RawValue: 0
-          Remaining:
-            RawValue: 0
-          IsRunning:
-            Value: 0
-    - rid: 6515882079316606980
-      type: {class: InteractableQuotaZonePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        TargetQuotaZone:
-          SceneIndexPlusOne: 3
     - rid: 6630771000638177280
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using WebSocketSharp;
 
 public class ChatUI : MonoBehaviour
@@ -21,6 +20,12 @@ public class ChatUI : MonoBehaviour
 
     private void OnEnable()
     {
+        _chatCanvas.enabled = false;
+        if (_chatManager == null)
+        {
+            _chatManager = FindAnyObjectByType<ChatManager>();
+        }
+
         _chatManager.OnMessageReceived += AddMessage;
         _chatManager.OnChatUserSubscribed += HandleNewSubscription;
     }

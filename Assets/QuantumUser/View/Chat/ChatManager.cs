@@ -1,11 +1,9 @@
-using UnityEngine;
 using Photon.Chat;
 using Quantum;
 using System.Collections.Generic;
 using System;
-using Quantum.Menu;
 
-public class ChatManager : MonoBehaviour, IChatClientListener
+public class ChatManager : PersistentSingletonMono<ChatManager>, IChatClientListener
 {
     private ChatClient _chatClient;
     private string _userName = "Player";
