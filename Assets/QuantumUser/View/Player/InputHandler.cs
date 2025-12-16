@@ -63,6 +63,12 @@ namespace Quantum
             _accumulatedInput.Interact |= _playerControls.Main.Interact.IsPressed();
             _accumulatedInput.SecondaryAction |= _playerControls.Main.SecondaryAction.IsPressed();
 
+            _accumulatedInput.SelectInventorySlot |= _playerControls.Main.SelectInventorySlot.IsPressed();
+            if (_accumulatedInput.SelectInventorySlot)
+            {
+                _accumulatedInput.SelectedInventorySlotIndex |= (byte)_playerControls.Main.SelectInventorySlot.ReadValue<float>();
+            }
+
             // Process mouse input
 
             Vector2 mouseDelta = _playerControls.Main.Look.ReadValue<Vector2>();

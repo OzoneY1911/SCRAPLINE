@@ -154,6 +154,8 @@ namespace Quantum.Prototypes {
     public Button Crouch;
     public Button Interact;
     public Button SecondaryAction;
+    public Button SelectInventorySlot;
+    public Byte SelectedInventorySlotIndex;
     public FPVector3 CameraPosition;
     public FPVector3 CameraForward;
     public Button _left;
@@ -183,6 +185,8 @@ namespace Quantum.Prototypes {
         result.Crouch = this.Crouch;
         result.Interact = this.Interact;
         result.SecondaryAction = this.SecondaryAction;
+        result.SelectInventorySlot = this.SelectInventorySlot;
+        result.SelectedInventorySlotIndex = this.SelectedInventorySlotIndex;
         result.CameraPosition = this.CameraPosition;
         result.CameraForward = this.CameraForward;
         result._left = this._left;
@@ -558,6 +562,21 @@ namespace Quantum.Prototypes {
         result.DampingRatio = this.DampingRatio;
         result.SagPerMass = this.SagPerMass;
         result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerInventory))]
+  public unsafe partial class PlayerInventoryPrototype : ComponentPrototype<Quantum.PlayerInventory> {
+    public Byte SelectedSlotIndex;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerInventory result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerInventory component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerInventory result, in PrototypeMaterializationContext context = default) {
+        result.SelectedSlotIndex = this.SelectedSlotIndex;
+        MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]

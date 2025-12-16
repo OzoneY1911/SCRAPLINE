@@ -163,6 +163,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectInventorySlot"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b6802a0-0fb6-403e-84d9-cf20fbd8a653"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -295,6 +304,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SecondaryAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50daf7ca-16ba-4ab6-99c1-faa70d695960"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SelectInventorySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0ee16f9-6ed9-4f5f-bf67-78cc6bf921e5"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SelectInventorySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1d6a2f2-59ce-419e-a38d-cc3591a484d5"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SelectInventorySlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1026,6 +1068,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_Crouch = m_Main.FindAction("Crouch", throwIfNotFound: true);
         m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
         m_Main_SecondaryAction = m_Main.FindAction("SecondaryAction", throwIfNotFound: true);
+        m_Main_SelectInventorySlot = m_Main.FindAction("SelectInventorySlot", throwIfNotFound: true);
         // PersistentMap
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
         m_PersistentMap_Pause = m_PersistentMap.FindAction("Pause", throwIfNotFound: true);
@@ -1139,6 +1182,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Crouch;
     private readonly InputAction m_Main_Interact;
     private readonly InputAction m_Main_SecondaryAction;
+    private readonly InputAction m_Main_SelectInventorySlot;
     /// <summary>
     /// Provides access to input actions defined in input action map "Main".
     /// </summary>
@@ -1182,6 +1226,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Main/SecondaryAction".
         /// </summary>
         public InputAction @SecondaryAction => m_Wrapper.m_Main_SecondaryAction;
+        /// <summary>
+        /// Provides access to the underlying input action "Main/SelectInventorySlot".
+        /// </summary>
+        public InputAction @SelectInventorySlot => m_Wrapper.m_Main_SelectInventorySlot;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1232,6 +1280,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SecondaryAction.started += instance.OnSecondaryAction;
             @SecondaryAction.performed += instance.OnSecondaryAction;
             @SecondaryAction.canceled += instance.OnSecondaryAction;
+            @SelectInventorySlot.started += instance.OnSelectInventorySlot;
+            @SelectInventorySlot.performed += instance.OnSelectInventorySlot;
+            @SelectInventorySlot.canceled += instance.OnSelectInventorySlot;
         }
 
         /// <summary>
@@ -1267,6 +1318,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SecondaryAction.started -= instance.OnSecondaryAction;
             @SecondaryAction.performed -= instance.OnSecondaryAction;
             @SecondaryAction.canceled -= instance.OnSecondaryAction;
+            @SelectInventorySlot.started -= instance.OnSelectInventorySlot;
+            @SelectInventorySlot.performed -= instance.OnSelectInventorySlot;
+            @SelectInventorySlot.canceled -= instance.OnSelectInventorySlot;
         }
 
         /// <summary>
@@ -1859,6 +1913,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondaryAction(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectInventorySlot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectInventorySlot(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PersistentMap" which allows adding and removing callbacks.

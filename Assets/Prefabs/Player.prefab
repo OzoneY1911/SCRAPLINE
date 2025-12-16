@@ -107,6 +107,8 @@ GameObject:
   - component: {fileID: 5930713277451682446}
   - component: {fileID: -7067544655842398182}
   - component: {fileID: 3013892407601267510}
+  - component: {fileID: 2829479000295034248}
+  - component: {fileID: 5862907059742735172}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -566,6 +568,33 @@ MonoBehaviour:
     IsDragging:
       Value: 0
     DraggedEntity: {fileID: 0}
+--- !u!114 &2829479000295034248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3a58434d5b1854587a1a045ad96d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
+    SelectedSlotIndex: 0
+--- !u!114 &5862907059742735172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c697b6b5d00cb4aa20be1b4dd5429b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 0}
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0

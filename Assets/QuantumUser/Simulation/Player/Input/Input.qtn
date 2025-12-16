@@ -11,8 +11,12 @@ input
     button Jump;
     button Run;
     button Crouch;
+
     button Interact;
     button SecondaryAction;
+
+    button SelectInventorySlot;
+    Byte SelectedInventorySlotIndex;
 
     FPVector3 CameraPosition;
     FPVector3 CameraForward;

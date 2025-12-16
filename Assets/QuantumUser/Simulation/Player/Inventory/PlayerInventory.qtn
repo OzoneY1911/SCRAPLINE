@@ -1,0 +1,10 @@
+component PlayerInventory
+{
+    Byte SelectedSlotIndex;
+}
+
+event InventorySlotSelected
+{
+    entity_ref Entity;
+    Byte SlotIndex;
+}

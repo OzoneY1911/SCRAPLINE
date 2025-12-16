@@ -100,18 +100,19 @@ namespace Quantum {
     Crouch = 1 << 2,
     Interact = 1 << 3,
     SecondaryAction = 1 << 4,
-    _left = 1 << 5,
-    _right = 1 << 6,
-    _up = 1 << 7,
-    _down = 1 << 8,
-    _a = 1 << 9,
-    _b = 1 << 10,
-    _c = 1 << 11,
-    _d = 1 << 12,
-    _l1 = 1 << 13,
-    _r1 = 1 << 14,
-    _select = 1 << 15,
-    _start = 1 << 16,
+    SelectInventorySlot = 1 << 5,
+    _left = 1 << 6,
+    _right = 1 << 7,
+    _up = 1 << 8,
+    _down = 1 << 9,
+    _a = 1 << 10,
+    _b = 1 << 11,
+    _c = 1 << 12,
+    _d = 1 << 13,
+    _l1 = 1 << 14,
+    _r1 = 1 << 15,
+    _select = 1 << 16,
+    _start = 1 << 17,
   }
   public static unsafe partial class FlagsExtensions {
     public static Boolean IsFlagSet(this InputButtons self, InputButtons flag) {
@@ -644,15 +645,15 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 328;
+    public const Int32 SIZE = 336;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(1)]
     public Byte InterpolationOffset;
     [FieldOffset(0)]
     public Byte InterpolationAlphaEncoded;
-    [FieldOffset(240)]
+    [FieldOffset(248)]
     public FPVector2 MoveDirection;
-    [FieldOffset(224)]
+    [FieldOffset(232)]
     public FPVector2 LookRotationDelta;
     [FieldOffset(8)]
     public FP ScrollDelta;
@@ -666,39 +667,43 @@ namespace Quantum {
     public Button Interact;
     [FieldOffset(64)]
     public Button SecondaryAction;
-    [FieldOffset(280)]
-    public FPVector3 CameraPosition;
-    [FieldOffset(256)]
-    public FPVector3 CameraForward;
-    [FieldOffset(148)]
-    public Button _left;
-    [FieldOffset(172)]
-    public Button _right;
-    [FieldOffset(208)]
-    public Button _up;
-    [FieldOffset(124)]
-    public Button _down;
     [FieldOffset(76)]
-    public Button _a;
-    [FieldOffset(88)]
-    public Button _b;
-    [FieldOffset(100)]
-    public Button _c;
-    [FieldOffset(112)]
-    public Button _d;
-    [FieldOffset(136)]
-    public Button _l1;
-    [FieldOffset(160)]
-    public Button _r1;
-    [FieldOffset(184)]
-    public Button _select;
-    [FieldOffset(196)]
-    public Button _start;
-    [FieldOffset(3)]
-    public Byte _analogRightTrigger;
+    public Button SelectInventorySlot;
     [FieldOffset(2)]
+    public Byte SelectedInventorySlotIndex;
+    [FieldOffset(288)]
+    public FPVector3 CameraPosition;
+    [FieldOffset(264)]
+    public FPVector3 CameraForward;
+    [FieldOffset(160)]
+    public Button _left;
+    [FieldOffset(184)]
+    public Button _right;
+    [FieldOffset(220)]
+    public Button _up;
+    [FieldOffset(136)]
+    public Button _down;
+    [FieldOffset(88)]
+    public Button _a;
+    [FieldOffset(100)]
+    public Button _b;
+    [FieldOffset(112)]
+    public Button _c;
+    [FieldOffset(124)]
+    public Button _d;
+    [FieldOffset(148)]
+    public Button _l1;
+    [FieldOffset(172)]
+    public Button _r1;
+    [FieldOffset(196)]
+    public Button _select;
+    [FieldOffset(208)]
+    public Button _start;
+    [FieldOffset(4)]
+    public Byte _analogRightTrigger;
+    [FieldOffset(3)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(304)]
+    [FieldOffset(312)]
     public QuantumThumbSticks ThumbSticks;
     public override readonly Int32 GetHashCode() {
       unchecked { 
@@ -713,6 +718,8 @@ namespace Quantum {
         hash = hash * 31 + Crouch.GetHashCode();
         hash = hash * 31 + Interact.GetHashCode();
         hash = hash * 31 + SecondaryAction.GetHashCode();
+        hash = hash * 31 + SelectInventorySlot.GetHashCode();
+        hash = hash * 31 + SelectedInventorySlotIndex.GetHashCode();
         hash = hash * 31 + CameraPosition.GetHashCode();
         hash = hash * 31 + CameraForward.GetHashCode();
         hash = hash * 31 + _left.GetHashCode();
@@ -743,6 +750,7 @@ namespace Quantum {
         case InputButtons.Crouch: return Crouch.IsDown;
         case InputButtons.Interact: return Interact.IsDown;
         case InputButtons.SecondaryAction: return SecondaryAction.IsDown;
+        case InputButtons.SelectInventorySlot: return SelectInventorySlot.IsDown;
         case InputButtons._left: return _left.IsDown;
         case InputButtons._right: return _right.IsDown;
         case InputButtons._up: return _up.IsDown;
@@ -765,6 +773,7 @@ namespace Quantum {
         case InputButtons.Crouch: return Crouch.WasPressed;
         case InputButtons.Interact: return Interact.WasPressed;
         case InputButtons.SecondaryAction: return SecondaryAction.WasPressed;
+        case InputButtons.SelectInventorySlot: return SelectInventorySlot.WasPressed;
         case InputButtons._left: return _left.WasPressed;
         case InputButtons._right: return _right.WasPressed;
         case InputButtons._up: return _up.WasPressed;
@@ -784,6 +793,7 @@ namespace Quantum {
         var p = (Input*)ptr;
         serializer.Stream.Serialize(&p->InterpolationAlphaEncoded);
         serializer.Stream.Serialize(&p->InterpolationOffset);
+        serializer.Stream.Serialize(&p->SelectedInventorySlotIndex);
         serializer.Stream.Serialize(&p->_analogLeftTrigger);
         serializer.Stream.Serialize(&p->_analogRightTrigger);
         FP.Serialize(&p->ScrollDelta, serializer);
@@ -792,6 +802,7 @@ namespace Quantum {
         Button.Serialize(&p->Jump, serializer);
         Button.Serialize(&p->Run, serializer);
         Button.Serialize(&p->SecondaryAction, serializer);
+        Button.Serialize(&p->SelectInventorySlot, serializer);
         Button.Serialize(&p->_a, serializer);
         Button.Serialize(&p->_b, serializer);
         Button.Serialize(&p->_c, serializer);
@@ -1352,7 +1363,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2616;
+    public const Int32 SIZE = 2664;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1376,24 +1387,24 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[1968];
-    [FieldOffset(2576)]
+    private fixed Byte _input_[2016];
+    [FieldOffset(2624)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2588)]
+    [FieldOffset(2636)]
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
-    [FieldOffset(2592)]
+    [FieldOffset(2640)]
     public QListPtr<EntityRef> AlivePlayers;
-    [FieldOffset(2608)]
+    [FieldOffset(2656)]
     public FP PlayerMoney;
-    [FieldOffset(2584)]
+    [FieldOffset(2632)]
     public GameLocation SelectedLocation;
-    [FieldOffset(2596)]
+    [FieldOffset(2644)]
     public QListPtr<EntityRef> TrackedQuotaZones;
-    [FieldOffset(2600)]
+    [FieldOffset(2648)]
     public EntityRef TrackedInteractableMapChanger;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 328, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 336, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -1936,6 +1947,26 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct PlayerInventory : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 1;
+    [FieldOffset(1)]
+    private fixed Byte _alignment_padding_[3];
+    [FieldOffset(0)]
+    public Byte SelectedSlotIndex;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 4451;
+        hash = hash * 31 + SelectedSlotIndex.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (PlayerInventory*)ptr;
+        serializer.Stream.Serialize(&p->SelectedSlotIndex);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct PlayerLeverDragging : Quantum.IComponent {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -2262,6 +2293,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Player>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerDragging>();
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerDragging>();
+      BuildSignalsArrayOnComponentAdded<Quantum.PlayerInventory>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.PlayerInventory>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerLeverDragging>();
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerLeverDragging>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerMovement>();
@@ -2296,6 +2329,8 @@ namespace Quantum {
       i->Crouch = i->Crouch.Update(this.Number, input.Crouch);
       i->Interact = i->Interact.Update(this.Number, input.Interact);
       i->SecondaryAction = i->SecondaryAction.Update(this.Number, input.SecondaryAction);
+      i->SelectInventorySlot = i->SelectInventorySlot.Update(this.Number, input.SelectInventorySlot);
+      i->SelectedInventorySlotIndex = input.SelectedInventorySlotIndex;
       i->CameraPosition = input.CameraPosition;
       i->CameraForward = input.CameraForward;
       i->_left = i->_left.Update(this.Number, input._left);
@@ -2511,6 +2546,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(PhysicsSceneSettings), PhysicsSceneSettings.SIZE);
       typeRegistry.Register(typeof(Quantum.Player), Quantum.Player.SIZE);
       typeRegistry.Register(typeof(Quantum.PlayerDragging), Quantum.PlayerDragging.SIZE);
+      typeRegistry.Register(typeof(Quantum.PlayerInventory), Quantum.PlayerInventory.SIZE);
       typeRegistry.Register(typeof(Quantum.PlayerLeverDragging), Quantum.PlayerLeverDragging.SIZE);
       typeRegistry.Register(typeof(Quantum.PlayerMovement), Quantum.PlayerMovement.SIZE);
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
@@ -2544,7 +2580,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 20)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 21)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
@@ -2560,6 +2596,7 @@ namespace Quantum {
         .Add<Quantum.NestedParentEntity>(Quantum.NestedParentEntity.Serialize, null, Quantum.NestedParentEntity.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerDragging>(Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.PlayerInventory>(Quantum.PlayerInventory.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerLeverDragging>(Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerMovement>(Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerStamina>(Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None)
