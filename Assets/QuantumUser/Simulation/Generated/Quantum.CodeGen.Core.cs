@@ -1992,21 +1992,21 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct PlayerMovement : Quantum.IComponent {
-    public const Int32 SIZE = 64;
+    public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(56)]
+    [FieldOffset(72)]
     public FP WalkSpeed;
-    [FieldOffset(48)]
+    [FieldOffset(64)]
     public FP RunSpeed;
-    [FieldOffset(16)]
-    public FP CrouchSpeed;
-    [FieldOffset(40)]
-    public FP JumpForce;
     [FieldOffset(32)]
+    public FP CrouchSpeed;
+    [FieldOffset(56)]
+    public FP JumpForce;
+    [FieldOffset(48)]
     public FP HeightStanding;
-    [FieldOffset(24)]
+    [FieldOffset(40)]
     public FP HeightCrouching;
-    [FieldOffset(8)]
+    [FieldOffset(24)]
     public FP CrouchLerpSpeed;
     [FieldOffset(0)]
     [HideInInspector()]
@@ -2014,6 +2014,10 @@ namespace Quantum {
     [FieldOffset(4)]
     [HideInInspector()]
     public QBoolean IsRunning;
+    [FieldOffset(16)]
+    public FP CameraStandHeight;
+    [FieldOffset(8)]
+    public FP CameraCrouchHeight;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 21149;
@@ -2026,6 +2030,8 @@ namespace Quantum {
         hash = hash * 31 + CrouchLerpSpeed.GetHashCode();
         hash = hash * 31 + IsCrouching.GetHashCode();
         hash = hash * 31 + IsRunning.GetHashCode();
+        hash = hash * 31 + CameraStandHeight.GetHashCode();
+        hash = hash * 31 + CameraCrouchHeight.GetHashCode();
         return hash;
       }
     }
@@ -2033,6 +2039,8 @@ namespace Quantum {
         var p = (PlayerMovement*)ptr;
         QBoolean.Serialize(&p->IsCrouching, serializer);
         QBoolean.Serialize(&p->IsRunning, serializer);
+        FP.Serialize(&p->CameraCrouchHeight, serializer);
+        FP.Serialize(&p->CameraStandHeight, serializer);
         FP.Serialize(&p->CrouchLerpSpeed, serializer);
         FP.Serialize(&p->CrouchSpeed, serializer);
         FP.Serialize(&p->HeightCrouching, serializer);

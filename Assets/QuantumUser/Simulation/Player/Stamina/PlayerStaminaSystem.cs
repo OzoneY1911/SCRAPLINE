@@ -29,7 +29,7 @@ namespace Quantum
             {
                 stamina->Current = FPMath.Max(stamina->Current - stamina->DrainPerSec * frame.DeltaTime, FP._0);
 
-                filter.Health->Current -= stamina->DrainPerSec * frame.DeltaTime;
+                //filter.Health->Current -= stamina->DrainPerSec * frame.DeltaTime;
             }
             else
             {

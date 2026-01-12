@@ -7,18 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: LADDER_BASE
+      name: LADDER
     second: {fileID: 2100000, guid: efb5110910d5ed047b280806b21915b9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LADDER_DET
-    second: {fileID: 2100000, guid: 5a84103d67e3cd14198aad12d3479363, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LADDER_STAIRS
-    second: {fileID: 2100000, guid: 5a84103d67e3cd14198aad12d3479363, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

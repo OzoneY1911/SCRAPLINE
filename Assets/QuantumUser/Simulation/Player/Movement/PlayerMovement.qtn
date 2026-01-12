@@ -14,6 +14,9 @@ component PlayerMovement
 
     [HideInInspector]
     Boolean IsRunning;
+
+    FP CameraStandHeight;
+    FP CameraCrouchHeight;
 }
 
 signal OnPlayerJump(entity_ref entity);

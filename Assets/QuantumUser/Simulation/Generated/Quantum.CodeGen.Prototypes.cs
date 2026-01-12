@@ -610,6 +610,8 @@ namespace Quantum.Prototypes {
     public QBoolean IsCrouching;
     [HideInInspector()]
     public QBoolean IsRunning;
+    public FP CameraStandHeight;
+    public FP CameraCrouchHeight;
     partial void MaterializeUser(Frame frame, ref Quantum.PlayerMovement result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.PlayerMovement component = default;
@@ -626,6 +628,8 @@ namespace Quantum.Prototypes {
         result.CrouchLerpSpeed = this.CrouchLerpSpeed;
         result.IsCrouching = this.IsCrouching;
         result.IsRunning = this.IsRunning;
+        result.CameraStandHeight = this.CameraStandHeight;
+        result.CameraCrouchHeight = this.CameraCrouchHeight;
         MaterializeUser(frame, ref result, in context);
     }
   }

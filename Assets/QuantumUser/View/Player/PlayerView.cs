@@ -6,9 +6,6 @@ namespace Quantum
 {
     public unsafe class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
-        [Header("Local Renderers")]
-        public Renderer[] PlayerRenderers;
-
         [Header("Camera Handle")]
         public Transform CameraHandle;
 
@@ -37,7 +34,9 @@ namespace Quantum
                 // Local player is always predicted.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
 
-                foreach (var renderer in PlayerRenderers)
+                var playerRenderers = GetComponentsInChildren<Renderer>(true);
+
+                foreach (var renderer in playerRenderers)
                 {
                     renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
                 }
@@ -106,9 +105,15 @@ namespace Quantum
 
             CameraHandle.localRotation = Quaternion.Euler(lookPitch, 0.0f, 0.0f);
 
-            Vector3 targetScale = movement.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
+            //Vector3 targetScale = movement.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
 
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
+            //transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
+
+            Vector3 targetLocalPosition = movement.IsCrouching
+                ? new Vector3(0f, movement.CameraCrouchHeight.AsFloat, 0f)
+                : new Vector3(0f, movement.CameraStandHeight.AsFloat, 0f);
+
+            CameraHandle.localPosition = Vector3.Lerp(CameraHandle.localPosition, targetLocalPosition, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
         }
     }
 }
