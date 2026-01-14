@@ -57,16 +57,16 @@ namespace Quantum
 
             _accumulatedInput.MoveDirection = _playerControls.Main.Move.ReadValue<Vector2>().normalized.ToFPVector2();
 
-            _accumulatedInput.Jump |= _playerControls.Main.Jump.IsPressed();
-            _accumulatedInput.Run |= _playerControls.Main.Run.IsPressed();
-            _accumulatedInput.Crouch |= _playerControls.Main.Crouch.IsPressed();
-            _accumulatedInput.Interact |= _playerControls.Main.Interact.IsPressed();
-            _accumulatedInput.SecondaryAction |= _playerControls.Main.SecondaryAction.IsPressed();
+            _accumulatedInput.Jump = _playerControls.Main.Jump.IsPressed();
+            _accumulatedInput.Run = _playerControls.Main.Run.IsPressed();
+            _accumulatedInput.Crouch = _playerControls.Main.Crouch.IsPressed();
+            _accumulatedInput.Interact = _playerControls.Main.Interact.IsPressed();
+            _accumulatedInput.SecondaryAction = _playerControls.Main.SecondaryAction.IsPressed();
 
-            _accumulatedInput.SelectInventorySlot |= _playerControls.Main.SelectInventorySlot.IsPressed();
+            _accumulatedInput.SelectInventorySlot = _playerControls.Main.SelectInventorySlot.IsPressed();
             if (_accumulatedInput.SelectInventorySlot)
             {
-                _accumulatedInput.SelectedInventorySlotIndex |= (byte)_playerControls.Main.SelectInventorySlot.ReadValue<float>();
+                _accumulatedInput.SelectedInventorySlotIndex = (byte)_playerControls.Main.SelectInventorySlot.ReadValue<float>();
             }
 
             // Process mouse input
@@ -83,14 +83,15 @@ namespace Quantum
 
         public void PollInput(CallbackPollInput callback)
         {
-            AccumulateInput();
+            //AccumulateInput();
+            ProcessInput();
 
             _accumulatedInput.InterpolationOffset = (byte)Mathf.Clamp(callback.Frame - _entityViewUpdater.SnapshotInterpolation.CurrentFrom, 0, 255);
             _accumulatedInput.InterpolationAlpha = _entityViewUpdater.SnapshotInterpolation.Alpha.ToFP();
 
             callback.SetInput(_accumulatedInput, DeterministicInputFlags.Repeatable);
 
-            _resetAccumulatedInput = true;
+            //_resetAccumulatedInput = true;
             _accumulatedInput.LookRotationDelta = default;
             _accumulatedInput.ScrollDelta = FP._0;
         }
