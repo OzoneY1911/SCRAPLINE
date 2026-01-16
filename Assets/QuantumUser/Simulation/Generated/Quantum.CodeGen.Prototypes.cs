@@ -155,7 +155,9 @@ namespace Quantum.Prototypes {
     public Button Interact;
     public Button SecondaryAction;
     public Button SelectInventorySlot;
-    public Byte SelectedInventorySlotIndex;
+    public Quantum.QEnum8<SlotIndex> SelectedInventorySlotIndex;
+    public Button CollectValuable;
+    public Button DropValuable;
     public FPVector3 CameraPosition;
     public FPVector3 CameraForward;
     public Button _left;
@@ -187,6 +189,8 @@ namespace Quantum.Prototypes {
         result.SecondaryAction = this.SecondaryAction;
         result.SelectInventorySlot = this.SelectInventorySlot;
         result.SelectedInventorySlotIndex = this.SelectedInventorySlotIndex;
+        result.CollectValuable = this.CollectValuable;
+        result.DropValuable = this.DropValuable;
         result.CameraPosition = this.CameraPosition;
         result.CameraForward = this.CameraForward;
         result._left = this._left;
@@ -566,9 +570,10 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerInventory))]
-  public unsafe partial class PlayerInventoryPrototype : ComponentPrototype<Quantum.PlayerInventory> {
-    public Byte SelectedSlotIndex;
-    partial void MaterializeUser(Frame frame, ref Quantum.PlayerInventory result, in PrototypeMaterializationContext context);
+  public unsafe class PlayerInventoryPrototype : ComponentPrototype<Quantum.PlayerInventory> {
+    public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
+    [ArrayLengthAttribute(3)]
+    public MapEntityId[] Slots = new MapEntityId[3];
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.PlayerInventory component = default;
         Materialize((Frame)f, ref component, in context);
@@ -576,7 +581,9 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.PlayerInventory result, in PrototypeMaterializationContext context = default) {
         result.SelectedSlotIndex = this.SelectedSlotIndex;
-        MaterializeUser(frame, ref result, in context);
+        for (int i = 0, count = PrototypeValidator.CheckLength(Slots, 3, in context); i < count; ++i) {
+          PrototypeValidator.FindMapEntity(this.Slots[i], in context, out *result.Slots.GetPointer(i));
+        }
     }
   }
   [System.SerializableAttribute()]
@@ -905,6 +912,8 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
   public unsafe partial class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
+    public AssetRef<ValuableConfig> Config;
+    public QBoolean IsPocketValuable;
     public FP CurrentValue;
     public FP Fragility;
     [DynamicCollectionAttribute()]
@@ -916,6 +925,8 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
+        result.Config = this.Config;
+        result.IsPocketValuable = this.IsPocketValuable;
         result.CurrentValue = this.CurrentValue;
         result.Fragility = this.Fragility;
         if (this.ResourceFractions.Length == 0) {

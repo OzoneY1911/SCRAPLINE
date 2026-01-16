@@ -6,6 +6,9 @@ namespace Quantum
     {
         [SerializeField] private Animator _animator;
 
+        [SerializeField] private Transform _neckBonePivot;
+        [SerializeField] private Transform _RightArmBonePivot;
+
         [SerializeField] private float speedLerp = 8f;
 
         private float _locomotionSmoothed;
@@ -24,11 +27,22 @@ namespace Quantum
 
             if (frame.Exists(EntityRef) == false) return;
 
+            var playerPitch = Mathf.Clamp(player.LookPitch.AsFloat, -75f, 90f);
+
+            Quaternion neckPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.right);
+            _neckBonePivot.localRotation *= neckPitchOffset;
+
             // DRAGGING
 
             var dragging = frame.Get<PlayerDragging>(EntityRef);
 
             _animator.SetBool("IsDragging", dragging.IsDragging);
+
+            if (dragging.IsDragging)
+            {
+                Quaternion rightArmPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.up);
+                _RightArmBonePivot.localRotation *= rightArmPitchOffset;
+            }
 
             // MOVEMENT
 

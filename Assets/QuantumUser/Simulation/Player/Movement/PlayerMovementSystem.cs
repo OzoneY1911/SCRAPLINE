@@ -35,6 +35,8 @@ namespace Quantum
             player->LookYaw += input->LookRotationDelta.Y;
             player->LookPitch += input->LookRotationDelta.X;
 
+            player->LookPitch = FPMath.Clamp(player->LookPitch, -FP.FromFloat_UNSAFE(89f), FP.FromFloat_UNSAFE(89f));
+
             filter.Transform->Rotation = FPQuaternion.Euler(0, player->LookYaw, 0);
         }
 

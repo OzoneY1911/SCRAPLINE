@@ -101,8 +101,6 @@ namespace Quantum
                 }
             }
 
-            lookPitch = Mathf.Clamp(lookPitch, -89.0f, 89.0f);
-
             CameraHandle.localRotation = Quaternion.Euler(lookPitch, 0.0f, 0.0f);
 
             //Vector3 targetScale = movement.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;

@@ -172,6 +172,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CollectValuable"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf3e538c-911a-46af-8a41-8559e50b3944"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropValuable"",
+                    ""type"": ""Button"",
+                    ""id"": ""d023bdcb-42de-44d8-8299-8a4ac20f7630"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,7 +330,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""50daf7ca-16ba-4ab6-99c1-faa70d695960"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
-                    ""processors"": ""Scale"",
+                    ""processors"": ""Scale(factor=0)"",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SelectInventorySlot"",
                     ""isComposite"": false,
@@ -323,7 +341,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""a0ee16f9-6ed9-4f5f-bf67-78cc6bf921e5"",
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
-                    ""processors"": ""Scale(factor=2)"",
+                    ""processors"": ""Scale"",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SelectInventorySlot"",
                     ""isComposite"": false,
@@ -334,9 +352,31 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""b1d6a2f2-59ce-419e-a38d-cc3591a484d5"",
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
-                    ""processors"": ""Scale(factor=3)"",
+                    ""processors"": ""Scale(factor=2)"",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SelectInventorySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90811f55-4d31-4c47-a915-304778593e5e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""CollectValuable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43975a88-6d1c-4654-9450-4d67dd110571"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""DropValuable"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1069,6 +1109,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
         m_Main_SecondaryAction = m_Main.FindAction("SecondaryAction", throwIfNotFound: true);
         m_Main_SelectInventorySlot = m_Main.FindAction("SelectInventorySlot", throwIfNotFound: true);
+        m_Main_CollectValuable = m_Main.FindAction("CollectValuable", throwIfNotFound: true);
+        m_Main_DropValuable = m_Main.FindAction("DropValuable", throwIfNotFound: true);
         // PersistentMap
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
         m_PersistentMap_Pause = m_PersistentMap.FindAction("Pause", throwIfNotFound: true);
@@ -1183,6 +1225,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Interact;
     private readonly InputAction m_Main_SecondaryAction;
     private readonly InputAction m_Main_SelectInventorySlot;
+    private readonly InputAction m_Main_CollectValuable;
+    private readonly InputAction m_Main_DropValuable;
     /// <summary>
     /// Provides access to input actions defined in input action map "Main".
     /// </summary>
@@ -1230,6 +1274,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Main/SelectInventorySlot".
         /// </summary>
         public InputAction @SelectInventorySlot => m_Wrapper.m_Main_SelectInventorySlot;
+        /// <summary>
+        /// Provides access to the underlying input action "Main/CollectValuable".
+        /// </summary>
+        public InputAction @CollectValuable => m_Wrapper.m_Main_CollectValuable;
+        /// <summary>
+        /// Provides access to the underlying input action "Main/DropValuable".
+        /// </summary>
+        public InputAction @DropValuable => m_Wrapper.m_Main_DropValuable;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1283,6 +1335,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SelectInventorySlot.started += instance.OnSelectInventorySlot;
             @SelectInventorySlot.performed += instance.OnSelectInventorySlot;
             @SelectInventorySlot.canceled += instance.OnSelectInventorySlot;
+            @CollectValuable.started += instance.OnCollectValuable;
+            @CollectValuable.performed += instance.OnCollectValuable;
+            @CollectValuable.canceled += instance.OnCollectValuable;
+            @DropValuable.started += instance.OnDropValuable;
+            @DropValuable.performed += instance.OnDropValuable;
+            @DropValuable.canceled += instance.OnDropValuable;
         }
 
         /// <summary>
@@ -1321,6 +1379,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SelectInventorySlot.started -= instance.OnSelectInventorySlot;
             @SelectInventorySlot.performed -= instance.OnSelectInventorySlot;
             @SelectInventorySlot.canceled -= instance.OnSelectInventorySlot;
+            @CollectValuable.started -= instance.OnCollectValuable;
+            @CollectValuable.performed -= instance.OnCollectValuable;
+            @CollectValuable.canceled -= instance.OnCollectValuable;
+            @DropValuable.started -= instance.OnDropValuable;
+            @DropValuable.performed -= instance.OnDropValuable;
+            @DropValuable.canceled -= instance.OnDropValuable;
         }
 
         /// <summary>
@@ -1920,6 +1984,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectInventorySlot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CollectValuable" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCollectValuable(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DropValuable" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDropValuable(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PersistentMap" which allows adding and removing callbacks.

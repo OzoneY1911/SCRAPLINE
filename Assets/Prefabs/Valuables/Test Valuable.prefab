@@ -381,8 +381,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
+    Config:
+      Id:
+        Value: 367865957861589057
+    IsPocketValuable:
+      Value: 1
     CurrentValue:
       RawValue: 19660800
+    Fragility:
+      RawValue: 65536
     ResourceFractions:
     - Type:
         Value: 0

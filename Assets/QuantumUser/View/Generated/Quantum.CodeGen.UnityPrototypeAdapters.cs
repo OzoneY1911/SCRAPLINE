@@ -164,6 +164,20 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class PlayerInventoryPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerInventoryPrototype> {
+    public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
+    [ArrayLengthAttribute(3)]
+    public Quantum.QuantumEntityPrototype[] Slots = new Quantum.QuantumEntityPrototype[3];
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerInventoryPrototype prototype);
+    public override Quantum.Prototypes.PlayerInventoryPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.PlayerInventoryPrototype();
+      converter.Convert(this.SelectedSlotIndex, out result.SelectedSlotIndex);
+      converter.Convert(this.Slots, out result.Slots);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class PlayerLeverDraggingPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerLeverDraggingPrototype> {
     [HideInInspector()]
     public QBoolean IsDragging;

@@ -86,6 +86,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CollectValuable",
+                    "type": "Button",
+                    "id": "cf3e538c-911a-46af-8a41-8559e50b3944",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DropValuable",
+                    "type": "Button",
+                    "id": "d023bdcb-42de-44d8-8299-8a4ac20f7630",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -226,7 +244,7 @@
                     "id": "50daf7ca-16ba-4ab6-99c1-faa70d695960",
                     "path": "<Keyboard>/1",
                     "interactions": "",
-                    "processors": "Scale",
+                    "processors": "Scale(factor=0)",
                     "groups": ";Keyboard&Mouse",
                     "action": "SelectInventorySlot",
                     "isComposite": false,
@@ -237,7 +255,7 @@
                     "id": "a0ee16f9-6ed9-4f5f-bf67-78cc6bf921e5",
                     "path": "<Keyboard>/2",
                     "interactions": "",
-                    "processors": "Scale(factor=2)",
+                    "processors": "Scale",
                     "groups": ";Keyboard&Mouse",
                     "action": "SelectInventorySlot",
                     "isComposite": false,
@@ -248,9 +266,31 @@
                     "id": "b1d6a2f2-59ce-419e-a38d-cc3591a484d5",
                     "path": "<Keyboard>/3",
                     "interactions": "",
-                    "processors": "Scale(factor=3)",
+                    "processors": "Scale(factor=2)",
                     "groups": ";Keyboard&Mouse",
                     "action": "SelectInventorySlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90811f55-4d31-4c47-a915-304778593e5e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "CollectValuable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43975a88-6d1c-4654-9450-4d67dd110571",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DropValuable",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

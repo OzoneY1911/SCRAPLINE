@@ -66,8 +66,11 @@ namespace Quantum
             _accumulatedInput.SelectInventorySlot = _playerControls.Main.SelectInventorySlot.IsPressed();
             if (_accumulatedInput.SelectInventorySlot)
             {
-                _accumulatedInput.SelectedInventorySlotIndex = (byte)_playerControls.Main.SelectInventorySlot.ReadValue<float>();
+                _accumulatedInput.SelectedInventorySlotIndex = (SlotIndex)_playerControls.Main.SelectInventorySlot.ReadValue<float>();
             }
+
+            _accumulatedInput.CollectValuable = _playerControls.Main.CollectValuable.IsPressed();
+            _accumulatedInput.DropValuable = _playerControls.Main.DropValuable.IsPressed();
 
             // Process mouse input
 

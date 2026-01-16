@@ -43,6 +43,16 @@ namespace Quantum
                     //RotateDraggable(frame, ref filter);
                 }
 
+                if (input->CollectValuable.WasPressed)
+                {
+                    if (!frame.Unsafe.TryGetPointer<Valuable>(playerDragging->DraggedEntity, out var valuable)) return;
+
+                    if (valuable->IsPocketValuable)
+                    {
+                        frame.Signals.OnValuableCollectAttempted(filter.Entity, playerDragging->DraggedEntity);
+                    }
+                }
+
                 DrivePosition(frame, ref filter);
                 DriveRotation(frame, ref filter);
             }

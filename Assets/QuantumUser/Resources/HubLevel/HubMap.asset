@@ -1293,10 +1293,15 @@ MonoBehaviour:
     - rid: 1777188086183100421
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1529,10 +1534,15 @@ MonoBehaviour:
     - rid: 2357372225092321285
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1765,10 +1775,15 @@ MonoBehaviour:
     - rid: 4597942870404497413
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1999,10 +2014,15 @@ MonoBehaviour:
     - rid: 5144002424700141573
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -2149,10 +2169,15 @@ MonoBehaviour:
     - rid: 6021104984291016709
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -2455,10 +2480,15 @@ MonoBehaviour:
     - rid: 6532496350699847685
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
+        Config:
+          Id:
+            Value: 367865957861589057
+        IsPocketValuable:
+          Value: 1
         CurrentValue:
           RawValue: 19660800
         Fragility:
-          RawValue: 0
+          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0

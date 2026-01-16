@@ -16,7 +16,10 @@ input
     button SecondaryAction;
 
     button SelectInventorySlot;
-    Byte SelectedInventorySlotIndex;
+    SlotIndex SelectedInventorySlotIndex;
+
+    button CollectValuable;
+    button DropValuable;
 
     FPVector3 CameraPosition;
     FPVector3 CameraForward;

@@ -610,6 +610,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 3981550591613749900}
+  _neckBonePivot: {fileID: 1929441453402778824}
+  _RightArmBonePivot: {fileID: 2104138987919856528}
+  speedLerp: 8
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,3 +740,13 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1929441453402778824 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2146634812483184279, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+  m_PrefabInstance: {fileID: 507957030706760287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2104138987919856528 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7331922347752744497, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+  m_PrefabInstance: {fileID: 507957030706760287}
+  m_PrefabAsset: {fileID: 0}

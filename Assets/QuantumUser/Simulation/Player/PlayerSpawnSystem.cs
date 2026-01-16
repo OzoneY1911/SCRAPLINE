@@ -43,6 +43,7 @@ namespace Quantum
             if (frame.IsPlayerVerifiedOrLocal(playerRef))
             {
                 SetLocalLayer(frame, playerRef, playerEntity);
+                SetInventory(frame, playerEntity);
             }
 
             return playerEntity;
@@ -54,6 +55,13 @@ namespace Quantum
             var collider = frame.Unsafe.GetPointer<PhysicsCollider3D>(playerEntity);
 
             collider->Layer = player->LocalMask;
+        }
+
+        private void SetInventory(Frame frame, EntityRef playerEntity)
+        {
+            var playerInventory = frame.Unsafe.GetPointer<PlayerInventory>(playerEntity);
+
+            playerInventory->SelectedSlotIndex = SlotIndex.None;
         }
     }
 }

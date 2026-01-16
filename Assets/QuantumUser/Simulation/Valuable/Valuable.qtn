@@ -1,5 +1,7 @@
 component Valuable
 {
+    asset_ref<ValuableConfig> Config;
+    Boolean IsPocketValuable;
     FP CurrentValue;
     FP Fragility;
     list<ResourceFraction> ResourceFractions;

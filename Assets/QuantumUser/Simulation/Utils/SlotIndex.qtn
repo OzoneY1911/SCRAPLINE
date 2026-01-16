@@ -1,0 +1,7 @@
+enum SlotIndex : Byte
+{
+    None = 255,
+    Slot0 = 0,
+    Slot1 = 1,
+    Slot2 = 2
+} 

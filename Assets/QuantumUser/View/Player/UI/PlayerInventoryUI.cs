@@ -1,16 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayerInventoryUI : MonoBehaviour
 {
     [SerializeField] private List<Image> _slotImages;
+    [SerializeField] private List<TextMeshProUGUI> _slotValuableNames;
 
-    public void SetSelectedSlot(int slotIndex)
+    private void Awake()
+    {
+        foreach (var slotValuableName in _slotValuableNames)
+        {
+            slotValuableName.text = "";
+        }
+    }
+
+    public void SetSelectedSlot(byte slotIndex)
     {
         for (int i = 0; i < _slotImages.Count; i++)
         {
-            _slotImages[i].enabled = (i == slotIndex - 1);
+            _slotImages[i].enabled = (i == slotIndex);
         }
+    }
+
+    public void SetSlotValuableName(byte slotIndex, string valuableName)
+    {
+        _slotValuableNames[slotIndex].text = valuableName;
     }
 }
