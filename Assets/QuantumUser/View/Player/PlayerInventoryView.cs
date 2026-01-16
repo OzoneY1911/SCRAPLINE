@@ -11,6 +11,7 @@ namespace Quantum
 
             QuantumEvent.Subscribe<EventInventorySlotSelected>(this, OnEventInventorySlotSelected);
             QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
+            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
         }
 
         private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
@@ -40,7 +41,12 @@ namespace Quantum
 
             var valuableConfig = frame.FindAsset<ValuableConfig>(valuable->Config);
 
-            _playerInventoryUI.SetSlotValuableName((byte)e.SlotIndex, valuableConfig.DisplayName);
+            _playerInventoryUI.SetSlotValuableName((int)e.SlotIndex, valuableConfig.DisplayName);
+        }
+
+        private void OnEventValuableDropped(EventValuableDropped e)
+        {
+            _playerInventoryUI.SetSlotValuableName((int)e.SlotIndex, "");
         }
     }
 }

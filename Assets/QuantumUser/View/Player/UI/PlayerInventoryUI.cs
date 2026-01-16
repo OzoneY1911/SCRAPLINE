@@ -16,7 +16,7 @@ public class PlayerInventoryUI : MonoBehaviour
         }
     }
 
-    public void SetSelectedSlot(byte slotIndex)
+    public void SetSelectedSlot(int slotIndex)
     {
         for (int i = 0; i < _slotImages.Count; i++)
         {
@@ -24,7 +24,7 @@ public class PlayerInventoryUI : MonoBehaviour
         }
     }
 
-    public void SetSlotValuableName(byte slotIndex, string valuableName)
+    public void SetSlotValuableName(int slotIndex, string valuableName)
     {
         _slotValuableNames[slotIndex].text = valuableName;
     }

@@ -18,3 +18,9 @@ event ValuableCollected
     entity_ref ValuableEntity;
     SlotIndex SlotIndex;
 }
+
+event ValuableDropped
+{
+    entity_ref Entity;
+    SlotIndex SlotIndex;
+}

@@ -26,6 +26,11 @@ namespace Quantum
             return playerInventory->Slots[(int)playerInventory->SelectedSlotIndex] == EntityRef.None;
         }
 
+        private bool IsSlotSelected(PlayerInventory* playerInventory)
+        {
+            return playerInventory->SelectedSlotIndex != SlotIndex.None;
+        }
+
         private bool TryGetFirstEmptySlotIndex(PlayerInventory* playerInventory, out SlotIndex slotIndex)
         {
             for (var i = 0; i < playerInventory->Slots.Length; i++)
@@ -56,6 +61,15 @@ namespace Quantum
                     SelectSlot(frame, ref filter, input->SelectedInventorySlotIndex);
                 }
             }
+
+            if (input->DropValuable.WasPressed && IsSlotSelected(filter.PlayerInventory))
+            {
+                var playerInventory = filter.PlayerInventory;
+                var selectedSlotIndex = playerInventory->SelectedSlotIndex;
+
+                playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
+                frame.Events.ValuableDropped(filter.Entity, selectedSlotIndex);
+            }
         }
 
         private void SelectSlot(Frame frame, ref Filter filter, SlotIndex selectedSlotIndex)
@@ -72,7 +86,7 @@ namespace Quantum
             {
                 SlotIndex targetSlotIndex = SlotIndex.None;
 
-                if (playerInventory->SelectedSlotIndex != SlotIndex.None && IsSelectedSlotEmpty(playerInventory))
+                if (IsSlotSelected(playerInventory) && IsSelectedSlotEmpty(playerInventory))
                 {
                     targetSlotIndex = playerInventory->SelectedSlotIndex;
                 }

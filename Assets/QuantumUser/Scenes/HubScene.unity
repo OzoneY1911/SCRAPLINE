@@ -546,6 +546,10 @@ PrefabInstance:
       value: Test Valuable (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7377497416048120456, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
+      propertyPath: Prototype.Config.Id.Value
+      value: 435649092733232644
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377497416048120456, guid: e6fd9260f2363b14d8cadcd7facc43a4, type: 3}
       propertyPath: Prototype.Fragility.RawValue
       value: 65536
       objectReference: {fileID: 0}
