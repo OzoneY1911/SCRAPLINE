@@ -18,6 +18,7 @@ component QuotaZone
 
 signal OnActivateQuotaZone(entity_ref entity);
 signal OnCompleteQuotaZone(entity_ref entity);
+signal OnInZoneValuableDamaged(entity_ref entity, FP damage);
 
 event QuotaZoneActivated
 {

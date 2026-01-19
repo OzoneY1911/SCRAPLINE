@@ -229,6 +229,28 @@ namespace Quantum.Prototypes.Unity {
       return result;
     }
   }
+  [System.SerializableAttribute()]
+  public unsafe partial class ValuablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ValuablePrototype> {
+    public AssetRef<ValuableConfig> Config;
+    public QBoolean IsPocketValuable;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
+    public FP CurrentValue;
+    public FP Fragility;
+    public Quantum.QuantumEntityPrototype QuotaZoneEntity;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ValuablePrototype prototype);
+    public override Quantum.Prototypes.ValuablePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.ValuablePrototype();
+      converter.Convert(this.Config, out result.Config);
+      converter.Convert(this.IsPocketValuable, out result.IsPocketValuable);
+      converter.Convert(this.ResourceFractions, out result.ResourceFractions);
+      converter.Convert(this.CurrentValue, out result.CurrentValue);
+      converter.Convert(this.Fragility, out result.Fragility);
+      converter.Convert(this.QuotaZoneEntity, out result.QuotaZoneEntity);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
 }
 #pragma warning restore 0109
 #pragma warning restore 1591

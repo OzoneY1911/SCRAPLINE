@@ -1298,10 +1298,6 @@ MonoBehaviour:
             Value: 367865957861589057
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1311,6 +1307,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 1873557336157585408
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1539,10 +1541,6 @@ MonoBehaviour:
             Value: 367865957861589057
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1552,6 +1550,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 2734434552981225472
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1780,10 +1784,6 @@ MonoBehaviour:
             Value: 367865957861589057
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -1793,6 +1793,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 5033949767550369792
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2019,10 +2025,6 @@ MonoBehaviour:
             Value: 435649092733232644
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -2032,6 +2034,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 6021104984291016704
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2174,10 +2182,6 @@ MonoBehaviour:
             Value: 367865957861589057
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -2187,6 +2191,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 6044658404553654272
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2485,10 +2495,6 @@ MonoBehaviour:
             Value: 367865957861589057
         IsPocketValuable:
           Value: 1
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
         ResourceFractions:
         - Type:
             Value: 0
@@ -2498,6 +2504,12 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
+        CurrentValue:
+          RawValue: 19660800
+        Fragility:
+          RawValue: 65536
+        QuotaZoneEntity:
+          SceneIndexPlusOne: 0
     - rid: 7065652302819885056
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

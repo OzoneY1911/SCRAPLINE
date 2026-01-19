@@ -67,6 +67,12 @@ namespace Quantum
                 var playerInventory = filter.PlayerInventory;
                 var selectedSlotIndex = playerInventory->SelectedSlotIndex;
 
+                var selectedValuableEntity = playerInventory->Slots[(int)selectedSlotIndex];
+                var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(selectedValuableEntity);
+                var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(selectedValuableEntity);
+                valuableBody->Enabled = true;
+                valuableCollider->Enabled = true;
+
                 playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
                 frame.Events.ValuableDropped(filter.Entity, selectedSlotIndex);
             }
@@ -97,6 +103,12 @@ namespace Quantum
                         targetSlotIndex = slotIndex;
                     }
                 }
+
+                var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(valuableEntity);
+                var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(valuableEntity);
+                valuableBody->Enabled = false;
+                valuableCollider->Enabled = false;
+
                 playerInventory->Slots[(int)targetSlotIndex] = valuableEntity;
                 frame.Events.ValuableCollected(playerEntity, valuableEntity, targetSlotIndex);
             }

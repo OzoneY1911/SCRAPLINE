@@ -30,6 +30,12 @@ namespace Quantum
 
             valuable->CurrentValue -= FPMath.RoundToInt(hitDamage);
 
+            if (valuable->QuotaZoneEntity != EntityRef.None)
+            {
+                var quotaZone = frame.Unsafe.GetPointer<QuotaZone>(valuable->QuotaZoneEntity);
+                frame.Signals.OnInZoneValuableDamaged(info.Entity, hitDamage);
+            }
+
             frame.Events.ValuableHit(info.Entity, info.ContactPoints.First, hitDamage);
 
             if (valuable->CurrentValue <= 0) Break(frame, info.Entity);

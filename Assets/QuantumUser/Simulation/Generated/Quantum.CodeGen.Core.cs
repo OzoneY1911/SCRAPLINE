@@ -2189,26 +2189,29 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Valuable : Quantum.IComponent {
-    public const Int32 SIZE = 32;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public AssetRef<ValuableConfig> Config;
     [FieldOffset(0)]
     public QBoolean IsPocketValuable;
-    [FieldOffset(16)]
-    public FP CurrentValue;
-    [FieldOffset(24)]
-    public FP Fragility;
     [FieldOffset(4)]
     public QListPtr<ResourceFraction> ResourceFractions;
+    [FieldOffset(24)]
+    public FP CurrentValue;
+    [FieldOffset(32)]
+    public FP Fragility;
+    [FieldOffset(16)]
+    public EntityRef QuotaZoneEntity;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3511;
         hash = hash * 31 + Config.GetHashCode();
         hash = hash * 31 + IsPocketValuable.GetHashCode();
+        hash = hash * 31 + ResourceFractions.GetHashCode();
         hash = hash * 31 + CurrentValue.GetHashCode();
         hash = hash * 31 + Fragility.GetHashCode();
-        hash = hash * 31 + ResourceFractions.GetHashCode();
+        hash = hash * 31 + QuotaZoneEntity.GetHashCode();
         return hash;
       }
     }
@@ -2224,6 +2227,7 @@ namespace Quantum {
         QBoolean.Serialize(&p->IsPocketValuable, serializer);
         QList.Serialize(&p->ResourceFractions, serializer, Statics.SerializeResourceFraction);
         AssetRef.Serialize(&p->Config, serializer);
+        EntityRef.Serialize(&p->QuotaZoneEntity, serializer);
         FP.Serialize(&p->CurrentValue, serializer);
         FP.Serialize(&p->Fragility, serializer);
     }
@@ -2252,6 +2256,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnCompleteQuotaZone : ISignal {
     void OnCompleteQuotaZone(Frame f, EntityRef entity);
   }
+  public unsafe partial interface ISignalOnInZoneValuableDamaged : ISignal {
+    void OnInZoneValuableDamaged(Frame f, EntityRef entity, FP damage);
+  }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
@@ -2263,6 +2270,7 @@ namespace Quantum {
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
     private ISignalOnCompleteQuotaZone[] _ISignalOnCompleteQuotaZoneSystems;
+    private ISignalOnInZoneValuableDamaged[] _ISignalOnInZoneValuableDamagedSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -2282,6 +2290,7 @@ namespace Quantum {
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
       _ISignalOnCompleteQuotaZoneSystems = BuildSignalsArray<ISignalOnCompleteQuotaZone>();
+      _ISignalOnInZoneValuableDamagedSystems = BuildSignalsArray<ISignalOnInZoneValuableDamaged>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<Quantum.AnimationTrigger>();
@@ -2481,6 +2490,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnCompleteQuotaZone(_f, entity);
+          }
+        }
+      }
+      public void OnInZoneValuableDamaged(EntityRef entity, FP damage) {
+        var array = _f._ISignalOnInZoneValuableDamagedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnInZoneValuableDamaged(_f, entity, damage);
           }
         }
       }

@@ -1,6 +1,9 @@
+using Photon.Deterministic;
+using static UnityEngine.EventSystems.EventTrigger;
+
 namespace Quantum
 {
-    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnMapChanged
+    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged
     {
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
         {
@@ -39,14 +42,15 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
 
-            if (frame.Has<Valuable>(triggerInfo.Other))
+            if (frame.Unsafe.TryGetPointer<Valuable>(triggerInfo.Other, out Valuable* valuable))
             {
                 var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
                 inZoneValuables.Add(triggerInfo.Other);
 
                 if (!quotaZone->IsActivated) return;
 
-                UpdateQuotaZone(frame, triggerInfo.Entity, triggerInfo.Other, true);
+                valuable->QuotaZoneEntity = triggerInfo.Entity;
+                UpdateQuotaZone(frame, triggerInfo.Other, true);
             }
         }
 
@@ -54,14 +58,15 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
 
-            if (frame.Has<Valuable>(triggerInfo.Other))
+            if (frame.Unsafe.TryGetPointer<Valuable>(triggerInfo.Other, out Valuable* valuable))
             {
                 var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
                 inZoneValuables.Remove(triggerInfo.Other);
 
                 if (!quotaZone->IsActivated) return;
 
-                UpdateQuotaZone(frame, triggerInfo.Entity, triggerInfo.Other, false);
+                UpdateQuotaZone(frame, triggerInfo.Other, false);
+                valuable->QuotaZoneEntity = EntityRef.None;
             }
         }
 
@@ -77,48 +82,10 @@ namespace Quantum
             {
                 foreach (var inZoneValuable in inZoneValuables)
                 {
-                    UpdateQuotaZone(frame, entity, inZoneValuable, true);
+                    var valuable = frame.Unsafe.GetPointer<Valuable>(inZoneValuable);
+                    valuable->QuotaZoneEntity = entity;
+                    UpdateQuotaZone(frame, inZoneValuable, true);
                 }
-            }
-        }
-
-        private void UpdateQuotaZone(Frame frame, EntityRef entity, EntityRef valuableEntity, bool isIncremental)
-        {
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(entity, out QuotaZone* quotaZone)) return;
-
-            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
-
-            var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
-            var resourceFractions = frame.ResolveList<ResourceFraction>(valuable->ResourceFractions);
-
-            foreach (var resourceFraction in resourceFractions)
-            {
-                for (int i = 0; i < resourceDemands.Count; i++)
-                {
-                    if (resourceFraction.Type == resourceDemands[i].Type)
-                    {
-                        var demandPtr = resourceDemands.GetPointer(i);
-
-                        var resourceContribution = resourceFraction.Value * valuable->CurrentValue;
-
-                        demandPtr->Collected += isIncremental
-                            ? resourceContribution
-                            : -resourceContribution;
-
-                        demandPtr->IsSatisfied = demandPtr->Collected >= demandPtr->Value;
-                    }
-                }
-            }
-            frame.Events.QuotaZoneUpdated(entity);
-
-            foreach (var demand in resourceDemands)
-            {
-                if (!demand.IsSatisfied)
-                {
-                    quotaZone->IsSatisfied = false;
-                    return;
-                }
-                quotaZone->IsSatisfied = true;
             }
         }
 
@@ -150,6 +117,59 @@ namespace Quantum
             }
 
             frame.Signals.OnCompleteAllQuotaZones();
+        }
+
+        public void OnInZoneValuableDamaged(Frame frame, EntityRef valuableEntity, FP damage)
+        {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            CalculateResourceDemands(frame, valuableEntity, damage, false);
+        }
+
+        private void UpdateQuotaZone(Frame frame, EntityRef valuableEntity, bool isIncremental)
+        {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            CalculateResourceDemands(frame, valuableEntity, valuable->CurrentValue, isIncremental);
+        }
+
+        private void CalculateResourceDemands(Frame frame, EntityRef valuableEntity, FP value, bool isIncremental)
+        {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+
+            var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
+            var resourceFractions = frame.ResolveList<ResourceFraction>(valuable->ResourceFractions);
+
+            foreach (var resourceFraction in resourceFractions)
+            {
+                for (int i = 0; i < resourceDemands.Count; i++)
+                {
+                    if (resourceFraction.Type == resourceDemands[i].Type)
+                    {
+                        var demandPtr = resourceDemands.GetPointer(i);
+
+                        var resourceContribution = resourceFraction.Value * value;
+
+                        demandPtr->Collected += isIncremental
+                            ? resourceContribution
+                            : -resourceContribution;
+
+                        demandPtr->Collected = FPMath.Max(FP._0, demandPtr->Collected);
+
+                        demandPtr->IsSatisfied = demandPtr->Collected >= demandPtr->Value;
+                    }
+                }
+            }
+            frame.Events.QuotaZoneUpdated(valuable->QuotaZoneEntity);
+
+            foreach (var demand in resourceDemands)
+            {
+                if (!demand.IsSatisfied)
+                {
+                    quotaZone->IsSatisfied = false;
+                    return;
+                }
+                quotaZone->IsSatisfied = true;
+            }
         }
     }
 }

@@ -911,14 +911,14 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
-  public unsafe partial class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
+  public unsafe class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
     public AssetRef<ValuableConfig> Config;
     public QBoolean IsPocketValuable;
-    public FP CurrentValue;
-    public FP Fragility;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
-    partial void MaterializeUser(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context);
+    public FP CurrentValue;
+    public FP Fragility;
+    public MapEntityId QuotaZoneEntity;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Valuable component = default;
         Materialize((Frame)f, ref component, in context);
@@ -927,8 +927,6 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
         result.Config = this.Config;
         result.IsPocketValuable = this.IsPocketValuable;
-        result.CurrentValue = this.CurrentValue;
-        result.Fragility = this.Fragility;
         if (this.ResourceFractions.Length == 0) {
           result.ResourceFractions = default;
         } else {
@@ -939,7 +937,9 @@ namespace Quantum.Prototypes {
             list.Add(tmp);
           }
         }
-        MaterializeUser(frame, ref result, in context);
+        result.CurrentValue = this.CurrentValue;
+        result.Fragility = this.Fragility;
+        PrototypeValidator.FindMapEntity(this.QuotaZoneEntity, in context, out result.QuotaZoneEntity);
     }
   }
 }
