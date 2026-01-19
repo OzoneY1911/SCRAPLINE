@@ -43,6 +43,14 @@ namespace Quantum
 
         private void Break(Frame frame, EntityRef entity)
         {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(entity, out var valuable)) return;
+
+            if (valuable->QuotaZoneEntity != EntityRef.None)
+            {
+                var quotaZone = frame.Unsafe.GetPointer<QuotaZone>(valuable->QuotaZoneEntity);
+                frame.Signals.OnInZoneValuableDestroyed(entity);
+            }
+
             frame.Destroy(entity);
         }
     }

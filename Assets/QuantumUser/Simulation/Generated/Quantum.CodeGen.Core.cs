@@ -2259,6 +2259,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnInZoneValuableDamaged : ISignal {
     void OnInZoneValuableDamaged(Frame f, EntityRef entity, FP damage);
   }
+  public unsafe partial interface ISignalOnInZoneValuableDestroyed : ISignal {
+    void OnInZoneValuableDestroyed(Frame f, EntityRef entity);
+  }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
@@ -2271,6 +2274,7 @@ namespace Quantum {
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
     private ISignalOnCompleteQuotaZone[] _ISignalOnCompleteQuotaZoneSystems;
     private ISignalOnInZoneValuableDamaged[] _ISignalOnInZoneValuableDamagedSystems;
+    private ISignalOnInZoneValuableDestroyed[] _ISignalOnInZoneValuableDestroyedSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -2291,6 +2295,7 @@ namespace Quantum {
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
       _ISignalOnCompleteQuotaZoneSystems = BuildSignalsArray<ISignalOnCompleteQuotaZone>();
       _ISignalOnInZoneValuableDamagedSystems = BuildSignalsArray<ISignalOnInZoneValuableDamaged>();
+      _ISignalOnInZoneValuableDestroyedSystems = BuildSignalsArray<ISignalOnInZoneValuableDestroyed>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<Quantum.AnimationTrigger>();
@@ -2499,6 +2504,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnInZoneValuableDamaged(_f, entity, damage);
+          }
+        }
+      }
+      public void OnInZoneValuableDestroyed(EntityRef entity) {
+        var array = _f._ISignalOnInZoneValuableDestroyedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnInZoneValuableDestroyed(_f, entity);
           }
         }
       }

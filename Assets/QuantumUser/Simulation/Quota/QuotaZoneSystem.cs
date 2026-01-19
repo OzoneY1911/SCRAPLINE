@@ -1,9 +1,7 @@
 using Photon.Deterministic;
-using static UnityEngine.EventSystems.EventTrigger;
-
 namespace Quantum
 {
-    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged
+    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged, ISignalOnInZoneValuableDestroyed
     {
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
         {
@@ -123,6 +121,20 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
             CalculateResourceDemands(frame, valuableEntity, damage, false);
+        }
+
+        public void OnInZoneValuableDestroyed(Frame frame, EntityRef valuableEntity)
+        {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+
+            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+            inZoneValuables.Remove(valuableEntity);
+
+            if (!quotaZone->IsActivated) return;
+
+            UpdateQuotaZone(frame, valuableEntity, false);
+            valuable->QuotaZoneEntity = EntityRef.None;
         }
 
         private void UpdateQuotaZone(Frame frame, EntityRef valuableEntity, bool isIncremental)
