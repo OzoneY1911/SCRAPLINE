@@ -1,3 +1,5 @@
+using Photon.Deterministic;
+
 namespace Quantum
 {
     public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted
@@ -70,6 +72,16 @@ namespace Quantum
                 var selectedValuableEntity = playerInventory->Slots[(int)selectedSlotIndex];
                 var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(selectedValuableEntity);
                 var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(selectedValuableEntity);
+
+                var playerBody = frame.Unsafe.GetPointer<PhysicsBody3D>(filter.Entity);
+                var valuableTransform = frame.Unsafe.GetPointer<Transform3D>(selectedValuableEntity);
+
+                var dropPosition = input->CameraPosition + input->CameraForward * player->InteractionDistance;
+
+                valuableTransform->Teleport(frame, dropPosition);
+
+                valuableBody->Velocity = playerBody->Velocity;
+                valuableBody->AngularVelocity = playerBody->AngularVelocity;
                 valuableBody->Enabled = true;
                 valuableCollider->Enabled = true;
 
