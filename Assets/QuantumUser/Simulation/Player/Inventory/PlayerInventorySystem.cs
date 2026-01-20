@@ -111,6 +111,12 @@ namespace Quantum
 
                 playerInventory->Slots[(int)targetSlotIndex] = valuableEntity;
                 frame.Events.ValuableCollected(playerEntity, valuableEntity, targetSlotIndex);
+
+                var valuable = frame.Unsafe.GetPointer<Valuable>(valuableEntity);
+                if (valuable->QuotaZoneEntity != EntityRef.None)
+                {
+                    frame.Signals.OnInZoneValuableCollectedByPlayer(valuableEntity);
+                }
             }
         }
     }

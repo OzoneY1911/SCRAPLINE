@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/QuantumUser/Scenes/HubScene.unity
     guid: 3de17d454f9bc3944928ccf5ed32af76
-  - enabled: 1
+  - enabled: 0
     path: Assets/QuantumUser/Scenes/ProceduralScene.unity
     guid: a056eb087c7288249a0b3d1286f44e1c
   - enabled: 0

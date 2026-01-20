@@ -1,7 +1,7 @@
 using Photon.Deterministic;
 namespace Quantum
 {
-    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged, ISignalOnInZoneValuableDestroyed
+    public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged, ISignalOnInZoneValuableDestroyed, ISignalOnInZoneValuableCollectedByPlayer
     {
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
         {
@@ -54,18 +54,7 @@ namespace Quantum
 
         public void OnTriggerExit3D(Frame frame, ExitInfo3D triggerInfo)
         {
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
-
-            if (frame.Unsafe.TryGetPointer<Valuable>(triggerInfo.Other, out Valuable* valuable))
-            {
-                var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
-                inZoneValuables.Remove(triggerInfo.Other);
-
-                if (!quotaZone->IsActivated) return;
-
-                UpdateQuotaZone(frame, triggerInfo.Other, false);
-                valuable->QuotaZoneEntity = EntityRef.None;
-            }
+            RemoveValuableFromQuotaZone(frame, triggerInfo.Other);
         }
 
         public void OnActivateQuotaZone(Frame frame, EntityRef entity)
@@ -125,16 +114,12 @@ namespace Quantum
 
         public void OnInZoneValuableDestroyed(Frame frame, EntityRef valuableEntity)
         {
-            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+            RemoveValuableFromQuotaZone(frame, valuableEntity);
+        }
 
-            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
-            inZoneValuables.Remove(valuableEntity);
-
-            if (!quotaZone->IsActivated) return;
-
-            UpdateQuotaZone(frame, valuableEntity, false);
-            valuable->QuotaZoneEntity = EntityRef.None;
+        public void OnInZoneValuableCollectedByPlayer(Frame frame, EntityRef valuableEntity)
+        {
+            RemoveValuableFromQuotaZone(frame, valuableEntity);
         }
 
         private void UpdateQuotaZone(Frame frame, EntityRef valuableEntity, bool isIncremental)
@@ -182,6 +167,20 @@ namespace Quantum
                 }
                 quotaZone->IsSatisfied = true;
             }
+        }
+
+        private void RemoveValuableFromQuotaZone(Frame frame, EntityRef valuableEntity)
+        {
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+
+            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+            inZoneValuables.Remove(valuableEntity);
+
+            if (!quotaZone->IsActivated) return;
+
+            UpdateQuotaZone(frame, valuableEntity, false);
+            valuable->QuotaZoneEntity = EntityRef.None;
         }
     }
 }
