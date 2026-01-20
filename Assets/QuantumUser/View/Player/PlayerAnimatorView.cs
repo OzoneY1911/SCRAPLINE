@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
+using static Quantum.EnumEqualityComparer;
 
 namespace Quantum
 {
@@ -9,12 +11,14 @@ namespace Quantum
         [SerializeField] private Transform _neckBonePivot;
         [SerializeField] private Transform _RightArmBonePivot;
 
-        [SerializeField] private float speedLerp = 8f;
+        [SerializeField] private float _speedLerp = 8f;
 
-        private float _locomotionSmoothed;
-        private float _locomotionCrouchSmoothed;
+        private float _smoothedX;
+        private float _smoothedY;
+        private float _smoothedCrouch;
 
-        private static readonly int _speedHash = Animator.StringToHash("Speed");
+        private static readonly int _speedXHash = Animator.StringToHash("SpeedX");
+        private static readonly int _speedYHash = Animator.StringToHash("SpeedY");
         private static readonly int _crouchSpeedHash = Animator.StringToHash("CrouchSpeed");
         private static readonly int _isCrouchingHash = Animator.StringToHash("IsCrouching");
 
@@ -50,22 +54,35 @@ namespace Quantum
             var velocity = frame.Get<PhysicsBody3D>(EntityRef).Velocity;
 
             var horizontalVelocity = new Vector3(velocity.X.AsFloat, 0f, velocity.Z.AsFloat);
-            var signedSpeed = Vector3.Dot(horizontalVelocity, transform.forward);
-            float targetSpeed = 0f;
+
+            var signedX = Vector3.Dot(horizontalVelocity, transform.right);
+            var signedY = Vector3.Dot(horizontalVelocity, transform.forward);
+
+            float horizontalMagnitude = horizontalVelocity.magnitude;
+
+            float absX = Mathf.Abs(signedX);
+            float absY = Mathf.Abs(signedY);
+            float denominator = Mathf.Max(absX, absY);
+
+            float normalizedX = (denominator > 0.001f) ? (signedX / denominator) : 0f;
+            float normalizedY = (denominator > 0.001f) ? (signedY / denominator) : 0f;
+
+            float speedScale = 0f;
+            if (horizontalMagnitude > 0.05f)
+            {
+                speedScale = movement.IsRunning ? 1f : 0.5f;
+            }
 
             // LOCOMOTION
 
-            if (Mathf.Abs(signedSpeed) > 0.05f)
-            {
-                targetSpeed = movement.IsRunning
-                    ? 1f
-                    : 0.5f;
-                targetSpeed *= Mathf.Sign(signedSpeed);
-            }
+            float targetX = normalizedX * speedScale;
+            float targetY = normalizedY * speedScale;
 
-            _locomotionSmoothed = Mathf.Lerp(_locomotionSmoothed, targetSpeed, Time.deltaTime * speedLerp);
+            _smoothedX = Mathf.Lerp(_smoothedX, targetX, Time.deltaTime * _speedLerp);
+            _smoothedY = Mathf.Lerp(_smoothedY, targetY, Time.deltaTime * _speedLerp);
 
-            _animator.SetFloat(_speedHash, _locomotionSmoothed);
+            _animator.SetFloat(_speedXHash, _smoothedX);
+            _animator.SetFloat(_speedYHash, _smoothedY);
 
             // CROUCH LOCOMOTION
 
@@ -73,18 +90,15 @@ namespace Quantum
 
             if (!movement.IsCrouching)
             {
-                _locomotionCrouchSmoothed = 0f;
+                _smoothedCrouch = 0f;
                 return;
             }
 
-            targetSpeed = Mathf.Abs(signedSpeed) > 0.05f
-                ? 1f
-                : 0f;
-            targetSpeed *= Mathf.Sign(signedSpeed);
+            float targetCrouch = (horizontalMagnitude > 0.05f) ? 1f : 0f;
 
-            _locomotionCrouchSmoothed = Mathf.Lerp(_locomotionCrouchSmoothed, targetSpeed, Time.deltaTime * speedLerp);
+            _smoothedCrouch = Mathf.Lerp(_smoothedCrouch, targetCrouch, Time.deltaTime * _speedLerp);
 
-            _animator.SetFloat(_crouchSpeedHash, _locomotionCrouchSmoothed);
+            _animator.SetFloat(_crouchSpeedHash, _smoothedCrouch);
         }
     }
 }
