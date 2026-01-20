@@ -46,6 +46,8 @@ namespace Quantum
 
         private void OnEventValuableDropped(EventValuableDropped e)
         {
+            if (e.PlayerEntity != EntityRef) return;
+
             _playerInventoryUI.SetSlotValuableName((int)e.SlotIndex, "");
         }
     }

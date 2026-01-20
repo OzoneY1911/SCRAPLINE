@@ -114,9 +114,10 @@ namespace Quantum {
         _f.AddEvent(ev);
         return ev;
       }
-      public EventValuableDropped ValuableDropped(EntityRef Entity, SlotIndex SlotIndex) {
+      public EventValuableDropped ValuableDropped(EntityRef PlayerEntity, EntityRef ValuableEntity, SlotIndex SlotIndex) {
         var ev = _f.Context.AcquireEvent<EventValuableDropped>(EventValuableDropped.ID);
-        ev.Entity = Entity;
+        ev.PlayerEntity = PlayerEntity;
+        ev.ValuableEntity = ValuableEntity;
         ev.SlotIndex = SlotIndex;
         _f.AddEvent(ev);
         return ev;
@@ -307,7 +308,8 @@ namespace Quantum {
   }
   public unsafe partial class EventValuableDropped : EventBase {
     public new const Int32 ID = 7;
-    public EntityRef Entity;
+    public EntityRef PlayerEntity;
+    public EntityRef ValuableEntity;
     public SlotIndex SlotIndex;
     protected EventValuableDropped(Int32 id, EventFlags flags) : 
         base(id, flags) {
@@ -326,7 +328,8 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 67;
-        hash = hash * 31 + Entity.GetHashCode();
+        hash = hash * 31 + PlayerEntity.GetHashCode();
+        hash = hash * 31 + ValuableEntity.GetHashCode();
         hash = hash * 31 + SlotIndex.GetHashCode();
         return hash;
       }

@@ -2247,6 +2247,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnValuableCollectAttempted : ISignal {
     void OnValuableCollectAttempted(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
   }
+  public unsafe partial interface ISignalOnValuableCollected : ISignal {
+    void OnValuableCollected(Frame f, EntityRef playerEntity);
+  }
   public unsafe partial interface ISignalOnInZoneValuableCollectedByPlayer : ISignal {
     void OnInZoneValuableCollectedByPlayer(Frame f, EntityRef valuableEntity);
   }
@@ -2273,6 +2276,7 @@ namespace Quantum {
     private ISignalOnEntityDeath[] _ISignalOnEntityDeathSystems;
     private ISignalOnInteract[] _ISignalOnInteractSystems;
     private ISignalOnValuableCollectAttempted[] _ISignalOnValuableCollectAttemptedSystems;
+    private ISignalOnValuableCollected[] _ISignalOnValuableCollectedSystems;
     private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
@@ -2295,6 +2299,7 @@ namespace Quantum {
       _ISignalOnEntityDeathSystems = BuildSignalsArray<ISignalOnEntityDeath>();
       _ISignalOnInteractSystems = BuildSignalsArray<ISignalOnInteract>();
       _ISignalOnValuableCollectAttemptedSystems = BuildSignalsArray<ISignalOnValuableCollectAttempted>();
+      _ISignalOnValuableCollectedSystems = BuildSignalsArray<ISignalOnValuableCollected>();
       _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
@@ -2473,6 +2478,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnValuableCollectAttempted(_f, playerEntity, valuableEntity);
+          }
+        }
+      }
+      public void OnValuableCollected(EntityRef playerEntity) {
+        var array = _f._ISignalOnValuableCollectedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnValuableCollected(_f, playerEntity);
           }
         }
       }

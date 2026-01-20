@@ -62,7 +62,7 @@ namespace Quantum
                 }
             }
 
-            if (input->DropValuable.WasPressed && IsSlotSelected(filter.PlayerInventory))
+            if (input->DropValuable.WasPressed && IsSlotSelected(filter.PlayerInventory) && !IsSelectedSlotEmpty(filter.PlayerInventory))
             {
                 var playerInventory = filter.PlayerInventory;
                 var selectedSlotIndex = playerInventory->SelectedSlotIndex;
@@ -74,7 +74,7 @@ namespace Quantum
                 valuableCollider->Enabled = true;
 
                 playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
-                frame.Events.ValuableDropped(filter.Entity, selectedSlotIndex);
+                frame.Events.ValuableDropped(filter.Entity, selectedValuableEntity, selectedSlotIndex);
             }
         }
 
@@ -111,6 +111,7 @@ namespace Quantum
 
                 playerInventory->Slots[(int)targetSlotIndex] = valuableEntity;
                 frame.Events.ValuableCollected(playerEntity, valuableEntity, targetSlotIndex);
+                frame.Signals.OnValuableCollected(playerEntity);
 
                 var valuable = frame.Unsafe.GetPointer<Valuable>(valuableEntity);
                 if (valuable->QuotaZoneEntity != EntityRef.None)

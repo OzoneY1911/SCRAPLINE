@@ -5,6 +5,7 @@ component PlayerInventory
 }
 
 signal OnValuableCollectAttempted(entity_ref playerEntity, entity_ref valuableEntity);
+signal OnValuableCollected(entity_ref playerEntity);
 signal OnInZoneValuableCollectedByPlayer(entity_ref valuableEntity);
 
 event InventorySlotSelected
@@ -22,6 +23,7 @@ event ValuableCollected
 
 event ValuableDropped
 {
-    entity_ref Entity;
+    entity_ref PlayerEntity;
+    entity_ref ValuableEntity;
     SlotIndex SlotIndex;
 }

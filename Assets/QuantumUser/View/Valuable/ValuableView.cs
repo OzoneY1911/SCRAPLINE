@@ -10,6 +10,8 @@ namespace Quantum
         public override void OnActivate(Frame frame)
         {
             QuantumEvent.Subscribe<EventValuableHit>(this, OnEventValuableHit);
+            QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
+            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
         }
 
         private void OnEventValuableHit(EventValuableHit e)
@@ -21,6 +23,20 @@ namespace Quantum
             damageObj.GetComponent<TextMeshPro>().text = $"-{e.HitDamage.AsInt.ToString()}";
 
             Destroy(damageObj, 2f);
+        }
+
+        private void OnEventValuableCollected(EventValuableCollected e)
+        {
+            if (EntityRef != e.ValuableEntity) return;
+
+            gameObject.SetActive(false);
+        }
+
+        private void OnEventValuableDropped(EventValuableDropped e)
+        {
+            if (EntityRef != e.ValuableEntity) return;
+
+            gameObject.SetActive(true);
         }
     }
 }

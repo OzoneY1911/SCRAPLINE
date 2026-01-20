@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 namespace Quantum
 {
     [Preserve]
-    public unsafe class PlayerDraggingSystem : SystemMainThreadFilter<PlayerDraggingSystem.Filter>
+    public unsafe class PlayerDraggingSystem : SystemMainThreadFilter<PlayerDraggingSystem.Filter>, ISignalOnValuableCollected
     {
         public struct Filter
         {
@@ -12,6 +12,13 @@ namespace Quantum
             public Transform3D* Transform;
             public Player* Player;
             public PlayerDragging* PlayerDragging;
+        }
+
+        public void OnValuableCollected(Frame frame, EntityRef playerEntity)
+        {
+            var playerDragging = frame.Unsafe.GetPointer<PlayerDragging>(playerEntity);
+
+            StopDragging(frame, playerDragging);
         }
 
         public override void Update(Frame frame, ref Filter filter)
@@ -29,7 +36,7 @@ namespace Quantum
             {
                 if (input->Interact.WasReleased || !frame.Exists(playerDragging->DraggedEntity))
                 {
-                    StopDragging(frame, ref filter);
+                    StopDragging(frame, filter.PlayerDragging);
                     return;
                 }
 
@@ -95,10 +102,8 @@ namespace Quantum
             }
         }
 
-        private void StopDragging(Frame frame, ref Filter filter)
+        private void StopDragging(Frame frame, PlayerDragging* playerDragging)
         {
-            var playerDragging = filter.PlayerDragging;
-
             playerDragging->IsDragging = false;
             playerDragging->DraggedEntity = default;
         }
@@ -108,9 +113,9 @@ namespace Quantum
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var playerDragging = filter.PlayerDragging;
 
-            var draggedBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerDragging->DraggedEntity);
+            if (!frame.Unsafe.TryGetPointer<PhysicsBody3D>(playerDragging->DraggedEntity, out var draggedBody)) return;
 
-            var draggedTransform = frame.Unsafe.GetPointer<Transform3D>(playerDragging->DraggedEntity);
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(playerDragging->DraggedEntity, out var draggedTransform)) return;
 
             if (input->CameraPosition == default) return;
 
@@ -159,9 +164,9 @@ namespace Quantum
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var playerDragging = filter.PlayerDragging;
 
-            var draggedBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerDragging->DraggedEntity);
+            if (!frame.Unsafe.TryGetPointer<PhysicsBody3D>(playerDragging->DraggedEntity, out var draggedBody)) return;
 
-            var draggedTransform = frame.Unsafe.GetPointer<Transform3D>(playerDragging->DraggedEntity);
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(playerDragging->DraggedEntity, out var draggedTransform)) return;
 
             // --- Rotation drive ---
             FPQuaternion cameraRotation = FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up);
