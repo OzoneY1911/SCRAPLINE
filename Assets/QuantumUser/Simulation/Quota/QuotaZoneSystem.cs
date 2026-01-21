@@ -82,9 +82,6 @@ namespace Quantum
 
             var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
 
-            quotaZone->IsCompleted = true;
-            frame.Events.QuotaZoneCompleted(entity);
-
             var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
             foreach (var inZoneValuable in inZoneValuables)
             {
@@ -96,6 +93,10 @@ namespace Quantum
             {
                 frame.Global->PlayerMoney += resourceDemand.Collected;
             }
+            frame.Global->PlayerMoney = FPMath.RoundToInt(frame.Global->PlayerMoney);
+
+            quotaZone->IsCompleted = true;
+            frame.Events.QuotaZoneCompleted(entity);
 
             var trackedQuotaZones = frame.ResolveList<EntityRef>(frame.Global->TrackedQuotaZones);
             foreach (var trackedQuotaZone in trackedQuotaZones)
