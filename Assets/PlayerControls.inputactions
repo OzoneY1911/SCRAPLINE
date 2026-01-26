@@ -301,7 +301,7 @@
             "id": "d7319c8a-a12f-4268-a7a2-bad068fbe6c5",
             "actions": [
                 {
-                    "name": "Pause",
+                    "name": "ToggleSessionMenu",
                     "type": "Button",
                     "id": "4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f",
                     "expectedControlType": "",
@@ -327,7 +327,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "ToggleSessionMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

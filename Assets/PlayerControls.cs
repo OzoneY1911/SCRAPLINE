@@ -387,7 +387,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""d7319c8a-a12f-4268-a7a2-bad068fbe6c5"",
             ""actions"": [
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""ToggleSessionMenu"",
                     ""type"": ""Button"",
                     ""id"": ""4c8cddde-bf4a-42ce-bb5a-e359ee0cc05f"",
                     ""expectedControlType"": """",
@@ -413,7 +413,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""ToggleSessionMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1113,7 +1113,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_DropValuable = m_Main.FindAction("DropValuable", throwIfNotFound: true);
         // PersistentMap
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
-        m_PersistentMap_Pause = m_PersistentMap.FindAction("Pause", throwIfNotFound: true);
+        m_PersistentMap_ToggleSessionMenu = m_PersistentMap.FindAction("ToggleSessionMenu", throwIfNotFound: true);
         m_PersistentMap_ToggleChat = m_PersistentMap.FindAction("ToggleChat", throwIfNotFound: true);
         // DeathCamera
         m_DeathCamera = asset.FindActionMap("DeathCamera", throwIfNotFound: true);
@@ -1422,7 +1422,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // PersistentMap
     private readonly InputActionMap m_PersistentMap;
     private List<IPersistentMapActions> m_PersistentMapActionsCallbackInterfaces = new List<IPersistentMapActions>();
-    private readonly InputAction m_PersistentMap_Pause;
+    private readonly InputAction m_PersistentMap_ToggleSessionMenu;
     private readonly InputAction m_PersistentMap_ToggleChat;
     /// <summary>
     /// Provides access to input actions defined in input action map "PersistentMap".
@@ -1436,9 +1436,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PersistentMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "PersistentMap/Pause".
+        /// Provides access to the underlying input action "PersistentMap/ToggleSessionMenu".
         /// </summary>
-        public InputAction @Pause => m_Wrapper.m_PersistentMap_Pause;
+        public InputAction @ToggleSessionMenu => m_Wrapper.m_PersistentMap_ToggleSessionMenu;
         /// <summary>
         /// Provides access to the underlying input action "PersistentMap/ToggleChat".
         /// </summary>
@@ -1469,9 +1469,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PersistentMapActionsCallbackInterfaces.Add(instance);
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
+            @ToggleSessionMenu.started += instance.OnToggleSessionMenu;
+            @ToggleSessionMenu.performed += instance.OnToggleSessionMenu;
+            @ToggleSessionMenu.canceled += instance.OnToggleSessionMenu;
             @ToggleChat.started += instance.OnToggleChat;
             @ToggleChat.performed += instance.OnToggleChat;
             @ToggleChat.canceled += instance.OnToggleChat;
@@ -1486,9 +1486,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PersistentMapActions" />
         private void UnregisterCallbacks(IPersistentMapActions instance)
         {
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
+            @ToggleSessionMenu.started -= instance.OnToggleSessionMenu;
+            @ToggleSessionMenu.performed -= instance.OnToggleSessionMenu;
+            @ToggleSessionMenu.canceled -= instance.OnToggleSessionMenu;
             @ToggleChat.started -= instance.OnToggleChat;
             @ToggleChat.performed -= instance.OnToggleChat;
             @ToggleChat.canceled -= instance.OnToggleChat;
@@ -2007,12 +2007,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPersistentMapActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToggleSessionMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPause(InputAction.CallbackContext context);
+        void OnToggleSessionMenu(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ToggleChat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

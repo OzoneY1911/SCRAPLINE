@@ -28,35 +28,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (_playerControls.PersistentMap.Pause.WasPressedThisFrame())
-        {
-            ToggleCursor();
-            
-            if (_playerControls.PersistentMap.ToggleChat.enabled)
-            {
-                SetSoloMap(_playerControls.PersistentMap);
-                _playerControls.PersistentMap.ToggleChat.Disable();
-            }
-            else
-            {
-                EnablePreviousMap();
-                _playerControls.PersistentMap.ToggleChat.Enable();
-            }
-        }
-
-        if (_playerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
-        {
-            if (_playerControls.PersistentMap.Pause.enabled)
-            {
-                SetSoloMap(_playerControls.PersistentMap);
-                _playerControls.PersistentMap.Pause.Disable();
-            }
-            else
-            {
-                EnablePreviousMap();
-                _playerControls.PersistentMap.Pause.Enable();
-            }
-        }
+        HandleSessionMenu();
+        HandleChat();
     }
 
     private void EnableControls() => _playerControls.Enable();
@@ -94,5 +67,41 @@ public class InputManager : MonoBehaviour
         _previousMap?.Enable();
         _currentMap = _previousMap;
         _previousMap = null;
+    }
+
+    private void HandleSessionMenu()
+    {
+        if (_playerControls.PersistentMap.ToggleSessionMenu.WasPressedThisFrame())
+        {
+            ToggleCursor();
+
+            if (_playerControls.PersistentMap.ToggleChat.enabled)
+            {
+                SetSoloMap(_playerControls.PersistentMap);
+                _playerControls.PersistentMap.ToggleChat.Disable();
+            }
+            else
+            {
+                EnablePreviousMap();
+                _playerControls.PersistentMap.ToggleChat.Enable();
+            }
+        }
+    }
+
+    private void HandleChat()
+    {
+        if (_playerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
+        {
+            if (_playerControls.PersistentMap.ToggleSessionMenu.enabled)
+            {
+                SetSoloMap(_playerControls.PersistentMap);
+                _playerControls.PersistentMap.ToggleSessionMenu.Disable();
+            }
+            else
+            {
+                EnablePreviousMap();
+                _playerControls.PersistentMap.ToggleSessionMenu.Enable();
+            }
+        }
     }
 }

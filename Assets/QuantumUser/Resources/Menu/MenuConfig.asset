@@ -36,20 +36,6 @@ MonoBehaviour:
       SystemsConfig:
         Id:
           Value: 504486853805744320
-  - Name: ProceduralScene
-    ScenePath: Assets/QuantumUser/Scenes/ProceduralScene.unity
-    Preview: {fileID: 0}
-    RuntimeConfig:
-      Seed: 0
-      Map:
-        Id:
-          Value: 509245598804072393
-      SimulationConfig:
-        Id:
-          Value: 495965110333760304
-      SystemsConfig:
-        Id:
-          Value: 481272546664667251
   _machineId: {fileID: -755480892457977500, guid: fbd1d0c57fd428c44b08e505acb8d851, type: 3}
   _codeGenerator: {fileID: 11400000, guid: e38f1fac5a1a5c94da2b4ef21bd48419, type: 2}
   DefaultScenePreview: {fileID: 0}

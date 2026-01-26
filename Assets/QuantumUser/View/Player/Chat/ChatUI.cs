@@ -18,9 +18,13 @@ public class ChatUI : MonoBehaviour
 
     private bool _isChatFocused;
 
-    private void OnEnable()
+    private void Awake()
     {
         _chatCanvas.enabled = false;
+    }
+
+    private void OnEnable()
+    {
         if (_chatManager == null)
         {
             _chatManager = FindAnyObjectByType<ChatManager>();

@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using static Quantum.EnumEqualityComparer;
@@ -33,11 +34,20 @@ namespace Quantum
 
             var playerPitch = Mathf.Clamp(player.LookPitch.AsFloat, -75f, 90f);
 
+            HandleNeckBone(frame, playerPitch);
+            HandleRightArmBone(frame, playerPitch);
+
+            HandleMovementAnimation(frame);
+        }
+
+        private void HandleNeckBone(Frame frame, float playerPitch)
+        {
             Quaternion neckPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.right);
             _neckBonePivot.localRotation *= neckPitchOffset;
+        }
 
-            // DRAGGING
-
+        private void HandleRightArmBone(Frame frame, float playerPitch)
+        {
             var dragging = frame.Get<PlayerDragging>(EntityRef);
 
             _animator.SetBool("IsDragging", dragging.IsDragging);
@@ -47,9 +57,10 @@ namespace Quantum
                 Quaternion rightArmPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.up);
                 _RightArmBonePivot.localRotation *= rightArmPitchOffset;
             }
+        }
 
-            // MOVEMENT
-
+        private void HandleMovementAnimation(Frame frame)
+        {
             var movement = frame.Get<PlayerMovement>(EntityRef);
             var velocity = frame.Get<PhysicsBody3D>(EntityRef).Velocity;
 

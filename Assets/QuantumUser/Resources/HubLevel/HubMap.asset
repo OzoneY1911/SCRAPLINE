@@ -69,11 +69,11 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 983040
+        RawValue: 3276800
       Y:
         RawValue: 65536
       Z:
-        RawValue: 983040
+        RawValue: 3276800
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: Floor
@@ -133,182 +133,6 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: -452198
-      Y:
-        RawValue: 131137
-      Z:
-        RawValue: -347340
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 32768
-      Y:
-        RawValue: 131072
-      Z:
-        RawValue: 6554
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: DOORWALL_4x4
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 2
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: -255591
-      Y:
-        RawValue: 131137
-      Z:
-        RawValue: -347340
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 32768
-      Y:
-        RawValue: 131072
-      Z:
-        RawValue: 6554
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: DOORWALL_4x4
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 3
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: -353894
-      Y:
-        RawValue: 196673
-      Z:
-        RawValue: -347340
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 65536
-      Y:
-        RawValue: 65536
-      Z:
-        RawValue: 6554
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: DOORWALL_4x4
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 4
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: -353894
-      Y:
-        RawValue: -1572
-      Z:
-        RawValue: -347340
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 65536
-      Y:
-        RawValue: 1638
-      Z:
-        RawValue: 6554
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: DOORWALL_4x4
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 5
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
         RawValue: 46340
       Z:
         RawValue: 0
@@ -347,7 +171,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 6
+      ColliderIndex: 2
       MutableMode: 0
   - Rotation:
       X:
@@ -391,7 +215,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 7
+      ColliderIndex: 3
       MutableMode: 0
   - Rotation:
       X:
@@ -435,7 +259,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 8
+      ColliderIndex: 4
       MutableMode: 0
   - Rotation:
       X:
@@ -479,7 +303,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 9
+      ColliderIndex: 5
       MutableMode: 0
   - Rotation:
       X:
@@ -523,7 +347,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 10
+      ColliderIndex: 6
       MutableMode: 0
   - Rotation:
       X:
@@ -567,7 +391,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 11
+      ColliderIndex: 7
       MutableMode: 0
   - Rotation:
       X:
@@ -611,7 +435,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 12
+      ColliderIndex: 8
       MutableMode: 0
   - Rotation:
       X:
@@ -655,7 +479,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 9
       MutableMode: 0
   - Rotation:
       X:
@@ -699,7 +523,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 10
       MutableMode: 0
   - Rotation:
       X:
@@ -743,7 +567,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 15
+      ColliderIndex: 11
       MutableMode: 0
   - Rotation:
       X:
@@ -787,7 +611,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 12
       MutableMode: 0
   - Rotation:
       X:
@@ -825,6 +649,182 @@ MonoBehaviour:
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: FLOOR_4x4 (2)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 13
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -452198
+      Y:
+        RawValue: 131137
+      Z:
+        RawValue: -347340
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: DOORWALL_4x4
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 14
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -255591
+      Y:
+        RawValue: 131137
+      Z:
+        RawValue: -347340
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: DOORWALL_4x4
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 15
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -353894
+      Y:
+        RawValue: 196673
+      Z:
+        RawValue: -347340
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: DOORWALL_4x4
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 16
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -353894
+      Y:
+        RawValue: -1572
+      Z:
+        RawValue: -347340
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 1638
+      Z:
+        RawValue: 6554
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: DOORWALL_4x4
       Tag: Untagged
       Layer: 0
       Asset:

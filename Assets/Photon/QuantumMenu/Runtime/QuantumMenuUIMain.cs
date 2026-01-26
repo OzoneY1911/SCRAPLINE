@@ -18,10 +18,6 @@ namespace Quantum.Menu {
     /// </summary>
     [InlineHelp, SerializeField] protected Text _usernameLabel;
     /// <summary>
-    /// The scene thumbnail. Can be null.
-    /// </summary>
-    [InlineHelp, SerializeField] protected UnityEngine.UI.Image _sceneThumbnail;
-    /// <summary>
     /// The username input UI part.
     /// </summary>
     [InlineHelp, SerializeField] protected GameObject _usernameView;
@@ -38,10 +34,6 @@ namespace Quantum.Menu {
     /// </summary>
     [InlineHelp, SerializeField] protected UnityEngine.UI.Button _usernameButton;
     /// <summary>
-    /// The open character selection button.
-    /// </summary>
-    [InlineHelp, SerializeField] protected UnityEngine.UI.Button _characterButton;
-    /// <summary>
     /// The open party screen button.
     /// </summary>
     [InlineHelp, SerializeField] protected UnityEngine.UI.Button _partyButton;
@@ -53,10 +45,6 @@ namespace Quantum.Menu {
     /// The quit button.
     /// </summary>
     [InlineHelp, SerializeField] protected UnityEngine.UI.Button _quitButton;
-    /// <summary>
-    /// The open scene screen button.
-    /// </summary>
-    [InlineHelp, SerializeField] protected UnityEngine.UI.Button _sceneButton;
     /// <summary>
     /// The open setting button.
     /// </summary>
@@ -119,12 +107,6 @@ namespace Quantum.Menu {
         _usernameLabel.text = ConnectionArgs.Username;
       }
 
-      if (Config.AvailableSceneAssets.Count > 1) {
-        _sceneButton.interactable = true;
-      } else {
-        _sceneButton.interactable = false;
-      }
-
       if (string.IsNullOrEmpty(ConnectionArgs.Scene?.NameOrSceneName)) {
         _playButton.interactable = false;
         _partyButton.interactable = false;
@@ -132,18 +114,6 @@ namespace Quantum.Menu {
       } else {
         _playButton.interactable = true;
         _partyButton.interactable = true;
-      }
-
-      if (_sceneButton.gameObject.activeInHierarchy && _sceneThumbnail != null) {
-        var preview = ConnectionArgs.Scene == null || ConnectionArgs.Scene.Preview == null ? Config.DefaultScenePreview : ConnectionArgs.Scene.Preview;
-        if (preview != null) {
-          _sceneThumbnail.transform.parent.gameObject.SetActive(true);
-          _sceneThumbnail.sprite = preview;
-          _sceneThumbnail.gameObject.SendMessage("OnResolutionChanged", SendMessageOptions.DontRequireReceiver);
-        } else {
-          _sceneThumbnail.transform.parent.gameObject.SetActive(false);
-          _sceneThumbnail.sprite = null;
-        }
       }
 
       ShowUser();
@@ -201,8 +171,6 @@ namespace Quantum.Menu {
       await Controller.HandleConnectionResult(result, this.Controller);
     }
 
-    
-
     /// <summary>
     /// Is called when the <see cref="_partyButton"/> is pressed using SendMessage() from the UI object.
     /// </summary>
@@ -211,23 +179,10 @@ namespace Quantum.Menu {
     }
 
     /// <summary>
-    /// Is called when the <see cref="_sceneButton"/> is pressed using SendMessage() from the UI object.
-    /// </summary>
-    protected virtual void OnScenesButtonPressed() {
-      Controller.Show<QuantumMenuUIScenes>();
-    }
-
-    /// <summary>
     /// Is called when the <see cref="_settingsButton"/> is pressed using SendMessage() from the UI object.
     /// </summary>
     protected virtual void OnSettingsButtonPressed() {
       Controller.Show<QuantumMenuUISettings>();
-    }
-
-    /// <summary>
-    /// Is called when the <see cref="_characterButton"/> is pressed using SendMessage() from the UI object.
-    /// </summary>
-    protected virtual void OnCharacterButtonPressed() {
     }
 
     /// <summary>
