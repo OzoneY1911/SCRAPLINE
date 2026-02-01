@@ -94,6 +94,7 @@ namespace Quantum
                 frame.Global->PlayerMoney += resourceDemand.Collected;
             }
             frame.Global->PlayerMoney = FPMath.RoundToInt(frame.Global->PlayerMoney);
+            frame.Events.PlayerMoneyUpdated();
 
             quotaZone->IsCompleted = true;
             frame.Events.QuotaZoneCompleted(entity);

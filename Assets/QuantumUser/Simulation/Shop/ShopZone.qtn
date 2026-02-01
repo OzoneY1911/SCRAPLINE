@@ -1,0 +1,20 @@
+component ShopZone
+{
+    [HideInInspector]
+    hash_set<entity_ref> InZoneValuables;
+
+    [HideInInspector]
+    FP InZoneValue;
+}
+
+signal OnShopPurchaseAttempted(entity_ref entity);
+
+event ShopZoneUpdated
+{
+    entity_ref Entity;
+}
+
+event ShopPurchaseSucceeded
+{
+    entity_ref Entity;
+}

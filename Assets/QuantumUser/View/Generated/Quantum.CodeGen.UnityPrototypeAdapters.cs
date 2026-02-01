@@ -77,6 +77,17 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class InteractableShopZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractableShopZonePrototype> {
+    public Quantum.QuantumEntityPrototype TargetShopZone;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableShopZonePrototype prototype);
+    public override Quantum.Prototypes.InteractableShopZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.InteractableShopZonePrototype();
+      converter.Convert(this.TargetShopZone, out result.TargetShopZone);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class KCCPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCPrototype> {
     public AssetRef<KCCSettings> Settings;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCPrototype prototype);
@@ -219,6 +230,22 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class ShopZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ShopZonePrototype> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] InZoneValuables = {};
+    [HideInInspector()]
+    public FP InZoneValue;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ShopZonePrototype prototype);
+    public override Quantum.Prototypes.ShopZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.ShopZonePrototype();
+      converter.Convert(this.InZoneValuables, out result.InZoneValuables);
+      converter.Convert(this.InZoneValue, out result.InZoneValue);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class TeleporterPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TeleporterPrototype> {
     public Quantum.QuantumEntityPrototype ExitEntity;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TeleporterPrototype prototype);
@@ -237,6 +264,8 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
     public FP CurrentValue;
     public FP Fragility;
+    public QBoolean IsShopValuable;
+    [HideInInspector()]
     public Quantum.QuantumEntityPrototype QuotaZoneEntity;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ValuablePrototype prototype);
     public override Quantum.Prototypes.ValuablePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
@@ -246,6 +275,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.ResourceFractions, out result.ResourceFractions);
       converter.Convert(this.CurrentValue, out result.CurrentValue);
       converter.Convert(this.Fragility, out result.Fragility);
+      converter.Convert(this.IsShopValuable, out result.IsShopValuable);
       converter.Convert(this.QuotaZoneEntity, out result.QuotaZoneEntity);
       ConvertUser(converter, ref result);
       return result;

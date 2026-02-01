@@ -108,6 +108,12 @@ MonoBehaviour:
       StartDisabled: 0
       Children: []
   - SystemType:
+      AssemblyQualifiedName: Quantum.PlayerInventorySystem, Quantum.Simulation, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
       AssemblyQualifiedName: Quantum.InteractableSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
@@ -150,7 +156,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Quantum.PlayerInventorySystem, Quantum.Simulation, Version=0.0.0.0,
+      AssemblyQualifiedName: Quantum.ShopZoneSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

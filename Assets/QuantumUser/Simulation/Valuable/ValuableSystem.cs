@@ -8,6 +8,8 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(info.Entity, out var valuable)) return;
 
+            if (valuable->IsShopValuable) return;
+
             var entityVelocity = FPVector3.Zero;
             var otherVelocity = FPVector3.Zero;
 

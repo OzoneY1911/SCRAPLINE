@@ -40,6 +40,10 @@ namespace Quantum
                         }
                     }
                     break;
+                case InteractableType.ShopZoneInteactor:
+                    var interactableShopZone = frame.Unsafe.GetPointer<InteractableShopZone>(interactable->Entity);
+                    frame.Signals.OnShopPurchaseAttempted(interactableShopZone->TargetShopZone);
+                    break;
                 case InteractableType.InteractableAnimator:
                     var interactableAnimator = frame.Unsafe.GetPointer<InteractableAnimator>(interactable->Entity);
 

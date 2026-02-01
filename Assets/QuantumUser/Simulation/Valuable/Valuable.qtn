@@ -6,6 +6,10 @@ component Valuable
 
     FP CurrentValue;
     FP Fragility;
+
+    Boolean IsShopValuable;
+
+    [HideInInspector]
     EntityRef QuotaZoneEntity;
 }
 

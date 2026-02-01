@@ -291,6 +291,19 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableShopZone))]
+  public unsafe class InteractableShopZonePrototype : ComponentPrototype<Quantum.InteractableShopZone> {
+    public MapEntityId TargetShopZone;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableShopZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableShopZone result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.TargetShopZone, in context, out result.TargetShopZone);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.KCC))]
   public unsafe class KCCPrototype : ComponentPrototype<Quantum.KCC> {
     public AssetRef<KCCSettings> Settings;
@@ -897,6 +910,33 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ShopZone))]
+  public unsafe class ShopZonePrototype : ComponentPrototype<Quantum.ShopZone> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] InZoneValuables = {};
+    [HideInInspector()]
+    public FP InZoneValue;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.ShopZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.ShopZone result, in PrototypeMaterializationContext context = default) {
+        if (this.InZoneValuables.Length == 0) {
+          result.InZoneValuables = default;
+        } else {
+          var hashSet = frame.AllocateHashSet(out result.InZoneValuables, this.InZoneValuables.Length);
+          for (int i = 0; i < this.InZoneValuables.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.InZoneValuables[i], in context, out tmp);
+            hashSet.Add(tmp);
+          }
+        }
+        result.InZoneValue = this.InZoneValue;
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Teleporter))]
   public unsafe class TeleporterPrototype : ComponentPrototype<Quantum.Teleporter> {
     public MapEntityId ExitEntity;
@@ -918,6 +958,8 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
     public FP CurrentValue;
     public FP Fragility;
+    public QBoolean IsShopValuable;
+    [HideInInspector()]
     public MapEntityId QuotaZoneEntity;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Valuable component = default;
@@ -939,6 +981,7 @@ namespace Quantum.Prototypes {
         }
         result.CurrentValue = this.CurrentValue;
         result.Fragility = this.Fragility;
+        result.IsShopValuable = this.IsShopValuable;
         PrototypeValidator.FindMapEntity(this.QuotaZoneEntity, in context, out result.QuotaZoneEntity);
     }
   }

@@ -14,10 +14,10 @@ namespace Quantum
 
         private void OnEnable()
         {
-            QuantumEvent.Subscribe<EventQuotaZoneCompleted>(this, OnEventQuotaZoneCompleted);
+            QuantumEvent.Subscribe<EventPlayerMoneyUpdated>(this, OnEventPlayerMoneyUpdated);
         }
 
-        private void OnEventQuotaZoneCompleted(EventQuotaZoneCompleted e)
+        private void OnEventPlayerMoneyUpdated(EventPlayerMoneyUpdated e)
         {
             var frame = QuantumRunner.Default.Game.Frames.Verified;
 

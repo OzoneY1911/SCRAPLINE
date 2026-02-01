@@ -1,0 +1,4 @@
+component InteractableShopZone
+{
+    entity_ref TargetShopZone;
+}

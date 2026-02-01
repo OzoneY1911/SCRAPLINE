@@ -13,3 +13,5 @@ global
 
 signal OnCompleteAllQuotaZones();
 signal OnMapChangeAvailable();
+
+event PlayerMoneyUpdated { }
