@@ -94,12 +94,14 @@ MonoBehaviour:
     - 
     - Water
     - UI
-    - 
+    - 3D Overlay
     - 
     - 
     - 
     - Player
     - LocalPlayer
+    - ShopValuable
+    - ShopItemBlocker
     - 
     - 
     - 
@@ -118,9 +120,7 @@ MonoBehaviour:
     - 
     - 
     - 
-    - 
-    - 
-    LayerMatrix: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    LayerMatrix: ffdfffffffdfffffffdfffffffffffffffdfffffffdfffffffdfffffffffffffffffffffffffffffffdfffffffdfffffffffffff88f3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   Navigation:
     DefaultNavMeshAgent:
       Id:
