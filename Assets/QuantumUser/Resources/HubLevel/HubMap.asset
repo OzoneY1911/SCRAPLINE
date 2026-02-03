@@ -2933,7 +2933,7 @@ MonoBehaviour:
           Y:
             RawValue: 163840
           Z:
-            RawValue: -1714553
+            RawValue: -1026426
         Rotation:
           X:
             RawValue: 0
@@ -2947,9 +2947,9 @@ MonoBehaviour:
         ShapeConfig:
           ShapeType: 2
           SphereRadius:
-            RawValue: 720896
+            RawValue: 163840
           CapsuleRadius:
-            RawValue: 720896
+            RawValue: 163840
           CapsuleHeight:
             RawValue: 655360
           PositionOffset:
@@ -2965,7 +2965,7 @@ MonoBehaviour:
             Y:
               RawValue: 163840
             Z:
-              RawValue: 720896
+              RawValue: 32768
           RotationOffset:
             X:
               RawValue: 0
