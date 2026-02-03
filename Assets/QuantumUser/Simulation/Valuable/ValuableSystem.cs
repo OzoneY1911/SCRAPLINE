@@ -2,8 +2,16 @@ using Photon.Deterministic;
 
 namespace Quantum
 {
-    public unsafe class ValuableSystem : SystemSignalsOnly, ISignalOnCollisionEnter3D
+    public unsafe class ValuableSystem : SystemSignalsOnly, ISignalOnComponentAdded<Valuable>, ISignalOnCollisionEnter3D
     {
+        public void OnAdded(Frame frame, EntityRef entity, Valuable* valuable)
+        {
+            var valuableConfig = frame.FindAsset<ValuableConfig>(valuable->Config);
+
+            valuable->CurrentValue = valuableConfig.DefaultValue;
+            valuable->CurrentFragility = valuableConfig.DefaultFragility;
+        }
+
         public void OnCollisionEnter3D(Frame frame, CollisionInfo3D info)
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(info.Entity, out var valuable)) return;
@@ -26,15 +34,15 @@ namespace Quantum
             FPVector3 relativeVelocity = entityVelocity - otherVelocity;
             FP hitPower = relativeVelocity.Magnitude;
 
-            if (hitPower < 2 || valuable->Fragility == 0) return;
+            if (hitPower < 2 || valuable->CurrentFragility == 0) return;
 
-            var hitDamage = hitPower * valuable->Fragility;
+            var hitDamage = hitPower * valuable->CurrentFragility;
 
             valuable->CurrentValue -= FPMath.RoundToInt(hitDamage);
 
-            if (valuable->QuotaZoneEntity != EntityRef.None)
+            if (valuable->TrackedZoneEntity != EntityRef.None)
             {
-                var quotaZone = frame.Unsafe.GetPointer<QuotaZone>(valuable->QuotaZoneEntity);
+                if (!frame.Has<QuotaZone>(valuable->TrackedZoneEntity)) return;
                 frame.Signals.OnInZoneValuableDamaged(info.Entity, hitDamage);
             }
 
@@ -47,9 +55,9 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(entity, out var valuable)) return;
 
-            if (valuable->QuotaZoneEntity != EntityRef.None)
+            if (valuable->TrackedZoneEntity != EntityRef.None)
             {
-                var quotaZone = frame.Unsafe.GetPointer<QuotaZone>(valuable->QuotaZoneEntity);
+                if (!frame.Has<QuotaZone>(valuable->TrackedZoneEntity)) return;
                 frame.Signals.OnInZoneValuableDestroyed(entity);
             }
 

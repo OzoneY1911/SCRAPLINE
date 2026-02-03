@@ -259,24 +259,24 @@ namespace Quantum.Prototypes.Unity {
   [System.SerializableAttribute()]
   public unsafe partial class ValuablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ValuablePrototype> {
     public AssetRef<ValuableConfig> Config;
-    public QBoolean IsPocketValuable;
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
-    public FP CurrentValue;
-    public FP Fragility;
     public QBoolean IsShopValuable;
     [HideInInspector()]
-    public Quantum.QuantumEntityPrototype QuotaZoneEntity;
+    public FP CurrentValue;
+    [HideInInspector()]
+    public FP CurrentFragility;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype TrackedZoneEntity;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ValuablePrototype prototype);
     public override Quantum.Prototypes.ValuablePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.ValuablePrototype();
       converter.Convert(this.Config, out result.Config);
-      converter.Convert(this.IsPocketValuable, out result.IsPocketValuable);
-      converter.Convert(this.ResourceFractions, out result.ResourceFractions);
-      converter.Convert(this.CurrentValue, out result.CurrentValue);
-      converter.Convert(this.Fragility, out result.Fragility);
       converter.Convert(this.IsShopValuable, out result.IsShopValuable);
-      converter.Convert(this.QuotaZoneEntity, out result.QuotaZoneEntity);
+      converter.Convert(this.CurrentValue, out result.CurrentValue);
+      converter.Convert(this.CurrentFragility, out result.CurrentFragility);
+      converter.Convert(this.ResourceFractions, out result.ResourceFractions);
+      converter.Convert(this.TrackedZoneEntity, out result.TrackedZoneEntity);
       ConvertUser(converter, ref result);
       return result;
     }

@@ -17,3 +17,6 @@ MonoBehaviour:
     Guid:
       Value: 435649092733232644
   DisplayName: Micro Laser
+  IsPocketValuable: 1
+  DefaultValue: 500
+  DefaultFragility: 1

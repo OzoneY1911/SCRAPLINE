@@ -54,7 +54,7 @@ namespace Quantum
                 {
                     if (!frame.Unsafe.TryGetPointer<Valuable>(playerDragging->DraggedEntity, out var valuable)) return;
 
-                    if (valuable->IsPocketValuable)
+                    if (frame.FindAsset<ValuableConfig>(valuable->Config).IsPocketValuable)
                     {
                         frame.Signals.OnValuableCollectAttempted(filter.Entity, playerDragging->DraggedEntity);
                     }

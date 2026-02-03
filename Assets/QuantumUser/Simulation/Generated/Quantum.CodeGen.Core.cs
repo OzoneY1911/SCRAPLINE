@@ -2239,33 +2239,32 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Valuable : Quantum.IComponent {
-    public const Int32 SIZE = 48;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
+    [FieldOffset(8)]
     public AssetRef<ValuableConfig> Config;
     [FieldOffset(0)]
-    public QBoolean IsPocketValuable;
-    [FieldOffset(8)]
-    public QListPtr<ResourceFraction> ResourceFractions;
-    [FieldOffset(32)]
-    public FP CurrentValue;
-    [FieldOffset(40)]
-    public FP Fragility;
-    [FieldOffset(4)]
     public QBoolean IsShopValuable;
+    [FieldOffset(32)]
+    [HideInInspector()]
+    public FP CurrentValue;
     [FieldOffset(24)]
     [HideInInspector()]
-    public EntityRef QuotaZoneEntity;
+    public FP CurrentFragility;
+    [FieldOffset(4)]
+    public QListPtr<ResourceFraction> ResourceFractions;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public EntityRef TrackedZoneEntity;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 3511;
         hash = hash * 31 + Config.GetHashCode();
-        hash = hash * 31 + IsPocketValuable.GetHashCode();
-        hash = hash * 31 + ResourceFractions.GetHashCode();
-        hash = hash * 31 + CurrentValue.GetHashCode();
-        hash = hash * 31 + Fragility.GetHashCode();
         hash = hash * 31 + IsShopValuable.GetHashCode();
-        hash = hash * 31 + QuotaZoneEntity.GetHashCode();
+        hash = hash * 31 + CurrentValue.GetHashCode();
+        hash = hash * 31 + CurrentFragility.GetHashCode();
+        hash = hash * 31 + ResourceFractions.GetHashCode();
+        hash = hash * 31 + TrackedZoneEntity.GetHashCode();
         return hash;
       }
     }
@@ -2278,13 +2277,12 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Valuable*)ptr;
-        QBoolean.Serialize(&p->IsPocketValuable, serializer);
         QBoolean.Serialize(&p->IsShopValuable, serializer);
         QList.Serialize(&p->ResourceFractions, serializer, Statics.SerializeResourceFraction);
         AssetRef.Serialize(&p->Config, serializer);
-        EntityRef.Serialize(&p->QuotaZoneEntity, serializer);
+        EntityRef.Serialize(&p->TrackedZoneEntity, serializer);
+        FP.Serialize(&p->CurrentFragility, serializer);
         FP.Serialize(&p->CurrentValue, serializer);
-        FP.Serialize(&p->Fragility, serializer);
     }
   }
   public unsafe partial interface ISignalOnCompleteAllQuotaZones : ISignal {

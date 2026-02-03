@@ -39,17 +39,15 @@ namespace Quantum
         public void OnTriggerEnter3D(Frame frame, TriggerInfo3D triggerInfo)
         {
             if (!frame.Unsafe.TryGetPointer<QuotaZone>(triggerInfo.Entity, out QuotaZone* quotaZone)) return;
+            if (!frame.Unsafe.TryGetPointer<Valuable>(triggerInfo.Other, out Valuable* valuable)) return;
 
-            if (frame.Unsafe.TryGetPointer<Valuable>(triggerInfo.Other, out Valuable* valuable))
-            {
-                var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
-                inZoneValuables.Add(triggerInfo.Other);
+            var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
+            inZoneValuables.Add(triggerInfo.Other);
 
-                if (!quotaZone->IsActivated) return;
+            if (!quotaZone->IsActivated) return;
 
-                valuable->QuotaZoneEntity = triggerInfo.Entity;
-                UpdateQuotaZone(frame, triggerInfo.Other, true);
-            }
+            valuable->TrackedZoneEntity = triggerInfo.Entity;
+            UpdateQuotaZone(frame, triggerInfo.Other, true);
         }
 
         public void OnTriggerExit3D(Frame frame, ExitInfo3D triggerInfo)
@@ -70,7 +68,7 @@ namespace Quantum
                 foreach (var inZoneValuable in inZoneValuables)
                 {
                     var valuable = frame.Unsafe.GetPointer<Valuable>(inZoneValuable);
-                    valuable->QuotaZoneEntity = entity;
+                    valuable->TrackedZoneEntity = entity;
                     UpdateQuotaZone(frame, inZoneValuable, true);
                 }
             }
@@ -133,7 +131,7 @@ namespace Quantum
         private void CalculateResourceDemands(Frame frame, EntityRef valuableEntity, FP value, bool isIncremental)
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->TrackedZoneEntity, out QuotaZone* quotaZone)) return;
 
             var resourceDemands = frame.ResolveList<ResourceDemand>(quotaZone->ResourceDemands);
             var resourceFractions = frame.ResolveList<ResourceFraction>(valuable->ResourceFractions);
@@ -158,7 +156,7 @@ namespace Quantum
                     }
                 }
             }
-            frame.Events.QuotaZoneUpdated(valuable->QuotaZoneEntity);
+            frame.Events.QuotaZoneUpdated(valuable->TrackedZoneEntity);
 
             foreach (var demand in resourceDemands)
             {
@@ -174,7 +172,7 @@ namespace Quantum
         private void RemoveValuableFromQuotaZone(Frame frame, EntityRef valuableEntity)
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
-            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->QuotaZoneEntity, out QuotaZone* quotaZone)) return;
+            if (!frame.Unsafe.TryGetPointer<QuotaZone>(valuable->TrackedZoneEntity, out QuotaZone* quotaZone)) return;
 
             var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);
             inZoneValuables.Remove(valuableEntity);
@@ -182,7 +180,7 @@ namespace Quantum
             if (!quotaZone->IsActivated) return;
 
             UpdateQuotaZone(frame, valuableEntity, false);
-            valuable->QuotaZoneEntity = EntityRef.None;
+            valuable->TrackedZoneEntity = EntityRef.None;
         }
     }
 }

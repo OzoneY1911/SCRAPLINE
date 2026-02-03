@@ -953,14 +953,15 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
   public unsafe class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
     public AssetRef<ValuableConfig> Config;
-    public QBoolean IsPocketValuable;
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
-    public FP CurrentValue;
-    public FP Fragility;
     public QBoolean IsShopValuable;
     [HideInInspector()]
-    public MapEntityId QuotaZoneEntity;
+    public FP CurrentValue;
+    [HideInInspector()]
+    public FP CurrentFragility;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
+    [HideInInspector()]
+    public MapEntityId TrackedZoneEntity;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Valuable component = default;
         Materialize((Frame)f, ref component, in context);
@@ -968,7 +969,9 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
         result.Config = this.Config;
-        result.IsPocketValuable = this.IsPocketValuable;
+        result.IsShopValuable = this.IsShopValuable;
+        result.CurrentValue = this.CurrentValue;
+        result.CurrentFragility = this.CurrentFragility;
         if (this.ResourceFractions.Length == 0) {
           result.ResourceFractions = default;
         } else {
@@ -979,10 +982,7 @@ namespace Quantum.Prototypes {
             list.Add(tmp);
           }
         }
-        result.CurrentValue = this.CurrentValue;
-        result.Fragility = this.Fragility;
-        result.IsShopValuable = this.IsShopValuable;
-        PrototypeValidator.FindMapEntity(this.QuotaZoneEntity, in context, out result.QuotaZoneEntity);
+        PrototypeValidator.FindMapEntity(this.TrackedZoneEntity, in context, out result.TrackedZoneEntity);
     }
   }
 }

@@ -17,3 +17,6 @@ MonoBehaviour:
     Guid:
       Value: 367865957861589057
   DisplayName: Massive Shotgun
+  IsPocketValuable: 1
+  DefaultValue: 300
+  DefaultFragility: 1

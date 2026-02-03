@@ -1386,8 +1386,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -1397,13 +1401,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 1873557336157585408
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -1631,8 +1629,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -1642,13 +1644,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 2734434552981225472
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -1876,8 +1872,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -1887,13 +1887,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 4796468252521791488
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -2035,8 +2029,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
+        IsShopValuable:
           Value: 1
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -2046,13 +2044,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 1
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 5033949767550369792
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -2278,8 +2270,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 435649092733232644
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -2289,13 +2285,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 5676808304773300224
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -2520,8 +2510,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -2531,13 +2525,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 6044658404553654272
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -2835,8 +2823,12 @@ MonoBehaviour:
         Config:
           Id:
             Value: 367865957861589057
-        IsPocketValuable:
-          Value: 1
+        IsShopValuable:
+          Value: 0
+        CurrentValue:
+          RawValue: 19660800
+        CurrentFragility:
+          RawValue: 0
         ResourceFractions:
         - Type:
             Value: 0
@@ -2846,13 +2838,7 @@ MonoBehaviour:
             Value: 1
           Value:
             RawValue: 39322
-        CurrentValue:
-          RawValue: 19660800
-        Fragility:
-          RawValue: 65536
-        IsShopValuable:
-          Value: 0
-        QuotaZoneEntity:
+        TrackedZoneEntity:
           SceneIndexPlusOne: 0
     - rid: 7065652302819885056
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}

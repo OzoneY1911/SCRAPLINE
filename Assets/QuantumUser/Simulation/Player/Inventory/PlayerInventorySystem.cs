@@ -126,7 +126,7 @@ namespace Quantum
                 frame.Signals.OnValuableCollected(playerEntity);
 
                 var valuable = frame.Unsafe.GetPointer<Valuable>(valuableEntity);
-                if (valuable->QuotaZoneEntity != EntityRef.None)
+                if (valuable->TrackedZoneEntity != EntityRef.None)
                 {
                     frame.Signals.OnInZoneValuableCollectedByPlayer(valuableEntity);
                 }

@@ -1,16 +1,18 @@
 component Valuable
 {
     asset_ref<ValuableConfig> Config;
-    Boolean IsPocketValuable;
-    list<ResourceFraction> ResourceFractions;
-
-    FP CurrentValue;
-    FP Fragility;
 
     Boolean IsShopValuable;
 
     [HideInInspector]
-    EntityRef QuotaZoneEntity;
+    FP CurrentValue;
+    [HideInInspector]
+    FP CurrentFragility;
+
+    list<ResourceFraction> ResourceFractions;
+
+    [HideInInspector]
+    EntityRef TrackedZoneEntity;
 }
 
 event ValuableHit
