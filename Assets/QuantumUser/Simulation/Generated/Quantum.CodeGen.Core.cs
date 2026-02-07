@@ -106,22 +106,23 @@ namespace Quantum {
     Run = 1 << 1,
     Crouch = 1 << 2,
     Interact = 1 << 3,
-    SecondaryAction = 1 << 4,
-    SelectInventorySlot = 1 << 5,
-    CollectValuable = 1 << 6,
-    DropValuable = 1 << 7,
-    _left = 1 << 8,
-    _right = 1 << 9,
-    _up = 1 << 10,
-    _down = 1 << 11,
-    _a = 1 << 12,
-    _b = 1 << 13,
-    _c = 1 << 14,
-    _d = 1 << 15,
-    _l1 = 1 << 16,
-    _r1 = 1 << 17,
-    _select = 1 << 18,
-    _start = 1 << 19,
+    Use = 1 << 4,
+    Reload = 1 << 5,
+    SelectInventorySlot = 1 << 6,
+    CollectValuable = 1 << 7,
+    DropValuable = 1 << 8,
+    _left = 1 << 9,
+    _right = 1 << 10,
+    _up = 1 << 11,
+    _down = 1 << 12,
+    _a = 1 << 13,
+    _b = 1 << 14,
+    _c = 1 << 15,
+    _d = 1 << 16,
+    _l1 = 1 << 17,
+    _r1 = 1 << 18,
+    _select = 1 << 19,
+    _start = 1 << 20,
   }
   public static unsafe partial class FlagsExtensions {
     public static Boolean IsFlagSet(this InputButtons self, InputButtons flag) {
@@ -654,28 +655,30 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 360;
+    public const Int32 SIZE = 376;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(1)]
     public Byte InterpolationOffset;
     [FieldOffset(0)]
     public Byte InterpolationAlphaEncoded;
-    [FieldOffset(272)]
+    [FieldOffset(288)]
     public FPVector2 MoveDirection;
-    [FieldOffset(256)]
+    [FieldOffset(272)]
     public FPVector2 LookRotationDelta;
     [FieldOffset(8)]
     public FP ScrollDelta;
     [FieldOffset(64)]
     public Button Jump;
-    [FieldOffset(76)]
+    [FieldOffset(88)]
     public Button Run;
     [FieldOffset(28)]
     public Button Crouch;
     [FieldOffset(52)]
     public Button Interact;
-    [FieldOffset(88)]
-    public Button SecondaryAction;
+    [FieldOffset(112)]
+    public Button Use;
+    [FieldOffset(76)]
+    public Button Reload;
     [FieldOffset(100)]
     public Button SelectInventorySlot;
     [FieldOffset(4)]
@@ -684,39 +687,39 @@ namespace Quantum {
     public Button CollectValuable;
     [FieldOffset(40)]
     public Button DropValuable;
-    [FieldOffset(312)]
+    [FieldOffset(328)]
     public FPVector3 CameraPosition;
-    [FieldOffset(288)]
+    [FieldOffset(304)]
     public FPVector3 CameraForward;
-    [FieldOffset(184)]
-    public Button _left;
-    [FieldOffset(208)]
-    public Button _right;
-    [FieldOffset(244)]
-    public Button _up;
-    [FieldOffset(160)]
-    public Button _down;
-    [FieldOffset(112)]
-    public Button _a;
-    [FieldOffset(124)]
-    public Button _b;
-    [FieldOffset(136)]
-    public Button _c;
-    [FieldOffset(148)]
-    public Button _d;
-    [FieldOffset(172)]
-    public Button _l1;
     [FieldOffset(196)]
-    public Button _r1;
+    public Button _left;
     [FieldOffset(220)]
-    public Button _select;
+    public Button _right;
+    [FieldOffset(256)]
+    public Button _up;
+    [FieldOffset(172)]
+    public Button _down;
+    [FieldOffset(124)]
+    public Button _a;
+    [FieldOffset(136)]
+    public Button _b;
+    [FieldOffset(148)]
+    public Button _c;
+    [FieldOffset(160)]
+    public Button _d;
+    [FieldOffset(184)]
+    public Button _l1;
+    [FieldOffset(208)]
+    public Button _r1;
     [FieldOffset(232)]
+    public Button _select;
+    [FieldOffset(244)]
     public Button _start;
     [FieldOffset(3)]
     public Byte _analogRightTrigger;
     [FieldOffset(2)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(336)]
+    [FieldOffset(352)]
     public QuantumThumbSticks ThumbSticks;
     public override readonly Int32 GetHashCode() {
       unchecked { 
@@ -730,7 +733,8 @@ namespace Quantum {
         hash = hash * 31 + Run.GetHashCode();
         hash = hash * 31 + Crouch.GetHashCode();
         hash = hash * 31 + Interact.GetHashCode();
-        hash = hash * 31 + SecondaryAction.GetHashCode();
+        hash = hash * 31 + Use.GetHashCode();
+        hash = hash * 31 + Reload.GetHashCode();
         hash = hash * 31 + SelectInventorySlot.GetHashCode();
         hash = hash * 31 + (Byte)SelectedInventorySlotIndex;
         hash = hash * 31 + CollectValuable.GetHashCode();
@@ -764,7 +768,8 @@ namespace Quantum {
         case InputButtons.Run: return Run.IsDown;
         case InputButtons.Crouch: return Crouch.IsDown;
         case InputButtons.Interact: return Interact.IsDown;
-        case InputButtons.SecondaryAction: return SecondaryAction.IsDown;
+        case InputButtons.Use: return Use.IsDown;
+        case InputButtons.Reload: return Reload.IsDown;
         case InputButtons.SelectInventorySlot: return SelectInventorySlot.IsDown;
         case InputButtons.CollectValuable: return CollectValuable.IsDown;
         case InputButtons.DropValuable: return DropValuable.IsDown;
@@ -789,7 +794,8 @@ namespace Quantum {
         case InputButtons.Run: return Run.WasPressed;
         case InputButtons.Crouch: return Crouch.WasPressed;
         case InputButtons.Interact: return Interact.WasPressed;
-        case InputButtons.SecondaryAction: return SecondaryAction.WasPressed;
+        case InputButtons.Use: return Use.WasPressed;
+        case InputButtons.Reload: return Reload.WasPressed;
         case InputButtons.SelectInventorySlot: return SelectInventorySlot.WasPressed;
         case InputButtons.CollectValuable: return CollectValuable.WasPressed;
         case InputButtons.DropValuable: return DropValuable.WasPressed;
@@ -821,9 +827,10 @@ namespace Quantum {
         Button.Serialize(&p->DropValuable, serializer);
         Button.Serialize(&p->Interact, serializer);
         Button.Serialize(&p->Jump, serializer);
+        Button.Serialize(&p->Reload, serializer);
         Button.Serialize(&p->Run, serializer);
-        Button.Serialize(&p->SecondaryAction, serializer);
         Button.Serialize(&p->SelectInventorySlot, serializer);
+        Button.Serialize(&p->Use, serializer);
         Button.Serialize(&p->_a, serializer);
         Button.Serialize(&p->_b, serializer);
         Button.Serialize(&p->_c, serializer);
@@ -1384,7 +1391,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2808;
+    public const Int32 SIZE = 2904;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1408,24 +1415,24 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[2160];
-    [FieldOffset(2768)]
+    private fixed Byte _input_[2256];
+    [FieldOffset(2864)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2780)]
+    [FieldOffset(2876)]
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
-    [FieldOffset(2784)]
+    [FieldOffset(2880)]
     public QListPtr<EntityRef> AlivePlayers;
-    [FieldOffset(2800)]
+    [FieldOffset(2896)]
     public FP PlayerMoney;
-    [FieldOffset(2776)]
+    [FieldOffset(2872)]
     public GameLocation SelectedLocation;
-    [FieldOffset(2788)]
+    [FieldOffset(2884)]
     public QListPtr<EntityRef> TrackedQuotaZones;
-    [FieldOffset(2792)]
+    [FieldOffset(2888)]
     public EntityRef TrackedInteractableMapChanger;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 360, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 376, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -1586,6 +1593,32 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Draggable*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Flashlight : Quantum.IComponent {
+    public const Int32 SIZE = 24;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public AssetRef<FlashlightConfig> Config;
+    [FieldOffset(0)]
+    public QBoolean IsOn;
+    [FieldOffset(16)]
+    public FP CurrentCharge;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 6569;
+        hash = hash * 31 + Config.GetHashCode();
+        hash = hash * 31 + IsOn.GetHashCode();
+        hash = hash * 31 + CurrentCharge.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Flashlight*)ptr;
+        QBoolean.Serialize(&p->IsOn, serializer);
+        AssetRef.Serialize(&p->Config, serializer);
+        FP.Serialize(&p->CurrentCharge, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2306,6 +2339,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnInZoneValuableCollectedByPlayer : ISignal {
     void OnInZoneValuableCollectedByPlayer(Frame f, EntityRef valuableEntity);
   }
+  public unsafe partial interface ISignalOnValuableUseRequested : ISignal {
+    void OnValuableUseRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
+  }
   public unsafe partial interface ISignalOnPlayerJump : ISignal {
     void OnPlayerJump(Frame f, EntityRef entity);
   }
@@ -2334,6 +2370,7 @@ namespace Quantum {
     private ISignalOnValuableCollectAttempted[] _ISignalOnValuableCollectAttemptedSystems;
     private ISignalOnValuableCollected[] _ISignalOnValuableCollectedSystems;
     private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
+    private ISignalOnValuableUseRequested[] _ISignalOnValuableUseRequestedSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
     private ISignalOnCompleteQuotaZone[] _ISignalOnCompleteQuotaZoneSystems;
@@ -2358,6 +2395,7 @@ namespace Quantum {
       _ISignalOnValuableCollectAttemptedSystems = BuildSignalsArray<ISignalOnValuableCollectAttempted>();
       _ISignalOnValuableCollectedSystems = BuildSignalsArray<ISignalOnValuableCollected>();
       _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
+      _ISignalOnValuableUseRequestedSystems = BuildSignalsArray<ISignalOnValuableUseRequested>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
       _ISignalOnCompleteQuotaZoneSystems = BuildSignalsArray<ISignalOnCompleteQuotaZone>();
@@ -2374,6 +2412,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.Draggable>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Draggable>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Flashlight>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Flashlight>();
       BuildSignalsArrayOnComponentAdded<Quantum.Health>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Health>();
       BuildSignalsArrayOnComponentAdded<Quantum.Interactable>();
@@ -2463,7 +2503,8 @@ namespace Quantum {
       i->Run = i->Run.Update(this.Number, input.Run);
       i->Crouch = i->Crouch.Update(this.Number, input.Crouch);
       i->Interact = i->Interact.Update(this.Number, input.Interact);
-      i->SecondaryAction = i->SecondaryAction.Update(this.Number, input.SecondaryAction);
+      i->Use = i->Use.Update(this.Number, input.Use);
+      i->Reload = i->Reload.Update(this.Number, input.Reload);
       i->SelectInventorySlot = i->SelectInventorySlot.Update(this.Number, input.SelectInventorySlot);
       i->SelectedInventorySlotIndex = input.SelectedInventorySlotIndex;
       i->CollectValuable = i->CollectValuable.Update(this.Number, input.CollectValuable);
@@ -2558,6 +2599,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnInZoneValuableCollectedByPlayer(_f, valuableEntity);
+          }
+        }
+      }
+      public void OnValuableUseRequested(EntityRef playerEntity, EntityRef valuableEntity) {
+        var array = _f._ISignalOnValuableUseRequestedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnValuableUseRequested(_f, playerEntity, valuableEntity);
           }
         }
       }
@@ -2677,6 +2727,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPQuaternion), FPQuaternion.SIZE);
       typeRegistry.Register(typeof(FPVector2), FPVector2.SIZE);
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
+      typeRegistry.Register(typeof(Quantum.Flashlight), Quantum.Flashlight.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
       typeRegistry.Register(typeof(Quantum.GameLocation), Quantum.GameLocation.SIZE);
@@ -2774,10 +2825,11 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 23)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 24)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.Flashlight>(Quantum.Flashlight.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Health>(Quantum.Health.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Interactable>(Quantum.Interactable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.InteractableAnimator>(Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None)

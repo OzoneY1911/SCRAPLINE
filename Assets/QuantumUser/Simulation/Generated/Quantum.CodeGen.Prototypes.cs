@@ -96,6 +96,25 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Flashlight))]
+  public unsafe partial class FlashlightPrototype : ComponentPrototype<Quantum.Flashlight> {
+    public AssetRef<FlashlightConfig> Config;
+    public QBoolean IsOn;
+    public FP CurrentCharge;
+    partial void MaterializeUser(Frame frame, ref Quantum.Flashlight result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Flashlight component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Flashlight result, in PrototypeMaterializationContext context = default) {
+        result.Config = this.Config;
+        result.IsOn = this.IsOn;
+        result.CurrentCharge = this.CurrentCharge;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.GameLocation))]
   public unsafe partial class GameLocationPrototype : StructPrototype {
     public Quantum.QEnum32<GameLocationType> Type;
@@ -153,7 +172,8 @@ namespace Quantum.Prototypes {
     public Button Run;
     public Button Crouch;
     public Button Interact;
-    public Button SecondaryAction;
+    public Button Use;
+    public Button Reload;
     public Button SelectInventorySlot;
     public Quantum.QEnum8<SlotIndex> SelectedInventorySlotIndex;
     public Button CollectValuable;
@@ -186,7 +206,8 @@ namespace Quantum.Prototypes {
         result.Run = this.Run;
         result.Crouch = this.Crouch;
         result.Interact = this.Interact;
-        result.SecondaryAction = this.SecondaryAction;
+        result.Use = this.Use;
+        result.Reload = this.Reload;
         result.SelectInventorySlot = this.SelectInventorySlot;
         result.SelectedInventorySlotIndex = this.SelectedInventorySlotIndex;
         result.CollectValuable = this.CollectValuable;

@@ -45,7 +45,7 @@ namespace Quantum
                     PushPullDraggable(frame, ref filter);
                 }
 
-                if (input->SecondaryAction.IsDown && input->LookRotationDelta != FPVector2.Zero)
+                if (input->Use.IsDown && input->LookRotationDelta != FPVector2.Zero)
                 {
                     //RotateDraggable(frame, ref filter);
                 }
@@ -138,25 +138,9 @@ namespace Quantum
             FPVector3 deltaVel = desiredVel - draggedBody->Velocity;
 
             // impulse = m * Δv * kd * dt
-            FPVector3 impulse = deltaVel * 15 * frame.DeltaTime * kd;
+            FPVector3 impulse = deltaVel * frame.DeltaTime * kd * 5 / draggedBody->Mass;
 
             draggedBody->AddLinearImpulse(impulse);
-
-            /*
-            UnityEngine.Debug.DrawLine(
-                new UnityEngine.Vector3(
-                    (float) targetPoint.X,
-                    (float) targetPoint.Y,
-                    (float) targetPoint.Z
-                ),
-                new UnityEngine.Vector3(
-                    (float) anchor.X,
-                    (float) anchor.Y,
-                    (float) anchor.Z
-                ),
-                UnityEngine.Color.red
-            );
-            */
         }
 
         private void DriveRotation(Frame frame, ref Filter filter)
@@ -211,8 +195,7 @@ namespace Quantum
             }
 
             // Angular velocity needed to reach target
-            FP angularStiffness = FP._5; // tweak
-            FP angularDamping = FP._2;    // tweak
+            FP angularStiffness = FP._0_10; // tweak
 
             FPVector3 desiredAngularVel = axis * (angle * angularStiffness);
             FPVector3 deltaAngularVel = desiredAngularVel - draggedBody->AngularVelocity;
@@ -220,7 +203,7 @@ namespace Quantum
             // Impulse = I * Δω * dt
             // For simplicity, assume symmetrical inertia: I = Mass * radius² (Quantum doesn't expose per-axis inertia easily)
             FP mass = draggedBody->Mass;
-            FPVector3 angularImpulse = deltaAngularVel * mass * frame.DeltaTime * angularDamping;
+            FPVector3 angularImpulse = deltaAngularVel * mass * frame.DeltaTime * angularStiffness * angularStiffness;
 
             draggedBody->AddAngularImpulse(angularImpulse);
         }

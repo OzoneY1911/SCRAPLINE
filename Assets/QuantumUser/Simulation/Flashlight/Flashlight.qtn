@@ -1,0 +1,12 @@
+component Flashlight
+{
+    asset_ref<FlashlightConfig> Config;
+    Boolean IsOn;
+    FP CurrentCharge;
+}
+
+event FlashlightToggled
+{
+    entity_ref Entity;
+    Boolean IsOn;
+}

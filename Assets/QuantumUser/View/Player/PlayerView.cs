@@ -12,6 +12,8 @@ namespace Quantum
         private float _smoothPitch;
         private float _smoothPitchVelocity;
 
+        private bool _isLocal;
+
         public static readonly Dictionary<EntityRef, Transform> PlayerTransforms = new();
 
         public override void OnActivate(Frame frame)
@@ -20,9 +22,9 @@ namespace Quantum
             
             PlayerTransforms[EntityRef] = transform;
 
-            bool isLocal = Game.PlayerIsLocal(player->PlayerRef);
+            _isLocal = Game.PlayerIsLocal(player->PlayerRef);
 
-            if (isLocal)
+            if (_isLocal)
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -68,33 +70,32 @@ namespace Quantum
 
         public override void OnLateUpdateView()
         {
-            Frame verifiedFrame = VerifiedFrame;
-            if (verifiedFrame.TryGet(EntityRef, out Player player) == false)
+            var frame = _isLocal ? PredictedFrame : VerifiedFrame;
+
+            if (frame == null) return;
+            if (!frame.Exists(EntityRef)) return;
+
+            if (!frame.TryGet(EntityRef, out Player player))
                 return;
 
-            Frame predictedFrame = PredictedFrame;
-            if (predictedFrame.Exists(EntityRef) == false)
-                return;
-
-            var movement = verifiedFrame.Get<PlayerMovement>(EntityRef);
+            var movement = frame.Get<PlayerMovement>(EntityRef);
 
             float lookYaw = player.LookYaw.AsFloat;
             float lookPitch = player.LookPitch.AsFloat;
 
-            bool isLocal = Game.PlayerIsLocal(player.PlayerRef);
-            if (isLocal)
+            if (_isLocal)
             {
                 if (PredictedPreviousFrame.TryGet<Player>(EntityRef, out Player previousPlayer))
                 {
-                    lookYaw = Mathf.LerpAngle(previousPlayer.LookYaw.AsFloat, previousPlayer.LookYaw.AsFloat, EntityView.Game.InterpolationFactor);
-                    lookPitch = Mathf.LerpAngle(previousPlayer.LookPitch.AsFloat, previousPlayer.LookPitch.AsFloat, EntityView.Game.InterpolationFactor);
+                    lookYaw = Mathf.LerpAngle(previousPlayer.LookYaw.AsFloat, player.LookYaw.AsFloat, EntityView.Game.InterpolationFactor);
+                    lookPitch = Mathf.LerpAngle(previousPlayer.LookPitch.AsFloat, player.LookPitch.AsFloat, EntityView.Game.InterpolationFactor);
                 }
 
-                transform.rotation = Quaternion.Euler(0.0f, lookYaw, 0.0f);
+                //transform.rotation = Quaternion.Euler(0.0f, lookYaw, 0.0f);
             }
             else
             {
-                if (verifiedFrame.TryGet<Player>(EntityRef, out Player verifiedPlayer))
+                if (frame.TryGet<Player>(EntityRef, out Player verifiedPlayer))
                 {
                     _smoothPitch = Mathf.SmoothDamp(_smoothPitch, verifiedPlayer.LookPitch.AsFloat, ref _smoothPitchVelocity, 0.1f);
                     lookPitch = _smoothPitch;

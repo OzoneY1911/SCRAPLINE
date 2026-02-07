@@ -61,7 +61,8 @@ namespace Quantum
             _accumulatedInput.Run = _playerControls.Main.Run.IsPressed();
             _accumulatedInput.Crouch = _playerControls.Main.Crouch.IsPressed();
             _accumulatedInput.Interact = _playerControls.Main.Interact.IsPressed();
-            _accumulatedInput.SecondaryAction = _playerControls.Main.SecondaryAction.IsPressed();
+            _accumulatedInput.Use = _playerControls.Main.Use.IsPressed();
+            _accumulatedInput.Reload = _playerControls.Main.Reload.IsPressed();
 
             _accumulatedInput.SelectInventorySlot = _playerControls.Main.SelectInventorySlot.IsPressed();
             if (_accumulatedInput.SelectInventorySlot)

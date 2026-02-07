@@ -13,7 +13,9 @@ input
     button Crouch;
 
     button Interact;
-    button SecondaryAction;
+    button Use;
+
+    button Reload;
 
     button SelectInventorySlot;
     SlotIndex SelectedInventorySlotIndex;

@@ -156,7 +156,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SecondaryAction"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""4cb887b2-3885-4cd2-8d6b-c599f362a4e6"",
                     ""expectedControlType"": """",
@@ -186,6 +186,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""DropValuable"",
                     ""type"": ""Button"",
                     ""id"": ""d023bdcb-42de-44d8-8299-8a4ac20f7630"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ff1d4ea-e195-477f-b156-ac0fda63253b"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -321,7 +330,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SecondaryAction"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -377,6 +386,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""DropValuable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db5a41c3-4480-42ac-80fd-fbd77072c66a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1107,10 +1127,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Main_Run = m_Main.FindAction("Run", throwIfNotFound: true);
         m_Main_Crouch = m_Main.FindAction("Crouch", throwIfNotFound: true);
         m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
-        m_Main_SecondaryAction = m_Main.FindAction("SecondaryAction", throwIfNotFound: true);
+        m_Main_Use = m_Main.FindAction("Use", throwIfNotFound: true);
         m_Main_SelectInventorySlot = m_Main.FindAction("SelectInventorySlot", throwIfNotFound: true);
         m_Main_CollectValuable = m_Main.FindAction("CollectValuable", throwIfNotFound: true);
         m_Main_DropValuable = m_Main.FindAction("DropValuable", throwIfNotFound: true);
+        m_Main_Reload = m_Main.FindAction("Reload", throwIfNotFound: true);
         // PersistentMap
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
         m_PersistentMap_ToggleSessionMenu = m_PersistentMap.FindAction("ToggleSessionMenu", throwIfNotFound: true);
@@ -1223,10 +1244,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Run;
     private readonly InputAction m_Main_Crouch;
     private readonly InputAction m_Main_Interact;
-    private readonly InputAction m_Main_SecondaryAction;
+    private readonly InputAction m_Main_Use;
     private readonly InputAction m_Main_SelectInventorySlot;
     private readonly InputAction m_Main_CollectValuable;
     private readonly InputAction m_Main_DropValuable;
+    private readonly InputAction m_Main_Reload;
     /// <summary>
     /// Provides access to input actions defined in input action map "Main".
     /// </summary>
@@ -1267,9 +1289,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Main_Interact;
         /// <summary>
-        /// Provides access to the underlying input action "Main/SecondaryAction".
+        /// Provides access to the underlying input action "Main/Use".
         /// </summary>
-        public InputAction @SecondaryAction => m_Wrapper.m_Main_SecondaryAction;
+        public InputAction @Use => m_Wrapper.m_Main_Use;
         /// <summary>
         /// Provides access to the underlying input action "Main/SelectInventorySlot".
         /// </summary>
@@ -1282,6 +1304,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Main/DropValuable".
         /// </summary>
         public InputAction @DropValuable => m_Wrapper.m_Main_DropValuable;
+        /// <summary>
+        /// Provides access to the underlying input action "Main/Reload".
+        /// </summary>
+        public InputAction @Reload => m_Wrapper.m_Main_Reload;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1329,9 +1355,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @SecondaryAction.started += instance.OnSecondaryAction;
-            @SecondaryAction.performed += instance.OnSecondaryAction;
-            @SecondaryAction.canceled += instance.OnSecondaryAction;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
             @SelectInventorySlot.started += instance.OnSelectInventorySlot;
             @SelectInventorySlot.performed += instance.OnSelectInventorySlot;
             @SelectInventorySlot.canceled += instance.OnSelectInventorySlot;
@@ -1341,6 +1367,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DropValuable.started += instance.OnDropValuable;
             @DropValuable.performed += instance.OnDropValuable;
             @DropValuable.canceled += instance.OnDropValuable;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         /// <summary>
@@ -1373,9 +1402,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @SecondaryAction.started -= instance.OnSecondaryAction;
-            @SecondaryAction.performed -= instance.OnSecondaryAction;
-            @SecondaryAction.canceled -= instance.OnSecondaryAction;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
             @SelectInventorySlot.started -= instance.OnSelectInventorySlot;
             @SelectInventorySlot.performed -= instance.OnSelectInventorySlot;
             @SelectInventorySlot.canceled -= instance.OnSelectInventorySlot;
@@ -1385,6 +1414,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DropValuable.started -= instance.OnDropValuable;
             @DropValuable.performed -= instance.OnDropValuable;
             @DropValuable.canceled -= instance.OnDropValuable;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         /// <summary>
@@ -1971,12 +2003,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "SecondaryAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Use" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSecondaryAction(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SelectInventorySlot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1998,6 +2030,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDropValuable(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReload(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PersistentMap" which allows adding and removing callbacks.

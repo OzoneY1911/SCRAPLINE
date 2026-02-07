@@ -8,6 +8,8 @@ signal OnValuableCollectAttempted(entity_ref playerEntity, entity_ref valuableEn
 signal OnValuableCollected(entity_ref playerEntity);
 signal OnInZoneValuableCollectedByPlayer(entity_ref valuableEntity);
 
+signal OnValuableUseRequested(entity_ref playerEntity, entity_ref valuableEntity);
+
 event InventorySlotSelected
 {
     entity_ref Entity;

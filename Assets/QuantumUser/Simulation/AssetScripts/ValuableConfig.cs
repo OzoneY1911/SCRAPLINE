@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Quantum
 {
     public class ValuableConfig : AssetObject
@@ -6,7 +8,9 @@ namespace Quantum
 
         public bool IsPocketValuable;
 
-        public uint DefaultValue;
-        public uint DefaultFragility;
+        public ushort DefaultValue;
+        public ushort DefaultFragility;
+
+        public GameObject FPSPrefab;
     }
 }
