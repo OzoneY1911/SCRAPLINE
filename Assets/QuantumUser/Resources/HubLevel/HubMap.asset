@@ -1451,20 +1451,20 @@ MonoBehaviour:
       MutableMode: 0
   - Rotation:
       X:
-        RawValue: -46340
+        RawValue: -32767
       Y:
-        RawValue: 0
+        RawValue: 32768
       Z:
-        RawValue: 0
+        RawValue: 32768
       W:
-        RawValue: 46340
+        RawValue: 32767
     Position:
       X:
-        RawValue: 1371733
+        RawValue: 1135804
       Y:
         RawValue: 13107
       Z:
-        RawValue: -1291059
+        RawValue: -1684275
     PhysicsMaterial:
       Id:
         Value: 0
@@ -1623,7 +1623,7 @@ MonoBehaviour:
     - rid: 8737411968521994243
     - rid: 8737411968521994244
     - rid: 8737411968521994245
-  SerializedTriangleDataUncompressedSize: 185048
+  SerializedTriangleDataUncompressedSize: 185336
   references:
     version: 2
     RefIds:
@@ -1699,16 +1699,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 1563426
+            RawValue: 1122847
           Y:
             RawValue: 45875
           Z:
-            RawValue: -1607224
+            RawValue: -1051656
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 11796480
+            RawValue: 5898237
           Z:
             RawValue: 0
     - rid: 1018555275965104129
@@ -2561,11 +2561,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 1101332
+            RawValue: 1284833
           Y:
             RawValue: 79560
           Z:
-            RawValue: -1233846
+            RawValue: -1115881
         Rotation:
           X:
             RawValue: 0
@@ -2959,16 +2959,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 1626341
+            RawValue: 978190
           Y:
             RawValue: 13107
           Z:
-            RawValue: -1462566
+            RawValue: -988741
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 11796480
+            RawValue: 5898237
           Z:
             RawValue: 0
     - rid: 5676808304773300225
