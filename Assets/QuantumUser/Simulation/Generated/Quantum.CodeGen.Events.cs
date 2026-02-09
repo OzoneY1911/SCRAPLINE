@@ -85,9 +85,9 @@ namespace Quantum {
         _f.AddEvent(ev);
         return ev;
       }
-      public EventFlashlightToggled FlashlightToggled(EntityRef Entity, QBoolean IsOn) {
+      public EventFlashlightToggled FlashlightToggled(EntityRef FlashlightEntity, QBoolean IsOn) {
         var ev = _f.Context.AcquireEvent<EventFlashlightToggled>(EventFlashlightToggled.ID);
-        ev.Entity = Entity;
+        ev.FlashlightEntity = FlashlightEntity;
         ev.IsOn = IsOn;
         _f.AddEvent(ev);
         return ev;
@@ -205,7 +205,7 @@ namespace Quantum {
   }
   public unsafe partial class EventFlashlightToggled : EventBase {
     public new const Int32 ID = 2;
-    public EntityRef Entity;
+    public EntityRef FlashlightEntity;
     public QBoolean IsOn;
     protected EventFlashlightToggled(Int32 id, EventFlags flags) : 
         base(id, flags) {
@@ -224,7 +224,7 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 43;
-        hash = hash * 31 + Entity.GetHashCode();
+        hash = hash * 31 + FlashlightEntity.GetHashCode();
         hash = hash * 31 + IsOn.GetHashCode();
         return hash;
       }

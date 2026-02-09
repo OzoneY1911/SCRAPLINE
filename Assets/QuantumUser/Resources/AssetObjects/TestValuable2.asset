@@ -20,3 +20,4 @@ MonoBehaviour:
   IsPocketValuable: 1
   DefaultValue: 500
   DefaultFragility: 1
+  FPSPrefab: {fileID: 6234046530158130642, guid: 212ef34dadf917541a17eaeab7abc379, type: 3}

@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90fea56c60d88394d862931a1ff1f3e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventorySlotObjects:
+  _slotObjects:
   - {fileID: 4219761442342047144}
   - {fileID: 1782279798175489214}
   - {fileID: 7795659125335065449}

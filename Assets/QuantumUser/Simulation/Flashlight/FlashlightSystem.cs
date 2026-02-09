@@ -2,12 +2,18 @@ using Photon.Deterministic;
 
 namespace Quantum
 {
-    public unsafe class FlashlightSystem : SystemMainThreadFilter<FlashlightSystem.Filter>, ISignalOnValuableUseRequested
+    public unsafe class FlashlightSystem : SystemMainThreadFilter<FlashlightSystem.Filter>, ISignalOnComponentAdded<Flashlight>, ISignalOnValuableUseRequested
     {
         public struct Filter
         {
             public EntityRef Entity;
             public Flashlight* Flashlight;
+        }
+
+        public void OnAdded(Frame frame, EntityRef entity, Flashlight* flashlight)
+        {
+            var config = frame.FindAsset<FlashlightConfig>(flashlight->Config);
+            flashlight->CurrentCharge = config.MaxCharge;
         }
 
         public void OnValuableUseRequested(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
@@ -19,12 +25,14 @@ namespace Quantum
         {
             if (filter.Flashlight->IsOn && filter.Flashlight->CurrentCharge > 0)
             {
-                DischargeFlashlight(frame, filter.Flashlight);
+                DischargeFlashlight(frame, filter.Entity);
             }
         }
 
-        private void DischargeFlashlight(Frame frame, Flashlight* flashlight)
+        private void DischargeFlashlight(Frame frame, EntityRef flashlightEntity)
         {
+            if (!frame.Unsafe.TryGetPointer<Flashlight>(flashlightEntity, out var flashlight)) return;
+
             var config = frame.FindAsset<FlashlightConfig>(flashlight->Config);
 
             flashlight->CurrentCharge -= config.DischargePerSecond * frame.DeltaTime;
@@ -32,7 +40,7 @@ namespace Quantum
             if (flashlight->CurrentCharge <= FP._0)
             {
                 flashlight->CurrentCharge = FP._0;
-                flashlight->IsOn = false;
+                ToggleFlashlight(frame, flashlightEntity);
             }
         }
 
@@ -43,6 +51,8 @@ namespace Quantum
             if (!flashlight->IsOn && flashlight->CurrentCharge <= 0) return;
 
             flashlight->IsOn = !flashlight->IsOn;
+
+            frame.Events.FlashlightToggled(flashlightEntity, flashlight->IsOn);
         }
     }
 }

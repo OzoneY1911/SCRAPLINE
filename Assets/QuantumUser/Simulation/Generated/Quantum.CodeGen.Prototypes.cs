@@ -99,7 +99,9 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Flashlight))]
   public unsafe partial class FlashlightPrototype : ComponentPrototype<Quantum.Flashlight> {
     public AssetRef<FlashlightConfig> Config;
+    [HideInInspector()]
     public QBoolean IsOn;
+    [HideInInspector()]
     public FP CurrentCharge;
     partial void MaterializeUser(Frame frame, ref Quantum.Flashlight result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {

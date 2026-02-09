@@ -1602,8 +1602,10 @@ namespace Quantum {
     [FieldOffset(8)]
     public AssetRef<FlashlightConfig> Config;
     [FieldOffset(0)]
+    [HideInInspector()]
     public QBoolean IsOn;
     [FieldOffset(16)]
+    [HideInInspector()]
     public FP CurrentCharge;
     public override readonly Int32 GetHashCode() {
       unchecked { 
