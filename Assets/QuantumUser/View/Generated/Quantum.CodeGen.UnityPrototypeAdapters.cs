@@ -176,6 +176,7 @@ namespace Quantum.Prototypes.Unity {
   }
   [System.SerializableAttribute()]
   public unsafe partial class PlayerInventoryPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerInventoryPrototype> {
+    [HideInInspector()]
     public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
     [ArrayLengthAttribute(3)]
     public Quantum.QuantumEntityPrototype[] Slots = new Quantum.QuantumEntityPrototype[3];

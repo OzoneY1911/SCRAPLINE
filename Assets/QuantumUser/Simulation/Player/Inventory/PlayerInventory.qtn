@@ -1,6 +1,8 @@
 component PlayerInventory
 {
+    [HideInInspector]
     SlotIndex SelectedSlotIndex;
+
     array<entity_ref>[3] Slots;
 }
 

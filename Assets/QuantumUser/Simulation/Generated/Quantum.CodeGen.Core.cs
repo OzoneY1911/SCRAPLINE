@@ -2025,6 +2025,7 @@ namespace Quantum {
     public const Int32 SIZE = 32;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
+    [HideInInspector()]
     public SlotIndex SelectedSlotIndex;
     [FieldOffset(8)]
     [FramePrinter.FixedArrayAttribute(typeof(EntityRef), 3)]

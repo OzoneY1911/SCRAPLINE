@@ -607,6 +607,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerInventory))]
   public unsafe class PlayerInventoryPrototype : ComponentPrototype<Quantum.PlayerInventory> {
+    [HideInInspector()]
     public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
     [ArrayLengthAttribute(3)]
     public MapEntityId[] Slots = new MapEntityId[3];
