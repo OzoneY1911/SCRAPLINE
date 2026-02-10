@@ -14,7 +14,7 @@ namespace Quantum
             public PlayerDragging* PlayerDragging;
         }
 
-        public void OnValuableCollected(Frame frame, EntityRef playerEntity)
+        public void OnValuableCollected(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
         {
             var playerDragging = frame.Unsafe.GetPointer<PlayerDragging>(playerEntity);
 

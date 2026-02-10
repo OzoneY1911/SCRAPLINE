@@ -2332,17 +2332,20 @@ namespace Quantum {
   public unsafe partial interface ISignalOnInteract : ISignal {
     void OnInteract(Frame f, Interactable* interactable);
   }
+  public unsafe partial interface ISignalOnInventorySlotDeselected : ISignal {
+    void OnInventorySlotDeselected(Frame f, EntityRef valuableEntity);
+  }
   public unsafe partial interface ISignalOnValuableCollectAttempted : ISignal {
     void OnValuableCollectAttempted(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
   }
   public unsafe partial interface ISignalOnValuableCollected : ISignal {
-    void OnValuableCollected(Frame f, EntityRef playerEntity);
-  }
-  public unsafe partial interface ISignalOnInZoneValuableCollectedByPlayer : ISignal {
-    void OnInZoneValuableCollectedByPlayer(Frame f, EntityRef valuableEntity);
+    void OnValuableCollected(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
   }
   public unsafe partial interface ISignalOnValuableUseRequested : ISignal {
     void OnValuableUseRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
+  }
+  public unsafe partial interface ISignalOnInZoneValuableCollectedByPlayer : ISignal {
+    void OnInZoneValuableCollectedByPlayer(Frame f, EntityRef valuableEntity);
   }
   public unsafe partial interface ISignalOnPlayerJump : ISignal {
     void OnPlayerJump(Frame f, EntityRef entity);
@@ -2369,10 +2372,11 @@ namespace Quantum {
     private ISignalOnMapChangeAvailable[] _ISignalOnMapChangeAvailableSystems;
     private ISignalOnEntityDeath[] _ISignalOnEntityDeathSystems;
     private ISignalOnInteract[] _ISignalOnInteractSystems;
+    private ISignalOnInventorySlotDeselected[] _ISignalOnInventorySlotDeselectedSystems;
     private ISignalOnValuableCollectAttempted[] _ISignalOnValuableCollectAttemptedSystems;
     private ISignalOnValuableCollected[] _ISignalOnValuableCollectedSystems;
-    private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
     private ISignalOnValuableUseRequested[] _ISignalOnValuableUseRequestedSystems;
+    private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
     private ISignalOnCompleteQuotaZone[] _ISignalOnCompleteQuotaZoneSystems;
@@ -2394,10 +2398,11 @@ namespace Quantum {
       _ISignalOnMapChangeAvailableSystems = BuildSignalsArray<ISignalOnMapChangeAvailable>();
       _ISignalOnEntityDeathSystems = BuildSignalsArray<ISignalOnEntityDeath>();
       _ISignalOnInteractSystems = BuildSignalsArray<ISignalOnInteract>();
+      _ISignalOnInventorySlotDeselectedSystems = BuildSignalsArray<ISignalOnInventorySlotDeselected>();
       _ISignalOnValuableCollectAttemptedSystems = BuildSignalsArray<ISignalOnValuableCollectAttempted>();
       _ISignalOnValuableCollectedSystems = BuildSignalsArray<ISignalOnValuableCollected>();
-      _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
       _ISignalOnValuableUseRequestedSystems = BuildSignalsArray<ISignalOnValuableUseRequested>();
+      _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
       _ISignalOnCompleteQuotaZoneSystems = BuildSignalsArray<ISignalOnCompleteQuotaZone>();
@@ -2577,6 +2582,15 @@ namespace Quantum {
           }
         }
       }
+      public void OnInventorySlotDeselected(EntityRef valuableEntity) {
+        var array = _f._ISignalOnInventorySlotDeselectedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnInventorySlotDeselected(_f, valuableEntity);
+          }
+        }
+      }
       public void OnValuableCollectAttempted(EntityRef playerEntity, EntityRef valuableEntity) {
         var array = _f._ISignalOnValuableCollectAttemptedSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
@@ -2586,21 +2600,12 @@ namespace Quantum {
           }
         }
       }
-      public void OnValuableCollected(EntityRef playerEntity) {
+      public void OnValuableCollected(EntityRef playerEntity, EntityRef valuableEntity) {
         var array = _f._ISignalOnValuableCollectedSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnValuableCollected(_f, playerEntity);
-          }
-        }
-      }
-      public void OnInZoneValuableCollectedByPlayer(EntityRef valuableEntity) {
-        var array = _f._ISignalOnInZoneValuableCollectedByPlayerSystems;
-        for (Int32 i = 0; i < array.Length; ++i) {
-          var s = array[i];
-          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnInZoneValuableCollectedByPlayer(_f, valuableEntity);
+            s.OnValuableCollected(_f, playerEntity, valuableEntity);
           }
         }
       }
@@ -2610,6 +2615,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnValuableUseRequested(_f, playerEntity, valuableEntity);
+          }
+        }
+      }
+      public void OnInZoneValuableCollectedByPlayer(EntityRef valuableEntity) {
+        var array = _f._ISignalOnInZoneValuableCollectedByPlayerSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnInZoneValuableCollectedByPlayer(_f, valuableEntity);
           }
         }
       }

@@ -55,6 +55,11 @@ namespace Quantum
 
         private void SelectSlot(Frame frame, ref Filter filter, SlotIndex selectedSlotIndex)
         {
+            if (filter.PlayerInventory->SelectedSlotIndex != SlotIndex.None)
+            {
+                frame.Signals.OnInventorySlotDeselected(filter.PlayerInventory->Slots[(int)filter.PlayerInventory->SelectedSlotIndex]);
+            }
+
             filter.PlayerInventory->SelectedSlotIndex = selectedSlotIndex;
             frame.Events.InventorySlotSelected(filter.Entity, selectedSlotIndex);
         }
@@ -86,7 +91,7 @@ namespace Quantum
 
                 playerInventory->Slots[(int)targetSlotIndex] = valuableEntity;
                 frame.Events.ValuableCollected(playerEntity, valuableEntity, targetSlotIndex);
-                frame.Signals.OnValuableCollected(playerEntity);
+                frame.Signals.OnValuableCollected(playerEntity, valuableEntity);
 
                 var valuable = frame.Unsafe.GetPointer<Valuable>(valuableEntity);
                 if (valuable->TrackedZoneEntity != EntityRef.None)

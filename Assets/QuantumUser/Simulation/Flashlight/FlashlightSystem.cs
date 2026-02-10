@@ -2,7 +2,7 @@ using Photon.Deterministic;
 
 namespace Quantum
 {
-    public unsafe class FlashlightSystem : SystemMainThreadFilter<FlashlightSystem.Filter>, ISignalOnComponentAdded<Flashlight>, ISignalOnValuableUseRequested
+    public unsafe class FlashlightSystem : SystemMainThreadFilter<FlashlightSystem.Filter>, ISignalOnComponentAdded<Flashlight>, ISignalOnValuableCollected, ISignalOnValuableUseRequested, ISignalOnInventorySlotDeselected
     {
         public struct Filter
         {
@@ -14,6 +14,24 @@ namespace Quantum
         {
             var config = frame.FindAsset<FlashlightConfig>(flashlight->Config);
             flashlight->CurrentCharge = config.MaxCharge;
+        }
+
+        public void OnInventorySlotDeselected(Frame frame, EntityRef valuableEntity)
+        {
+            if (!frame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight)) return;
+
+            if (flashlight->IsOn) ToggleFlashlight(frame, valuableEntity);
+        }
+
+        public void OnValuableCollected(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
+        {
+            if (!frame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight)) return;
+            if (!frame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
+
+            if (playerInventory->SelectedSlotIndex == SlotIndex.None || valuableEntity != playerInventory->Slots[(int)playerInventory->SelectedSlotIndex])
+            {
+                if (flashlight->IsOn) ToggleFlashlight(frame, valuableEntity);
+            }
         }
 
         public void OnValuableUseRequested(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)

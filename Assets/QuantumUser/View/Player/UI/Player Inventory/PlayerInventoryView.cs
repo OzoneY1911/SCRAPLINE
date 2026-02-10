@@ -16,7 +16,7 @@ namespace Quantum
 
         private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
         {
-            if (e.Entity != EntityRef) return;
+            if (e.PlayerEntity != EntityRef) return;
 
             if (_playerInventoryUI == null)
             {

@@ -3613,7 +3613,7 @@ MonoBehaviour:
         Entity:
           SceneIndexPlusOne: 0
         Type:
-          Value: 2
+          Value: 3
         CooldownTimer:
           Type:
             Value: 0

@@ -2140,7 +2140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &489483350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11462,6 +11462,10 @@ PrefabInstance:
     - target: {fileID: 5554747122696953305, guid: 705bf3506fd1ebf42a4fc3831998c7ee, type: 3}
       propertyPath: m_Name
       value: TANK
+      objectReference: {fileID: 0}
+    - target: {fileID: 6403956919159514464, guid: 705bf3506fd1ebf42a4fc3831998c7ee, type: 3}
+      propertyPath: Prototype.Type.Value
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
