@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b9c4ce80c1eb3b946985421dfa0236db, type: 3}
       propertyPath: m_Name
-      value: DOOr2
+      value: DoubleDoor_Automated
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b9c4ce80c1eb3b946985421dfa0236db, type: 3}
       propertyPath: m_IsActive

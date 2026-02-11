@@ -148,7 +148,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0
-    Children: []
+    Children:
+    - SystemType:
+        AssemblyQualifiedName: Quantum.ConsumableSystem, Quantum.Simulation, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      SystemName: 
+      StartDisabled: 0
+      Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.QuotaZoneSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null

@@ -6,6 +6,7 @@ component Health
     FP Max;
 }
 
+signal OnHealthChanged(entity_ref entity, FP changeDelta);
 signal OnEntityDeath(entity_ref entity);
 
 event EntityDeath

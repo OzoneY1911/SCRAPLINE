@@ -1,6 +1,6 @@
 namespace Quantum
 {
-    public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted
+    public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted, ISignalOnValuableDropRequested
     {
         public struct Filter
         {
@@ -18,50 +18,18 @@ namespace Quantum
             {
                 if (input->SelectedInventorySlotIndex == filter.PlayerInventory->SelectedSlotIndex)
                 {
-                    SelectSlot(frame, ref filter, SlotIndex.None);
+                    SelectSlot(frame, filter.Entity, SlotIndex.None);
                 }
                 else
                 {
-                    SelectSlot(frame, ref filter, input->SelectedInventorySlotIndex);
+                    SelectSlot(frame, filter.Entity, input->SelectedInventorySlotIndex);
                 }
             }
 
             if (input->DropValuable.WasPressed && PlayerInventoryUtils.IsSlotSelected(filter.PlayerInventory) && !PlayerInventoryUtils.IsSelectedSlotEmpty(filter.PlayerInventory))
             {
-                var playerInventory = filter.PlayerInventory;
-                var selectedSlotIndex = playerInventory->SelectedSlotIndex;
-
-                var selectedValuableEntity = playerInventory->Slots[(int)selectedSlotIndex];
-                var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(selectedValuableEntity);
-                var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(selectedValuableEntity);
-
-                var playerBody = frame.Unsafe.GetPointer<PhysicsBody3D>(filter.Entity);
-                var valuableTransform = frame.Unsafe.GetPointer<Transform3D>(selectedValuableEntity);
-
-                var dropPosition = input->CameraPosition + input->CameraForward * player->InteractionDistance;
-
-                valuableTransform->Teleport(frame, dropPosition);
-
-                valuableBody->Velocity = playerBody->Velocity;
-                valuableBody->AngularVelocity = playerBody->AngularVelocity;
-                valuableBody->Enabled = true;
-                valuableCollider->Enabled = true;
-
-                playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
-                frame.Events.ValuableDropped(filter.Entity, selectedValuableEntity, selectedSlotIndex);
-                SelectSlot(frame, ref filter, SlotIndex.None);
+                DropValuable(frame, filter.Entity);
             }
-        }
-
-        private void SelectSlot(Frame frame, ref Filter filter, SlotIndex selectedSlotIndex)
-        {
-            if (filter.PlayerInventory->SelectedSlotIndex != SlotIndex.None)
-            {
-                frame.Signals.OnInventorySlotDeselected(filter.PlayerInventory->Slots[(int)filter.PlayerInventory->SelectedSlotIndex]);
-            }
-
-            filter.PlayerInventory->SelectedSlotIndex = selectedSlotIndex;
-            frame.Events.InventorySlotSelected(filter.Entity, selectedSlotIndex);
         }
 
         public void OnValuableCollectAttempted(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
@@ -99,6 +67,54 @@ namespace Quantum
                     frame.Signals.OnInZoneValuableCollectedByPlayer(valuableEntity);
                 }
             }
+        }
+
+        public void OnValuableDropRequested(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
+        {
+            DropValuable(frame, playerEntity);
+        }
+
+        private void SelectSlot(Frame frame, EntityRef playerEntity, SlotIndex selectedSlotIndex)
+        {
+            if (!frame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
+
+            if (playerInventory->SelectedSlotIndex != SlotIndex.None)
+            {
+                frame.Signals.OnInventorySlotDeselected(playerInventory->Slots[(int)playerInventory->SelectedSlotIndex]);
+            }
+
+            playerInventory->SelectedSlotIndex = selectedSlotIndex;
+            frame.Events.InventorySlotSelected(playerEntity, selectedSlotIndex);
+        }
+
+        private void DropValuable(Frame frame, EntityRef playerEntity)
+        {
+            if (!frame.Unsafe.TryGetPointer<Player>(playerEntity, out var player)) return;
+            if (!frame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
+
+            var input = frame.GetPlayerInput(player->PlayerRef);
+
+            var selectedSlotIndex = playerInventory->SelectedSlotIndex;
+
+            var selectedValuableEntity = playerInventory->Slots[(int)selectedSlotIndex];
+            var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(selectedValuableEntity);
+            var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(selectedValuableEntity);
+
+            var playerBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerEntity);
+            var valuableTransform = frame.Unsafe.GetPointer<Transform3D>(selectedValuableEntity);
+
+            var dropPosition = input->CameraPosition + input->CameraForward * player->InteractionDistance;
+
+            valuableTransform->Teleport(frame, dropPosition);
+
+            valuableBody->Velocity = playerBody->Velocity;
+            valuableBody->AngularVelocity = playerBody->AngularVelocity;
+            valuableBody->Enabled = true;
+            valuableCollider->Enabled = true;
+
+            playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
+            frame.Events.ValuableDropped(playerEntity, selectedValuableEntity, selectedSlotIndex);
+            SelectSlot(frame, playerEntity, SlotIndex.None);
         }
     }
 }

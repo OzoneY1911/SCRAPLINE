@@ -65,6 +65,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,9 +88,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1844303711443977819
 MonoBehaviour:
@@ -384,12 +388,12 @@ MonoBehaviour:
     Config:
       Id:
         Value: 367865957861589057
-    IsPocketValuable:
-      Value: 1
+    IsShopValuable:
+      Value: 0
     CurrentValue:
       RawValue: 19660800
-    Fragility:
-      RawValue: 65536
+    CurrentFragility:
+      RawValue: 0
     ResourceFractions:
     - Type:
         Value: 0
@@ -399,3 +403,4 @@ MonoBehaviour:
         Value: 1
       Value:
         RawValue: 39322
+    TrackedZoneEntity: {fileID: 0}

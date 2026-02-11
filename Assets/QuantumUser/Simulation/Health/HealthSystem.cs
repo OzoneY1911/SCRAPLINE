@@ -1,6 +1,8 @@
+using Photon.Deterministic;
+
 namespace Quantum
 {
-    public unsafe class HealthSystem : SystemMainThreadFilter<HealthSystem.Filter>, ISignalOnComponentAdded<Health>
+    public unsafe class HealthSystem : SystemMainThreadFilter<HealthSystem.Filter>, ISignalOnComponentAdded<Health>, ISignalOnHealthChanged
     {
         public struct Filter
         {
@@ -20,6 +22,15 @@ namespace Quantum
                 frame.Events.EntityDeath(filter.Entity);
                 frame.Signals.OnEntityDeath(filter.Entity);
             }
+        }
+
+        public void OnHealthChanged(Frame frame, EntityRef entity, FP changeDelta)
+        {
+            if (!frame.Unsafe.TryGetPointer<Health>(entity, out var health)) return;
+
+            health->Current += changeDelta;
+
+            if (health->Current > health->Max) health->Current = health->Max;
         }
     }
 }

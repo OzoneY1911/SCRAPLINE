@@ -52,6 +52,9 @@ namespace Quantum
             var stamina = frame.Unsafe.GetPointer<PlayerStamina>(entity);
 
             stamina->Current = FPMath.Max(stamina->Current - stamina->CostPerJump, FP._0);
+
+            var health = frame.Unsafe.GetPointer<Health>(entity);
+            health->Current -= 10;
         }
     }
 }

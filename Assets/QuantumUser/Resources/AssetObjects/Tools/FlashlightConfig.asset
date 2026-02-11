@@ -16,5 +16,10 @@ MonoBehaviour:
     Path: QuantumUser/Resources/AssetObjects/Tools/FlashlightConfig
     Guid:
       Value: 271878457324253294
+  DisplayName: Flashlight
+  IsPocketValuable: 1
+  DefaultValue: 200
+  DefaultFragility: 0
+  FPSPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}
   MaxCharge: 100
   DischargePerSecond: 5

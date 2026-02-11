@@ -2327,6 +2327,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnMapChangeAvailable : ISignal {
     void OnMapChangeAvailable(Frame f);
   }
+  public unsafe partial interface ISignalOnHealthChanged : ISignal {
+    void OnHealthChanged(Frame f, EntityRef entity, FP changeDelta);
+  }
   public unsafe partial interface ISignalOnEntityDeath : ISignal {
     void OnEntityDeath(Frame f, EntityRef entity);
   }
@@ -2344,6 +2347,9 @@ namespace Quantum {
   }
   public unsafe partial interface ISignalOnValuableUseRequested : ISignal {
     void OnValuableUseRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
+  }
+  public unsafe partial interface ISignalOnValuableDropRequested : ISignal {
+    void OnValuableDropRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
   }
   public unsafe partial interface ISignalOnInZoneValuableCollectedByPlayer : ISignal {
     void OnInZoneValuableCollectedByPlayer(Frame f, EntityRef valuableEntity);
@@ -2371,12 +2377,14 @@ namespace Quantum {
   public unsafe partial class Frame {
     private ISignalOnCompleteAllQuotaZones[] _ISignalOnCompleteAllQuotaZonesSystems;
     private ISignalOnMapChangeAvailable[] _ISignalOnMapChangeAvailableSystems;
+    private ISignalOnHealthChanged[] _ISignalOnHealthChangedSystems;
     private ISignalOnEntityDeath[] _ISignalOnEntityDeathSystems;
     private ISignalOnInteract[] _ISignalOnInteractSystems;
     private ISignalOnInventorySlotDeselected[] _ISignalOnInventorySlotDeselectedSystems;
     private ISignalOnValuableCollectAttempted[] _ISignalOnValuableCollectAttemptedSystems;
     private ISignalOnValuableCollected[] _ISignalOnValuableCollectedSystems;
     private ISignalOnValuableUseRequested[] _ISignalOnValuableUseRequestedSystems;
+    private ISignalOnValuableDropRequested[] _ISignalOnValuableDropRequestedSystems;
     private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
     private ISignalOnActivateQuotaZone[] _ISignalOnActivateQuotaZoneSystems;
@@ -2397,12 +2405,14 @@ namespace Quantum {
       Initialize(this, this.SimulationConfig.Entities, 256);
       _ISignalOnCompleteAllQuotaZonesSystems = BuildSignalsArray<ISignalOnCompleteAllQuotaZones>();
       _ISignalOnMapChangeAvailableSystems = BuildSignalsArray<ISignalOnMapChangeAvailable>();
+      _ISignalOnHealthChangedSystems = BuildSignalsArray<ISignalOnHealthChanged>();
       _ISignalOnEntityDeathSystems = BuildSignalsArray<ISignalOnEntityDeath>();
       _ISignalOnInteractSystems = BuildSignalsArray<ISignalOnInteract>();
       _ISignalOnInventorySlotDeselectedSystems = BuildSignalsArray<ISignalOnInventorySlotDeselected>();
       _ISignalOnValuableCollectAttemptedSystems = BuildSignalsArray<ISignalOnValuableCollectAttempted>();
       _ISignalOnValuableCollectedSystems = BuildSignalsArray<ISignalOnValuableCollected>();
       _ISignalOnValuableUseRequestedSystems = BuildSignalsArray<ISignalOnValuableUseRequested>();
+      _ISignalOnValuableDropRequestedSystems = BuildSignalsArray<ISignalOnValuableDropRequested>();
       _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
       _ISignalOnActivateQuotaZoneSystems = BuildSignalsArray<ISignalOnActivateQuotaZone>();
@@ -2565,6 +2575,15 @@ namespace Quantum {
           }
         }
       }
+      public void OnHealthChanged(EntityRef entity, FP changeDelta) {
+        var array = _f._ISignalOnHealthChangedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnHealthChanged(_f, entity, changeDelta);
+          }
+        }
+      }
       public void OnEntityDeath(EntityRef entity) {
         var array = _f._ISignalOnEntityDeathSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
@@ -2616,6 +2635,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnValuableUseRequested(_f, playerEntity, valuableEntity);
+          }
+        }
+      }
+      public void OnValuableDropRequested(EntityRef playerEntity, EntityRef valuableEntity) {
+        var array = _f._ISignalOnValuableDropRequestedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnValuableDropRequested(_f, playerEntity, valuableEntity);
           }
         }
       }
