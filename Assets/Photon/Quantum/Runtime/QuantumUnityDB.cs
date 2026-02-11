@@ -705,7 +705,7 @@ namespace Quantum {
               try {
                 var asset = entry.Source.WaitForResult();
                 Assert.Check(asset != null);
-                Assert.Check(asset.Guid == guid, "Expected to load {0}, but {1} was loaded instead", asset.Guid, guid);
+                Assert.Check(asset.Guid == guid, "Expected to load {0}, but {1} was loaded instead", guid, asset.Guid);
 
                 entry.LoadedAsset = asset;
                 entry.State.Exchange(EntryState.LoadedInvokingCallbacks);

@@ -5,7 +5,24 @@ input
 
     FPVector2 MoveDirection;
     FPVector2 LookRotationDelta;
+
+    FP ScrollDelta;
+
     button Jump;
     button Run;
     button Crouch;
+
+    button Interact;
+    button Use;
+
+    button Reload;
+
+    button SelectInventorySlot;
+    SlotIndex SelectedInventorySlotIndex;
+
+    button CollectValuable;
+    button DropValuable;
+
+    FPVector3 CameraPosition;
+    FPVector3 CameraForward;
 }

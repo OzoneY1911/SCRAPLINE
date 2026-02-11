@@ -1,0 +1,36 @@
+component PlayerInventory
+{
+    [HideInInspector]
+    SlotIndex SelectedSlotIndex;
+
+    array<entity_ref>[3] Slots;
+}
+
+signal OnInventorySlotDeselected(entity_ref valuableEntity);
+
+signal OnValuableCollectAttempted(entity_ref playerEntity, entity_ref valuableEntity);
+signal OnValuableCollected(entity_ref playerEntity, entity_ref valuableEntity);
+signal OnValuableUseRequested(entity_ref playerEntity, entity_ref valuableEntity);
+signal OnValuableDropRequested(entity_ref playerEntity, entity_ref valuableEntity);
+
+signal OnInZoneValuableCollectedByPlayer(entity_ref valuableEntity);
+
+event InventorySlotSelected
+{
+    entity_ref PlayerEntity;
+    SlotIndex SlotIndex;
+}
+
+event ValuableCollected
+{
+    entity_ref PlayerEntity;
+    entity_ref ValuableEntity;
+    SlotIndex SlotIndex;
+}
+
+event ValuableDropped
+{
+    entity_ref PlayerEntity;
+    entity_ref ValuableEntity;
+    SlotIndex SlotIndex;
+}

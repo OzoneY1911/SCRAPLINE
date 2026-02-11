@@ -1,0 +1,9 @@
+struct GameLocation
+{
+    GameLocationType Type;
+}
+
+event GameLocationSelected
+{
+    entity_ref Entity;
+}

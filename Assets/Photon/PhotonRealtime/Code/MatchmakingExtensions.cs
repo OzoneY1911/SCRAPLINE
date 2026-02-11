@@ -23,27 +23,6 @@ namespace Photon.Realtime
     public static class MatchmakingExtensions
     {
         /// <summary>
-        /// Is raised by the matchmaking extension methods operations failed.
-        /// </summary>
-        public class Exception : System.Exception
-        {
-            /// <summary>
-            /// Create a new exception with a message and error code.
-            /// </summary>
-            /// <param name="message">Debug message.</param>
-            /// <param name="errorCode">Error code.</param>
-            public Exception(string message, short errorCode) : base(message)
-            {
-                ErrorCode = errorCode;
-            }
-
-            /// <summary>
-            /// Photon error code <see cref="Realtime.ErrorCode"/>
-            /// </summary>
-            public short ErrorCode { get; set; }
-        }
-
-        /// <summary>
         /// Run the Photon connection logic to connect to a game server and enter a room.
         /// This method only returns after successfully entered a room.
         /// This method throws an exception on any errors.
@@ -52,7 +31,6 @@ namespace Photon.Realtime
         /// <param name="arguments">Photon matchmaking arguments.</param>
         /// <returns>Client connection object that is connected to a Photon room</returns>
         /// <exception cref="ArgumentException">Arguments were incomplete.</exception>
-        /// <exception cref="MatchmakingExtensions.Exception">Connection failed.</exception>
         /// <exception cref="DisconnectException">Is thrown when the connection terminated.</exception>
         /// <exception cref="AuthenticationFailedException">Is thrown when the authentication failed.</exception>
         /// <exception cref="OperationStartException">Is thrown when the operation could not be started.</exception>
@@ -139,7 +117,7 @@ namespace Photon.Realtime
                     return client;
                 }
 
-                throw new Exception($"Failed to connect and join with error '{result}'", result);
+                throw new OperationException(result, $"Failed to connect and join with error '{result}'");
             }).Unwrap();
         }
 
@@ -154,7 +132,6 @@ namespace Photon.Realtime
         /// <param name="arguments">Photon matchmaking arguments.</param>
         /// <returns>Client connection object that is connected to a Photon room</returns>
         /// <exception cref="ArgumentException">Arguments were incomplete, reconnection information not set or invalid.</exception>
-        /// <exception cref="MatchmakingExtensions.Exception">Reconnection failed.</exception>
         /// <exception cref="DisconnectException">Is thrown when the connection terminated.</exception>
         /// <exception cref="AuthenticationFailedException">Is thrown when the authentication failed.</exception>
         /// <exception cref="OperationStartException">Is thrown when the operation could not be started.</exception>
@@ -210,29 +187,35 @@ namespace Photon.Realtime
                 // result for the OpReconnectAndRejoin / OpReJoin. compare to related ErrorCode values
                 short? result = null;
 
-                // attempt a ReconnectAndRejoin() first (this may throw an exception if the reconnect values are not available but that is to be expected)
-                try
-                {
-                    result = await client.ReconnectAndRejoinAsync(ticket: arguments.Ticket, config: asyncConfig);
-
-                    if (result.HasValue && result.Value == ErrorCode.Ok)
+                // Try to fast reconnect only if ClientTTL is > 0
+                if (arguments.CanRejoin && arguments.FastReconnectDisabled == false)
+                { 
+                    // attempt a ReconnectAndRejoin() first (this may throw an exception if the reconnect values are not available but that is to be expected)
+                    try
                     {
-                        // successfully used ReconnectAndRejoin()
-                        // update ReconnectInfo and return client
-                        arguments.ReconnectInformation?.Set(client);
-                        return client;
+                        result = await client.ReconnectAndRejoinAsync(ticket: arguments.Ticket, config: asyncConfig);
+
+                        if (result.HasValue && result.Value == ErrorCode.Ok)
+                        {
+                            // successfully used ReconnectAndRejoin()
+                            // update ReconnectInfo and return client
+                            arguments.ReconnectInformation?.Set(client);
+                            return client;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // could be for a number of reasons. this is a normal case at runtime and we could just go on with the code below. just log
+                        Log.Info($"Direct reconnect via ReconnectAndRejoinAsync() failed (Message: {ex}). Attempting a normal connect and rejoin.", client.LogLevel, client.LogPrefix);
                     }
                 }
-                catch (Exception ex)
-                {
-                    // could be for a number of reasons
-                    // this is a legit case and we could just go on with the code below
-                    Log.Info($"ReconnectAndRejoinAsync() initially failed. Caught: {ex}. Will continue with another attempt. client.State: {client.State}");
+
+                // We expect the connection to either be offline or connected to Master or Lobby
+                if (client.IsConnected && (client.State != ClientState.ConnectedToMasterServer || client.State == ClientState.JoinedLobby)) {
+                    // Wait for disconnect
+                    await client.DisconnectAsync(asyncConfig);
                 }
 
-                
-                // ReconnectAndRejoin() failed
-                // 
                 // the following code tries to get the client into the expected room anyway
                 // try to connect and re-join or join the room (last resort: as new actor)
 
@@ -247,7 +230,8 @@ namespace Photon.Realtime
                     client.RealtimePeer.CrcEnabled = arguments.EnableCrc;
                     arguments.PhotonSettings.FixedRegion = arguments.ReconnectInformation.Region;
 
-                    // TODO: TRY CATCH
+                    
+                    // if this fails, the async task fails. this is mandatory, so exceptions have to be handled where the result is needed.
                     await client.ConnectUsingSettingsAsync(arguments.PhotonSettings, asyncConfig);
                 }
 
@@ -294,13 +278,13 @@ namespace Photon.Realtime
                         else
                         {
                             // Error
-                            throw new Exception($"Failed to join the room with error '{result}'", result.Value);
+                            throw new OperationException(result.Value, $"Failed to join the room with error '{result}'");
                         }
                     }
 
                     if (joinIterations > 1)
                     {
-                        Log.Info($"Reconnection attempt ({joinIterations}/10)");
+                        Log.Info($"Reconnection attempt ({joinIterations}/10)", client.LogLevel, client.LogPrefix);
                     }
 
                     if (cancelToken.IsCancellationRequested)
@@ -490,6 +474,10 @@ namespace Photon.Realtime
         /// Building the checksum with <see cref="PhotonPeer.CrcEnabled"/> has a low processing overhead but increases integrity of sent and received data.
         /// </summary>
         public bool EnableCrc;
+        /// <summary>
+        /// Disables fast reconnecting to the Photon server to initially run <see cref="RealtimeClient.ReconnectAndRejoin"/> when the interruption is less then 10 second.
+        /// </summary>
+        public bool FastReconnectDisabled;
 
         /// <summary>
         /// Creates authentication values object in field <see cref="AuthValues"/> and sets the <see cref="AuthenticationValues.UserId"/>.

@@ -1,0 +1,15 @@
+component Interactable
+{
+    [HideInInspector]
+    entity_ref Entity;
+
+    InteractableType Type;
+    GameplayTimer CooldownTimer;
+}
+
+signal OnInteract(Interactable* interactable);
+
+event InteractableInteracted
+{
+    entity_ref Entity;
+}

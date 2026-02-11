@@ -1,4 +1,4 @@
-﻿namespace Quantum.Editor {
+namespace Quantum.Editor {
   using System;
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
@@ -10,6 +10,12 @@
   using UnityEngine;
   using static QuantumUnityExtensions;
 
+#if UNITY_6000_2_OR_NEWER
+  using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+  using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+  using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+#endif
+  
   /// <summary>
   /// An editor class that renders the Quantum state inspector used to reveal internal state of Quantum entities during run-time.
   /// Open the window by using Tools > Quantum > Window > State Inspectors
@@ -273,7 +279,7 @@
         var selectedValidViews = Selection.gameObjects
           .Where(x => x.scene.IsValid())
           .Select(x => x.GetComponent<QuantumEntityView>())
-          .Where(x => x?.EntityRef.IsValid == true)
+          .Where(x => x != null && x.EntityRef.IsValid)
           .ToList();
 
         if (selectedValidViews.Any()) {
@@ -579,7 +585,7 @@
         .ToList();
 
       foreach (var view in views) {
-        if (view?.EntityRef.IsValid != true) {
+        if (view == null || view.EntityRef.IsValid == false) {
           continue;
         }
 
@@ -709,12 +715,13 @@
           runnerState.DynamicDB.Add(assetState);
         }
 
-        for (int i = 0; i < frame.MaxPlayerCount; i++) {
-          var playerState = new PlayerState { Player = i, InputFlags = frame.GetPlayerInputFlags(i) };
+        var verifiedFrame = runner.Game.Frames.Verified;
+        for (int i = 0; i < verifiedFrame.MaxPlayerCount; i++) {
+          var playerState = new PlayerState { Player = i, InputFlags = verifiedFrame.GetPlayerInputFlags(i) };
 
           var playerNodeId = model.GetTreeNodeForPlayer(playersNodeId, i);
           if (selectedNodes.Contains(playerNodeId)) {
-            runnerState.AcquireInspectorState(ref dynamicInspectorState, out playerState.InspectorId).FromPlayer(i, runner.Session, frame);
+            runnerState.AcquireInspectorState(ref dynamicInspectorState, out playerState.InspectorId).FromPlayer(i, runner.Session, verifiedFrame);
           }
 
           runnerState.Players.Add(playerState);
@@ -1139,7 +1146,7 @@
 
     private sealed class PlayersTreeViewItem : RunnersTreeViewItemBase {
 
-      public PlayersTreeViewItem(int id, int depth) : base(id, depth, "Players") {
+      public PlayersTreeViewItem(int id, int depth) : base(id, depth, "Players (verified frame)") {
       }
 
       protected override QuantumSimulationObjectInspectorState GetInspectorStateInternal(RunnerState runner) {

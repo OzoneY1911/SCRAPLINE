@@ -4,7 +4,7 @@ namespace Quantum
 {
     public class SceneContext : MonoBehaviour, IQuantumViewContext
     {
-        public PlayerInput PlayerInput;
+        public InputHandler InputHandler;
 
         public PlayerRef LocalPlayer;
         public EntityRef LocalPlayerEntity;

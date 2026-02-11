@@ -11,14 +11,14 @@ TagManager:
   - 
   - Water
   - UI
+  - 3D Overlay
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - LocalPlayer
+  - ShopValuable
+  - ShopItemBlocker
   - 
   - 
   - 

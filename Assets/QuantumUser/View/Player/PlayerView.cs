@@ -1,34 +1,47 @@
 using UnityEngine;
-using Photon.Deterministic;
 using Unity.Cinemachine;
+using System.Collections.Generic;
 
 namespace Quantum
 {
-    public class PlayerView : QuantumEntityViewComponent<SceneContext>
+    public unsafe class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
-        [Header("Setup")]
+        [Header("Camera Handle")]
         public Transform CameraHandle;
 
         private float _smoothPitch;
         private float _smoothPitchVelocity;
 
+        private bool _isLocal;
+
+        public static readonly Dictionary<EntityRef, Transform> PlayerTransforms = new();
+
         public override void OnActivate(Frame frame)
         {
-            if (frame.TryGet(EntityRef, out Player player) == false)
-                return;
+            if (!frame.Unsafe.TryGetPointer<Player>(EntityRef, out Player* player)) return;
+            
+            PlayerTransforms[EntityRef] = transform;
 
-            bool isLocal = Game.PlayerIsLocal(player.PlayerRef);
-            if (isLocal)
+            _isLocal = Game.PlayerIsLocal(player->PlayerRef);
+
+            if (_isLocal)
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
 
                 ViewContext.LocalPlayerView = this;
-                ViewContext.LocalPlayer = player.PlayerRef;
+                ViewContext.LocalPlayer = player->PlayerRef;
                 ViewContext.LocalPlayerEntity = EntityRef;
 
                 // Local player is always predicted.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
+
+                var playerRenderers = GetComponentsInChildren<Renderer>(true);
+
+                foreach (var renderer in playerRenderers)
+                {
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                }
             }
             else
             {
@@ -46,6 +59,8 @@ namespace Quantum
 
         public override void OnDeactivate()
         {
+            PlayerTransforms.Remove(EntityRef);
+
             if (ViewContext.LocalPlayerView == this)
             {
                 ViewContext.LocalPlayerView = null;
@@ -55,63 +70,49 @@ namespace Quantum
 
         public override void OnLateUpdateView()
         {
-            Frame verifiedFrame = VerifiedFrame;
-            if (verifiedFrame.TryGet(EntityRef, out Player player) == false)
+            var frame = _isLocal ? PredictedFrame : VerifiedFrame;
+
+            if (frame == null) return;
+            if (!frame.Exists(EntityRef)) return;
+
+            if (!frame.TryGet(EntityRef, out Player player))
                 return;
 
-            Frame predictedFrame = PredictedFrame;
-            if (predictedFrame.Exists(EntityRef) == false)
-                return;
+            var movement = frame.Get<PlayerMovement>(EntityRef);
 
             float lookYaw = player.LookYaw.AsFloat;
             float lookPitch = player.LookPitch.AsFloat;
 
-            bool isLocal = Game.PlayerIsLocal(player.PlayerRef);
-            if (isLocal)
+            if (_isLocal)
             {
                 if (PredictedPreviousFrame.TryGet<Player>(EntityRef, out Player previousPlayer))
                 {
-                    lookYaw = Mathf.LerpAngle(previousPlayer.LookYaw.AsFloat, previousPlayer.LookYaw.AsFloat, EntityView.Game.InterpolationFactor);
-                    lookPitch = Mathf.LerpAngle(previousPlayer.LookPitch.AsFloat, previousPlayer.LookPitch.AsFloat, EntityView.Game.InterpolationFactor);
+                    lookYaw = Mathf.LerpAngle(previousPlayer.LookYaw.AsFloat, player.LookYaw.AsFloat, EntityView.Game.InterpolationFactor);
+                    lookPitch = Mathf.LerpAngle(previousPlayer.LookPitch.AsFloat, player.LookPitch.AsFloat, EntityView.Game.InterpolationFactor);
                 }
 
-                transform.rotation = Quaternion.Euler(0.0f, lookYaw, 0.0f);
+                //transform.rotation = Quaternion.Euler(0.0f, lookYaw, 0.0f);
             }
             else
             {
-                if (verifiedFrame.TryGet<Player>(EntityRef, out Player verifiedPlayer))
+                if (frame.TryGet<Player>(EntityRef, out Player verifiedPlayer))
                 {
                     _smoothPitch = Mathf.SmoothDamp(_smoothPitch, verifiedPlayer.LookPitch.AsFloat, ref _smoothPitchVelocity, 0.1f);
                     lookPitch = _smoothPitch;
                 }
             }
 
-            lookPitch = Mathf.Clamp(lookPitch, -89.0f, 89.0f);
-
             CameraHandle.localRotation = Quaternion.Euler(lookPitch, 0.0f, 0.0f);
 
-            Vector3 targetScale = player.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
+            //Vector3 targetScale = movement.IsCrouching ? new Vector3(1.0f, 0.5f, 1.0f) : Vector3.one;
 
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * player.CrouchLerpSpeed.AsFloat);
-        }
+            //transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
 
-        private Vector3 GetAnimationMoveVelocity(KCC kcc)
-        {
-            if (kcc.RealSpeed < FP._0_01)
-                return default;
+            Vector3 targetLocalPosition = movement.IsCrouching
+                ? new Vector3(0f, movement.CameraCrouchHeight.AsFloat, 0f)
+                : new Vector3(0f, movement.CameraStandHeight.AsFloat, 0f);
 
-            var velocity = kcc.RealVelocity;
-
-            // We only care about X an Z directions.
-            velocity.Y = 0;
-
-            if (velocity.SqrMagnitude > 1)
-            {
-                velocity = velocity.Normalized;
-            }
-
-            // Transform velocity vector to local space.
-            return transform.InverseTransformVector(velocity.ToUnityVector3());
+            CameraHandle.localPosition = Vector3.Lerp(CameraHandle.localPosition, targetLocalPosition, Time.deltaTime * movement.CrouchLerpSpeed.AsFloat);
         }
     }
 }

@@ -1,0 +1,4 @@
+component Teleporter
+{
+    entity_ref ExitEntity;
+}

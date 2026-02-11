@@ -1,0 +1,4 @@
+component InteractableQuotaZone
+{
+    entity_ref TargetQuotaZone;
+}

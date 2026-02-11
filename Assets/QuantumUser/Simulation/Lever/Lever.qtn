@@ -1,0 +1,24 @@
+component Lever
+{
+    [HideInInspector]
+    Boolean IsInitialized;
+
+    [HideInInspector]
+    Boolean IsActivated;
+
+    [HideInInspector]
+    Boolean IsBeingInteracted;
+
+    [HideInInspector]
+    FPQuaternion InitialRotation;
+
+    [HideInInspector]
+    FP InitialAngle;
+
+    [HideInInspector]
+    FP CurrentAngle;
+
+    FP MaxAngle;
+
+    FP AngleResetSpeed;
+}

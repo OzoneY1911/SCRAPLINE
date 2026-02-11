@@ -53,6 +53,9 @@ namespace Photon.Realtime
         /// </summary>
         public readonly PhotonPeer RealtimePeer;
 
+        [Obsolete("Use RealtimePeer")]
+        public PhotonPeer LoadBalancingPeer { get { return this.RealtimePeer; } }
+
         /// <summary>Prefixes for all logging messages. Useful if there are multiple clients.</summary>
         public string LogPrefix;
 
@@ -367,7 +370,7 @@ namespace Photon.Realtime
 
 
         /// <summary>The local player is never null but not valid unless the client is in a room, too. The ID will be -1 outside of rooms.</summary>
-        public Player LocalPlayer { get; internal set; }
+        public readonly Player LocalPlayer = new Player(string.Empty, -1, true, null);
 
         /// <summary>
         /// The nickname of the player (synced with others). Same as client.LocalPlayer.NickName.
@@ -519,7 +522,6 @@ namespace Photon.Realtime
             this.ErrorInfoCallbackTargets = new ErrorInfoCallbacksContainer(this);
 
             this.SerializationProtocol = SerializationProtocol.GpBinaryV18;
-            this.LocalPlayer = this.CreatePlayer(string.Empty, -1, true, null);
 
             #if SUPPORTED_UNITY
             CustomTypesUnity.Register();
@@ -564,7 +566,7 @@ namespace Photon.Realtime
         /// <returns>True if the client can attempt to connect.</returns>
         public virtual bool ConnectUsingSettings(AppSettings appSettings)
         {
-            if (this.RealtimePeer.PeerState != PeerStateValue.Disconnected)
+            if (this.RealtimePeer.PeerState != PeerStateValue.Disconnected && this.State != ClientState.ConnectedToNameServer)
             {
                 Log.Warn("ConnectUsingSettings() failed. Can only connect while in state 'Disconnected'. Current state: " + this.RealtimePeer.PeerState, this.LogLevel, this.LogPrefix);
                 return false;
@@ -599,6 +601,11 @@ namespace Photon.Realtime
             }
 
             this.CheckConnectSetupWebGl();
+
+            if (this.State == ClientState.ConnectedToNameServer)
+            {
+                return this.CallAuthenticate();
+            }
 
             if (IPAddress.TryParse(this.AppSettings.Server, out IPAddress address))
             {
@@ -1304,7 +1311,7 @@ namespace Photon.Realtime
                     target = this.CurrentRoom.GetPlayer(actorNr);
                     if (target == null)
                     {
-                        target = this.CreatePlayer(targetNick, actorNr, false, targetProps);
+                        target = new Player(targetNick, actorNr, false, targetProps);
                         this.CurrentRoom.StorePlayer(target);
                     }
                     target.InternalCacheProperties(targetProps);
@@ -1435,24 +1442,10 @@ namespace Photon.Realtime
                     Player target = this.CurrentRoom.GetPlayer(actorNumber);
                     if (target == null)
                     {
-                        this.CurrentRoom.StorePlayer(this.CreatePlayer(string.Empty, actorNumber, false, null));
+                        this.CurrentRoom.StorePlayer(new Player(string.Empty, actorNumber, false, null));
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Factory method to create a player instance - override to get your own player-type with custom features.
-        /// </summary>
-        /// <param name="nickName">The nickname of the player to be created.</param>
-        /// <param name="actorNumber">The player ID (a.k.a. actorNumber) of the player to be created.</param>
-        /// <param name="isLocal">Sets the distinction if the player to be created is your player or if its assigned to someone else.</param>
-        /// <param name="actorProperties">The custom properties for this new player</param>
-        /// <returns>The newly created player</returns>
-        protected internal virtual Player CreatePlayer(string nickName, int actorNumber, bool isLocal, PhotonHashtable actorProperties)
-        {
-            Player newPlayer = new Player(nickName, actorNumber, isLocal, actorProperties);
-            return newPlayer;
         }
 
         /// <summary>Internal "factory" method to create a room-instance.</summary>
@@ -2075,7 +2068,10 @@ namespace Photon.Realtime
                             this.RealtimePeer.TransportProtocol = ConnectionProtocol.WebSocketSecure;
                             this.AppSettings.UseNameServer = true;                 // this does not affect the ServerSettings file, just this RealtimeClient
                             this.AppSettings.Port = 0;                             // this does not affect the ServerSettings file, just this RealtimeClient
-                            this.AuthValues.Token = null;
+                            if (this.AuthValues != null)
+                            {
+                                this.AuthValues.Token = null;
+                            }
 
                             if (!this.RealtimePeer.Connect(this.NameServerAddress, this.AppSettings.GetAppId(this.ClientType), photonToken: this.TokenForInit, proxyServerAddress: this.AppSettings.ProxyServer))
                             {
@@ -2217,7 +2213,7 @@ namespace Photon.Realtime
                     {
                         if (actorNr > 0)
                         {
-                            originatingPlayer = this.CreatePlayer(string.Empty, actorNr, false, actorProperties);
+                            originatingPlayer = new Player(string.Empty, actorNr, false, actorProperties);
                             this.CurrentRoom.StorePlayer(originatingPlayer);
                         }
                     }

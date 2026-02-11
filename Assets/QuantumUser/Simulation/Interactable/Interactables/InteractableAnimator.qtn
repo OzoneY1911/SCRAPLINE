@@ -1,0 +1,5 @@
+component InteractableAnimator
+{
+    [HideInInspector]
+    Boolean IsToggled;
+}

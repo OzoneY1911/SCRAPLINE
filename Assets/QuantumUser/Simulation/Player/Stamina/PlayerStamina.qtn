@@ -1,0 +1,17 @@
+component PlayerStamina
+{
+    [HideInInspector]
+    FP Current;
+
+    FP Max;
+
+    FP DrainPerSec;
+    FP RegenPerSec;
+
+    FP CostPerJump;
+
+    FP RecoverThreshold;
+
+    [HideInInspector]
+    Boolean IsExhausted;
+}

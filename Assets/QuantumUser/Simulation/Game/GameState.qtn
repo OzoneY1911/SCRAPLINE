@@ -1,0 +1,17 @@
+global
+{
+    dictionary<player_ref, entity_ref> ActivePlayers;
+    list<entity_ref> AlivePlayers;
+
+    FP PlayerMoney;
+
+    GameLocation SelectedLocation;
+
+    list<entity_ref> TrackedQuotaZones;
+    entity_ref TrackedInteractableMapChanger;
+}
+
+signal OnCompleteAllQuotaZones();
+signal OnMapChangeAvailable();
+
+event PlayerMoneyUpdated { }

@@ -50,15 +50,138 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AnimationTrigger))]
+  public unsafe partial class AnimationTriggerPrototype : ComponentPrototype<Quantum.AnimationTrigger> {
+    [HideInInspector()]
+    public QBoolean IsToggled;
+    [HideInInspector()]
+    public UInt16 InTriggerCount;
+    partial void MaterializeUser(Frame frame, ref Quantum.AnimationTrigger result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.AnimationTrigger component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.AnimationTrigger result, in PrototypeMaterializationContext context = default) {
+        result.IsToggled = this.IsToggled;
+        result.InTriggerCount = this.InTriggerCount;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Draggable))]
+  public unsafe partial class DraggablePrototype : ComponentPrototype<Quantum.Draggable> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Draggable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Draggable result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.FPPoint))]
+  public unsafe partial class FPPointPrototype : StructPrototype {
+    public FPVector3 Position;
+    public FPVector3 RotationEuler;
+    partial void MaterializeUser(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context = default) {
+        result.Position = this.Position;
+        result.RotationEuler = this.RotationEuler;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Flashlight))]
+  public unsafe partial class FlashlightPrototype : ComponentPrototype<Quantum.Flashlight> {
+    public AssetRef<FlashlightConfig> Config;
+    [HideInInspector()]
+    public QBoolean IsOn;
+    [HideInInspector()]
+    public FP CurrentCharge;
+    partial void MaterializeUser(Frame frame, ref Quantum.Flashlight result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Flashlight component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Flashlight result, in PrototypeMaterializationContext context = default) {
+        result.Config = this.Config;
+        result.IsOn = this.IsOn;
+        result.CurrentCharge = this.CurrentCharge;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.GameLocation))]
+  public unsafe partial class GameLocationPrototype : StructPrototype {
+    public Quantum.QEnum32<GameLocationType> Type;
+    partial void MaterializeUser(Frame frame, ref Quantum.GameLocation result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.GameLocation result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.GameplayTimer))]
+  public unsafe partial class GameplayTimerPrototype : StructPrototype {
+    public Quantum.QEnum32<GameplayTimerType> Type;
+    public FP Duration;
+    [HideInInspector()]
+    public FP Remaining;
+    [HideInInspector()]
+    public QBoolean IsRunning;
+    partial void MaterializeUser(Frame frame, ref Quantum.GameplayTimer result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.GameplayTimer result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.Duration = this.Duration;
+        result.Remaining = this.Remaining;
+        result.IsRunning = this.IsRunning;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Health))]
+  public unsafe partial class HealthPrototype : ComponentPrototype<Quantum.Health> {
+    [HideInInspector()]
+    public FP Current;
+    public FP Max;
+    partial void MaterializeUser(Frame frame, ref Quantum.Health result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Health component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Health result, in PrototypeMaterializationContext context = default) {
+        result.Current = this.Current;
+        result.Max = this.Max;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public Byte InterpolationOffset;
     public Byte InterpolationAlphaEncoded;
     public FPVector2 MoveDirection;
     public FPVector2 LookRotationDelta;
+    public FP ScrollDelta;
     public Button Jump;
     public Button Run;
     public Button Crouch;
+    public Button Interact;
+    public Button Use;
+    public Button Reload;
+    public Button SelectInventorySlot;
+    public Quantum.QEnum8<SlotIndex> SelectedInventorySlotIndex;
+    public Button CollectValuable;
+    public Button DropValuable;
+    public FPVector3 CameraPosition;
+    public FPVector3 CameraForward;
     public Button _left;
     public Button _right;
     public Button _up;
@@ -80,9 +203,19 @@ namespace Quantum.Prototypes {
         result.InterpolationAlphaEncoded = this.InterpolationAlphaEncoded;
         result.MoveDirection = this.MoveDirection;
         result.LookRotationDelta = this.LookRotationDelta;
+        result.ScrollDelta = this.ScrollDelta;
         result.Jump = this.Jump;
         result.Run = this.Run;
         result.Crouch = this.Crouch;
+        result.Interact = this.Interact;
+        result.Use = this.Use;
+        result.Reload = this.Reload;
+        result.SelectInventorySlot = this.SelectInventorySlot;
+        result.SelectedInventorySlotIndex = this.SelectedInventorySlotIndex;
+        result.CollectValuable = this.CollectValuable;
+        result.DropValuable = this.DropValuable;
+        result.CameraPosition = this.CameraPosition;
+        result.CameraForward = this.CameraForward;
         result._left = this._left;
         result._right = this._right;
         result._up = this._up;
@@ -99,6 +232,98 @@ namespace Quantum.Prototypes {
         result._analogLeftTrigger = this._analogLeftTrigger;
         this.ThumbSticks.Materialize(frame, ref result.ThumbSticks, in context);
         MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Interactable))]
+  public unsafe class InteractablePrototype : ComponentPrototype<Quantum.Interactable> {
+    [HideInInspector()]
+    public MapEntityId Entity;
+    public Quantum.QEnum32<InteractableType> Type;
+    public Quantum.Prototypes.GameplayTimerPrototype CooldownTimer;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Interactable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Interactable result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.Entity, in context, out result.Entity);
+        result.Type = this.Type;
+        this.CooldownTimer.Materialize(frame, ref result.CooldownTimer, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableAnimator))]
+  public unsafe partial class InteractableAnimatorPrototype : ComponentPrototype<Quantum.InteractableAnimator> {
+    [HideInInspector()]
+    public QBoolean IsToggled;
+    partial void MaterializeUser(Frame frame, ref Quantum.InteractableAnimator result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableAnimator component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableAnimator result, in PrototypeMaterializationContext context = default) {
+        result.IsToggled = this.IsToggled;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableGameLocationSelector))]
+  public unsafe partial class InteractableGameLocationSelectorPrototype : ComponentPrototype<Quantum.InteractableGameLocationSelector> {
+    public Quantum.Prototypes.GameLocationPrototype TargetLocation;
+    partial void MaterializeUser(Frame frame, ref Quantum.InteractableGameLocationSelector result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableGameLocationSelector component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableGameLocationSelector result, in PrototypeMaterializationContext context = default) {
+        this.TargetLocation.Materialize(frame, ref result.TargetLocation, in context);
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
+  public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
+    public AssetRef<Map> TargetMap;
+    public QBoolean IsActive;
+    partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableMapChanger component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
+        result.TargetMap = this.TargetMap;
+        result.IsActive = this.IsActive;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableQuotaZone))]
+  public unsafe class InteractableQuotaZonePrototype : ComponentPrototype<Quantum.InteractableQuotaZone> {
+    public MapEntityId TargetQuotaZone;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableQuotaZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableQuotaZone result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.TargetQuotaZone, in context, out result.TargetQuotaZone);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableShopZone))]
+  public unsafe class InteractableShopZonePrototype : ComponentPrototype<Quantum.InteractableShopZone> {
+    public MapEntityId TargetShopZone;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.InteractableShopZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.InteractableShopZone result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.TargetShopZone, in context, out result.TargetShopZone);
     }
   }
   [System.SerializableAttribute()]
@@ -242,8 +467,182 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Lever))]
+  public unsafe partial class LeverPrototype : ComponentPrototype<Quantum.Lever> {
+    [HideInInspector()]
+    public QBoolean IsInitialized;
+    [HideInInspector()]
+    public QBoolean IsActivated;
+    [HideInInspector()]
+    public QBoolean IsBeingInteracted;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 InitialRotation;
+    [HideInInspector()]
+    public FP InitialAngle;
+    [HideInInspector()]
+    public FP CurrentAngle;
+    public FP MaxAngle;
+    public FP AngleResetSpeed;
+    partial void MaterializeUser(Frame frame, ref Quantum.Lever result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Lever component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Lever result, in PrototypeMaterializationContext context = default) {
+        result.IsInitialized = this.IsInitialized;
+        result.IsActivated = this.IsActivated;
+        result.IsBeingInteracted = this.IsBeingInteracted;
+        result.InitialRotation = FPQuaternion.Euler(this.InitialRotation);
+        result.InitialAngle = this.InitialAngle;
+        result.CurrentAngle = this.CurrentAngle;
+        result.MaxAngle = this.MaxAngle;
+        result.AngleResetSpeed = this.AngleResetSpeed;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedChildEntity))]
+  public unsafe partial class NestedChildEntityPrototype : StructPrototype {
+    public AssetRef<EntityPrototype> Prototype;
+    public Quantum.Prototypes.FPPointPrototype SpawnPoint;
+    partial void MaterializeUser(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context = default) {
+        result.Prototype = this.Prototype;
+        this.SpawnPoint.Materialize(frame, ref result.SpawnPoint, in context);
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedParentEntity))]
+  public unsafe partial class NestedParentEntityPrototype : ComponentPrototype<Quantum.NestedParentEntity> {
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.NestedChildEntityPrototype[] NestedEntities = {};
+    partial void MaterializeUser(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.NestedParentEntity component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context = default) {
+        if (this.NestedEntities.Length == 0) {
+          result.NestedEntities = default;
+        } else {
+          var list = frame.AllocateList(out result.NestedEntities, this.NestedEntities.Length);
+          for (int i = 0; i < this.NestedEntities.Length; ++i) {
+            Quantum.NestedChildEntity tmp = default;
+            this.NestedEntities[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
+    public SByte Strength;
+    public FP InteractionDistance;
+    public LayerMask LocalMask;
+    [HideInInspector()]
+    public PlayerRef PlayerRef;
+    [HideInInspector()]
+    public FP LookYaw;
+    [HideInInspector()]
+    public FP LookPitch;
+    partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Player component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+        result.Strength = this.Strength;
+        result.InteractionDistance = this.InteractionDistance;
+        result.LocalMask = this.LocalMask;
+        result.PlayerRef = this.PlayerRef;
+        result.LookYaw = this.LookYaw;
+        result.LookPitch = this.LookPitch;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerDragging))]
+  public unsafe class PlayerDraggingPrototype : ComponentPrototype<Quantum.PlayerDragging> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public MapEntityId DraggedEntity;
+    [HideInInspector()]
+    public FP DragDistance;
+    [HideInInspector()]
+    public FPVector3 GrabLocalPoint;
+    public FP PushPullStep;
+    public FP MinDragDistance;
+    public FP MaxDragDistance;
+    public FP DampingRatio;
+    public FP SagPerMass;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 DraggedRelativeRotation;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerDragging component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerDragging result, in PrototypeMaterializationContext context = default) {
+        result.IsDragging = this.IsDragging;
+        PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
+        result.DragDistance = this.DragDistance;
+        result.GrabLocalPoint = this.GrabLocalPoint;
+        result.PushPullStep = this.PushPullStep;
+        result.MinDragDistance = this.MinDragDistance;
+        result.MaxDragDistance = this.MaxDragDistance;
+        result.DampingRatio = this.DampingRatio;
+        result.SagPerMass = this.SagPerMass;
+        result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerInventory))]
+  public unsafe class PlayerInventoryPrototype : ComponentPrototype<Quantum.PlayerInventory> {
+    [HideInInspector()]
+    public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
+    [ArrayLengthAttribute(3)]
+    public MapEntityId[] Slots = new MapEntityId[3];
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerInventory component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerInventory result, in PrototypeMaterializationContext context = default) {
+        result.SelectedSlotIndex = this.SelectedSlotIndex;
+        for (int i = 0, count = PrototypeValidator.CheckLength(Slots, 3, in context); i < count; ++i) {
+          PrototypeValidator.FindMapEntity(this.Slots[i], in context, out *result.Slots.GetPointer(i));
+        }
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerLeverDragging))]
+  public unsafe class PlayerLeverDraggingPrototype : ComponentPrototype<Quantum.PlayerLeverDragging> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public MapEntityId DraggedEntity;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerLeverDragging component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerLeverDragging result, in PrototypeMaterializationContext context = default) {
+        result.IsDragging = this.IsDragging;
+        PrototypeValidator.FindMapEntity(this.DraggedEntity, in context, out result.DraggedEntity);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerMovement))]
+  public unsafe partial class PlayerMovementPrototype : ComponentPrototype<Quantum.PlayerMovement> {
     public FP WalkSpeed;
     public FP RunSpeed;
     public FP CrouchSpeed;
@@ -252,20 +651,18 @@ namespace Quantum.Prototypes {
     public FP HeightCrouching;
     public FP CrouchLerpSpeed;
     [HideInInspector()]
-    public PlayerRef PlayerRef;
-    [HideInInspector()]
-    public FP LookYaw;
-    [HideInInspector()]
-    public FP LookPitch;
-    [HideInInspector()]
     public QBoolean IsCrouching;
-    partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
+    [HideInInspector()]
+    public QBoolean IsRunning;
+    public FP CameraStandHeight;
+    public FP CameraCrouchHeight;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerMovement result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Player component = default;
+        Quantum.PlayerMovement component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
-    public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+    public void Materialize(Frame frame, ref Quantum.PlayerMovement result, in PrototypeMaterializationContext context = default) {
         result.WalkSpeed = this.WalkSpeed;
         result.RunSpeed = this.RunSpeed;
         result.CrouchSpeed = this.CrouchSpeed;
@@ -273,10 +670,63 @@ namespace Quantum.Prototypes {
         result.HeightStanding = this.HeightStanding;
         result.HeightCrouching = this.HeightCrouching;
         result.CrouchLerpSpeed = this.CrouchLerpSpeed;
-        result.PlayerRef = this.PlayerRef;
-        result.LookYaw = this.LookYaw;
-        result.LookPitch = this.LookPitch;
         result.IsCrouching = this.IsCrouching;
+        result.IsRunning = this.IsRunning;
+        result.CameraStandHeight = this.CameraStandHeight;
+        result.CameraCrouchHeight = this.CameraCrouchHeight;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerStamina))]
+  public unsafe partial class PlayerStaminaPrototype : ComponentPrototype<Quantum.PlayerStamina> {
+    [HideInInspector()]
+    public FP Current;
+    public FP Max;
+    public FP DrainPerSec;
+    public FP RegenPerSec;
+    public FP CostPerJump;
+    public FP RecoverThreshold;
+    [HideInInspector()]
+    public QBoolean IsExhausted;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerStamina result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerStamina component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerStamina result, in PrototypeMaterializationContext context = default) {
+        result.Current = this.Current;
+        result.Max = this.Max;
+        result.DrainPerSec = this.DrainPerSec;
+        result.RegenPerSec = this.RegenPerSec;
+        result.CostPerJump = this.CostPerJump;
+        result.RecoverThreshold = this.RecoverThreshold;
+        result.IsExhausted = this.IsExhausted;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ProceduralRoom))]
+  public unsafe partial class ProceduralRoomPrototype : StructPrototype {
+    public AssetRef<Map> MapAsset;
+    public AssetRef<EntityPrototype> Prototype;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.FPPointPrototype[] ExitPoints = {};
+    partial void MaterializeUser(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context = default) {
+        result.MapAsset = this.MapAsset;
+        result.Prototype = this.Prototype;
+        if (this.ExitPoints.Length == 0) {
+          result.ExitPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.ExitPoints, this.ExitPoints.Length);
+          for (int i = 0; i < this.ExitPoints.Length; ++i) {
+            Quantum.FPPoint tmp = default;
+            this.ExitPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -407,6 +857,156 @@ namespace Quantum.Prototypes {
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
         MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.QuotaZone))]
+  public unsafe class QuotaZonePrototype : ComponentPrototype<Quantum.QuotaZone> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceDemandPrototype[] ResourceDemands = {};
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] InZoneValuables = {};
+    [HideInInspector()]
+    public QBoolean IsActivated;
+    [HideInInspector()]
+    public QBoolean IsSatisfied;
+    [HideInInspector()]
+    public QBoolean IsCompleted;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.QuotaZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.QuotaZone result, in PrototypeMaterializationContext context = default) {
+        if (this.ResourceDemands.Length == 0) {
+          result.ResourceDemands = default;
+        } else {
+          var list = frame.AllocateList(out result.ResourceDemands, this.ResourceDemands.Length);
+          for (int i = 0; i < this.ResourceDemands.Length; ++i) {
+            Quantum.ResourceDemand tmp = default;
+            this.ResourceDemands[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        if (this.InZoneValuables.Length == 0) {
+          result.InZoneValuables = default;
+        } else {
+          var hashSet = frame.AllocateHashSet(out result.InZoneValuables, this.InZoneValuables.Length);
+          for (int i = 0; i < this.InZoneValuables.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.InZoneValuables[i], in context, out tmp);
+            hashSet.Add(tmp);
+          }
+        }
+        result.IsActivated = this.IsActivated;
+        result.IsSatisfied = this.IsSatisfied;
+        result.IsCompleted = this.IsCompleted;
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ResourceDemand))]
+  public unsafe partial class ResourceDemandPrototype : StructPrototype {
+    public Quantum.QEnum32<ResourceType> Type;
+    public FP Value;
+    public FP Collected;
+    public QBoolean IsSatisfied;
+    partial void MaterializeUser(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ResourceDemand result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.Value = this.Value;
+        result.Collected = this.Collected;
+        result.IsSatisfied = this.IsSatisfied;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ResourceFraction))]
+  public unsafe partial class ResourceFractionPrototype : StructPrototype {
+    public Quantum.QEnum32<ResourceType> Type;
+    public FP Value;
+    partial void MaterializeUser(Frame frame, ref Quantum.ResourceFraction result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.ResourceFraction result, in PrototypeMaterializationContext context = default) {
+        result.Type = this.Type;
+        result.Value = this.Value;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ShopZone))]
+  public unsafe class ShopZonePrototype : ComponentPrototype<Quantum.ShopZone> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] InZoneValuables = {};
+    [HideInInspector()]
+    public FP InZoneValue;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.ShopZone component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.ShopZone result, in PrototypeMaterializationContext context = default) {
+        if (this.InZoneValuables.Length == 0) {
+          result.InZoneValuables = default;
+        } else {
+          var hashSet = frame.AllocateHashSet(out result.InZoneValuables, this.InZoneValuables.Length);
+          for (int i = 0; i < this.InZoneValuables.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.InZoneValuables[i], in context, out tmp);
+            hashSet.Add(tmp);
+          }
+        }
+        result.InZoneValue = this.InZoneValue;
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Teleporter))]
+  public unsafe class TeleporterPrototype : ComponentPrototype<Quantum.Teleporter> {
+    public MapEntityId ExitEntity;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Teleporter component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Teleporter result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.ExitEntity, in context, out result.ExitEntity);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Valuable))]
+  public unsafe class ValuablePrototype : ComponentPrototype<Quantum.Valuable> {
+    public AssetRef<ValuableConfig> Config;
+    public QBoolean IsShopValuable;
+    [HideInInspector()]
+    public FP CurrentValue;
+    [HideInInspector()]
+    public FP CurrentFragility;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
+    [HideInInspector()]
+    public MapEntityId TrackedZoneEntity;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Valuable component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Valuable result, in PrototypeMaterializationContext context = default) {
+        result.Config = this.Config;
+        result.IsShopValuable = this.IsShopValuable;
+        result.CurrentValue = this.CurrentValue;
+        result.CurrentFragility = this.CurrentFragility;
+        if (this.ResourceFractions.Length == 0) {
+          result.ResourceFractions = default;
+        } else {
+          var list = frame.AllocateList(out result.ResourceFractions, this.ResourceFractions.Length);
+          for (int i = 0; i < this.ResourceFractions.Length; ++i) {
+            Quantum.ResourceFraction tmp = default;
+            this.ResourceFractions[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        PrototypeValidator.FindMapEntity(this.TrackedZoneEntity, in context, out result.TrackedZoneEntity);
     }
   }
 }

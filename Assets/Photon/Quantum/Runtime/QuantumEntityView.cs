@@ -753,7 +753,7 @@ namespace Quantum {
           case QuantumEntityViewTimeReference.ErrorCorrection:
             return false;
         }
-        //Debug.Log(frameNumber + " " + (InterolationBuffer == null));
+
         if (_interpolationBuffer.TryGet(out var data, frameNumber) && data.IsValid) {
           transform = data.Transform2D;
           if (data.Has2DVertical) {

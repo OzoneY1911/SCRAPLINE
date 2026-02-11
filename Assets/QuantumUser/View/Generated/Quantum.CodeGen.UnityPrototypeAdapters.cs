@@ -50,6 +50,44 @@ namespace Quantum.Prototypes.Unity {
   #endif //;
   
   [System.SerializableAttribute()]
+  public unsafe partial class InteractablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractablePrototype> {
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype Entity;
+    public Quantum.QEnum32<InteractableType> Type;
+    public Quantum.Prototypes.GameplayTimerPrototype CooldownTimer;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractablePrototype prototype);
+    public override Quantum.Prototypes.InteractablePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.InteractablePrototype();
+      converter.Convert(this.Entity, out result.Entity);
+      converter.Convert(this.Type, out result.Type);
+      converter.Convert(this.CooldownTimer, out result.CooldownTimer);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class InteractableQuotaZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractableQuotaZonePrototype> {
+    public Quantum.QuantumEntityPrototype TargetQuotaZone;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableQuotaZonePrototype prototype);
+    public override Quantum.Prototypes.InteractableQuotaZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.InteractableQuotaZonePrototype();
+      converter.Convert(this.TargetQuotaZone, out result.TargetQuotaZone);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class InteractableShopZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractableShopZonePrototype> {
+    public Quantum.QuantumEntityPrototype TargetShopZone;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableShopZonePrototype prototype);
+    public override Quantum.Prototypes.InteractableShopZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.InteractableShopZonePrototype();
+      converter.Convert(this.TargetShopZone, out result.TargetShopZone);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class KCCPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCPrototype> {
     public AssetRef<KCCSettings> Settings;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCPrototype prototype);
@@ -97,6 +135,149 @@ namespace Quantum.Prototypes.Unity {
       var result = new Quantum.Prototypes.KCCModifierPrototype();
       converter.Convert(this.Processor, out result.Processor);
       converter.Convert(this.Entity, out result.Entity);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class PlayerDraggingPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerDraggingPrototype> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype DraggedEntity;
+    [HideInInspector()]
+    public FP DragDistance;
+    [HideInInspector()]
+    public FPVector3 GrabLocalPoint;
+    public FP PushPullStep;
+    public FP MinDragDistance;
+    public FP MaxDragDistance;
+    public FP DampingRatio;
+    public FP SagPerMass;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 DraggedRelativeRotation;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerDraggingPrototype prototype);
+    public override Quantum.Prototypes.PlayerDraggingPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.PlayerDraggingPrototype();
+      converter.Convert(this.IsDragging, out result.IsDragging);
+      converter.Convert(this.DraggedEntity, out result.DraggedEntity);
+      converter.Convert(this.DragDistance, out result.DragDistance);
+      converter.Convert(this.GrabLocalPoint, out result.GrabLocalPoint);
+      converter.Convert(this.PushPullStep, out result.PushPullStep);
+      converter.Convert(this.MinDragDistance, out result.MinDragDistance);
+      converter.Convert(this.MaxDragDistance, out result.MaxDragDistance);
+      converter.Convert(this.DampingRatio, out result.DampingRatio);
+      converter.Convert(this.SagPerMass, out result.SagPerMass);
+      converter.Convert(this.DraggedRelativeRotation, out result.DraggedRelativeRotation);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class PlayerInventoryPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerInventoryPrototype> {
+    [HideInInspector()]
+    public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
+    [ArrayLengthAttribute(3)]
+    public Quantum.QuantumEntityPrototype[] Slots = new Quantum.QuantumEntityPrototype[3];
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerInventoryPrototype prototype);
+    public override Quantum.Prototypes.PlayerInventoryPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.PlayerInventoryPrototype();
+      converter.Convert(this.SelectedSlotIndex, out result.SelectedSlotIndex);
+      converter.Convert(this.Slots, out result.Slots);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class PlayerLeverDraggingPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerLeverDraggingPrototype> {
+    [HideInInspector()]
+    public QBoolean IsDragging;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype DraggedEntity;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.PlayerLeverDraggingPrototype prototype);
+    public override Quantum.Prototypes.PlayerLeverDraggingPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.PlayerLeverDraggingPrototype();
+      converter.Convert(this.IsDragging, out result.IsDragging);
+      converter.Convert(this.DraggedEntity, out result.DraggedEntity);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class QuotaZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.QuotaZonePrototype> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceDemandPrototype[] ResourceDemands = {};
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] InZoneValuables = {};
+    [HideInInspector()]
+    public QBoolean IsActivated;
+    [HideInInspector()]
+    public QBoolean IsSatisfied;
+    [HideInInspector()]
+    public QBoolean IsCompleted;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.QuotaZonePrototype prototype);
+    public override Quantum.Prototypes.QuotaZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.QuotaZonePrototype();
+      converter.Convert(this.ResourceDemands, out result.ResourceDemands);
+      converter.Convert(this.InZoneValuables, out result.InZoneValuables);
+      converter.Convert(this.IsActivated, out result.IsActivated);
+      converter.Convert(this.IsSatisfied, out result.IsSatisfied);
+      converter.Convert(this.IsCompleted, out result.IsCompleted);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class ShopZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ShopZonePrototype> {
+    [HideInInspector()]
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] InZoneValuables = {};
+    [HideInInspector()]
+    public FP InZoneValue;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ShopZonePrototype prototype);
+    public override Quantum.Prototypes.ShopZonePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.ShopZonePrototype();
+      converter.Convert(this.InZoneValuables, out result.InZoneValuables);
+      converter.Convert(this.InZoneValue, out result.InZoneValue);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class TeleporterPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.TeleporterPrototype> {
+    public Quantum.QuantumEntityPrototype ExitEntity;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.TeleporterPrototype prototype);
+    public override Quantum.Prototypes.TeleporterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.TeleporterPrototype();
+      converter.Convert(this.ExitEntity, out result.ExitEntity);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class ValuablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ValuablePrototype> {
+    public AssetRef<ValuableConfig> Config;
+    public QBoolean IsShopValuable;
+    [HideInInspector()]
+    public FP CurrentValue;
+    [HideInInspector()]
+    public FP CurrentFragility;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ResourceFractionPrototype[] ResourceFractions = {};
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype TrackedZoneEntity;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.ValuablePrototype prototype);
+    public override Quantum.Prototypes.ValuablePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.ValuablePrototype();
+      converter.Convert(this.Config, out result.Config);
+      converter.Convert(this.IsShopValuable, out result.IsShopValuable);
+      converter.Convert(this.CurrentValue, out result.CurrentValue);
+      converter.Convert(this.CurrentFragility, out result.CurrentFragility);
+      converter.Convert(this.ResourceFractions, out result.ResourceFractions);
+      converter.Convert(this.TrackedZoneEntity, out result.TrackedZoneEntity);
       ConvertUser(converter, ref result);
       return result;
     }

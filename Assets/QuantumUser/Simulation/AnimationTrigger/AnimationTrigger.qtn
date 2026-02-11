@@ -1,0 +1,13 @@
+component AnimationTrigger
+{
+    [HideInInspector]
+    Boolean IsToggled;
+
+    [HideInInspector]
+    UInt16 InTriggerCount;
+}
+
+event AnimationTriggered
+{
+    entity_ref Entity;
+}

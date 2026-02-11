@@ -1,0 +1,8 @@
+component PlayerLeverDragging
+{
+    [HideInInspector]
+    Boolean IsDragging;
+
+    [HideInInspector]
+    entity_ref DraggedEntity;
+}

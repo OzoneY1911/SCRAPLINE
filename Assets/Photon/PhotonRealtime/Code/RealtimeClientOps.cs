@@ -1676,6 +1676,8 @@ namespace Photon.Realtime
                 return false;
             }
 
+            Log.Info("OpCreateMatchmakingTicket()", this.LogLevel, this.LogPrefix);
+
             int[] targetWithoutPlugin = new int[] { this.LocalPlayer.ActorNumber };
             ParameterDictionary opParameters = this.paramDictionaryPool.Acquire();
             try
