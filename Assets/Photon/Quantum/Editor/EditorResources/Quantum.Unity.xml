@@ -2237,6 +2237,13 @@
             The default systems config to be used for <see cref="F:Quantum.RuntimeConfig.SystemsConfig"/>.
             </summary>
         </member>
+        <member name="F:Quantum.QuantumDefaultConfigs.InputActionAsset">
+            <summary>
+            The default input action asset to be used to bind Quantum input during input polling callbacks.
+            It's registered here to make it accessible by code.
+            Uses the default asset from SDK but can be replaced by a custom one if desired.
+            </summary>
+        </member>
         <member name="P:Quantum.QuantumRunner.DefaultGame">
             <summary>
             Access the QuantumGame from the default runner or null.
@@ -7756,32 +7763,12 @@
             Available tabs are hard-coded.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.Tab.Online">
-            <summary>
-            Play online tab
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumStartUI.Tab.Local">
-            <summary>
-            Play local tab
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumStartUI.Tab.Settings">
-            <summary>
-            Not used.
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumStartUI.Tab.Custom">
-            <summary>
-            Not used.
-            </summary>
-        </member>
         <member name="T:Quantum.QuantumStartUI.UIBindings">
             <summary>
             Includes all ui element bindings for the menu.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.InputTabs">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.TabInput">
             <summary>
             Maximum four tabs are supported (<see cref="T:Quantum.QuantumStartUI.Tab"/>. Array must have size of four.
             </summary>
@@ -7791,84 +7778,84 @@
             The list of signal strength icons to toggle based on the ping value.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.TogglePanel">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.PanelGroup">
             <summary>
             The menu panel canvas group to toggle and set interactable state.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleTabs">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.TabGroup">
             <summary>
             Toggle the tabs section visibility. 
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleFooter">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.FooterGroup">
             <summary>
             Toggle the footer section visibility.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleStartGameButton">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.StartButtonGroup">
             <summary>
             The game object to toggle the play buttons visibility.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleDisconnectButton">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.DisconnectButtonGroup">
             <summary>
             The game object to toggle the disconnect button visibility.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleQuitButton">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.QuitButtonGroup">
             <summary>
             The game object to toggle the quit button visibility.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleMenuButton">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.MenuButtonGroup">
             <summary>
             The toggle the menu button visibility.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.TogglePopup">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.PopupGroup">
             <summary>
             The game object to toggle the popup screen visibility.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleSignal">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.SignalGroup">
             <summary>
             The game object to toggle the signal strength and ping display.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleFps">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.FpsGroup">
             <summary>
             The game object to toggle fps display.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleRegionDropdown">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.RegionDropdownGroup">
             <summary>
             Should be null if region dropdown is disabled completely.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleRoomInput">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.RoomInputGroup">
             <summary>
             The game object to toggle the room name input section.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleRoomPrivateToggle">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.RoomPrivateToggleGroup">
             <summary>
             The game object to toggle the private room checkbox.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleAppVersion">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.AppVersionGroup">
             <summary>
             The game object toggle the app version field visibility.
             Set to <see langword="null"/> to never use.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumStartUI.UIBindings.ToggleStatus">
+        <member name="F:Quantum.QuantumStartUI.UIBindings.StatusGroup">
             <summary>
             Toggle the status text visibility.
             Set to <see langword="null"/> to never use.

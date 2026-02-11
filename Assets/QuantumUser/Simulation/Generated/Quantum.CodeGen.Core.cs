@@ -2543,8 +2543,8 @@ namespace Quantum {
       bitSet = new(_globals->PlayerLastConnectionState.Bits, _globals->PlayerLastConnectionState.Length);
     }
     partial void ResetPhysicsCodeGen() {
-      Physics2D.Init(_globals->PhysicsState2D.MapStaticCollidersState.TrackedMap);
-      Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
+      Physics2D?.Init(_globals->PhysicsState2D.MapStaticCollidersState.TrackedMap);
+      Physics3D?.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
       public void OnCompleteAllQuotaZones() {

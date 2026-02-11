@@ -138,8 +138,10 @@ namespace Quantum {
       ShutdownHandler?.Dispose();
       ShutdownHandler = null;
 
-      MainPlayer?.LocalPlayers.Remove(this);
-      MainPlayer = null;
+      if (MainPlayer != null) {
+        MainPlayer.LocalPlayers.Remove(this);
+        MainPlayer = null;
+      }
 
       if (_ui != null) {
         Destroy(_ui.gameObject);

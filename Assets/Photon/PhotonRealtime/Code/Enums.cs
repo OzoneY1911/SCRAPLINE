@@ -343,7 +343,7 @@ namespace Photon.Realtime
         /// <summary>(32761) Not in use currently.</summary>
         public const int UserBlocked = 0x7FFF - 6;
 
-        /// <summary>(32760) Random matchmaking only succeeds if a room exists thats neither closed nor full. Repeat in a few seconds or create a new room.</summary>
+        /// <summary>(32760) Random matchmaking only succeeds if a room exists that is neither closed nor full. Repeat in a few seconds or create a new room.</summary>
         public const int NoRandomMatchFound = 0x7FFF - 7;
 
         /// <summary>(32758) Join can fail if the room (name) is not existing (anymore). This can happen when players leave while you join.</summary>

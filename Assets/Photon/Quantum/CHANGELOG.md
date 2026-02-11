@@ -1,3 +1,114 @@
+# 3.0.9
+
+## Stable
+
+### Build 1932 (Dec 10, 2025)
+
+**What's New**
+
+- `Quantum.Compression` - an abstract base class for compression algorithms. Comes with two implementations: `CompressionDotNet` (default) and `CompressionSharpLibZib` (enabled when `com.unity.sharp-zip-lib` package is present). Using the latter might help with "Runtime Speed with LTO" Web builds issues. Both implementations produce the same results and rely on `GZip` format
+- The Asteroid sample and demo input scripts (extra `.unitypackages`) fully support Unity Input System
+
+**Changes**
+
+- Updated Photon Realtime to full `5.1.9` version
+- `QuantumCallbackHandler_UnityCallbacks.LoadAddressableScenePathsAsync` is now static
+- `ByteUtils` compression methods made obsolete, use `Quantum.Compression` instead
+- The Quantum open scene toolbar is disabled for Unity 6.3
+
+**Bug Fixes**
+
+- Fixed: Unity 6000.3 support
+- Fixed: The collision between polygons and polygons was not being detected when the edges of one of the polygons were perfectly aligned
+- Fixed: The collision between circles and polygons was not being detected when the edges of the polygon were perfectly aligned, i.e., when the angle difference between two edges was 180 degrees
+- Fixed: The intersection between 2D boxes was not generating a valid contact point, and the de-penetration direction was inverted
+- Fixed: An issue in `EditMeshScope.ReserveTriangleCapacity` when used in a `DynamicMap` that could cause an internal mismatch in the static collider index
+- Fixed: An issue in `TaskHandle.AddDependency` that would cause it to not raise an exception in Release and corrupt memory when going beyond the max number of parents or children
+- Fixed: An issue when using `AllocateOnComponentAdded` on collections inside `Globals`, which would make the Heap Tracker thrown an exception if the collection was expanded
+- Fixed: System task profiler entries not being recorded in non-development builds
+- Fixed: Addressable scenes not being released properly
+- Fixed: Addressable scenes not being unloaded correctly after loading same scene multiple times
+- Fixed: Invalid order of guids in `QuantumUnityDB.GetAssetInternal` assertion message
+
+# 3.0.8
+
+## Stable
+
+### Build 1858 (Oct 08, 2025)
+
+**Changes**
+
+- `CollisionChecks` in Physics2D and Physics3D namespaces are now static classes
+
+**Bug Fixes**
+
+- Fixed: An issue in 2D and 3D hinge joints causing non optimal constraint resolution when using motor or angle limits and both connected entities have a dynamic body
+- Fixed: An issue in 3D CCD algorithm that could make it less accurate and in some cases produce wrong contact points
+- Fixed: An issue that caused warning logs due to usage of an obsolete `TreeView` type in Unity 6
+
+# 3.0.7
+
+## Stable
+
+### Build 1808 (Sep 01, 2025)
+
+**What's New**
+
+- Added an overload to `DeterministicSession.ResetReplay()` that receives a raw byte array instead of a frame instance
+- Added a `QuantumUnityDB` proxy for the simulation to support the use of static methods in the assets `OnValidate()` method when enclosed in `#if QUANTUM_UNITY && UNITY_EDITOR`, use the context menu on the `QuantumUnityDB` (inside the Inspector window) to trigger
+
+**Changes**
+
+- Upgraded Photon Realtime to version `5.1.9`
+- Changed the graph profiler base classes to `QuantumMonoBehaviour`
+- Automatically set `_enableOnAwake` to `true` after adding graph profilers to the scene using the Quantum toolbar menu
+
+**Bug Fixes**
+
+- Fixed: An issue introduced in version 3.0.6 that caused an exception when deserializing an external frame
+- Fixed: An issue introduced in version 3.0.6 that caused an exception when copying a frame (e.g. instant replays)
+- Fixed: An issue that could cause the Physics Engine to crash when calling `DeterministicSession.ResetReplay()`
+- Fixed: An issue that prevented Quantum profiler prefabs from being instantiated using `PrefabUtility` when created them via the Tools menu
+- Fixed: Issues that caused problems when using the local UPM export
+
+# 3.0.6
+
+## Stable
+
+### Build 1792 (Aug 20, 2025)
+
+**Breaking Changes**
+
+- CodeGen: imported `Enum` types are always emit as `QEnum` in prototypes now, which may affect serialization of existing prototypes - apply `[PreserveInPrototype]` to affected imported `Enum` to restore the old behavior
+
+**What's New**
+
+- 2D and 3D `CollisionInfo` structs available in collision callbacks now allow contact points and normals to be modified
+- Exposed `Quantum.Physics2D.CollisionChecks` and `Quantum.Physics3D.CollisionChecks` APIs with discrete overlap checks between shapes
+- `Heap.Allocate` and `Dispose` method to help creating Frame Heaps outside of a Simulation context (e.g. for unit tests)
+- QCollections now have a static `Resolve` method that can be used to resolve a collection `Ptr` without necessarily going through the Frame API
+
+**Changes**
+
+- Upgrading Photon Realtime to version 5.1.7
+- Improved the response time when getting Photon regions by making pinging optional (e.g. from the StartUI)
+- Polishing StartUI prefab and code
+
+**Bug Fixes**
+
+- Fixed: An issue that could cause `MatchmakingExtensions.ReconnectToRoomAsync()` to fail silently
+- Fixed: An issue in `AsyncExtensions.ReconnectAndRejoinAsync()` that could cause an undesired timeout on error
+- Fixed: An issue with fast-reconnecting the Realtime connection that left the reconnected player in spectating mode (fast reconnect can now be disabled by toggling `MatchmakingArguments.FastReconnectDisabled`)
+- Fixed: An issue in the StartUI that could prevent `Tasks` from being canceled when the Editor stops
+- Fixed: An issue in the StartUI that could cause the pop-up to appear when stopping the Editor
+- Fixed: An issue that could cause a `NullReferenceException` during `OnGameResync` if at least one physics engine (2D or 3D) was disabled
+- Fixed: An issue in 2D and 3D Joint component prototypes that showed warnings in inspector re. collections needing to be manually disposed, even though they are automatically disposed when the component is removed
+- Fixed: An issue that caused an assert exception in Debug configuration when trying to materialize a 2D or 3D compound shape prototype with no shapes in it
+- Fixed: An issue that caused non active navmesh agents without avoidance to create unnecessary overhead in the CreateEntries task
+- Fixed: An issue in CodeGen that caused imported `Enum` types to not be emitted as `QEnum` in prototypes
+- Fixed: An issue in the StateInspector that was greying out connected remote players
+- Fixed: Cases where null coalescing and null propagation was used on Unity objects (UNT0007, UNT0008)
+
 # 3.0.5
 
 ## Stable

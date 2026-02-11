@@ -353,7 +353,7 @@ namespace Quantum {
 
       runner.Game.AddPlayer(0, runtimePlayer);
       runner.HideGizmos = IsFirstPlayer;
-      runner.GizmoSettings = GizmosSettings?.Settings ?? runner.GizmoSettings;
+      runner.GizmoSettings = (GizmosSettings != null ? GizmosSettings.Settings : null) ?? runner.GizmoSettings;
 
       // Create multi client player state and logic
       var playerGO = new GameObject(playerName);

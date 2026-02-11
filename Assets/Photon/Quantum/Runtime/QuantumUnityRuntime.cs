@@ -1182,7 +1182,7 @@ namespace Quantum {
       }
 
       if (_currentMap != null && _currentSceneNeedsCleanup) {
-        _coroutine  = QuantumMapLoader.Instance?.StartCoroutine(UnloadScene(_currentMap.Scene));
+        _coroutine  = QuantumMapLoader.Instance != null ? QuantumMapLoader.Instance.StartCoroutine(UnloadScene(_currentMap.Scene)) : null;
         _currentMap = null;
       }
     }
@@ -1195,7 +1195,7 @@ namespace Quantum {
 
     private object UnloadSceneAsync(string sceneName) {
 #if QUANTUM_ENABLE_ADDRESSABLES && !QUANTUM_DISABLE_ADDRESSABLES
-      if (_addressableOperations.TryGetValue(sceneName, out var asyncOp)) {
+      if (_addressableOperations.Remove(sceneName, out var asyncOp)) {
         VerboseLog($"Unloading addressable scene {sceneName}");
         return Addressables.UnloadSceneAsync(asyncOp);
       } else
@@ -1211,7 +1211,18 @@ namespace Quantum {
           foreach (var (name, path) in addressableScenes) {
             if (string.Equals(name, sceneName, StringComparison.OrdinalIgnoreCase)) {
               VerboseLog($"Loading addressable scene {sceneName} ({path})");
-              return Addressables.LoadSceneAsync(path, loadSceneMode);
+              var op = Addressables.LoadSceneAsync(path, loadSceneMode);
+              Assert.Check(op.IsValid());
+              _addressableOperations.Add(sceneName, op);
+              
+              op.Destroyed += _ => {
+                // make sure the tracking is cleaned up properly when other means of loading scenes are used
+                if (_addressableOperations.Remove(sceneName)) {
+                  VerboseLog($"Removed {sceneName} ({path}) tracking in Destroyed handler");
+                }
+              };
+              
+              return op;
             }
           }
         }
@@ -1320,7 +1331,7 @@ namespace Quantum {
       var coroHost = QuantumMapLoader.Instance;
       Debug.Assert(coroHost != null);
 
-      string previousScene = _currentMap?.Scene ?? string.Empty;
+      string previousScene = (_currentMap != null ? _currentMap.Scene : null) ?? string.Empty;
       string newScene      = map.Scene;
 
       _currentMap               = map;
@@ -1358,7 +1369,7 @@ namespace Quantum {
     /// </summary>
     const string AddressableScenesLabel = "QuantumScenes";
     
-    public System.Threading.Tasks.Task LoadAddressableScenePathsAsync() {
+    public static System.Threading.Tasks.Task LoadAddressableScenePathsAsync() {
       return _addressableScenesTask.Value.Task;
     }
     
@@ -1447,7 +1458,7 @@ namespace Quantum {
       }
     }
 
-    Lazy<GetAddressableScenesResult>                        _addressableScenesTask = new(() => GetAddressableScenes());
+    static Lazy<GetAddressableScenesResult>                 _addressableScenesTask = new(() => GetAddressableScenes());
     Dictionary<string, AsyncOperationHandle<SceneInstance>> _addressableOperations = new();
 #endif
   }
@@ -2298,7 +2309,7 @@ namespace Quantum {
     /// The Game that the entity belongs to. This can change after the OnGameChanged() callback.
     /// Set before calling OnActivate(Frame).
     /// </summary>
-    public override QuantumGame Game => _entityView?.Game;
+    public override QuantumGame Game => _entityView != null ? _entityView.Game : null;
     /// <summary>
     /// The Quantum EntityRef that the underlying entity view is attached to.
     /// </summary>
@@ -2497,14 +2508,18 @@ namespace Quantum {
         Updater = FindFirstObjectByType<QuantumEntityViewUpdater>();
       }
 
-      Updater?.AddViewComponent(this);
+      if (Updater != null) {
+        Updater.AddViewComponent(this);
+      }
     }
 
     /// <summary>
     /// Unity OnDisabled, will try to detach the script from the <see cref="Updater"/>.
     /// </summary>
     public virtual void OnDisable() {
-       Updater?.RemoveViewComponent(this);
+      if (Updater != null) {
+        Updater.RemoveViewComponent(this);
+      }
     }
   }
 
@@ -3733,7 +3748,7 @@ namespace Quantum {
       var frame = game.Frames.Predicted;
 
       if (frame != null) {
-        DrawMapGizmos(frame.Map, frame, entityViewUpdater?.MapData);
+        DrawMapGizmos(frame.Map, frame, entityViewUpdater != null ? entityViewUpdater.MapData : null);
 
 #if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
         OnDrawGizmos_NavMesh(frame, entityViewUpdater, gizmosSettings, type);
@@ -4928,7 +4943,7 @@ namespace Quantum {
                   GizmoUtils.DrawGizmoVector(
                     navmesh.Vertices[v].Point.ToUnityVector3(true),
                     navmesh.Vertices[v].Point.ToUnityVector3(true) +
-                    normal.ToUnityVector3(true) * gizmosSettings.IconScale * 0.33f,
+                    gizmosSettings.IconScale * 0.33f * normal.ToUnityVector3(true),
                     GizmoUtils.DefaultArrowHeadLength * gizmosSettings.IconScale * 0.33f,
                     GizmoUtils.DefaultArrowHeadAngle,
                     out arrowDirection);
@@ -4995,7 +5010,7 @@ namespace Quantum {
               Gizmos.color = _settings.NavMeshBorders.BorderNormalColor;
               var middle = (v0.ToUnityVector3(true) + v1.ToUnityVector3(true)) * 0.5f;
               GizmoUtils.DrawGizmoVector(middle,
-                middle + normal.ToUnityVector3(true) * gizmosSettings.IconScale * 0.33f,
+                middle + gizmosSettings.IconScale * 0.33f * normal.ToUnityVector3(true),
                 gizmosSettings.IconScale * 0.33f * GizmoUtils.DefaultArrowHeadLength);
             }
           }
@@ -5036,7 +5051,7 @@ namespace Quantum {
         _cachedNavMeshes.AddRange(frame.DynamicAssetDB.Assets.OfType<NavMesh>().ToList());
       }
 
-      DrawMapNavMesh(frame.Map, _cachedNavMeshes, *frame.NavMeshRegionMask, gizmosSettings, entityViewUpdater?.MapData);
+      DrawMapNavMesh(frame.Map, _cachedNavMeshes, *frame.NavMeshRegionMask, gizmosSettings, entityViewUpdater != null ? entityViewUpdater.MapData : null);
       DrawNavigationPaths(frame, gizmosSettings);
 
       bool tryDrawComponents = _settings.NavMeshPathfinder.Enabled ||
@@ -6871,6 +6886,7 @@ namespace Quantum.Prototypes.Unity {
   [Quantum.Prototypes.PrototypeAttribute(typeof(Quantum.PhysicsJoints2D))]
   public class PhysicsJoints2DPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PhysicsJoints2DPrototype> {
     [Quantum.DynamicCollectionAttribute()]
+    [Quantum.Core.FreeOnComponentRemovedAttribute()]
     public Joint2DConfig[] JointConfigs = System.Array.Empty<Joint2DConfig>();
 
     public sealed override Quantum.Prototypes.PhysicsJoints2DPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
@@ -6976,6 +6992,7 @@ namespace Quantum.Prototypes.Unity {
   [Quantum.Prototypes.PrototypeAttribute(typeof(Quantum.PhysicsJoints3D))]
   public class PhysicsJoints3DPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PhysicsJoints3DPrototype> {
     [Quantum.DynamicCollectionAttribute()]
+    [Quantum.Core.FreeOnComponentRemovedAttribute()]
     public Joint3DConfig[] JointConfigs = System.Array.Empty<Joint3DConfig>();
 
     public sealed override Quantum.Prototypes.PhysicsJoints3DPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
@@ -7562,7 +7579,7 @@ namespace Quantum {
           return "Static: (broken)";
         } else if (Object.isSet) {
 #if UNITY_EDITOR
-          if (UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(Object.instanceID, out var guid, out long fileID)) {
+          if (UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(Object, out var guid, out long fileID)) {
             return $"Static: {guid}, fileID: {fileID}";
           }
 #endif
@@ -8784,7 +8801,7 @@ namespace Quantum {
         _byRunner.Clear();
         foreach (var entry in Entries) {
           if (!string.IsNullOrEmpty(entry.CompressedFrameDump)) {
-            entry.FrameDump = ByteUtils.GZipDecompressString(ByteUtils.Base64Decode(entry.CompressedFrameDump), Encoding.UTF8);
+            entry.FrameDump = Compression.DecompressString(ByteUtils.Base64Decode(entry.CompressedFrameDump), Encoding.UTF8);
           }
 
           OnEntryAdded(entry);
@@ -8797,7 +8814,7 @@ namespace Quantum {
       public void OnBeforeSerialize() {
         foreach (var entry in Entries) {
           if (string.IsNullOrEmpty(entry.CompressedFrameDump)) {
-            entry.CompressedFrameDump = ByteUtils.Base64Encode(ByteUtils.GZipCompressString(entry.FrameDump, Encoding.UTF8));
+            entry.CompressedFrameDump = ByteUtils.Base64Encode(Compression.CompressString(entry.FrameDump, Encoding.UTF8));
           }
         }
       }
@@ -9026,7 +9043,7 @@ namespace Quantum {
       if (snapshotsForRewind != null) {
         _rewindSnapshots = new DeterministicFrameRingBuffer(snapshotsForRewind.Count);
         foreach (var frame in snapshotsForRewind) {
-          _rewindSnapshots.PushBack(frame, _replayRunner.Game.CreateFrame);
+          _rewindSnapshots.PushBack(frame, () => _replayRunner.Game.CreateFrame());
         }
       }
 
@@ -9182,7 +9199,6 @@ namespace Quantum {
  * - Combined multiple source files into a single file
  * - Usings moved to inside namespaces
  * - Some defines/#ifdefs removed
- * - Removing duplicated NetManager contructor to fix Unity warnings
  */
 
 #endregion
@@ -10933,7 +10949,9 @@ namespace LiteNetLib
         /// </summary>
         /// <param name="listener">Network events listener (also can implement IDeliveryEventListener)</param>
         /// <param name="extraPacketLayer">Extra processing of packages, like CRC checksum or encryption. All connected NetManagers must have same layer.</param>
+#pragma warning disable CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
         public NetManager(INetEventListener listener, PacketLayerBase extraPacketLayer = null, bool useSocketFix = true)
+#pragma warning restore CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
         {
 #if UNITY_2018_3_OR_NEWER
             _useSocketFix = useSocketFix;
@@ -23130,6 +23148,12 @@ namespace Quantum {
       FPMathUtils.LoadLookupTables(force);
 #endif
 
+#if QUANTUM_ENABLE_SHARPZIPLIB && !QUANTUM_DISABLE_SHARPZIPLIB
+      Compression.Init(new CompressionSharpZipLib());
+#else
+      Compression.Init(new CompressionDotNet());
+#endif
+      
       // set runner factory and init Realtime.Async
       DefaultFactory = new QuantumRunnerUnityFactory();
 
@@ -23719,7 +23743,7 @@ namespace Quantum {
         byte[] data = asset.Data ?? Array.Empty<byte>();
         bool isCompressed = asset.IsCompressed;
         if (!asset.IsCompressed && compressThreshold.HasValue && data.Length >= compressThreshold.Value) {
-          data = ByteUtils.GZipCompressBytes(data);
+          data = Compression.CompressBytes(data);
           isCompressed = true;
         }
 
@@ -23738,7 +23762,7 @@ namespace Quantum {
         result.IsCompressed = IsCompressed;
         if (IsCompressed && serializer.DecompressBinaryDataOnDeserialization) {
           result.IsCompressed = false;
-          result.Data = ByteUtils.GZipDecompressBytes(result.Data);
+          result.Data = Compression.DecompressBytes(result.Data);
         }
         return result;
       }
@@ -25499,7 +25523,7 @@ namespace Quantum {
     /// </summary>
     public const string Root =
 #if QUANTUM_UPM
-      "Packages/com.photonengine.quantum"
+      "Packages/com.photonengine.quantum";
 #else
       "Assets/Photon/Quantum";
 #endif
@@ -25766,6 +25790,7 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
+  using UnityEngine;
 
   partial class QuantumUnityDB {
 #if UNITY_EDITOR
@@ -25876,9 +25901,59 @@ namespace Quantum {
       return path;
     }
 
+    [ContextMenu("Verify")]
+    void VerifyAssetSources() {
+      foreach (var assetEntry in Entries) {
+        var source = assetEntry.Source;
+        var asset = assetEntry.Source?.EditorInstance;
+
+        if (asset == null) {
+          QuantumEditorLog.WarnImport($"Failed to obtain an instance for {assetEntry.Guid} (Path: {assetEntry.Path})");
+          continue;
+        }
+
+        if (asset.Guid != assetEntry.Guid) {
+          QuantumEditorLog.WarnImport($"Asset GUID mismatch for {UnityEditor.AssetDatabase.GetAssetPath(asset)}. Expected {assetEntry.Guid}, got {asset.Guid}", asset);
+        }
+
+        if (asset.Path != assetEntry.Path) {
+          QuantumEditorLog.WarnImport($"Asset path mismatch for {UnityEditor.AssetDatabase.GetAssetPath(asset)}. Expected {assetEntry.Path}, got {asset.Path}", asset);
+        }
+
+        if (source.AssetType != (Type)null && source.AssetType != asset.GetType()) {
+          QuantumEditorLog.WarnImport($"Asset type mismatch for {UnityEditor.AssetDatabase.GetAssetPath(asset)}. Expected {source.AssetType}, got {asset.GetType()}", asset);
+        }
+      }
+    }
 #endif
   }
 }
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/Utils/CompressionSharpZipLib.cs
+
+#if QUANTUM_ENABLE_SHARPZIPLIB && !QUANTUM_DISABLE_SHARPZIPLIB
+namespace Quantum {
+  using System.IO;
+  using Unity.SharpZipLib.GZip;
+
+  class CompressionSharpZipLib : Compression {
+    protected override Stream CreateCompressingStreamInternal(Stream underlyingStream, bool leaveOpen) {
+      return new GZipOutputStream(underlyingStream) {
+        IsStreamOwner = (leaveOpen == false)
+      };
+    }
+
+    protected override Stream CreateDecompressingStreamInternal(Stream underlyingStream, bool leaveOpen) {
+      return new GZipInputStream(underlyingStream) {
+        IsStreamOwner = (leaveOpen == false)
+      };
+    }
+  }
+}
+#endif
 
 #endregion
 
@@ -26953,12 +27028,12 @@ namespace Quantum {
       }
       
       FPLut.Init(
-        sinCos: global.TableSinCos?.bytes,
-        tan: global.TableTan?.bytes,
-        asin: global.TableAsin?.bytes,
-        acos: global.TableAcos?.bytes,
-        atan: global.TableAtan?.bytes,
-        sqrt: global.TableSqrt?.bytes);
+        sinCos: global.TableSinCos != null ? global.TableSinCos.bytes : null,
+        tan: global.TableTan != null ? global.TableTan.bytes : null,
+        asin: global.TableAsin != null ? global.TableAsin.bytes : null,
+        acos: global.TableAcos != null ? global.TableAcos.bytes : null,
+        atan: global.TableAtan != null ? global.TableAtan.bytes : null,
+        sqrt: global.TableSqrt != null ? global.TableSqrt.bytes : null);
     }
 
     /// <summary>
@@ -26973,12 +27048,12 @@ namespace Quantum {
       var global = await QuantumLookupTables.GetGlobalAsync();
       
       FPLut.Init(
-        sinCos: global.TableSinCos?.bytes,
-        tan: global.TableTan?.bytes,
-        asin: global.TableAsin?.bytes,
-        acos: global.TableAcos?.bytes,
-        atan: global.TableAtan?.bytes,
-        sqrt: global.TableSqrt?.bytes);
+        sinCos: global.TableSinCos != null ? global.TableSinCos.bytes : null,
+        tan: global.TableTan != null ? global.TableTan.bytes : null,
+        asin: global.TableAsin != null ? global.TableAsin.bytes : null,
+        acos: global.TableAcos != null ? global.TableAcos.bytes : null,
+        atan: global.TableAtan != null ? global.TableAtan.bytes : null,
+        sqrt: global.TableSqrt != null ? global.TableSqrt.bytes : null);
     } 
 
     /// <summary>

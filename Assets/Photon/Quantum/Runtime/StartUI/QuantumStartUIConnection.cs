@@ -53,7 +53,8 @@ namespace Quantum {
     /// </summary>
     public QuantumRunner Runner { get; private set; }
 
-    CancellationTokenSource _cancellationTokeSource;
+    CancellationTokenSource _cancellationTokenSource;
+    CancellationTokenSource _linkedCancellationTokenSource;
     IDisposable _pluginDisconnectSubscription;
 
     /// <summary>
@@ -78,10 +79,16 @@ namespace Quantum {
     public override async System.Threading.Tasks.Task ConnectAsync(StartParameter startParameter) {
       // The cancellation token is passed into the connection and runner start methods.
       // During shutdown from the outside during connecting/starting both processes are cancelled with this.
-      _cancellationTokeSource = new CancellationTokenSource();
+      _cancellationTokenSource = new CancellationTokenSource();
+
+      // The linked cancellation token source also registers to the AsyncSetup.GlobalCancellationToken, which triggers when Unity Editor quits. 
+      _linkedCancellationTokenSource = AsyncSetup.CreateLinkedSource(_cancellationTokenSource.Token);
 
       if (startParameter.IsOnline) {
-        var serverSettings = ServerSettings ?? (PhotonServerSettings.TryGetGlobal(out var settings) ? settings : null);
+        var serverSettings = ServerSettings;
+        if (serverSettings == null) {
+          PhotonServerSettings.TryGetGlobal(out serverSettings);
+        }
 
         if (string.IsNullOrEmpty(serverSettings.AppSettings.AppIdQuantum)) {
           throw new InvalidOperationException("No Quantum AppId set.\nStop the game, open the Quantum Hub (Ctrl+H) and follow the instructions to create and set an AppId.");
@@ -101,7 +108,7 @@ namespace Quantum {
           AuthValues = new AuthenticationValues(startParameter.PlayerName),
           AsyncConfig = new AsyncConfig() {
             TaskFactory = AsyncConfig.CreateUnityTaskFactory(),
-            CancellationToken = _cancellationTokeSource.Token,
+            CancellationToken = _linkedCancellationTokenSource.Token,
           },
         };
 
@@ -141,11 +148,11 @@ namespace Quantum {
         GameParameters = QuantumRunnerUnityFactory.CreateGameParameters,
         ClientId = startParameter.PlayerName,
         RuntimeConfig = runtimeConfig,
-        SessionConfig = SessionConfig?.Config ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
+        SessionConfig = (SessionConfig != null ? SessionConfig.Config : null) ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
         PlayerCount = Input.MaxCount,
         GameMode = startParameter.IsOnline ? DeterministicGameMode.Multiplayer : DeterministicGameMode.Local,
         Communicator = startParameter.IsOnline ? new QuantumNetworkCommunicator(Client) : null,
-        CancellationToken = _cancellationTokeSource.Token,
+        CancellationToken = _linkedCancellationTokenSource.Token,
         RecordingFlags = RecordingFlags,
         InstantReplaySettings = InstantReplayConfig,
         DeltaTimeType = DeltaTimeType,
@@ -165,8 +172,11 @@ namespace Quantum {
         }
       }
 
-      _cancellationTokeSource?.Dispose();
-      _cancellationTokeSource = null;
+      _cancellationTokenSource?.Dispose();
+      _cancellationTokenSource = null;
+
+      _linkedCancellationTokenSource?.Dispose();
+      _linkedCancellationTokenSource = null;
     }
 
 
@@ -176,10 +186,13 @@ namespace Quantum {
     /// </summary>
     /// <returns>When the shutdown is completed</returns>
     public override async System.Threading.Tasks.Task DisconnectAsync() {
-      if (_cancellationTokeSource != null) {
-        _cancellationTokeSource.Cancel();
-        _cancellationTokeSource = null;
+      if (_cancellationTokenSource != null) {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource = null;
       }
+
+      _linkedCancellationTokenSource?.Dispose();
+      _linkedCancellationTokenSource = null;
 
       _pluginDisconnectSubscription?.Dispose();
       _pluginDisconnectSubscription = null;

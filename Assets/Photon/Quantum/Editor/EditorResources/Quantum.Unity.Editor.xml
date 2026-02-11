@@ -292,11 +292,6 @@
             This methods installs all user files and generates the workspace files.
             </summary>
         </member>
-        <member name="F:Quantum.Editor.QuantumUnityDBImporter.Verify">
-            <summary>
-            If enabled, performs an additional step during import to verify the imported assets have correct GUIDs and paths.
-            </summary>
-        </member>
         <member name="F:Quantum.Editor.QuantumUnityDBImporter.LogImportTimes">
             <summary>
             If enabled, logs the time it took to import assets. 
@@ -609,6 +604,7 @@
             <summary>
             Add the current open Unity scene to a QuantumMenuConfig.
             </summary>
+            <param name="target">The scene info object to populate</param>
             <param name="runtimeConfig">Set an optional <see cref="T:Quantum.RuntimeConfig"/></param>
         </member>
         <member name="T:Quantum.Editor.QuantumEditorMenuCreateAssets">
@@ -690,6 +686,11 @@
         <member name="P:Quantum.Editor.QuantumAssetSourceFactoryContext.AssetPath">
             <summary>
             Asset Unity path.
+            </summary>
+        </member>
+        <member name="P:Quantum.Editor.QuantumAssetSourceFactoryContext.Object">
+            <summary>
+            The object pointed to be <see cref="F:Quantum.Editor.QuantumAssetSourceFactoryContext.InstanceID"/>
             </summary>
         </member>
         <member name="M:Quantum.Editor.QuantumAssetSourceFactoryContext.#ctor(System.String,System.Int32,System.String,System.Boolean)">
@@ -1160,6 +1161,11 @@
             <param name="label">The optional label</param>
             <param name="type">The optional type</param>
         </member>
+        <member name="M:Quantum.Editor.AssetDatabaseUtils.IsPathWritable(System.String)">
+            <summary>
+            Checks if given path is read only. This can happen e.g. for non-local and non-embedded packages.
+            </summary>
+        </member>
         <member name="T:Quantum.Editor.AssetDatabaseUtils.AssetEnumerator">
             <summary>
             Enumerates assets in the project that match the given search criteria using <see cref="T:UnityEditor.HierarchyProperty"/> API.
@@ -1213,6 +1219,16 @@
             <summary>
             Sends out <see cref="T:Quantum.QuantumMppmRegisterCustomDependencyCommand"/> command to virtual peers
             before calling <see cref="M:UnityEditor.AssetDatabase.RegisterCustomDependency(System.String,UnityEngine.Hash128)"/>.
+            </summary>
+        </member>
+        <member name="M:Quantum.Editor.AssetDatabaseUtils.GetAddress(UnityEngine.Object)">
+            <summary>
+            Returns the address of an asset or an empty string, if either Addressables are disabled or the asset is not addressable.
+            </summary>
+        </member>
+        <member name="M:Quantum.Editor.AssetDatabaseUtils.GetAddress(System.String)">
+            <summary>
+            Returns the address of an asset or an empty string, if either Addressables are disabled or the asset is not addressable.
             </summary>
         </member>
         <member name="M:Quantum.Editor.HashCodeUtilities.GetHashDeterministic(System.String,System.Int32)">

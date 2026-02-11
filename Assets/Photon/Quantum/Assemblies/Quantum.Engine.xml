@@ -123,6 +123,11 @@
             </summary>
             <returns>A hash code of the current state of this instance.</returns>
         </member>
+        <member name="M:Quantum.Allocator.Heap.Reset">
+            <summary>
+            Reset the heap.
+            </summary>
+        </member>
         <member name="P:Quantum.Allocator.Heap.Reserved">
             <summary>
             Set and get the reserved flag.
@@ -203,11 +208,6 @@
             Free a Ptr from the heap memory.
             </summary>
             <param name="ptr">Ptr</param>
-        </member>
-        <member name="M:Quantum.Allocator.Heap.Reset">
-            <summary>
-            Reset the heap.
-            </summary>
         </member>
         <member name="M:Quantum.Allocator.Heap.Void(System.Void*)">
             <summary>
@@ -290,6 +290,12 @@
             </summary>
             <param name="heapCount">The heap count value.</param>
             <returns>The default configuration.</returns>
+        </member>
+        <member name="M:Quantum.Allocator.Heap.Config.CalculateMetaOffsets">
+            <summary>
+            Returns an <see cref="T:Quantum.Allocator.Heap.Offsets"/> based on the current configuration.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Quantum.Allocator.Heap.Config.Equals(Quantum.Allocator.Heap.Config)">
             <summary>
@@ -3381,17 +3387,6 @@
             Marks a collection field as source for a Quantum heap-based collection. Automatically applied by CodeGen.
             </summary>
         </member>
-        <member name="T:Quantum.LastSupportedVersionAttribute">
-            <summary>
-            Marks the last Quantum version that supports the attributed type/method/property/field.
-            </summary>
-        </member>
-        <member name="M:Quantum.LastSupportedVersionAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Quantum.LastSupportedVersionAttribute"/> class with the specified version.
-            </summary>
-            <param name="version">The last supported version.</param>
-        </member>
         <member name="T:Quantum.LocalReferenceAttribute">
             <summary>
             Marks a field as a reference to a local object. In Unity, a local object is an object from the same scene or prefab. 
@@ -6017,11 +6012,19 @@
             </summary>
             <returns>An iterator to traverse through the dictionary.</returns>
         </member>
-        <member name="M:Quantum.Collections.QDictionary`2.Allocate(Quantum.Allocator.FrameHeap,System.Int32)">
+        <member name="M:Quantum.Collections.QDictionary`2.Allocate``1(``0,System.Int32)">
             <summary>
             Allocates a <see cref="T:Quantum.Collections.QDictionary`2"/> in the frame heap. It must be used before trying to resolve and use the dictionary.
             </summary>
             <returns>The allocated <see cref="T:Quantum.Collections.QDictionary`2"/>.</returns>
+        </member>
+        <member name="M:Quantum.Collections.QDictionary`2.Resolve``1(``0,Quantum.Collections.QDictionaryPtr{`0,`1})">
+            <summary>
+            Resolves a <see cref="T:Quantum.Collections.QDictionaryPtr`2"/> in the frame <paramref name="heap"/>.
+            </summary>
+            <param name="heap">The <see cref="T:Quantum.Allocator.FrameHeap"/> where the collection is allocated.</param>
+            <param name="ptr">A Ptr referencing an allocated dictionary in the heap. Must not be null.</param>
+            <returns>The resolved <see cref="T:Quantum.Collections.QDictionary`2"/>.</returns>
         </member>
         <member name="M:Quantum.Collections.QDictionary`2.Print(Quantum.Ptr,Quantum.FramePrinter)">
             <summary>
@@ -6145,11 +6148,19 @@
             </summary>
             <returns>An iterator to traverse through the dictionary.</returns>
         </member>
-        <member name="M:Quantum.Collections.QEnumDictionary`2.Allocate(Quantum.Allocator.FrameHeap,System.Int32)">
+        <member name="M:Quantum.Collections.QEnumDictionary`2.Allocate``1(``0,System.Int32)">
             <summary>
             Allocates a <see cref="T:Quantum.Collections.QDictionary`2"/> in the frame heap. It must be used before trying to resolve and use the dictionary.
             </summary>
             <returns>The allocated <see cref="T:Quantum.Collections.QDictionary`2"/>.</returns>
+        </member>
+        <member name="M:Quantum.Collections.QEnumDictionary`2.Resolve``1(``0,Quantum.Collections.QDictionaryPtr{`0,`1})">
+            <summary>
+            Resolves a <see cref="T:Quantum.Collections.QDictionaryPtr`2"/> in the frame <paramref name="heap"/>.
+            </summary>
+            <param name="heap">The <see cref="T:Quantum.Allocator.FrameHeap"/> where the collection is allocated.</param>
+            <param name="ptr">A Ptr referencing an allocated dictionary in the heap. Must not be null.</param>
+            <returns>The resolved <see cref="T:Quantum.Collections.QDictionary`2"/>.</returns>
         </member>
         <member name="M:Quantum.Collections.QEnumDictionary`2.Print(Quantum.Ptr,Quantum.FramePrinter)">
             <summary>
@@ -6229,11 +6240,19 @@
             </summary>
             <returns>An enumerator object for the hash set.</returns>
         </member>
-        <member name="M:Quantum.Collections.QHashSet`1.Allocate(Quantum.Allocator.FrameHeap,System.Int32)">
+        <member name="M:Quantum.Collections.QHashSet`1.Allocate``1(``0,System.Int32)">
             <summary>
             Allocates a <see cref="T:Quantum.Collections.QHashSet`1"/> in the frame heap. It must be used before trying to resolve and use the hash set.
             </summary>
             <returns>The allocated <see cref="T:Quantum.Collections.QHashSet`1"/>.</returns>
+        </member>
+        <member name="M:Quantum.Collections.QHashSet`1.Resolve``1(``0,Quantum.Collections.QHashSetPtr{`0})">
+            <summary>
+            Resolves a <see cref="T:Quantum.Collections.QHashSet`1"/> in the frame <paramref name="heap"/>.
+            </summary>
+            <param name="heap">The <see cref="T:Quantum.Allocator.FrameHeap"/> where the collection is allocated.</param>
+            <param name="ptr">A Ptr referencing an allocated hash-set in the heap. Must not be null.</param>
+            <returns>The resolved <see cref="T:Quantum.Collections.QHashSet`1"/>.</returns>
         </member>
         <member name="T:Quantum.Collections.QHashSet">
             <summary>
@@ -6509,11 +6528,19 @@
             </summary>
             <returns>An iterator to traverse through the list.</returns>
         </member>
-        <member name="M:Quantum.Collections.QList`1.Allocate(Quantum.Allocator.FrameHeap,System.Int32)">
+        <member name="M:Quantum.Collections.QList`1.Allocate``1(``0,System.Int32)">
             <summary>
             Allocates a <see cref="T:Quantum.Collections.QList`1"/> in the frame heap. It must be used before trying to resolve and use the list.
             </summary>
             <returns>The allocated <see cref="T:Quantum.Collections.QList`1"/>.</returns>
+        </member>
+        <member name="M:Quantum.Collections.QList`1.Resolve``1(``0,Quantum.Collections.QListPtr{`0})">
+            <summary>
+            Resolves a <see cref="T:Quantum.Collections.QListPtr`1"/> in the frame <paramref name="heap"/>.
+            </summary>
+            <param name="heap">The <see cref="T:Quantum.Allocator.FrameHeap"/> where the collection is allocated.</param>
+            <param name="ptr">A Ptr referencing an allocated list in the heap. Must not be null.</param>
+            <returns>The resolved <see cref="T:Quantum.Collections.QList`1"/>.</returns>
         </member>
         <member name="M:Quantum.Collections.QList`1.Serialize(Quantum.Ptr*,Quantum.FrameSerializer,Quantum.FrameSerializer.Delegate)">
             <summary>
@@ -15993,7 +16020,7 @@
         </member>
         <member name="M:Quantum.Physics2D.CollisionResultInfo2D.ContactPoints(Quantum.Physics2D.CollisionResultInfo2D*)">
             <summary>
-            Gets a pointer to the contact points buffer. Use this pointer to get the other contact points in a for loop.
+            Gets a pointer from the contact points buffer. Use this pointer to get the other contact points in a for loop.
             </summary>
             <param name="CollisionResultInfo2D">The <see cref="T:Quantum.Physics2D.CollisionResultInfo2D"/> reference.</param>
             <returns>A pointer to the beginning of the contact points vector buffer.</returns>
@@ -16005,6 +16032,14 @@
             }
             </code>
             </example>
+        </member>
+        <member name="M:Quantum.Physics2D.CollisionResultInfo2D.GetPoint(Quantum.Physics2D.CollisionResultInfo2D*,System.Int32)">
+            <summary>
+            Get the contact point of the collision by some index.
+            </summary>
+            <param name="result">The <see cref="T:Quantum.Physics2D.CollisionResultInfo2D"/> reference.</param>
+            <param name="contactPointIndex">Index of the contact point.</param>
+            <returns>Returns a specified contact point as <see cref="T:Photon.Deterministic.FPVector2"/>.</returns>
         </member>
         <member name="P:Quantum.Physics2D.CollisionResultInfo2D.ContactPointsCount">
             <summary>
@@ -16020,6 +16055,9 @@
             <param name="cp">The contact point value.</param>
         </member>
         <member name="M:Quantum.Physics2D.CollisionResultInfo2D.GetPoint(Quantum.Physics2D.CollisionResultInfo2D*)">
+            <inheritdoc cref="M:Quantum.Physics2D.CollisionResultInfo2D.GetAveragePoint(Quantum.Physics2D.CollisionResultInfo2D*)"/>
+        </member>
+        <member name="M:Quantum.Physics2D.CollisionResultInfo2D.GetAveragePoint(Quantum.Physics2D.CollisionResultInfo2D*)">
             <summary>
             Gets the average point between all the contact points computed.
             </summary>
@@ -17480,6 +17518,18 @@
             <remarks>Contact points are computed in NO particular order.</remarks>
             </summary>
         </member>
+        <member name="P:Quantum.CollisionInfo2D.ContactPointIterator2D.Current">
+            <summary>
+            The current contact point iterated. <see cref="M:Quantum.CollisionInfo2D.ContactPointIterator2D.Next(Photon.Deterministic.FPVector2@)"/> must have been
+            called at least once and must have returned true in the latest call.
+            <remarks>Contact points are computed in NO particular order.</remarks>
+            </summary>
+        </member>
+        <member name="P:Quantum.CollisionInfo2D.ContactPointIterator2D.ContactNormal">
+            <summary>
+            The collision normal of the manifold.
+            </summary>
+        </member>
         <member name="M:Quantum.CollisionInfo2D.ContactPointIterator2D.Next(Photon.Deterministic.FPVector2@)">
             <summary>
             Iterates through the contact points of a collision.
@@ -17503,6 +17553,23 @@
             while(info.ContactPoints.Next(out var contactPoint, out var contactNormal) {
                Draw.Circle(contactPoint, FP._0_10);
                Draw.Ray(contactPoint, contactNormal);
+            }
+            </code>
+        </member>
+        <member name="M:Quantum.CollisionInfo2D.ContactPointIterator2D.NextUnsafe(Photon.Deterministic.FPVector2*@,Photon.Deterministic.FPVector2*@,System.Boolean@)">
+            <summary>
+            Iterates through the contact points of a collision, also accessing the contact normal.
+            The pointers access the fields directly in the collision manifold structure and modifications done to it will
+            affect the collision resolution.
+            </summary>
+            <param name="contactPoint">The current contact point. Default if the iteration is over.</param>
+            <param name="contactNormal">The contact normal. Default if the iteration is over.</param>
+            <param name="invertedNormal">If the contact normal is inverted from the perspective of the main entity in the callback.</param>
+            <returns><see langword="true"/> if there is still a <paramref name="contactPoint"/> and <paramref name="contactNormal"/>.</returns>
+            <code>
+            while(info.ContactPoints.NextUnsafe(out var contactPoint, out var contactNormal, out var invertedNormal) {
+               Draw.Circle(*contactPoint, FP._0_10);
+               Draw.Ray(*contactPoint, invertedNormal ? -(*contactNormal) : *contactNormal);
             }
             </code>
         </member>
@@ -19091,6 +19158,15 @@
             3D Physics' space-partitioning structure for static meshes and their triangles. 
             </summary>
         </member>
+        <member name="M:Quantum.Physics3D.Gjk3D.GetSignedTetrahedronVolume6(Photon.Deterministic.FPVector3@,Photon.Deterministic.FPVector3@,Photon.Deterministic.FPVector3@,Photon.Deterministic.FPVector3@)">
+            <summary>
+            Computes the signed volume, multiplied by 6, of a tetrahedron by calculating the scalar triple product of
+            vectors originating from vertex <paramref name="v0"/>.
+            To find the actual volume of the tetrahedron, the returned value must be divided by 6. This is not done
+            here because the result is usually used to compute barycentric coordinates by comparing the ratio between
+            two tetrahedra volumes, in which case the x6 cancel each other.
+            </summary>
+        </member>
         <member name="T:Quantum.Physics3D.JointType3D">
             <summary>
             Defines the type of a 3D <see cref="T:Quantum.Physics3D.Joint3D"/>.
@@ -19595,6 +19671,70 @@
             Overrides the hash code generation of this type.
             </summary>
             <returns>A hash code of the current state of this instance.</returns>
+        </member>
+        <member name="F:Quantum.Physics3D.CollisionResultInfo3D.Penetration">
+            <summary>
+            The collision penetration in the <see cref="F:Quantum.Physics3D.CollisionResultInfo3D.Normal"/> direction.
+            </summary>
+        </member>
+        <member name="F:Quantum.Physics3D.CollisionResultInfo3D.Normal">
+            <summary>
+            The contact normal.
+            </summary>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.ContactPoints(Quantum.Physics3D.CollisionResultInfo3D*)">
+            <summary>
+            Gets a pointer from the contact points buffer. Use this pointer to get the other contact points in a for loop.
+            </summary>
+            <param name="collisionResultInfo">The <see cref="T:Quantum.Physics3D.CollisionResultInfo3D"/> reference.</param>
+            <returns>A pointer to the beginning of the contact points vector buffer.</returns>
+            <example>
+            How to iterate over the contact points:
+            <code>
+            for (int i = 0; i &lt; result->ContactPointsCount; i++) {
+                FPVector3 contactPoint = CollisionResultInfo3D.ContactPoints(result)[i];
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Quantum.Physics3D.CollisionResultInfo3D.ContactPointsCount">
+            <summary>
+            The number of found contact points.
+            </summary>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.AddContactPoint(Quantum.Physics3D.CollisionResultInfo3D*,Photon.Deterministic.FPVector3)">
+            <summary>
+            Adds to the buffer of contact points a new contact point.
+            For a 3D collision, the maximum number of contact point is <see cref="F:Quantum.Physics3D.CollisionManifold3D.MAX_CONTACT_POINTS"/>.
+            </summary>
+            <param name="collisionResultInfo">The <see cref="T:Quantum.Physics3D.CollisionResultInfo3D"/> reference.</param>
+            <param name="cp">The contact point value.</param>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.GetPoint(Quantum.Physics3D.CollisionResultInfo3D*)">
+            <inheritdoc cref="M:Quantum.Physics3D.CollisionResultInfo3D.GetAveragePoint(Quantum.Physics3D.CollisionResultInfo3D*)"/>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.GetAveragePoint(Quantum.Physics3D.CollisionResultInfo3D*)">
+            <summary>
+            Gets the average point between all the contact points computed.
+            </summary>
+            <param name="collisionResultInfo">The <see cref="T:Quantum.Physics3D.CollisionResultInfo3D"/> reference.</param>
+            <returns>The mid point of all contact points.</returns>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.GetPoint(Quantum.Physics3D.CollisionResultInfo3D*,System.Int32)">
+            <summary>
+            Get the contact point of the collision by some index.
+            </summary>
+            <param name="collisionResultInfo">The <see cref="T:Quantum.Physics3D.CollisionResultInfo3D"/> reference.</param>
+            <param name="contactPointIndex">Index of the contact point.</param>
+            <returns>Returns a specified contact point as <see cref="T:Photon.Deterministic.FPVector3"/>.</returns>
+        </member>
+        <member name="M:Quantum.Physics3D.CollisionResultInfo3D.UpdateHitWithResult(Quantum.Physics3D.CollisionResultInfo3D*,Quantum.Physics3D.Hit3D@)">
+            <summary>
+            Updates all the hit fields with the equivalent results of the collision.
+            </summary>
+            <param name="result">The <see cref="T:Quantum.Physics3D.CollisionResultInfo3D"/> reference.</param>
+            <param name="hit">The <see cref="T:Quantum.Physics3D.Hit3D"/> reference.</param>
+            <returns>A copy of the hit with the values updated.</returns>
         </member>
         <member name="M:Quantum.Physics3D.Scene3D.Task_CreateEntriesMapping(Quantum.FrameThreadSafe,System.Int32,System.Int32,System.Void*)">
             <summary>
@@ -21238,6 +21378,18 @@
             <remarks>If the entity is colliding with a mesh, this is the first contact point with the first triangle.</remarks>
             </summary>
         </member>
+        <member name="P:Quantum.CollisionInfo3D.ContactPointIterator3D.Current">
+            <summary>
+            The current contact point iterated. <see cref="M:Quantum.CollisionInfo3D.ContactPointIterator3D.Next(Photon.Deterministic.FPVector3@)"/> must have been
+            called at least once and must have returned true in the latest call.
+            <remarks>Contact points are computed in NO particular order.</remarks>
+            </summary>
+        </member>
+        <member name="P:Quantum.CollisionInfo3D.ContactPointIterator3D.ContactNormal">
+            <summary>
+            The collision normal of the manifold.
+            </summary>
+        </member>
         <member name="M:Quantum.CollisionInfo3D.ContactPointIterator3D.Next(Photon.Deterministic.FPVector3@)">
             <summary>
             Iterates through the contact points of a collision.
@@ -21263,6 +21415,24 @@
             while(info.ContactPoints.Next(out var contactPoint, out var contactNormal) {
                Draw.Sphere(contactPoint, FP._0_10);
                Draw.Ray(contactPoint, contactNormal);
+            }
+            </code>
+        </member>
+        <member name="M:Quantum.CollisionInfo3D.ContactPointIterator3D.NextUnsafe(Photon.Deterministic.FPVector3*@,Photon.Deterministic.FPVector3*@,System.Boolean@)">
+            <summary>
+            Iterates through the contact points of a collision, also accessing the contact normal.
+            The pointers access the fields directly in the collision manifold structure and modifications done to it will
+            affect the collision resolution.
+            <remarks>If the entity is colliding with a mesh, this will iterate through all contact points and normals in all colliding triangles.</remarks>
+            </summary>
+            <param name="contactPoint">The current contact point. Default if the iteration is over.</param>
+            <param name="contactNormal">The contact normal. Default if the iteration is over.</param>
+            <param name="invertedNormal">If the contact normal is inverted from the perspective of the main entity in the callback.</param>
+            <returns><see langword="true"/> if there is still a <paramref name="contactPoint"/> and <paramref name="contactNormal"/>.</returns>
+            <code>
+            while(info.ContactPoints.NextUnsafe(out var contactPoint, out var contactNormal, out var invertedNormal) {
+               Draw.Sphere(*contactPoint, FP._0_10);
+               Draw.Ray(contactPoint, invertedNormal ? -(*contactNormal) : *contactNormal);
             }
             </code>
         </member>
@@ -21347,7 +21517,8 @@
         <member name="P:Quantum.CollisionInfo3D.ContactNormal">
             <summary>
             The contact normal, from the <see cref="P:Quantum.CollisionInfo3D.Entity"/> perspective.
-            <remarks>In a mesh collision (<see cref="P:Quantum.CollisionInfo3D.IsMeshCollision"/> <see langword="true"/>), this is the average normal of all triangle collisions in this mesh.</remarks>
+            <remarks>In a mesh collision (<see cref="P:Quantum.CollisionInfo3D.IsMeshCollision"/> <see langword="true"/>), this is the average normal
+            of all triangle collisions in this mesh and setting a value won't have any effect.</remarks>
             </summary>
         </member>
         <member name="P:Quantum.CollisionInfo3D.Penetration">
@@ -23060,6 +23231,11 @@
             <param name="frame">The frame.</param>
             <returns>The profiler for the frame.</returns>
         </member>
+        <member name="P:Quantum.Profiling.ProfilerContext.IsEnabled">
+            <summary>
+            Returns true if the task profiler is enabled.
+            </summary>
+        </member>
         <member name="T:Quantum.Profiling.ProfilerContextData">
             <summary>
             Represents the data collected by the profiler for all the threads for a single frame.
@@ -23242,6 +23418,11 @@
         <member name="M:Quantum.DecoratingPropertyAttribute.#ctor(System.Int32,System.Boolean)">
             <summary>
             Initializes a new instance with the specified order.
+            </summary>
+        </member>
+        <member name="T:Quantum.DirectoryPathAttribute">
+            <summary>
+            Specifies that the string field represents a path to directory.
             </summary>
         </member>
         <member name="T:Quantum.DisplayAsEnumAttribute">
@@ -23625,6 +23806,17 @@
             Initializes a new instance of the <see cref="T:Quantum.InlineHelpAttribute"/> class.
             </summary>
         </member>
+        <member name="T:Quantum.LastSupportedVersionAttribute">
+            <summary>
+            Marks the last version that supports the attributed type/method/property/field.
+            </summary>
+        </member>
+        <member name="M:Quantum.LastSupportedVersionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Quantum.LastSupportedVersionAttribute"/> class with the specified version.
+            </summary>
+            <param name="version">The last supported version.</param>
+        </member>
         <member name="T:Quantum.LayerAttribute">
             <summary>
             Specifies that an int field should be drawn as a layer field in the inspector.
@@ -23820,6 +24012,24 @@
             Gets the types to be picked.
             </summary>
         </member>
+        <member name="T:Quantum.SpaceAfterAttribute">
+            <summary>
+            Similar to UnityEngine.SpaceAttribute, but adds space after the property.
+            </summary>
+        </member>
+        <member name="F:Quantum.SpaceAfterAttribute.DefaultOrder">
+            <summary>
+            The default order for this attribute.
+            </summary>
+        </member>
+        <member name="M:Quantum.SpaceAfterAttribute.#ctor(System.Single)">
+            <summary/>
+        </member>
+        <member name="F:Quantum.SpaceAfterAttribute.Height">
+            <summary>
+            Height of the space.
+            </summary>
+        </member>
         <member name="T:Quantum.ToggleLeftAttribute">
             <summary>
             Specifies that the bool field should be drawn as the toggle on the left side of the label.
@@ -23925,6 +24135,11 @@
         <member name="T:Quantum.UnityAssetGuidAttribute">
             <summary>
             Specifies that the string field represents a GUID of an asset.
+            </summary>
+        </member>
+        <member name="T:Quantum.PropertyAttribute">
+            <summary>
+            A replacement for UnityEngine.PropertyAttribute.
             </summary>
         </member>
         <member name="T:Quantum.UnityResourcePathAttribute">

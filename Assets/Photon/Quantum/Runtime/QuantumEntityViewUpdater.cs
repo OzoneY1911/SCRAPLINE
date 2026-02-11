@@ -201,7 +201,7 @@ namespace Quantum {
       var contexts = GetComponentsInChildren<IQuantumViewContext>();
       foreach (var c in contexts) {
         if (_viewContexts.ContainsKey(c.GetType())) {
-          Debug.LogError($"The view context type {c.GetType()} already exists. Multiple contexts of the same type are not supported.");
+          Log.Error($"The view context type {c.GetType()} already exists. Multiple contexts of the same type are not supported.");
         } else {
           _viewContexts.Add(c.GetType(), c);
         }
@@ -247,7 +247,7 @@ namespace Quantum {
     }
 
     private void OnObservedGameDestroyed(QuantumGame game, bool destroyed) {
-      Debug.Assert(_observedGame == game);
+      Assert.Check(_observedGame == game);
 
 #if UNITY_EDITOR
       QuantumGameGizmos.UnregisterEntityViewUpdater(this);
@@ -274,7 +274,7 @@ namespace Quantum {
     }
 
     private void OnObservedGameUpdated(QuantumGame game) {
-      Debug.Assert(_observedGame == game);
+      Assert.Check(_observedGame == game);
 
       if (isActiveAndEnabled == false) {
         return;
@@ -350,7 +350,7 @@ namespace Quantum {
         }
 
         if (checkPossiblyOrphanedMapEntityViews) {
-          Debug.Assert(_mapData);
+          Assert.Check(_mapData);
           foreach (var view in _mapData.MapEntityReferences) {
             if (!view || !view.isActiveAndEnabled)
               continue;
@@ -539,18 +539,16 @@ namespace Quantum {
     }
 
     QuantumEntityView BindMapEntity(QuantumGame game, Frame frame, EntityRef handle, MapEntityLink mapEntity, QuantumEntityViewBindBehaviour createBehaviour) {
-      Debug.Assert(_mapData);
+      Assert.Check(_mapData);
 
       if (_mapData.MapEntityReferences.Count <= mapEntity.Index) {
-        Debug.LogErrorFormat(this,
-          "MapData on \"{0}\" does not have a map entity slot with an index {1} (entity: {2}). EntityView will not be assigned. " +
-          "Make sure all baked data is up to date.", _mapData.gameObject.scene.path, mapEntity.Index, handle);
+        Log.Error($"MapData on '{_mapData.gameObject.scene.path}' does not have a map entity slot with an index {mapEntity.Index} (entity: {handle}). EntityView will not be assigned. Make sure all baked data is up to date.");
         return null;
       }
 
       var instance = _mapData.MapEntityReferences[mapEntity.Index];
 
-      if (instance?.BindBehaviour != createBehaviour) {
+      if (instance == null || instance.BindBehaviour != createBehaviour) {
         return null;
       }
 
@@ -585,9 +583,7 @@ namespace Quantum {
     }
 
     void DestroyEntityView(QuantumGame game, EntityRef entityRef) {
-      QuantumEntityView view;
-
-      if (_activeViews.TryGetValue(entityRef, out view)) {
+      if (_activeViews.TryGetValue(entityRef, out QuantumEntityView view)) {
         DestroyEntityView(game, view);
       }
 
@@ -602,7 +598,7 @@ namespace Quantum {
     /// <param name="view">The entity view object.</param>
     protected virtual void DestroyEntityView(QuantumGame game, QuantumEntityView view) {
       if ((object)view == null) {
-        Debug.LogError("Invalid entity view GameObject.");
+        Log.Error("Invalid entity view GameObject.");
         return;
       }
 
@@ -610,7 +606,12 @@ namespace Quantum {
 
       if (view.ManualDisposal == false) {
         if (view == null) {
-          Debug.LogWarning($"Quantum Entity View {view?.EntityRef} was already destroyed");
+          EntityRef entityRef = EntityRef.None;
+          try {
+            // Unity object could still be readable (although null).
+            entityRef = view.EntityRef;
+          } catch { }
+          Log.Warn($"Quantum Entity View '{entityRef}' was already destroyed");
         } else {
           view.Deactivate();
           if (view.AssetGuid.IsValid) {
@@ -647,7 +648,7 @@ namespace Quantum {
     /// <param name="rotation">Initial rotation.</param>
     /// <returns>A new Quantum entity view instance.</returns>
     protected virtual QuantumEntityView CreateEntityViewInstance(Quantum.EntityView asset, Vector3? position = null, Quaternion? rotation = null) {
-      Debug.Assert(asset.Prefab != null);
+      Assert.Check(asset.Prefab != null);
       var viewPrefab = asset.Prefab.GetComponent<QuantumEntityView>();
 
       if (Pool != null) {

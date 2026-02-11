@@ -184,7 +184,7 @@ namespace Quantum {
         RunnerFactory         = QuantumRunnerUnityFactory.DefaultFactory,
         GameParameters        = QuantumRunnerUnityFactory.CreateGameParameters,
         RuntimeConfig         = runtimeConfig,
-        SessionConfig         = SessionConfig?.Config ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
+        SessionConfig         = (SessionConfig != null ? SessionConfig.Config : null) ?? QuantumDeterministicSessionConfigAsset.DefaultConfig,
         ReplayProvider        = null,
         GameMode              = DeterministicGameMode.Local,
         InitialTick           = frameNumber,
@@ -204,6 +204,11 @@ namespace Quantum {
     }
 
     private void OnGameStarted(QuantumGame game, bool isResync) {
+      if (LocalPlayers == null) {
+        // Can happen when a new scene has not been saved yet.
+        return;
+      }
+
       for (Int32 i = 0; i < LocalPlayers.Length; ++i) {
         game.AddPlayer(i, LocalPlayers[i]);
       }

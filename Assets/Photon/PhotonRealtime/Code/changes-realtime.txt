@@ -3,8 +3,32 @@ Photon Realtime C# Client - Changelog
 www.photonengine.com  -  Join our Discord Server: https://dashboard.photonengine.com/account/profile
 
 
-Version 5.1.6 (01. Juli 2025 - rev7991)
-    Fixed: async extensions now select random matchmaking on empty room names (instead only checking for null).
+Version 5.1.9 (10. November 2025 - rev8156)
+    Changed: RegionHandler to check if a RegionPinger started successfully before adding it to the list of RegionPingers to finish.
+    Changed: Unity 6 made AsyncSetup.GlobalCancellationSource obsolete. We will conditionally use Application.exitCancellationToken.
+
+Version 5.1.8 (25. August 2025 - rev8056)
+    Fixed: Potential NullReference of AuthValues in OnStatusChanged() case StatusCode.Disconnect / ClientState.ConnectWithFallbackProtocol.
+    Fixed: An issue in `MatchmakingExtensions.ReconnectToRoomAsync()` that used ReconnectAndRejoin when PlayerTTL < 0. To enable a fast reconnect, set a PlayerTTL.
+    Fixed: An issue in `MatchmakingExtensions.ReconnectToRoomAsync()` that left the connection in a non-reconnectable state (not offline and not master) by waiting for a disconnect before commencing.
+    Fixed: An issue in the `AsyncExtensions.ReconnectAndRejoinAsync()` that could cause an undesired timeout on error.
+    Added: Optional disabling fast reconnect completely with MatchmakingArguments.FastReconnectDisabled.
+    Changed: Log.ApplyPrefixes to re-use a StringBuilder.
+    Changed: Player NickName synchronization. On entering a room, the LocalPlayer sends an update for the NickName, if the received Custom Properties have it wrong.
+
+Version 5.1.7 (31. July 2025 - rev8015)
+    Removed: MatchmakingExtensions class Exception. Where this was thrown, now a OperationException is used instead. Handling code must be adjusted accordingly.
+    Note: In both cases where the Exception class was used, a OperationException is a good fit and with the naming, the MatchmakingExtensions.Exception was too easy to mess up.
+    Added: Obsolete RealtimeClient.LoadBalancingPeer to help with migration from v4 to v5.
+    Changed: ConnectUsingSettings so it can be called after getting the regions (to connect to a specific one) without needing to disconnect first.
+    Note: With this change, you can call ConnectUsingSettings in the callbacks for region-handling. Set your preferred region as FixedRegion and call ConnectUsingSettings to "continue".
+    Changed: Improved the response time of `ConnectToNameserverAndWaitForRegionsAsync()` by making pinging then region opt-out. Might break some places where it's used. Just define if you want pinging to be done. Otherwise it is the same.
+    Changed: RealtimeClient.LocalPlayer is now readonly.
+    Removed: RealtimeClient.CreatePlayer(). This removes the option to inherit the Player class for simplicity. It was not recommended to overload the RealtimeClient in v5 anymore.
+    Changed: Some calls for logging to include the log level and prefix of the client.
+
+Version 5.1.6 (01. July 2025 - rev7991)
+    Fixed: Async extensions now select random matchmaking on empty room names (instead only checking for null).
     Changed: Logging level for the message when AuthOnceWss is done and switches back to the expected/configured protocol. This is now on debug level.
     Removed: Surplus info logging for OnDisconnectedMsg. It gets logged (with info level and prefix) in Callbacks.OnDisconnected().
     Changed: OpSettings() is now only sent, if the client requests the Lobby Stats. If it doesn't, the op isn't called.

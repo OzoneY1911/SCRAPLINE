@@ -1083,17 +1083,19 @@
             The game is destroyed. This is called from inside the <see cref="T:Photon.Deterministic.DeterministicSession"/>.
             </summary>
         </member>
-        <member name="M:Quantum.QuantumGame.CreateFrame">
+        <member name="M:Quantum.QuantumGame.CreateFrame(System.Boolean)">
             <summary>
             Create a new frame object using the internal frame context.
             </summary>
+            <param name="enableHeapTrackerDuringInit">Enables frame heap tracking immediately.</param>
             <returns>Frame</returns>
         </member>
-        <member name="M:Quantum.QuantumGame.Photon#Deterministic#IDeterministicGame#CreateFrame(System.IDisposable)">
+        <member name="M:Quantum.QuantumGame.Photon#Deterministic#IDeterministicGame#CreateFrame(System.IDisposable,System.Boolean)">
             <summary>
             Create a new frame object using an external context.
             </summary>
             <param name="context"></param>
+            <param name="enableHeapTrackerDuringInit">Enables frame heap tracking immediately.</param>
             <returns>Frame</returns>
         </member>
         <member name="M:Quantum.QuantumGame.Photon#Deterministic#IDeterministicGame#CreateFrame(System.IDisposable,System.Byte[])">
@@ -1985,7 +1987,7 @@
             <para>If assigned value is different than the current one, signal <see cref="T:Quantum.ISignalOnMapChanged"/> is raised.</para>
             </summary>
         </member>
-        <member name="M:Quantum.Frame.#ctor(Quantum.Core.FrameContext,Quantum.SystemBase[],Quantum.SystemBase[],Photon.Deterministic.DeterministicSessionConfig,Quantum.RuntimeConfig,Quantum.SimulationConfig,Photon.Deterministic.FP)">
+        <member name="M:Quantum.Frame.#ctor(Quantum.Core.FrameContext,Quantum.SystemBase[],Quantum.SystemBase[],Photon.Deterministic.DeterministicSessionConfig,Quantum.RuntimeConfig,Quantum.SimulationConfig,Photon.Deterministic.FP,System.Boolean)">
             <summary>
             Create a new frame object.
             </summary>
@@ -2239,6 +2241,17 @@
             </summary>
             <param name="actorId">Actor id</param>
             <returns>Array of player references</returns>
+        </member>
+        <member name="M:Quantum.Frame.ResetPlayerMapping">
+            <summary>
+            Resets local player mapping to support promoting a local snapshot to an online session.
+            </summary>
+        </member>
+        <member name="M:Quantum.Frame.RestorePlayerMapping(Photon.Deterministic.DeterministicSession)">
+            <summary>
+            Restores local player mapping when reconnecting to an online session that did not remove the player yet.
+            This checks if the local client actor id matches any of the previous players and restores the local player mapping for them.
+            </summary>
         </member>
         <member name="T:Quantum.SessionRunner">
             <summary>
@@ -4103,6 +4116,43 @@
             <param name="f">The frame in which the entities stopped touching.</param>
             <param name="info">The <see cref="T:Quantum.ExitInfo3D"/> with the entities that were touching.</param>
             \ingroup Physics3dApi
+        </member>
+        <member name="T:Quantum.QuantumUnityDB">
+            <summary>
+            QuantumUnityDB static Editor methods to use in OnValidate etc.
+            </summary>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.GetGlobalAssetEditorInstance(Quantum.AssetRef)">
+            <summary>
+            Returns the editor instance of the asset with the given <paramref name="assetRef"/>. Use in editor code only, for inspectors
+            and editors. Returned asset will not have its <see cref="M:Quantum.AssetObject.Loaded(Quantum.IResourceManager,Photon.Deterministic.Native.Allocator)"/> called.
+            </summary>
+            <param name="assetRef"></param>
+            <returns>Asset instance or <c>null</c> if not found.</returns>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.GetGlobalAssetEditorInstance``1(Quantum.AssetRef{``0})">
+            <inheritdoc cref="M:Quantum.QuantumUnityDB.GetGlobalAssetEditorInstance(Quantum.AssetRef)"/>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.GetGlobalAssetEditorInstance``1(Quantum.AssetRef)">
+            <inheritdoc cref="M:Quantum.QuantumUnityDB.GetGlobalAssetEditorInstance(Quantum.AssetRef)"/>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.TryGetGlobalAssetEditorInstance``1(Quantum.AssetRef,``0@)">
+            <summary>
+            Attempts to get the editor instance of the asset with the given <paramref name="assetRef"/>. Use in editor code only, for inspectors
+            and editors. Returned asset will not have its <see cref="M:Quantum.AssetObject.Loaded(Quantum.IResourceManager,Photon.Deterministic.Native.Allocator)"/> called..
+            </summary>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.TryGetGlobalAssetEditorInstance``1(Quantum.AssetRef{``0},``0@)">
+            <inheritdoc cref="M:Quantum.QuantumUnityDB.TryGetGlobalAssetEditorInstance``1(Quantum.AssetRef,``0@)"/>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.CreateAssetPathFromUnityPath(System.String,System.String)">
+            <summary>
+            Creates Quantum asset path based on the Unity asset path. The resulting path will have its extension removed.
+            If the path is not in the "Assets" folder, it will be made relative to it.
+            </summary>
+            <param name="unityAssetPath"></param>
+            <param name="nestedName"></param>
+            <returns></returns>
         </member>
         <member name="T:Quantum.QuantumReplayFile">
             <summary>

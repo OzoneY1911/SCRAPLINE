@@ -12,7 +12,7 @@ namespace Quantum {
         throw new System.Exception("AppId is not set in PhotonServerSettings.");
       }
 
-      var regionHandler = client.ConnectToNameserverAndWaitForRegionsAsync(appSettings);
+      var regionHandler = client.ConnectToNameserverAndWaitForRegionsAsync(appSettings, pingRegions: false);
       regionListPromise = regionHandler.ContinueWith(x => x.Result.EnabledRegions.Select(region => region.Code).ToList(), 
         AsyncConfig.Global.TaskScheduler);
     }
