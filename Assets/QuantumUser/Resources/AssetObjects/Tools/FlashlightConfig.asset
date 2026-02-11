@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FlashlightConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/FlashlightConfig
+    Path: QuantumUser/Resources/AssetObjects/Tools/FlashlightConfig
     Guid:
       Value: 271878457324253294
   MaxCharge: 100

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerPhysicsMAT
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/PlayerPhysicsMAT
+    Path: QuantumUser/Resources/Physics Materials/PlayerPhysicsMAT
     Guid:
       Value: 274787278079997116
   Restitution:

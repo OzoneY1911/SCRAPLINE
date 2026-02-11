@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ebc2e46e55d24046b82d56360203e19, type: 3}
-  m_Name: TestValuable2
+  m_Name: FlashlightValConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/TestValuable2
+    Path: QuantumUser/Resources/AssetObjects/Valuables/FlashlightValConfig
     Guid:
-      Value: 435649092733232644
-  DisplayName: Micro Laser
+      Value: 283620267585906823
+  DisplayName: Flashlight
   IsPocketValuable: 1
   DefaultValue: 500
-  DefaultFragility: 1
-  FPSPrefab: {fileID: 6234046530158130642, guid: 212ef34dadf917541a17eaeab7abc379, type: 3}
+  DefaultFragility: 0
+  FPSPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}

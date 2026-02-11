@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ebc2e46e55d24046b82d56360203e19, type: 3}
-  m_Name: TestFlashlight
+  m_Name: Medkit_S_ValConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/TestFlashlight
+    Path: QuantumUser/Resources/AssetObjects/Valuables/Medkit_S_ValConfig
     Guid:
-      Value: 283620267585906823
-  DisplayName: Flashlight
+      Value: 465025837096376728
+  DisplayName: Small Medkit
   IsPocketValuable: 1
-  DefaultValue: 500
+  DefaultValue: 100
   DefaultFragility: 0
-  FPSPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}
+  FPSPrefab: {fileID: 9000193272901495541, guid: c827503397344be499f4234d762f9b90, type: 3}
