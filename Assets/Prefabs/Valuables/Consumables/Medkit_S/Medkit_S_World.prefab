@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1446304384645969311}
   - component: {fileID: 5965362154161429213}
   - component: {fileID: 5788561866982574417}
+  - component: {fileID: 5769000242855731732}
+  - component: {fileID: 2895488776454999459}
   m_Layer: 0
   m_Name: Medkit_S_World
   m_TagString: Untagged
@@ -356,6 +358,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damagePrefab: {fileID: 2519525783720581877, guid: 979e034356ed9f247afb855759bef4e3, type: 3}
+--- !u!114 &5769000242855731732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310326078842344250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eadad032f81fc6e4f89196af513c6905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Quantum.ConsumableView
+  _renderer: {fileID: 1978369803744122649}
+--- !u!114 &2895488776454999459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310326078842344250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a582f4d4c09d0ab46b70469e88dcf2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeConsumable
+  Prototype:
+    IsUsed:
+      Value: 0
 --- !u!1001 &915639727437482909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -416,5 +446,10 @@ PrefabInstance:
 --- !u!4 &810568795580591222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
+  m_PrefabInstance: {fileID: 915639727437482909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1978369803744122649 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
   m_PrefabInstance: {fileID: 915639727437482909}
   m_PrefabAsset: {fileID: 0}

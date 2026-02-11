@@ -25,6 +25,7 @@ namespace Quantum
             QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
 
             QuantumEvent.Subscribe<EventFlashlightToggled>(this, OnEventFlashlightToggled);
+            QuantumEvent.Subscribe<EventOnConsumableUsed>(this, OnEventConsumableUsed);
         }
 
         private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
@@ -62,6 +63,14 @@ namespace Quantum
                 var light = _slotVisuals[index].GetComponentInChildren<Light>(true);
                 light.enabled = flashlight->IsOn;
             }
+            else if (frame.Unsafe.TryGetPointer<Consumable>(e.ValuableEntity, out var consumable))
+            {
+                if (consumable->IsUsed)
+                {
+                    var renderer = _slotVisuals[index].GetComponentInChildren<Renderer>(true);
+                    renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
+                }
+            }
         }
 
         private void OnEventValuableDropped(EventValuableDropped e)
@@ -82,6 +91,14 @@ namespace Quantum
             if (e.FlashlightEntity != _slotEntities[_selectedSlotIndex]) return;
 
             _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Light>().enabled = e.IsOn;
+        }
+
+        private void OnEventConsumableUsed(EventOnConsumableUsed e)
+        {
+            if (e.ConsumableEntity != _slotEntities[_selectedSlotIndex]) return;
+
+            var renderer = _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Renderer>(true);
+            renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
         }
     }
 }

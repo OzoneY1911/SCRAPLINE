@@ -1,0 +1,10 @@
+component Consumable
+{
+	[HideInInspector]
+	Boolean IsUsed;
+}
+
+event OnConsumableUsed
+{
+	entity_ref ConsumableEntity;
+}

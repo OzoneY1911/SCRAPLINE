@@ -6,12 +6,17 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
             if (!frame.Unsafe.TryGetPointer<Health>(playerEntity, out var health)) return;
+            if (!frame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable)) return;
+
+            if (consumable->IsUsed) return;
 
             var config = frame.FindAsset<ValuableConfig>(valuable->Config) as ConsumableConfig;
             if (health->Current == health->Max) return;
 
             frame.Signals.OnHealthChanged(playerEntity, config.HealthDelta);
-            frame.Signals.OnValuableDropRequested(playerEntity, valuableEntity);
+
+            consumable->IsUsed = true;
+            frame.Events.OnConsumableUsed(valuableEntity);
         }
     }
 }

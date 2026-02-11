@@ -1647,6 +1647,7 @@ MonoBehaviour:
     - rid: 2547720674525315075
     - rid: 2547720674525315076
     - rid: 2547720674525315077
+    - rid: 2547720674525315078
   - Components:
     - rid: 1912447390997020672
     - rid: 1912447390997020673
@@ -1654,6 +1655,7 @@ MonoBehaviour:
     - rid: 1912447390997020675
     - rid: 1912447390997020676
     - rid: 1912447390997020677
+    - rid: 1912447390997020678
   - Components:
     - rid: 4397697965917995008
     - rid: 4397697965917995009
@@ -1661,6 +1663,7 @@ MonoBehaviour:
     - rid: 4397697965917995011
     - rid: 4397697965917995012
     - rid: 4397697965917995013
+    - rid: 4397697965917995014
   SerializedTriangleDataUncompressedSize: 185336
   references:
     version: 2
@@ -2325,10 +2328,15 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 1912447390997020676
+      type: {class: ConsumablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        IsUsed:
+          Value: 0
+    - rid: 1912447390997020677
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
-    - rid: 1912447390997020677
+    - rid: 1912447390997020678
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Config:
@@ -2802,10 +2810,15 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 2547720674525315076
+      type: {class: ConsumablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        IsUsed:
+          Value: 0
+    - rid: 2547720674525315077
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
-    - rid: 2547720674525315077
+    - rid: 2547720674525315078
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Config:
@@ -3041,10 +3054,15 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 4397697965917995012
+      type: {class: ConsumablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        IsUsed:
+          Value: 0
+    - rid: 4397697965917995013
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
-    - rid: 4397697965917995013
+    - rid: 4397697965917995014
       type: {class: ValuablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Config:
