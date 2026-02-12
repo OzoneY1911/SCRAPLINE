@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 59fa972ac4a281947a080638807c0ea0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -12.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59fa972ac4a281947a080638807c0ea0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59fa972ac4a281947a080638807c0ea0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59fa972ac4a281947a080638807c0ea0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -442,7 +442,7 @@ MonoBehaviour:
   Prototype:
     Entity: {fileID: 0}
     Type:
-      Value: 2
+      Value: 3
     CooldownTimer:
       Type:
         Value: 0

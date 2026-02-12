@@ -18,6 +18,6 @@ MonoBehaviour:
       Value: 435649092733232644
   DisplayName: Micro Laser
   IsPocketValuable: 1
-  DefaultValue: 500
+  DefaultValue: 300
   DefaultFragility: 1
   FPSPrefab: {fileID: 6234046530158130642, guid: 212ef34dadf917541a17eaeab7abc379, type: 3}
