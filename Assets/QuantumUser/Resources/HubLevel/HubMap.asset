@@ -4836,11 +4836,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 145609
+            RawValue: 132730
           Y:
             RawValue: 142344
           Z:
-            RawValue: 28168
+            RawValue: 25736
         Rotation:
           X:
             RawValue: 0
@@ -6039,11 +6039,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 140355
+            RawValue: 127476
           Y:
             RawValue: 168558
           Z:
-            RawValue: 55988
+            RawValue: 53556
         Rotation:
           X:
             RawValue: 0
@@ -6501,11 +6501,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 152663
+            RawValue: 139784
           Y:
             RawValue: 155451
           Z:
-            RawValue: -9181
+            RawValue: -11614
         Rotation:
           X:
             RawValue: 0
