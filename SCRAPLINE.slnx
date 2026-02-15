@@ -7,11 +7,15 @@
   <Project Path="Quantum.Unity.csproj" />
   <Project Path="Quantum.Simulation.csproj" />
   <Project Path="PhotonVoice.csproj" />
+  <Project Path="FMODUnityResonanceEditor.csproj" />
+  <Project Path="FMODUnityEditor.csproj" />
+  <Project Path="FMODUnity.csproj" />
   <Project Path="Quantum.Menu.Editor.csproj" />
   <Project Path="PhotonVoice.Editor.csproj" />
   <Project Path="QuantumDemoInput.csproj" />
   <Project Path="Photon.Chat.csproj" />
   <Project Path="Quantum.Unity.Editor.CodeGen.csproj" />
+  <Project Path="FMODUnityResonance.csproj" />
   <Project Path="MicAmplifierEditor.Editor.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />
   <Project Path="PhotonVoice.Utilities.Editor.csproj" />

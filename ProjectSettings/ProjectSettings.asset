@@ -836,24 +836,25 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: 
-    EmbeddedLinux: 
-    GameCoreScarlett: 
-    GameCoreXboxOne: 
-    Kepler: 
-    LinuxHeadlessSimulation: 
-    Nintendo Switch: 
-    PS4: 
-    PS5: 
-    QNX: 
+    Android: PHOTON_VOICE_FMOD_AVAILABLE
+    EmbeddedLinux: PHOTON_VOICE_FMOD_AVAILABLE
+    GameCoreScarlett: PHOTON_VOICE_FMOD_AVAILABLE
+    GameCoreXboxOne: PHOTON_VOICE_FMOD_AVAILABLE
+    Kepler: PHOTON_VOICE_FMOD_AVAILABLE
+    LinuxHeadlessSimulation: PHOTON_VOICE_FMOD_AVAILABLE
+    Nintendo Switch: PHOTON_VOICE_FMOD_AVAILABLE
+    Nintendo Switch 2: PHOTON_VOICE_FMOD_AVAILABLE
+    PS4: PHOTON_VOICE_FMOD_AVAILABLE
+    PS5: PHOTON_VOICE_FMOD_AVAILABLE
+    QNX: PHOTON_VOICE_FMOD_AVAILABLE
     ReservedCFE: 
-    Standalone: 
-    VisionOS: 
-    WebGL: 
-    Windows Store Apps: 
-    XboxOne: 
-    iPhone: 
-    tvOS: 
+    Standalone: PHOTON_VOICE_FMOD_AVAILABLE
+    VisionOS: PHOTON_VOICE_FMOD_AVAILABLE
+    WebGL: PHOTON_VOICE_FMOD_AVAILABLE
+    Windows Store Apps: PHOTON_VOICE_FMOD_AVAILABLE
+    XboxOne: PHOTON_VOICE_FMOD_AVAILABLE
+    iPhone: PHOTON_VOICE_FMOD_AVAILABLE
+    tvOS: PHOTON_VOICE_FMOD_AVAILABLE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
