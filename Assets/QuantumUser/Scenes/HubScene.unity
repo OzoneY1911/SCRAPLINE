@@ -3574,7 +3574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 792502004}
   - component: {fileID: 792502003}
-  - component: {fileID: 792502002}
+  - component: {fileID: 792502007}
   - component: {fileID: 792502005}
   - component: {fileID: 792502006}
   m_Layer: 0
@@ -3584,14 +3584,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &792502002
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792502001}
-  m_Enabled: 1
 --- !u!20 &792502003
 Camera:
   m_ObjectHideFlags: 0
@@ -3829,6 +3821,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &792502007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792502001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &795030474 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7527326752524770614, guid: da7b2c291f1b30e4b990adb234605483, type: 3}
@@ -9318,10 +9324,6 @@ PrefabInstance:
     - target: {fileID: 1211995290207603508, guid: 3bc5a9766ae713e4585d78764a1b8066, type: 3}
       propertyPath: m_Name
       value: Voice Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1211995290207603508, guid: 3bc5a9766ae713e4585d78764a1b8066, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2833411613007952341, guid: 3bc5a9766ae713e4585d78764a1b8066, type: 3}
       propertyPath: m_LocalPosition.x

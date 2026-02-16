@@ -12,11 +12,14 @@
   <Project Path="FMODUnity.csproj" />
   <Project Path="Quantum.Menu.Editor.csproj" />
   <Project Path="PhotonVoice.Editor.csproj" />
+  <Project Path="FMODUnityHaptics.csproj" />
+  <Project Path="PhotonVoice.FMOD.csproj" />
   <Project Path="QuantumDemoInput.csproj" />
   <Project Path="Photon.Chat.csproj" />
   <Project Path="Quantum.Unity.Editor.CodeGen.csproj" />
   <Project Path="FMODUnityResonance.csproj" />
   <Project Path="MicAmplifierEditor.Editor.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />
+  <Project Path="PhotonVoiceApi.FMOD.csproj" />
   <Project Path="PhotonVoice.Utilities.Editor.csproj" />
 </Solution>
