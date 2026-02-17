@@ -1,8 +1,10 @@
+using Photon.Chat;
+using Quantum;
 using TMPro;
 using UnityEngine;
 using WebSocketSharp;
 
-public class ChatUI : MonoBehaviour
+public class ChatUI : PersistentSingletonMono<ChatUI>
 {
     [Header("Global References")]
     [SerializeField] private InputManager _inputManager;
@@ -18,20 +20,25 @@ public class ChatUI : MonoBehaviour
 
     private bool _isChatFocused;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _chatCanvas.enabled = false;
     }
 
     private void OnEnable()
     {
-        if (_chatManager == null)
-        {
-            _chatManager = FindAnyObjectByType<ChatManager>();
-        }
+        _chatManager = FindAnyObjectByType<ChatManager>();
 
         _chatManager.OnMessageReceived += AddMessage;
         _chatManager.OnChatUserSubscribed += HandleNewSubscription;
+        QuantumCallback.Subscribe<CallbackGameDestroyed>(this, OnGameDestroyed);
+    }
+
+    private void OnGameDestroyed(CallbackGameDestroyed callback)
+    {
+        Destroy(gameObject);
     }
 
     private void OnDisable()
@@ -42,6 +49,8 @@ public class ChatUI : MonoBehaviour
 
     private void Update()
     {
+        if (_inputManager == null) _inputManager = FindAnyObjectByType<InputManager>();
+
         if (_inputManager.PlayerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
         {
             if (!_isChatFocused)

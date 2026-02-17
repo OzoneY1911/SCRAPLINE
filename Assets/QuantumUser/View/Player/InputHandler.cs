@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public sealed class InputHandler : MonoBehaviour
+    public sealed class InputHandler : PersistentSingletonMono<InputHandler>
     {
         public static float LookSensitivity = 3f;
 
@@ -20,6 +20,7 @@ namespace Quantum
         private void OnEnable()
         {
             QuantumCallback.Subscribe(this, (CallbackPollInput callback) => PollInput(callback));
+            QuantumCallback.Subscribe<CallbackUnitySceneLoadDone>(this, OnUnitySceneLoadDone);
         }
 
         private void Start()
@@ -29,10 +30,18 @@ namespace Quantum
 
         private void Update()
         {
+            if (_entityViewUpdater == null) return;
+
             AccumulateInput();
 
             _accumulatedInput.CameraPosition = _playerCameraObject.transform.position.ToFPVector3();
             _accumulatedInput.CameraForward = _playerCameraObject.transform.forward.ToFPVector3();
+        }
+
+        private void OnUnitySceneLoadDone(CallbackUnitySceneLoadDone callback)
+        {
+            _entityViewUpdater = FindAnyObjectByType<QuantumEntityViewUpdater>();
+            _playerCameraObject = FindAnyObjectByType<Unity.Cinemachine.CinemachineBrain>().gameObject;
         }
 
         private void AccumulateInput()
@@ -85,7 +94,7 @@ namespace Quantum
             _accumulatedInput.ScrollDelta = FPMath.Clamp(_accumulatedInput.ScrollDelta, -FP._1, FP._1);
         }
 
-        public void PollInput(CallbackPollInput callback)
+        private void PollInput(CallbackPollInput callback)
         {
             //AccumulateInput();
             ProcessInput();

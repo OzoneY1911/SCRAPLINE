@@ -2533,6 +2533,62 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -639
       objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 402357631}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 402357631}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Stop
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FMODUnity.StudioEventEmitter, FMODUnity
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FMODUnity.StudioEventEmitter, FMODUnity
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693966923574222950, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
+      propertyPath: OnBeforeDisconnect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8726781227358502664, guid: b8b23a340cae7964797fe10cb3da12de, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

@@ -13,6 +13,7 @@ public unsafe class DeathCameraController : MonoBehaviour
     private void Awake()
     {
         _deathCamera = GetComponent<CinemachineCamera>();
+        _inputManager = FindAnyObjectByType<InputManager>();
     }
 
     private void OnEnable()

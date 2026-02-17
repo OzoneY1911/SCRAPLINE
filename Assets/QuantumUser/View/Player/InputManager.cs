@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Quantum;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class InputManager : MonoBehaviour
+public class InputManager : PersistentSingletonMono<InputManager>
 {
     private PlayerControls _playerControls;
 
@@ -10,8 +12,10 @@ public class InputManager : MonoBehaviour
     private InputActionMap _previousMap;
     private InputActionMap _currentMap;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _playerControls = new PlayerControls();
     }
 
@@ -19,6 +23,20 @@ public class InputManager : MonoBehaviour
     {
         EnableControls();
         SetSoloMap(_playerControls.Main);
+
+        QuantumCallback.Subscribe<CallbackGameStarted>(this, OnGameStarted);
+        QuantumCallback.Subscribe<CallbackGameDestroyed>(this, OnGameDestroyed);
+    }
+
+    private void OnGameStarted(CallbackGameStarted callback)
+    {
+        EnableControls();
+        SetSoloMap(_playerControls.Main);
+    }
+
+    private void OnGameDestroyed(CallbackGameDestroyed callback)
+    {
+         DisableControls();
     }
 
     private void OnDisable()

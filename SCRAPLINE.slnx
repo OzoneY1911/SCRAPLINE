@@ -14,7 +14,6 @@
   <Project Path="PhotonVoice.Editor.csproj" />
   <Project Path="FMODUnityHaptics.csproj" />
   <Project Path="PhotonVoice.FMOD.csproj" />
-  <Project Path="QuantumDemoInput.csproj" />
   <Project Path="Photon.Chat.csproj" />
   <Project Path="Quantum.Unity.Editor.CodeGen.csproj" />
   <Project Path="FMODUnityResonance.csproj" />

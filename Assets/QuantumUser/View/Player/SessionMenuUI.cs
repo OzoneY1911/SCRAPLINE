@@ -7,14 +7,15 @@ public class SessionMenuUI : MonoBehaviour
 
     private Canvas _sessionMenuCanvas;
 
-    void Awake()
+    private void Awake()
     {
+        _inputManager = FindAnyObjectByType<InputManager>();
         _sessionMenuCanvas = GetComponent<Canvas>();
         _sessionMenuCanvas.enabled = false;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_inputManager.PlayerControls.PersistentMap.ToggleSessionMenu.WasPressedThisFrame())
         {
