@@ -224,8 +224,16 @@ namespace Quantum.Menu {
     /// <summary>
     /// Is called when the <see cref="_backButton"/> is pressed using SendMessage() from the UI object.
     /// </summary>
-    public virtual void OnBackButtonPressed() {
-      Controller.Show<QuantumMenuUIMain>();
+    protected virtual void OnBackButtonPressed()
+    {
+        if (Controller.Get<QuantumMenuUIGameplay>().IsShowing)
+        {
+            Hide();
+        }
+        else
+        {
+            Controller.Show<QuantumMenuUIMain>();
+        }
     }
   }
 }

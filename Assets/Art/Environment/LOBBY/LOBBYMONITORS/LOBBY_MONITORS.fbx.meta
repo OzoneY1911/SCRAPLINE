@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7a97a667fee18db44bdb8421005bd76b
+guid: 7161fcf9d1fe3a148a39ab920c63b8e3
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: SHOPWALLS
-    second: {fileID: 2100000, guid: 0f37b162892ebb94e8e3960f93a6c62e, type: 2}
+      name: LOBBY_MONITORS_BASE
+    second: {fileID: 2100000, guid: dfa3aab37505e484bb9a549fbc683ccf, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

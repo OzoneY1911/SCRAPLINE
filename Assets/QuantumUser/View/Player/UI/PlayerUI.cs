@@ -1,7 +1,6 @@
-using Photon.Voice.Unity;
 using Quantum;
 
-public class VoiceManager : PersistentSingletonMono<VoiceManager>
+public class PlayerUI : PersistentSingletonMono<PlayerUI>
 {
     private void OnEnable()
     {

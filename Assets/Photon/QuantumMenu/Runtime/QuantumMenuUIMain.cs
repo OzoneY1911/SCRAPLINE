@@ -8,11 +8,12 @@ namespace Quantum.Menu {
   using InputField = UnityEngine.UI.InputField;
 #endif
   using UnityEngine;
+    using UnityEngine.UI;
 
-  /// <summary>
-  /// The main menu.
-  /// </summary>
-  public partial class QuantumMenuUIMain : QuantumMenuUIScreen {
+    /// <summary>
+    /// The main menu.
+    /// </summary>
+    public partial class QuantumMenuUIMain : QuantumMenuUIScreen {
     /// <summary>
     /// The username label.
     /// </summary>

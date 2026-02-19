@@ -158,22 +158,27 @@ namespace Quantum.Menu {
     /// <param name="result">Connect result</param>
     /// <param name="controller">UI Controller</param>
     /// <returns>When handling is completed</returns>
-    public virtual async Task HandleConnectionResult(ConnectResult result, QuantumMenuUIController controller) {
-      if (result.CustomResultHandling) {
-        return;
-      } 
+    public virtual async Task HandleConnectionResult(ConnectResult result, QuantumMenuUIController controller)
+    {
+        if (result.CustomResultHandling) return;
       
-      if (result.Success) {
-        controller.Show<QuantumMenuUIGameplay>();
-      } else if (result.FailReason != ConnectFailReason.ApplicationQuit) {
-        var popup = controller.PopupAsync(result.DebugMessage, "Connection Failed");
-        if (result.WaitForCleanup != null) {
-          await Task.WhenAll(result.WaitForCleanup, popup);
-        } else {
-          await popup;
+        if (result.Success)
+        {
+            controller.Show<QuantumMenuUIGameplay>();
         }
-        controller.Show<QuantumMenuUIMain>();
-      }
+        else if (result.FailReason != ConnectFailReason.ApplicationQuit)
+        {
+            var popup = controller.PopupAsync(result.DebugMessage, "Connection Failed");
+            if (result.WaitForCleanup != null)
+            {
+                await Task.WhenAll(result.WaitForCleanup, popup);
+            }
+            else
+            {
+                await popup;
+            }
+            controller.Show<QuantumMenuUIMain>();
+        }
     }
   }
 }

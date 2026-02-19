@@ -573,6 +573,7 @@ GameObject:
   - component: {fileID: 1277225818196233941}
   - component: {fileID: 2101562402892099724}
   - component: {fileID: 3217560050832187254}
+  - component: {fileID: 2425470789208331952}
   - component: {fileID: 7912560995452611112}
   - component: {fileID: 1237868476032928558}
   - component: {fileID: 2107965038043531170}
@@ -671,6 +672,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2425470789208331952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3783083828697005769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671243daaa0b63e4a9a560442997832c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
 --- !u!114 &7912560995452611112
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using Quantum;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class InputManager : PersistentSingletonMono<InputManager>
 {
@@ -11,6 +11,8 @@ public class InputManager : PersistentSingletonMono<InputManager>
 
     private InputActionMap _previousMap;
     private InputActionMap _currentMap;
+
+    public event Action SessionMenuToggled;
 
     protected override void Awake()
     {
@@ -46,8 +48,15 @@ public class InputManager : PersistentSingletonMono<InputManager>
 
     private void Update()
     {
-        HandleSessionMenu();
-        HandleChat();
+        if (_playerControls.PersistentMap.ToggleSessionMenu.WasPressedThisFrame())
+        {
+            RequestSessionMenuToggle();
+        }
+
+        if (_playerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
+        {
+            RequestChatToggle();
+        }
     }
 
     private void EnableControls() => _playerControls.Enable();
@@ -87,39 +96,35 @@ public class InputManager : PersistentSingletonMono<InputManager>
         _previousMap = null;
     }
 
-    private void HandleSessionMenu()
+    public void RequestSessionMenuToggle()
     {
-        if (_playerControls.PersistentMap.ToggleSessionMenu.WasPressedThisFrame())
-        {
-            ToggleCursor();
+        ToggleCursor();
 
-            if (_playerControls.PersistentMap.ToggleChat.enabled)
-            {
-                SetSoloMap(_playerControls.PersistentMap);
-                _playerControls.PersistentMap.ToggleChat.Disable();
-            }
-            else
-            {
-                EnablePreviousMap();
-                _playerControls.PersistentMap.ToggleChat.Enable();
-            }
+        if (_playerControls.PersistentMap.ToggleChat.enabled)
+        {
+            SetSoloMap(_playerControls.PersistentMap);
+            _playerControls.PersistentMap.ToggleChat.Disable();
         }
+        else
+        {
+            EnablePreviousMap();
+            _playerControls.PersistentMap.ToggleChat.Enable();
+        }
+
+        SessionMenuToggled?.Invoke();
     }
 
-    private void HandleChat()
+    private void RequestChatToggle()
     {
-        if (_playerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
+        if (_playerControls.PersistentMap.ToggleSessionMenu.enabled)
         {
-            if (_playerControls.PersistentMap.ToggleSessionMenu.enabled)
-            {
-                SetSoloMap(_playerControls.PersistentMap);
-                _playerControls.PersistentMap.ToggleSessionMenu.Disable();
-            }
-            else
-            {
-                EnablePreviousMap();
-                _playerControls.PersistentMap.ToggleSessionMenu.Enable();
-            }
+            SetSoloMap(_playerControls.PersistentMap);
+            _playerControls.PersistentMap.ToggleSessionMenu.Disable();
+        }
+        else
+        {
+            EnablePreviousMap();
+            _playerControls.PersistentMap.ToggleSessionMenu.Enable();
         }
     }
 }

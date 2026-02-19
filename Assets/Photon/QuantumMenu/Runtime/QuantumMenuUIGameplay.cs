@@ -156,6 +156,14 @@ namespace Quantum.Menu {
       await Connection.DisconnectAsync(ConnectFailReason.UserRequest);
       Controller.Show<QuantumMenuUIMain>();
     }
+    
+    /// <summary>
+    /// Is called when the <see cref="_settingsButton"/> is pressed using SendMessage() from the UI object.
+    /// </summary>
+    protected virtual void OnSettingsButtonPressed()
+    {
+        Controller.Get<QuantumMenuUISettings>().Show();
+    }
 
     /// <summary>
     /// Is called when the <see cref="_copySessionButton"/> is pressed using SendMessage() from the UI object.
