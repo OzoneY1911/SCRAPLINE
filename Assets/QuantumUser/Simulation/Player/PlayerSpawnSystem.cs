@@ -1,9 +1,6 @@
-using UnityEngine.Scripting;
-
 namespace Quantum
 {
-    [Preserve]
-    public unsafe class PlayerSpawnSystem : SystemSignalsOnly, ISignalOnPlayerAdded, ISignalOnPlayerRemoved
+    public unsafe class PlayerSpawnSystem : SystemSignalsOnly, ISignalOnPlayerAdded, ISignalOnPlayerRemoved, ISignalOnMapChanged
     {
         public override void OnInit(Frame frame)
         {
@@ -30,21 +27,35 @@ namespace Quantum
             activePlayers.Remove(playerRef);
         }
 
+        public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
+        {
+            var alivePlayers = frame.ResolveList<EntityRef>(frame.Global->AlivePlayers);
+
+            foreach (var playerEntity in alivePlayers)
+            {
+                UnityEngine.Debug.Log("MapChanged");
+                var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
+                mapCustomData.SetEntityToRandomSpawnPoint(frame, playerEntity);
+            }
+        }
+
         private EntityRef SpawnPlayer(Frame frame, PlayerRef playerRef)
         {
-            var data = frame.GetPlayerData(playerRef);
-
-            var entityPrototypeAsset = frame.FindAsset<EntityPrototype>(data.PlayerAvatar);
+            var playerData = frame.GetPlayerData(playerRef);
+            var entityPrototypeAsset = frame.FindAsset<EntityPrototype>(playerData.PlayerAvatar);
 
             var playerEntity = frame.Create(entityPrototypeAsset);
 
+            var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
             frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
+
+            mapCustomData.SetEntityToRandomSpawnPoint(frame, playerEntity);
 
             if (frame.IsPlayerVerifiedOrLocal(playerRef))
             {
                 SetLocalLayer(frame, playerRef, playerEntity);
-                SetInventory(frame, playerEntity);
             }
+            SetInventory(frame, playerEntity);
 
             return playerEntity;
         }

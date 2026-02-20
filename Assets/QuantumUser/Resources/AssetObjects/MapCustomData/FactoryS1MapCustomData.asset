@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706551165eae4ec49b68bc0792ad15ae, type: 3}
+  m_Name: FactoryS1MapCustomData
+  m_EditorClassIdentifier: Quantum.Simulation::Quantum.MapCustomData
+  Identifier:
+    Path: QuantumUser/Resources/AssetObjects/MapCustomData/FactoryS1MapCustomData
+    Guid:
+      Value: 334204137712682475
+  DefaultSpawnPoint:
+    Position:
+      X:
+        RawValue: -104857
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 209715
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  SpawnPoints:
+  - Position:
+      X:
+        RawValue: -104857
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 209715
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: 26214
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 235929
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: 78643
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 144179
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: -104857
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 131072
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: 91750
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: -26214
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: -104857
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 0
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536

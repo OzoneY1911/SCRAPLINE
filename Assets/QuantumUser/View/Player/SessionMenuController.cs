@@ -21,6 +21,7 @@ public class SessionMenuController : PersistentSingletonMono<SessionMenuControll
 
     private void OnDisable()
     {
+        if (_inputManager == null) return;
         _inputManager.SessionMenuToggled -= OnSessionMenuToggled;
     }
 
