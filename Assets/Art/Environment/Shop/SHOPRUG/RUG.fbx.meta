@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d404ec0a329d3964aa7922167cd9078e
+guid: f0345aad876a8ef42878297b8d1042d9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: LEVER
-    second: {fileID: 2100000, guid: 1edfcd60409ab3f4bb5e84a42f23eebf, type: 2}
+      name: SHOPRUG
+    second: {fileID: 2100000, guid: 5ba991324367dc74bbdc899590706d59, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -99,7 +99,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
