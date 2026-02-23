@@ -71,8 +71,6 @@ namespace Quantum
                     {
                         inZoneValuable->IsShopValuable = false;
                         inZoneValuable->TrackedZoneEntity = EntityRef.None;
-
-                        frame.Unsafe.GetPointer<PhysicsCollider3D>(inZoneValuableEntity)->Layer = 0;
                     }
                 }
 

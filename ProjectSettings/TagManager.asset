@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - SpawnPoint
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -15,11 +15,11 @@ TagManager:
   - 3D Overlay
   - 
   - 
-  - 
+  - World
   - Player
   - LocalPlayer
-  - ShopValuable
-  - ShopItemBlocker
+  - 
+  - 
   - 
   - 
   - 

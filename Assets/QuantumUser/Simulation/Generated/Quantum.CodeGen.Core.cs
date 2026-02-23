@@ -2019,6 +2019,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnShopPurchaseAttempted : ISignal {
     void OnShopPurchaseAttempted(Frame f, EntityRef entity);
   }
+  public unsafe partial interface ISignalOnShopValuableDestroyed : ISignal {
+    void OnShopValuableDestroyed(Frame f, EntityRef valuableEntity);
+  }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
@@ -2039,6 +2042,7 @@ namespace Quantum {
     private ISignalOnInZoneValuableDamaged[] _ISignalOnInZoneValuableDamagedSystems;
     private ISignalOnInZoneValuableDestroyed[] _ISignalOnInZoneValuableDestroyedSystems;
     private ISignalOnShopPurchaseAttempted[] _ISignalOnShopPurchaseAttemptedSystems;
+    private ISignalOnShopValuableDestroyed[] _ISignalOnShopValuableDestroyedSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -2067,6 +2071,7 @@ namespace Quantum {
       _ISignalOnInZoneValuableDamagedSystems = BuildSignalsArray<ISignalOnInZoneValuableDamaged>();
       _ISignalOnInZoneValuableDestroyedSystems = BuildSignalsArray<ISignalOnInZoneValuableDestroyed>();
       _ISignalOnShopPurchaseAttemptedSystems = BuildSignalsArray<ISignalOnShopPurchaseAttempted>();
+      _ISignalOnShopValuableDestroyedSystems = BuildSignalsArray<ISignalOnShopValuableDestroyed>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<Quantum.AnimationTrigger>();
@@ -2341,6 +2346,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnShopPurchaseAttempted(_f, entity);
+          }
+        }
+      }
+      public void OnShopValuableDestroyed(EntityRef valuableEntity) {
+        var array = _f._ISignalOnShopValuableDestroyedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnShopValuableDestroyed(_f, valuableEntity);
           }
         }
       }

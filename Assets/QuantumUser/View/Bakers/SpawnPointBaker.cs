@@ -12,26 +12,36 @@ namespace Quantum
         public override void OnBake(QuantumMapData data)
         {
             var customData = QuantumUnityDB.GetGlobalAssetEditorInstance<MapCustomData>(data.GetAsset(true).UserAsset);
-            var spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
-            if (customData == null || spawnPoints.Length == 0) return;
+            if (customData == null) return;
 
-            var defaultSpawnPoint = spawnPoints[0];
-            if (customData.DefaultSpawnPoint.Equals(default(MapCustomData.SpawnPointData)))
+            var playerSpawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            var valuableSpawnPoints = GameObject.FindObjectsByType<ValuableSpawnPoint>(FindObjectsSortMode.None);
+
+            if (playerSpawnPoints.Length != 0)
             {
-                customData.DefaultSpawnPoint.Position = defaultSpawnPoint.transform.position.ToFPVector3();
-                customData.DefaultSpawnPoint.Rotation = defaultSpawnPoint.transform.rotation.ToFPQuaternion();
+                customData.PlayerSpawnPoints = new MapCustomData.SpawnPointData[playerSpawnPoints.Length];
+                for (var i = 0; i < playerSpawnPoints.Length; i++)
+                {
+                    customData.PlayerSpawnPoints[i].Position = playerSpawnPoints[i].transform.position.ToFPVector3();
+                    customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.rotation.ToFPQuaternion();
+                }
             }
-
-            customData.SpawnPoints = new MapCustomData.SpawnPointData[spawnPoints.Length];
-            for (var i = 0; i < spawnPoints.Length; i++)
+            
+            if (valuableSpawnPoints.Length != 0)
             {
-                customData.SpawnPoints[i].Position = spawnPoints[i].transform.position.ToFPVector3();
-                customData.SpawnPoints[i].Rotation = spawnPoints[i].transform.rotation.ToFPQuaternion();
+                customData.ValuableSpawnPoints = new MapCustomData.ValuableSpawnPointData[valuableSpawnPoints.Length];
+                for (var i = 0; i < valuableSpawnPoints.Length; i++)
+                {
+                    customData.ValuableSpawnPoints[i].Data.Position = valuableSpawnPoints[i].transform.position.ToFPVector3();
+                    customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.rotation.ToFPQuaternion();
+                    customData.ValuableSpawnPoints[i].PossibleValuables = valuableSpawnPoints[i].PossibleValuables;
+                }
             }
 
 #if UNITY_EDITOR
-            Debug.Log($"Baked {customData.SpawnPoints.Length} Spawn Points");
+            Debug.Log($"Baked {customData.PlayerSpawnPoints.Length} Player Spawn Points");
+            Debug.Log($"Baked {customData.ValuableSpawnPoints.Length} Valuable Spawn Points");
             EditorUtility.SetDirty(customData);
 #endif
         }

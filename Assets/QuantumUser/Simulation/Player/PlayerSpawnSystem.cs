@@ -33,9 +33,8 @@ namespace Quantum
 
             foreach (var playerEntity in alivePlayers)
             {
-                UnityEngine.Debug.Log("MapChanged");
                 var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
-                mapCustomData.SetEntityToRandomSpawnPoint(frame, playerEntity);
+                mapCustomData.SetPlayerToRandomSpawnPoint(frame, playerEntity);
             }
         }
 
@@ -49,7 +48,7 @@ namespace Quantum
             var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
             frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
 
-            mapCustomData.SetEntityToRandomSpawnPoint(frame, playerEntity);
+            mapCustomData.SetPlayerToRandomSpawnPoint(frame, playerEntity);
 
             if (frame.IsPlayerVerifiedOrLocal(playerRef))
             {

@@ -26,51 +26,28 @@ namespace Quantum
 
             QuantumEvent.Subscribe<EventFlashlightToggled>(this, OnEventFlashlightToggled);
             QuantumEvent.Subscribe<EventOnConsumableUsed>(this, OnEventConsumableUsed);
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var playerInventory)) return;
+
+            SelectSlotValuable(EntityRef, (int)SlotIndex.None);
+            for (int i = 0; i < playerInventory->Slots.Length; i++)
+            {
+                var valuableEntity = playerInventory->Slots[i];
+                if (valuableEntity == EntityRef.None) continue;
+
+                CollectSlotValuable(EntityRef, valuableEntity, i);
+            }
+            SelectSlotValuable(EntityRef, (int)playerInventory->SelectedSlotIndex);
         }
 
         private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
         {
-            if (e.PlayerEntity != EntityRef) return;
-
-            if (!VerifiedFrame.IsVerified) return;
-
-            _selectedSlotIndex = (int)e.SlotIndex;
-
-            for (int i = 0; i < _slotObjects.Count; i++)
-            {
-                if (_slotVisuals[i] == null) continue;
-                _slotVisuals[i].SetActive(i == (int)e.SlotIndex);
-            }
+            SelectSlotValuable(e.PlayerEntity, (int)e.SlotIndex);
         }
 
         private void OnEventValuableCollected(EventValuableCollected e)
         {
-            if (e.PlayerEntity != EntityRef) return;
-
-            var frame = VerifiedFrame;
-            if (!frame.Unsafe.TryGetPointer<Valuable>(e.ValuableEntity, out var valuable)) return;
-
-            var fpsPrefab = frame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
-            var index = (int)e.SlotIndex;
-
-            _slotEntities[index] = e.ValuableEntity;
-            _slotVisuals[index] = Instantiate(fpsPrefab, _slotObjects[index].transform);
-
-            _slotVisuals[index].SetActive(index == _selectedSlotIndex);
-
-            if (frame.Unsafe.TryGetPointer<Flashlight>(e.ValuableEntity, out var flashlight))
-            {
-                var light = _slotVisuals[index].GetComponentInChildren<Light>(true);
-                light.enabled = flashlight->IsOn;
-            }
-            else if (frame.Unsafe.TryGetPointer<Consumable>(e.ValuableEntity, out var consumable))
-            {
-                if (consumable->IsUsed)
-                {
-                    var renderer = _slotVisuals[index].GetComponentInChildren<Renderer>(true);
-                    renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
-                }
-            }
+            CollectSlotValuable(e.PlayerEntity, e.ValuableEntity, (int)e.SlotIndex);
         }
 
         private void OnEventValuableDropped(EventValuableDropped e)
@@ -99,6 +76,51 @@ namespace Quantum
 
             var renderer = _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Renderer>(true);
             renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
+        }
+
+        private void SelectSlotValuable(EntityRef playerEntity, int slotIndex)
+        {
+            if (playerEntity != EntityRef) return;
+
+            if (!VerifiedFrame.IsVerified) return;
+
+            _selectedSlotIndex = (int)slotIndex;
+
+            for (int i = 0; i < _slotObjects.Count; i++)
+            {
+                if (_slotVisuals[i] == null) continue;
+                _slotVisuals[i].SetActive(i == (int)slotIndex);
+            }
+        }
+
+        private void CollectSlotValuable(EntityRef playerEntity, EntityRef valuableEntity, int slotIndex)
+        {
+            if (playerEntity != EntityRef) return;
+
+            var frame = VerifiedFrame;
+            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+
+            var fpsPrefab = frame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
+            var index = (int)slotIndex;
+
+            _slotEntities[index] = valuableEntity;
+            _slotVisuals[index] = Instantiate(fpsPrefab, _slotObjects[index].transform);
+
+            _slotVisuals[index].SetActive(index == _selectedSlotIndex);
+
+            if (frame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight))
+            {
+                var light = _slotVisuals[index].GetComponentInChildren<Light>(true);
+                light.enabled = flashlight->IsOn;
+            }
+            else if (frame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable))
+            {
+                if (consumable->IsUsed)
+                {
+                    var renderer = _slotVisuals[index].GetComponentInChildren<Renderer>(true);
+                    renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
+                }
+            }
         }
     }
 }

@@ -10,31 +10,61 @@ namespace Quantum
         {
             public FPVector3 Position;
             public FPQuaternion Rotation;
+
+            public static SpawnPointData Default =>
+                new SpawnPointData
+                {
+                    Position = FPVector3.Zero,
+                    Rotation = FPQuaternion.Identity
+                };
         }
 
-        public SpawnPointData DefaultSpawnPoint;
-        public SpawnPointData[] SpawnPoints;
-
-        public void SetEntityToSpawnPoint(Frame frame, EntityRef entity, Int32? index)
+        [Serializable]
+        public struct ValuableSpawnPointData
         {
-            var spawnPoint = index.HasValue && index.Value < SpawnPoints.Length
-                ? SpawnPoints[index.Value]
-                : DefaultSpawnPoint;
+            public SpawnPointData Data;
+            public AssetRef<EntityPrototype>[] PossibleValuables;
+        }
+
+        public SpawnPointData[] PlayerSpawnPoints;
+        public ValuableSpawnPointData[] ValuableSpawnPoints;
+
+        public void SetPlayerToRandomSpawnPoint(Frame frame, EntityRef entity)
+        {
+            SetEntityToRandomSpawnPoint(frame, entity, PlayerSpawnPoints);
+        }
+
+        public void SpawnValuables(Frame frame, bool inShop = false)
+        {
+            for (int i = 0; i < ValuableSpawnPoints.Length; i++)
+            {
+                var index = frame.RNG->Next(0, ValuableSpawnPoints[i].PossibleValuables.Length);
+
+                var valuableEntity = frame.Create(ValuableSpawnPoints[i].PossibleValuables[index]);
+                SetToSpawnPoint(frame, valuableEntity, ValuableSpawnPoints[i].Data);
+
+                if (inShop)
+                {
+                    if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+                    valuable->IsShopValuable = true;
+                }
+            }
+        }
+
+        private void SetEntityToRandomSpawnPoint(Frame frame, EntityRef entity, SpawnPointData[] spawnPoints)
+        {
+            var index = frame.RNG->Next(0, spawnPoints.Length);
+
+            SpawnPointData spawnPoint = SpawnPointData.Default;
+            if (spawnPoints.Length > 0)
+            {
+                spawnPoint = spawnPoints[index];
+            }
 
             SetToSpawnPoint(frame, entity, spawnPoint);
         }
 
-        public void SetEntityToRandomSpawnPoint(Frame frame, EntityRef entity)
-        {
-            var index = frame.RNG->Next(0, SpawnPoints.Length);
-            var spawnPoint = SpawnPoints.Length > 0
-                ? SpawnPoints[index]
-                : DefaultSpawnPoint;
-
-            SetToSpawnPoint(frame, entity, spawnPoint);
-        }
-
-        private void SetToSpawnPoint(Frame frame, EntityRef entity, SpawnPointData spawnPoint)
+        public void SetToSpawnPoint(Frame frame, EntityRef entity, SpawnPointData spawnPoint)
         {
             var transform = frame.Unsafe.GetPointer<Transform3D>(entity);
 

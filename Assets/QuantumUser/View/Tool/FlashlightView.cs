@@ -10,24 +10,31 @@ namespace Quantum
         {
             QuantumEvent.Subscribe<EventFlashlightToggled>(this, OnEventFlashlightToggled);
             QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
+
+            VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(EntityRef, out var flashlight);
+
+            SetFlashlight(EntityRef, flashlight->IsOn);
         }
 
         private void OnEventValuableDropped(EventValuableDropped e)
         {
             if (EntityRef != e.ValuableEntity) return;
 
-            var frame = VerifiedFrame;
+            VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(e.ValuableEntity, out var flashlight);
 
-            frame.Unsafe.TryGetPointer<Flashlight>(e.ValuableEntity, out var flashlight);
-
-            _light.enabled = flashlight->IsOn;
+            SetFlashlight(e.ValuableEntity, flashlight->IsOn);
         }
 
         private void OnEventFlashlightToggled(EventFlashlightToggled e)
         {
-            if (EntityRef != e.FlashlightEntity) return;
+            SetFlashlight(e.FlashlightEntity, e.IsOn);
+        }
 
-            _light.enabled = e.IsOn;
+        private void SetFlashlight(EntityRef flashlightEntity, bool isOn)
+        {
+            if (EntityRef != flashlightEntity) return;
+
+            _light.enabled = isOn;
         }
     }
 }

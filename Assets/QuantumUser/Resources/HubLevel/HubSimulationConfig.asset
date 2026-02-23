@@ -97,7 +97,7 @@ MonoBehaviour:
     - 3D Overlay
     - 
     - 
-    - 
+    - World
     - Player
     - LocalPlayer
     - ShopValuable
@@ -120,7 +120,7 @@ MonoBehaviour:
     - 
     - 
     - 
-    LayerMatrix: ffdfffffffdfffffffdfffffffffffffffdfffffffdfffffffdfffffffffffffffffffffffffffffffdfffffffdfffffffffffff88f3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    LayerMatrix: ffdfffffffdfffffffdfffffffffffffffdfffffffdfffffffdfffffffffffffffffffffffddffffffdfffffffdfffffffffffff88f1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   Navigation:
     DefaultNavMeshAgent:
       Id:

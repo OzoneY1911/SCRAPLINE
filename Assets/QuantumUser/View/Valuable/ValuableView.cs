@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public class ValuableView : QuantumEntityViewComponent
+    public unsafe class ValuableView : QuantumEntityViewComponent
     {
         [SerializeField] private GameObject _damagePrefab;
 
@@ -12,6 +12,13 @@ namespace Quantum
             QuantumEvent.Subscribe<EventValuableHit>(this, OnEventValuableHit);
             QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
             QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
+            
+            if (!VerifiedFrame.Unsafe.TryGetPointer<PhysicsBody3D>(EntityRef, out var physicsBody)) return;
+
+            if (!physicsBody->Enabled)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnEventValuableHit(EventValuableHit e)

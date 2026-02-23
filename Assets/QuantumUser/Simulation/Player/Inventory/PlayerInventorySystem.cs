@@ -1,6 +1,6 @@
 namespace Quantum
 {
-    public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted, ISignalOnValuableDropRequested
+    public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted, ISignalOnValuableDropRequested, ISignalOnShopValuableDestroyed
     {
         public struct Filter
         {
@@ -72,6 +72,25 @@ namespace Quantum
         public void OnValuableDropRequested(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
         {
             DropValuable(frame, playerEntity);
+        }
+
+        public void OnShopValuableDestroyed(Frame frame, EntityRef valuableEntity)
+        {
+            var activePlayers = frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers);
+
+            foreach (var activePlayer in activePlayers)
+            {
+                if (!frame.Unsafe.TryGetPointer<PlayerInventory>(activePlayer.Value, out var playerInventory)) return;
+
+                for (int i = 0; i < playerInventory->Slots.Length; i++)
+                {
+                    if (playerInventory->Slots[i] == valuableEntity)
+                    {
+                        playerInventory->Slots[i] = EntityRef.None;
+                        frame.Events.ValuableDropped(activePlayer.Value, valuableEntity, (SlotIndex)i);
+                    }
+                }
+            }
         }
 
         private void SelectSlot(Frame frame, EntityRef playerEntity, SlotIndex selectedSlotIndex)
