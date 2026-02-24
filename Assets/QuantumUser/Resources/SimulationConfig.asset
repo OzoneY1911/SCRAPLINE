@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30f6d93ec78efe4b808efdf1c8e136f, type: 3}
-  m_Name: HubSimulationConfig
+  m_Name: SimulationConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/HubLevel/HubSimulationConfig
+    Path: QuantumUser/Resources/SimulationConfig
     Guid:
       Value: 326530903947696056
   Entities:
@@ -30,7 +30,7 @@ MonoBehaviour:
       Z:
         RawValue: 0
     SolverType: 1
-    SolverIterations: 4
+    SolverIterations: 6
     PositionSolverIterations: 2
     UseJoints: 1
     UseAngularVelocity: 1
@@ -40,9 +40,9 @@ MonoBehaviour:
     PenetrationCorrection:
       RawValue: 32768
     MinLinearIntegration:
-      RawValue: 0
+      RawValue: 328
     MinAngularIntegration:
-      RawValue: 0
+      RawValue: 328
     MinContactInverseMass:
       RawValue: 35
     SimplexMinBitShift: 0
@@ -53,9 +53,9 @@ MonoBehaviour:
       RawValue: 66
     ShapeCastSoftTolerance:
       RawValue: 3277
-    AllowSleeping: 0
+    AllowSleeping: 1
     SleepTimeSec:
-      RawValue: 32768
+      RawValue: 16384
     LinearSleepTolerance:
       RawValue: 1311
     AngularSleepToleranceInRad:

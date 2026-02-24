@@ -17,7 +17,7 @@ MonoBehaviour:
     Guid:
       Value: 505189093148078631
   Restitution:
-    RawValue: 16384
+    RawValue: 0
   RestitutionCombineFunction: 1
   FrictionStatic:
     RawValue: 655360

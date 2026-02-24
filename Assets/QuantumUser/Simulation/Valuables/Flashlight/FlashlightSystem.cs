@@ -55,7 +55,7 @@ namespace Quantum
 
             flashlight->CurrentCharge -= config.DischargePerSecond * frame.DeltaTime;
 
-            if (flashlight->CurrentCharge <= FP._0)
+            if (flashlight->CurrentCharge <= FP._0 && flashlight->IsOn)
             {
                 flashlight->CurrentCharge = FP._0;
                 ToggleFlashlight(frame, flashlightEntity);
@@ -66,7 +66,7 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Flashlight>(flashlightEntity, out var flashlight)) return;
 
-            if (!flashlight->IsOn && flashlight->CurrentCharge <= 0) return;
+            if (!flashlight->IsOn && flashlight->CurrentCharge <= FP._0) return;
 
             flashlight->IsOn = !flashlight->IsOn;
 
