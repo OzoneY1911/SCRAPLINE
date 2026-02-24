@@ -119,127 +119,7 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
-          RawValue: 70713
-        Z:
-          RawValue: -211877
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1433569620044031698
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 75956
-        Z:
-          RawValue: -68747
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1342479856752798171
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 75956
-        Z:
-          RawValue: 28311
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
           RawValue: 107544
-        Z:
-          RawValue: 69271
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 75956
-        Z:
-          RawValue: -113705
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1342479856752798171
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 75956
-        Z:
-          RawValue: 73269
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 69009
         Z:
           RawValue: -256835
       Rotation:
@@ -259,27 +139,7 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
-          RawValue: 107544
-        Z:
-          RawValue: -113705
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 46340
-        Z:
-          RawValue: 46340
-        W:
-          RawValue: 0
-    PossibleValuables:
-    - Id:
-        Value: 1342479856752798171
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 107544
+          RawValue: 75956
         Z:
           RawValue: 28311
       Rotation:
@@ -319,9 +179,9 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
-          RawValue: 107544
+          RawValue: 70713
         Z:
-          RawValue: -256835
+          RawValue: -211877
       Rotation:
         X:
           RawValue: 0
@@ -334,6 +194,26 @@ MonoBehaviour:
     PossibleValuables:
     - Id:
         Value: 1433569620044031698
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 107544
+        Z:
+          RawValue: 69271
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1278256861798324795
   - Data:
       Position:
         X:
@@ -354,3 +234,123 @@ MonoBehaviour:
     PossibleValuables:
     - Id:
         Value: 1342479856752798171
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 107544
+        Z:
+          RawValue: 28311
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1278256861798324795
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 75956
+        Z:
+          RawValue: -113705
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1342479856752798171
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 107544
+        Z:
+          RawValue: -113705
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1342479856752798171
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 75956
+        Z:
+          RawValue: 73269
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1278256861798324795
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 75956
+        Z:
+          RawValue: -68747
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1342479856752798171
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 69009
+        Z:
+          RawValue: -256835
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 46340
+        Z:
+          RawValue: 46340
+        W:
+          RawValue: 0
+    PossibleValuables:
+    - Id:
+        Value: 1433569620044031698

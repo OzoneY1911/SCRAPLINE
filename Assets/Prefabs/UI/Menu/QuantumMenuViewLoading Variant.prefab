@@ -88,9 +88,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4941634134265132288, guid: 921f4f1c7abe9b147a0a2cb6a23c5ae9, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434524747966175915, guid: 921f4f1c7abe9b147a0a2cb6a23c5ae9, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 8306388515897323698, guid: 921f4f1c7abe9b147a0a2cb6a23c5ae9, type: 3}
       propertyPath: m_Name
-      value: QuantumMenuViewLoading
+      value: QuantumMenuViewLoading Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8306388515897323698, guid: 921f4f1c7abe9b147a0a2cb6a23c5ae9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
