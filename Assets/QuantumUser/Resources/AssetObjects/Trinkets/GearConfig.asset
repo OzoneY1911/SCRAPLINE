@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebc2e46e55d24046b82d56360203e19, type: 3}
+  m_Name: GearConfig
+  m_EditorClassIdentifier: Quantum.Simulation::Quantum.ValuableConfig
+  Identifier:
+    Path: QuantumUser/Resources/AssetObjects/Trinkets/GearConfig
+    Guid:
+      Value: 281006432171164239
+  DisplayName: Gear
+  IsPocketValuable: 1
+  DefaultValue: 500
+  DefaultFragility: 1
+  FPSPrefab: {fileID: 5959611429383783748, guid: ff29beec75c461a4e859fe8232ac3e7b, type: 3}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ebc2e46e55d24046b82d56360203e19, type: 3}
-  m_Name: TestValuable2
+  m_Name: TestValuable
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Valuables/TestValuable2
+    Path: QuantumUser/Resources/AssetObjects/Trinkets/TestValuable
     Guid:
-      Value: 435649092733232644
-  DisplayName: Micro Laser
+      Value: 367865957861589057
+  DisplayName: Massive Shotgun
   IsPocketValuable: 1
   DefaultValue: 300
   DefaultFragility: 1
