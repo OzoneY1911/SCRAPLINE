@@ -18,25 +18,19 @@ namespace Quantum
             var playerSpawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
             var valuableSpawnPoints = GameObject.FindObjectsByType<ValuableSpawnPoint>(FindObjectsSortMode.None);
 
-            if (playerSpawnPoints.Length != 0)
+            customData.PlayerSpawnPoints = new MapCustomData.SpawnPointData[playerSpawnPoints.Length];
+            for (var i = 0; i < playerSpawnPoints.Length; i++)
             {
-                customData.PlayerSpawnPoints = new MapCustomData.SpawnPointData[playerSpawnPoints.Length];
-                for (var i = 0; i < playerSpawnPoints.Length; i++)
-                {
-                    customData.PlayerSpawnPoints[i].Position = playerSpawnPoints[i].transform.position.ToFPVector3();
-                    customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.rotation.ToFPQuaternion();
-                }
+                customData.PlayerSpawnPoints[i].Position = playerSpawnPoints[i].transform.position.ToFPVector3();
+                customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.rotation.ToFPQuaternion();
             }
             
-            if (valuableSpawnPoints.Length != 0)
+            customData.ValuableSpawnPoints = new MapCustomData.ValuableSpawnPointData[valuableSpawnPoints.Length];
+            for (var i = 0; i < valuableSpawnPoints.Length; i++)
             {
-                customData.ValuableSpawnPoints = new MapCustomData.ValuableSpawnPointData[valuableSpawnPoints.Length];
-                for (var i = 0; i < valuableSpawnPoints.Length; i++)
-                {
-                    customData.ValuableSpawnPoints[i].Data.Position = valuableSpawnPoints[i].transform.position.ToFPVector3();
-                    customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.rotation.ToFPQuaternion();
-                    customData.ValuableSpawnPoints[i].PossibleValuables = valuableSpawnPoints[i].PossibleValuables;
-                }
+                customData.ValuableSpawnPoints[i].Data.Position = valuableSpawnPoints[i].transform.position.ToFPVector3();
+                customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.rotation.ToFPQuaternion();
+                customData.ValuableSpawnPoints[i].PossibleValuables = valuableSpawnPoints[i].PossibleValuables;
             }
 
 #if UNITY_EDITOR

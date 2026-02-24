@@ -9598,7 +9598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2539215502673194253, guid: 3bc5a9766ae713e4585d78764a1b8066, type: 3}
       propertyPath: debugEchoMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2833411613007952341, guid: 3bc5a9766ae713e4585d78764a1b8066, type: 3}
       propertyPath: m_LocalPosition.x
