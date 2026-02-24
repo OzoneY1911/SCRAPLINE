@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7111138966880465156}
   m_Layer: 5
-  m_Name: QuantumMenuFieldToggle
+  m_Name: MenuFieldToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

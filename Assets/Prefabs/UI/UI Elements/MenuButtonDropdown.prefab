@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 7853346022713111699}
   - component: {fileID: 4552852222790957095}
   m_Layer: 5
-  m_Name: QuantumMenuButtonDropdown
+  m_Name: MenuButtonDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

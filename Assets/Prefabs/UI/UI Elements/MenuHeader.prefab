@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9063528844095650070}
   m_Layer: 5
-  m_Name: QuantumMenuMenuHeader
+  m_Name: MenuHeader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
