@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.Rendering;
 using System.Collections.Generic;
 
 namespace Quantum
@@ -35,13 +36,6 @@ namespace Quantum
 
                 // Local player is always predicted.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
-
-                var playerRenderers = GetComponentsInChildren<Renderer>(true);
-
-                foreach (var renderer in playerRenderers)
-                {
-                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-                }
             }
             else
             {
@@ -54,6 +48,20 @@ namespace Quantum
 
                 // Other player views are snapshot interpolated.
                 EntityView.InterpolationMode = QuantumEntityViewInterpolationMode.SnapshotInterpolation;
+            }
+
+            var playerRenderers = GetComponentsInChildren<Renderer>(true);
+
+            foreach (var renderer in playerRenderers)
+            {
+                if (_isLocal && !renderer.gameObject.CompareTag("FPV"))
+                {
+                    renderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+                }
+                else if (!_isLocal && renderer.gameObject.CompareTag("FPV"))
+                {
+                    renderer.enabled = false;
+                }
             }
         }
 

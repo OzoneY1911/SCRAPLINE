@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerSpawnPoint
+  - FPV
   layers:
   - Default
   - TransparentFX

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public class PlayerAnimatorView : QuantumEntityViewComponent
+    public class PlayerTPVAnimatorView : QuantumEntityViewComponent
     {
         [SerializeField] private Animator _animator;
 
