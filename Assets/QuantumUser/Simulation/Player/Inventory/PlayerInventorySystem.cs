@@ -1,3 +1,5 @@
+using Photon.Deterministic;
+
 namespace Quantum
 {
     public unsafe class PlayerInventorySystem : SystemMainThreadFilter<PlayerInventorySystem.Filter>, ISignalOnValuableCollectAttempted, ISignalOnValuableDropRequested, ISignalOnShopValuableDestroyed
@@ -122,7 +124,22 @@ namespace Quantum
             var playerBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerEntity);
             var valuableTransform = frame.Unsafe.GetPointer<Transform3D>(selectedValuableEntity);
 
-            var dropPosition = input->CameraPosition + input->CameraForward * player->InteractionDistance;
+            var dropDistance = player->InteractionDistance;
+
+            var hit = frame.Physics3D.Raycast(
+                input->CameraPosition,
+                input->CameraForward,
+                player->InteractionDistance,
+                ~player->LocalMask,
+                QueryOptions.HitSolids
+            );
+
+            if (hit.HasValue)
+            {
+                dropDistance = hit.Value.CastDistanceNormalized * player->InteractionDistance;
+            }
+
+            var dropPosition = input->CameraPosition + input->CameraForward * dropDistance;
 
             valuableTransform->Teleport(frame, dropPosition);
 

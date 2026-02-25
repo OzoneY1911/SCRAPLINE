@@ -396,6 +396,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _light: {fileID: 2609274149478297922}
+  _glassRenderer: {fileID: 2094414429052359860}
+  _isOffMaterial: {fileID: 2100000, guid: 25e093a3365efcf478aea1a7e5e9efec, type: 2}
+  _isOnMaterial: {fileID: 2100000, guid: d705a608f8c26d9489eb57e9f01e0fe4, type: 2}
 --- !u!1 &6999088266972997198
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,5 +699,10 @@ PrefabInstance:
 --- !u!4 &962633490531200987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
+  m_PrefabInstance: {fileID: 779491562810558512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2094414429052359860 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
   m_PrefabInstance: {fileID: 779491562810558512}
   m_PrefabAsset: {fileID: 0}

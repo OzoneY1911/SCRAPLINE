@@ -4,7 +4,13 @@ namespace Quantum
 {
     public unsafe class FlashlightView : QuantumEntityViewComponent
     {
+        [Header("Light Settings")]
         [SerializeField] private Light _light;
+
+        [Header("Glass Settings")]
+        [SerializeField] private Renderer _glassRenderer;
+        [SerializeField] private Material _isOffMaterial;
+        [SerializeField] private Material _isOnMaterial;
 
         public override void OnActivate(Frame frame)
         {
@@ -35,6 +41,14 @@ namespace Quantum
             if (EntityRef != flashlightEntity) return;
 
             _light.enabled = isOn;
+
+            var flashlightMaterials = _glassRenderer.sharedMaterials;
+
+            flashlightMaterials[1] = isOn
+                ? _isOnMaterial
+                : _isOffMaterial;
+
+            _glassRenderer.sharedMaterials = flashlightMaterials;
         }
     }
 }
