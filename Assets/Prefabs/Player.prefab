@@ -958,12 +958,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5574097544784997768, guid: 343251dc539a7704f810a2662a0708cb, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: -5574097544784997768, guid: 343251dc539a7704f810a2662a0708cb, type: 3}
       propertyPath: m_TagString
       value: FPV
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 343251dc539a7704f810a2662a0708cb, type: 3}
       propertyPath: m_Name
       value: FPV_arms_export
+      objectReference: {fileID: 0}
+    - target: {fileID: 4519527987472736825, guid: 343251dc539a7704f810a2662a0708cb, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4519527987472736825, guid: 343251dc539a7704f810a2662a0708cb, type: 3}
       propertyPath: m_TagString

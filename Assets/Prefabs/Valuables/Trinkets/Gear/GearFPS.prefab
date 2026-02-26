@@ -85,6 +85,10 @@ PrefabInstance:
       value: GEAR
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6f244de3d59765e42b2ead52bad6dbf4, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6f244de3d59765e42b2ead52bad6dbf4, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

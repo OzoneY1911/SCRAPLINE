@@ -1397,6 +1397,11 @@ MonoBehaviour:
   m_RayMaxIterationsRT:
     m_OverrideState: 1
     m_Value: 48
+  adaptiveProbeVolumesLayerMask:
+    m_OverrideState: 1
+    m_Value:
+      serializedVersion: 0
+      m_Bits: 1
 --- !u!114 &1406766616202939563
 MonoBehaviour:
   m_ObjectHideFlags: 3
