@@ -22,14 +22,14 @@ namespace Quantum
             for (var i = 0; i < playerSpawnPoints.Length; i++)
             {
                 customData.PlayerSpawnPoints[i].Position = playerSpawnPoints[i].transform.position.ToFPVector3();
-                customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.rotation.ToFPQuaternion();
+                customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.localRotation.ToFPQuaternion();
             }
             
             customData.ValuableSpawnPoints = new MapCustomData.ValuableSpawnPointData[valuableSpawnPoints.Length];
             for (var i = 0; i < valuableSpawnPoints.Length; i++)
             {
                 customData.ValuableSpawnPoints[i].Data.Position = valuableSpawnPoints[i].transform.position.ToFPVector3();
-                customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.rotation.ToFPQuaternion();
+                customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.localRotation.ToFPQuaternion();
                 customData.ValuableSpawnPoints[i].PossibleValuables = valuableSpawnPoints[i].PossibleValuables;
             }
 
