@@ -1610,7 +1610,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct PlayerDragging : Quantum.IComponent {
-    public const Int32 SIZE = 120;
+    public const Int32 SIZE = 128;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     [HideInInspector()]
@@ -1618,23 +1618,26 @@ namespace Quantum {
     [FieldOffset(8)]
     [HideInInspector()]
     public EntityRef DraggedEntity;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     [HideInInspector()]
     public FP DragDistance;
-    [FieldOffset(64)]
+    [FieldOffset(72)]
     [HideInInspector()]
     public FPVector3 GrabLocalPoint;
-    [FieldOffset(48)]
-    public FP PushPullStep;
-    [FieldOffset(40)]
-    public FP MinDragDistance;
-    [FieldOffset(32)]
-    public FP MaxDragDistance;
-    [FieldOffset(16)]
-    public FP DampingRatio;
     [FieldOffset(56)]
+    public FP PushPullStep;
+    [FieldOffset(48)]
+    public FP MinDragDistance;
+    [FieldOffset(40)]
+    public FP MaxDragDistance;
+    [FieldOffset(24)]
+    public FP DampingRatio;
+    [FieldOffset(64)]
     public FP SagPerMass;
-    [FieldOffset(88)]
+    [FieldOffset(16)]
+    [Header("Angular Settings")]
+    public FP AngularStiffness;
+    [FieldOffset(96)]
     [HideInInspector()]
     public FPQuaternion DraggedRelativeRotation;
     public override readonly Int32 GetHashCode() {
@@ -1649,6 +1652,7 @@ namespace Quantum {
         hash = hash * 31 + MaxDragDistance.GetHashCode();
         hash = hash * 31 + DampingRatio.GetHashCode();
         hash = hash * 31 + SagPerMass.GetHashCode();
+        hash = hash * 31 + AngularStiffness.GetHashCode();
         hash = hash * 31 + DraggedRelativeRotation.GetHashCode();
         return hash;
       }
@@ -1657,6 +1661,7 @@ namespace Quantum {
         var p = (PlayerDragging*)ptr;
         QBoolean.Serialize(&p->IsDragging, serializer);
         EntityRef.Serialize(&p->DraggedEntity, serializer);
+        FP.Serialize(&p->AngularStiffness, serializer);
         FP.Serialize(&p->DampingRatio, serializer);
         FP.Serialize(&p->DragDistance, serializer);
         FP.Serialize(&p->MaxDragDistance, serializer);

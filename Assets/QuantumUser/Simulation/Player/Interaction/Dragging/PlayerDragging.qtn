@@ -13,5 +13,8 @@ component PlayerDragging
     FP DampingRatio;
     FP SagPerMass;
 
+    [Header("Angular Settings")]
+    FP AngularStiffness;
+
     [HideInInspector] FPQuaternion DraggedRelativeRotation;
 }

@@ -569,6 +569,8 @@ namespace Quantum.Prototypes {
     public FP MaxDragDistance;
     public FP DampingRatio;
     public FP SagPerMass;
+    [Header("Angular Settings")]
+    public FP AngularStiffness;
     [UnitAttribute(Units.Degrees)]
     [HideInInspector()]
     public FPVector3 DraggedRelativeRotation;
@@ -587,6 +589,7 @@ namespace Quantum.Prototypes {
         result.MaxDragDistance = this.MaxDragDistance;
         result.DampingRatio = this.DampingRatio;
         result.SagPerMass = this.SagPerMass;
+        result.AngularStiffness = this.AngularStiffness;
         result.DraggedRelativeRotation = FPQuaternion.Euler(this.DraggedRelativeRotation);
     }
   }

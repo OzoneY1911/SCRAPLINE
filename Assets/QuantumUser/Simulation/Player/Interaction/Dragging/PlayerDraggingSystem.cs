@@ -47,7 +47,7 @@ namespace Quantum
 
                 if (input->Use.IsDown && input->LookRotationDelta != FPVector2.Zero)
                 {
-                    //RotateDraggable(frame, ref filter);
+                    RotateDraggable(frame, ref filter);
                 }
 
                 if (input->CollectValuable.WasPressed)
@@ -152,20 +152,16 @@ namespace Quantum
 
             if (!frame.Unsafe.TryGetPointer<Transform3D>(playerDragging->DraggedEntity, out var draggedTransform)) return;
 
-            // --- Rotation drive ---
-            FPQuaternion cameraRotation = FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up);
-
             // Use camera rotation instead of player body rotation
-            FPQuaternion targetRotation = cameraRotation * playerDragging->DraggedRelativeRotation;
+            FPQuaternion targetRotation = FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up) * playerDragging->DraggedRelativeRotation;
 
             // Get rotation difference (from current to target)
             FPQuaternion currentRotation = draggedTransform->Rotation;
-            FPQuaternion deltaRot = targetRotation * FPQuaternion.Inverse(currentRotation);
 
-            deltaRot = deltaRot.Normalized; // ensure it's a unit quaternion
+            FPQuaternion deltaRotation = (targetRotation * FPQuaternion.Inverse(currentRotation)).Normalized;
 
             // Clamp W into [-1, 1] to avoid sqrt/acos domain errors
-            FP w = FPMath.Clamp(deltaRot.W, -FP._1, FP._1);
+            FP w = FPMath.Clamp(deltaRotation.W, -FP._1, FP._1);
 
             // Compute angle
             FP angle = FP._2 * FPMath.Acos(w);
@@ -177,9 +173,9 @@ namespace Quantum
             if (FPMath.Abs(sinHalfAngle) > FP.Epsilon)
             {
                 axis = new FPVector3(
-                    deltaRot.X / sinHalfAngle,
-                    deltaRot.Y / sinHalfAngle,
-                    deltaRot.Z / sinHalfAngle
+                    deltaRotation.X / sinHalfAngle,
+                    deltaRotation.Y / sinHalfAngle,
+                    deltaRotation.Z / sinHalfAngle
                 );
             }
             else
@@ -194,16 +190,18 @@ namespace Quantum
                 angle -= FP.Pi * FP._2;
             }
 
-            // Angular velocity needed to reach target
-            FP angularStiffness = FP._0_10; // tweak
+            FPVector3 desiredAngularVelocity = axis * angle * filter.PlayerDragging->AngularStiffness;
 
-            FPVector3 desiredAngularVel = axis * (angle * angularStiffness);
-            FPVector3 deltaAngularVel = desiredAngularVel - draggedBody->AngularVelocity;
+            FPVector3 deltaAngularVelocity = desiredAngularVelocity - draggedBody->AngularVelocity;
+            FP deltaMagnitude = deltaAngularVelocity.Magnitude;
+
+            if (deltaMagnitude > 3)
+            {
+                deltaAngularVelocity = deltaAngularVelocity / deltaMagnitude * 3;
+            }
 
             // Impulse = I * Δω * dt
-            // For simplicity, assume symmetrical inertia: I = Mass * radius² (Quantum doesn't expose per-axis inertia easily)
-            FP mass = draggedBody->Mass;
-            FPVector3 angularImpulse = deltaAngularVel * mass * frame.DeltaTime * angularStiffness * angularStiffness;
+            FPVector3 angularImpulse = deltaAngularVelocity * frame.DeltaTime;
 
             draggedBody->AddAngularImpulse(angularImpulse);
         }
@@ -240,9 +238,8 @@ namespace Quantum
             FPVector3 camRight = playerRot * FPVector3.Right;
             FPVector3 camUp = playerRot * FPVector3.Up;
 
-            // Apply pitch (around camera right) and yaw (around camera up)
-            FPQuaternion pitchRot = FPQuaternion.AngleAxis(upDelta, camRight);
-            FPQuaternion yawRot = FPQuaternion.AngleAxis(-rightDelta, camUp); // negative to feel natural
+            FPQuaternion pitchRot = FPQuaternion.AngleAxis(upDelta, camUp);
+            FPQuaternion yawRot = FPQuaternion.AngleAxis(-rightDelta, camRight); // negative to feel natural
 
             // Combine
             draggedTransform->Rotation = yawRot * pitchRot * draggedTransform->Rotation;

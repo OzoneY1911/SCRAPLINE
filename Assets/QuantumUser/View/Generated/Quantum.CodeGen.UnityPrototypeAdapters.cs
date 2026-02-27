@@ -154,6 +154,8 @@ namespace Quantum.Prototypes.Unity {
     public FP MaxDragDistance;
     public FP DampingRatio;
     public FP SagPerMass;
+    [Header("Angular Settings")]
+    public FP AngularStiffness;
     [UnitAttribute(Units.Degrees)]
     [HideInInspector()]
     public FPVector3 DraggedRelativeRotation;
@@ -169,6 +171,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.MaxDragDistance, out result.MaxDragDistance);
       converter.Convert(this.DampingRatio, out result.DampingRatio);
       converter.Convert(this.SagPerMass, out result.SagPerMass);
+      converter.Convert(this.AngularStiffness, out result.AngularStiffness);
       converter.Convert(this.DraggedRelativeRotation, out result.DraggedRelativeRotation);
       ConvertUser(converter, ref result);
       return result;
