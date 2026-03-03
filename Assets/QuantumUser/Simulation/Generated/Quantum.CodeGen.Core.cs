@@ -94,6 +94,7 @@ namespace Quantum {
   }
   public enum MonsterState : int {
     Patrol,
+    Chase,
   }
   public enum ResourceType : int {
     Metal,
@@ -1552,26 +1553,25 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Monster : Quantum.IComponent {
-    public const Int32 SIZE = 8;
-    public const Int32 ALIGNMENT = 4;
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public AssetRef<MonsterConfig> Config;
     [FieldOffset(0)]
     [HideInInspector()]
     public MonsterState State;
-    [FieldOffset(4)]
-    [HideInInspector()]
-    public QBoolean HasTarget;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 5297;
+        hash = hash * 31 + Config.GetHashCode();
         hash = hash * 31 + (Int32)State;
-        hash = hash * 31 + HasTarget.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Monster*)ptr;
         serializer.Stream.Serialize((Int32*)&p->State);
-        QBoolean.Serialize(&p->HasTarget, serializer);
+        AssetRef.Serialize(&p->Config, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]

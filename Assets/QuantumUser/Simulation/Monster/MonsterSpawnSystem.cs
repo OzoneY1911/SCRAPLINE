@@ -12,10 +12,6 @@ namespace Quantum
             var monsterEntity = frame.Create(customData.MonsterPrototypes[monsterIndex]);
 
             customData.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
-
-            if (!frame.Unsafe.TryGetPointer<Monster>(monsterEntity, out var monster)) return;
-
-            monster->State = MonsterState.Patrol;
         }
     }
 }

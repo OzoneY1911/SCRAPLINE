@@ -2,10 +2,18 @@ using Photon.Deterministic;
 
 namespace Quantum
 {
-    public unsafe class MonsterSystem : SystemSignalsOnly, ISignalOnNavMeshWaypointReached, ISignalOnComponentAdded<NavMeshPathfinder>
+    public unsafe class MonsterSystem : SystemMainThreadFilter<MonsterSystem.Filter>, ISignalOnNavMeshWaypointReached, ISignalOnComponentAdded<NavMeshPathfinder>
     {
+        public struct Filter
+        {
+            public EntityRef Entity;
+            public Monster* Monster;
+            public NavMeshPathfinder* Pathfinder;
+        }
+
         public void OnAdded(Frame frame, EntityRef entity, NavMeshPathfinder* pathfinder)
         {
+            frame.Unsafe.GetPointer<Monster>(entity)->State = MonsterState.Patrol;
             SetPatrolTarget(frame, pathfinder);
         }
 
@@ -15,6 +23,15 @@ namespace Quantum
 
             resetAgent = false;
             SetPatrolTarget(frame, pathfinder);
+        }
+
+        public override void Update(Frame frame, ref Filter filter)
+        {
+            switch (filter.Monster->State)
+            {
+                case MonsterState.Patrol:
+                    break;
+            }
         }
 
         private void SetPatrolTarget(Frame frame, NavMeshPathfinder* pathfinder)

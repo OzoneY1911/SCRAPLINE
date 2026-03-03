@@ -1,4 +1,5 @@
 enum MonsterState
 {
-	Patrol
+	Patrol,
+	Chase
 }

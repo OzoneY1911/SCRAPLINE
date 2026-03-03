@@ -1,8 +1,7 @@
 component Monster
 {
-	[HideInInspector]
-	MonsterState State;
+	asset_ref<MonsterConfig> Config;
 
 	[HideInInspector]
-	Boolean HasTarget;
+	MonsterState State;
 }
