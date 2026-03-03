@@ -489,6 +489,25 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Monster))]
+  public unsafe partial class MonsterPrototype : ComponentPrototype<Quantum.Monster> {
+    [HideInInspector()]
+    public Quantum.QEnum32<MonsterState> State;
+    [HideInInspector()]
+    public QBoolean HasTarget;
+    partial void MaterializeUser(Frame frame, ref Quantum.Monster result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Monster component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Monster result, in PrototypeMaterializationContext context = default) {
+        result.State = this.State;
+        result.HasTarget = this.HasTarget;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.NestedChildEntity))]
   public unsafe partial class NestedChildEntityPrototype : StructPrototype {
     public AssetRef<EntityPrototype> Prototype;

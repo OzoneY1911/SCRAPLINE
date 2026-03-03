@@ -1,0 +1,4 @@
+enum MonsterState
+{
+	Patrol
+}

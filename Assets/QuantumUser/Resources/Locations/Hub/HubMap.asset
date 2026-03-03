@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HubMap
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/HubLevel/HubMap
+    Path: QuantumUser/Resources/Locations/Hub/HubMap
     Guid:
       Value: 294401359472373322
   UserAsset:
@@ -37,8 +37,11 @@ MonoBehaviour:
   GridSizeX: 64
   GridSizeY: 64
   GridNodeSize: 4
-  NavMeshLinks: []
-  Regions: []
+  NavMeshLinks:
+  - Id:
+      Value: 412538103374303960
+  Regions:
+  - MainArea
   StaticColliders2D: []
   StaticColliders3D:
   - Rotation:

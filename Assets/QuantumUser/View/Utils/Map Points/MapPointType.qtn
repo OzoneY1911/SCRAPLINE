@@ -1,0 +1,6 @@
+enum MapPointType
+{
+	PlayerSpawnPoint,
+	MonsterSpawnPoint,
+	MonsterPatrolPoint
+}

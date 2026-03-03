@@ -1,37 +1,47 @@
-using Photon.Deterministic;
-using System;
+using UnityEngine;
 
 namespace Quantum
 {
     public unsafe class MapCustomData : AssetObject
     {
-        [Serializable]
-        public struct SpawnPointData
-        {
-            public FPVector3 Position;
-            public FPQuaternion Rotation;
+        [Header("Monster Settings")]
+        public AssetRef<EntityPrototype>[] MonsterPrototypes;
 
-            public static SpawnPointData Default =>
-                new SpawnPointData
-                {
-                    Position = FPVector3.Zero,
-                    Rotation = FPQuaternion.Identity
-                };
-        }
-
-        [Serializable]
-        public struct ValuableSpawnPointData
-        {
-            public SpawnPointData Data;
-            public AssetRef<EntityPrototype>[] PossibleValuables;
-        }
-
-        public SpawnPointData[] PlayerSpawnPoints;
+        [Header("Baked Spawn Points")]
+        public MapPointData[] PlayerSpawnPoints;
+        public MapPointData[] MonsterSpawnPoints;
+        public MapPointData[] MonsterPatrolPoints;
         public ValuableSpawnPointData[] ValuableSpawnPoints;
+
+        private void SetToMapPoint(Frame frame, EntityRef entity, MapPointData mapPoint)
+        {
+            var transform = frame.Unsafe.GetPointer<Transform3D>(entity);
+
+            transform->Position = mapPoint.Position;
+            transform->Rotation = mapPoint.Rotation;
+        }
+
+        private void SetEntityToRandomMapPoint(Frame frame, EntityRef entity, MapPointData[] mapPoints)
+        {
+            var index = frame.RNG->Next(0, mapPoints.Length);
+
+            MapPointData mapPoint = MapPointData.Default;
+            if (mapPoints.Length > 0)
+            {
+                mapPoint = mapPoints[index];
+            }
+
+            SetToMapPoint(frame, entity, mapPoint);
+        }
 
         public void SetPlayerToRandomSpawnPoint(Frame frame, EntityRef entity)
         {
-            SetEntityToRandomSpawnPoint(frame, entity, PlayerSpawnPoints);
+            SetEntityToRandomMapPoint(frame, entity, PlayerSpawnPoints);
+        }
+
+        public void SetMonsterToRandomSpawnPoint(Frame frame, EntityRef entity)
+        {
+            SetEntityToRandomMapPoint(frame, entity, MonsterSpawnPoints);
         }
 
         public void SpawnValuables(Frame frame, bool inShop = false)
@@ -41,7 +51,7 @@ namespace Quantum
                 var index = frame.RNG->Next(0, ValuableSpawnPoints[i].PossibleValuables.Length);
 
                 var valuableEntity = frame.Create(ValuableSpawnPoints[i].PossibleValuables[index]);
-                SetToSpawnPoint(frame, valuableEntity, ValuableSpawnPoints[i].Data);
+                SetToMapPoint(frame, valuableEntity, ValuableSpawnPoints[i].Data);
 
                 if (inShop)
                 {
@@ -49,27 +59,6 @@ namespace Quantum
                     valuable->IsShopValuable = true;
                 }
             }
-        }
-
-        private void SetEntityToRandomSpawnPoint(Frame frame, EntityRef entity, SpawnPointData[] spawnPoints)
-        {
-            var index = frame.RNG->Next(0, spawnPoints.Length);
-
-            SpawnPointData spawnPoint = SpawnPointData.Default;
-            if (spawnPoints.Length > 0)
-            {
-                spawnPoint = spawnPoints[index];
-            }
-
-            SetToSpawnPoint(frame, entity, spawnPoint);
-        }
-
-        public void SetToSpawnPoint(Frame frame, EntityRef entity, SpawnPointData spawnPoint)
-        {
-            var transform = frame.Unsafe.GetPointer<Transform3D>(entity);
-
-            transform->Position = spawnPoint.Position;
-            transform->Rotation = spawnPoint.Rotation;
         }
     }
 }

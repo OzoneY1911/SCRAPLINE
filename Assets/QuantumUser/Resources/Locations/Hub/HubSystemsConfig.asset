@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HubSystemsConfig
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/HubLevel/HubSystemsConfig
+    Path: QuantumUser/Resources/Locations/Hub/HubSystemsConfig
     Guid:
       Value: 504486853805744320
   Entries:
@@ -175,6 +175,18 @@ MonoBehaviour:
     Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.ValuableSpawnSystem, Quantum.Simulation, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.MonsterSpawnSystem, Quantum.Simulation, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.MonsterSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

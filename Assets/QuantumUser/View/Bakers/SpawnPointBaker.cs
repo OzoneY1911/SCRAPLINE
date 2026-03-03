@@ -1,3 +1,5 @@
+using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,29 +17,62 @@ namespace Quantum
 
             if (customData == null) return;
 
-            var playerSpawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            var mapPoints = GameObject.FindObjectsByType<MapPoint>(FindObjectsSortMode.None);
             var valuableSpawnPoints = GameObject.FindObjectsByType<ValuableSpawnPoint>(FindObjectsSortMode.None);
 
-            customData.PlayerSpawnPoints = new MapCustomData.SpawnPointData[playerSpawnPoints.Length];
-            for (var i = 0; i < playerSpawnPoints.Length; i++)
+            List<MapPoint> playerSpawnPoints = new();
+            List<MapPoint> monsterSpawnPoints = new();
+            List<MapPoint> monsterPatrolPoints = new();
+
+            for (int i = 0; i < mapPoints.Length; i++)
             {
-                customData.PlayerSpawnPoints[i].Position = playerSpawnPoints[i].transform.position.ToFPVector3();
-                customData.PlayerSpawnPoints[i].Rotation = playerSpawnPoints[i].transform.localRotation.ToFPQuaternion();
+                switch (mapPoints[i].Type)
+                {
+                    case MapPointType.PlayerSpawnPoint:
+                        playerSpawnPoints.Add(mapPoints[i]);
+                        break;
+                    case MapPointType.MonsterSpawnPoint:
+                        monsterSpawnPoints.Add(mapPoints[i]);
+                        break;
+                    case MapPointType.MonsterPatrolPoint:
+                        monsterPatrolPoints.Add(mapPoints[i]);
+                        break;
+                }
             }
-            
-            customData.ValuableSpawnPoints = new MapCustomData.ValuableSpawnPointData[valuableSpawnPoints.Length];
-            for (var i = 0; i < valuableSpawnPoints.Length; i++)
-            {
-                customData.ValuableSpawnPoints[i].Data.Position = valuableSpawnPoints[i].transform.position.ToFPVector3();
-                customData.ValuableSpawnPoints[i].Data.Rotation = valuableSpawnPoints[i].transform.localRotation.ToFPQuaternion();
-                customData.ValuableSpawnPoints[i].PossibleValuables = valuableSpawnPoints[i].PossibleValuables;
-            }
+
+            BakeMapPoints(playerSpawnPoints.ToArray(), ref customData.PlayerSpawnPoints);
+            BakeMapPoints(monsterSpawnPoints.ToArray(), ref customData.MonsterSpawnPoints);
+            BakeMapPoints(monsterPatrolPoints.ToArray(), ref customData.MonsterPatrolPoints);
+            BakeValuableSpawnPoints(valuableSpawnPoints, ref customData.ValuableSpawnPoints);
 
 #if UNITY_EDITOR
             Debug.Log($"Baked {customData.PlayerSpawnPoints.Length} Player Spawn Points");
+            Debug.Log($"Baked {customData.MonsterSpawnPoints.Length} Monster Spawn Points");
+            Debug.Log($"Baked {customData.MonsterPatrolPoints.Length} Monster Patrol Points");
             Debug.Log($"Baked {customData.ValuableSpawnPoints.Length} Valuable Spawn Points");
             EditorUtility.SetDirty(customData);
 #endif
+        }
+
+        private void BakeMapPoints(MapPoint[] mapPoints, ref MapPointData[] targetArray)
+        {
+            targetArray = new MapPointData[mapPoints.Length];
+            for (var i = 0; i < mapPoints.Length; i++)
+            {
+                targetArray[i].Position = mapPoints[i].transform.position.ToFPVector3();
+                targetArray[i].Rotation = mapPoints[i].transform.localRotation.ToFPQuaternion();
+            }
+        }
+
+        private void BakeValuableSpawnPoints(ValuableSpawnPoint[] spawnPoints, ref ValuableSpawnPointData[] targetArray)
+        {
+            targetArray = new ValuableSpawnPointData[spawnPoints.Length];
+            for (int i = 0; i < spawnPoints.Length; i++)
+            {
+                targetArray[i].Data.Position = spawnPoints[i].transform.position.ToFPVector3();
+                targetArray[i].Data.Rotation = spawnPoints[i].transform.localRotation.ToFPQuaternion();
+                targetArray[i].PossibleValuables = spawnPoints[i].PossibleValuables;
+            }
         }
     }
 }

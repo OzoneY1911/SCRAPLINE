@@ -87,6 +87,14 @@ namespace Quantum {
     InteractableAnimator,
     GameLocationSelector,
   }
+  public enum MapPointType : int {
+    PlayerSpawnPoint,
+    MonsterSpawnPoint,
+    MonsterPatrolPoint,
+  }
+  public enum MonsterState : int {
+    Patrol,
+  }
   public enum ResourceType : int {
     Metal,
     Plastic,
@@ -1543,6 +1551,30 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Monster : Quantum.IComponent {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public MonsterState State;
+    [FieldOffset(4)]
+    [HideInInspector()]
+    public QBoolean HasTarget;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 5297;
+        hash = hash * 31 + (Int32)State;
+        hash = hash * 31 + HasTarget.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Monster*)ptr;
+        serializer.Stream.Serialize((Int32*)&p->State);
+        QBoolean.Serialize(&p->HasTarget, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct NestedParentEntity : Quantum.IComponent {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -2113,6 +2145,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Lever>();
       BuildSignalsArrayOnComponentAdded<MapEntityLink>();
       BuildSignalsArrayOnComponentRemoved<MapEntityLink>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Monster>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Monster>();
       BuildSignalsArrayOnComponentAdded<NavMeshAvoidanceAgent>();
       BuildSignalsArrayOnComponentRemoved<NavMeshAvoidanceAgent>();
       BuildSignalsArrayOnComponentAdded<NavMeshAvoidanceObstacle>();
@@ -2464,6 +2498,9 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Lever), Quantum.Lever.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
+      typeRegistry.Register(typeof(Quantum.MapPointType), 4);
+      typeRegistry.Register(typeof(Quantum.Monster), Quantum.Monster.SIZE);
+      typeRegistry.Register(typeof(Quantum.MonsterState), 4);
       typeRegistry.Register(typeof(NavMeshAvoidanceAgent), NavMeshAvoidanceAgent.SIZE);
       typeRegistry.Register(typeof(NavMeshAvoidanceObstacle), NavMeshAvoidanceObstacle.SIZE);
       typeRegistry.Register(typeof(NavMeshPathfinder), NavMeshPathfinder.SIZE);
@@ -2518,7 +2555,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 25)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 26)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Consumable>(Quantum.Consumable.Serialize, null, null, ComponentFlags.None)
@@ -2534,6 +2571,7 @@ namespace Quantum {
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Lever>(Quantum.Lever.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.Monster>(Quantum.Monster.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.NestedParentEntity>(Quantum.NestedParentEntity.Serialize, null, Quantum.NestedParentEntity.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerDragging>(Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None)
@@ -2559,6 +2597,8 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.GameplayTimerType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InputButtons>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InteractableType>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.MapPointType>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.MonsterState>();
       FramePrinter.EnsurePrimitiveNotStripped<QueryOptions>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ResourceType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.SlotIndex>();
