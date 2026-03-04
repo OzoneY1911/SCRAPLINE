@@ -4,12 +4,16 @@ namespace Quantum
 {
     public unsafe class ConsumableView : QuantumEntityViewComponent
     {
-        [SerializeField] private Renderer _renderer;
+        [SerializeField] private Animator _animator;
 
         public override void OnActivate(Frame frame)
         {
             QuantumEvent.Subscribe<EventOnConsumableUsed>(this, OnEventConsumableUsed);
+        }
 
+        private void OnEnable()
+        {
+            if (VerifiedFrame == null) return;
             if (!VerifiedFrame.Unsafe.TryGetPointer<Consumable>(EntityRef, out var consumable)) return;
 
             if (consumable->IsUsed)
@@ -27,7 +31,7 @@ namespace Quantum
         {
             if (EntityRef != consumableEntity) return;
 
-            _renderer.material.SetColor("_EmissiveColor", _renderer.material.color * 0f);
+            _animator.SetBool("IsUsed", true);
         }
     }
 }

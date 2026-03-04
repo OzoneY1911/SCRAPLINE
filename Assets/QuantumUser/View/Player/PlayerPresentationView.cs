@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,8 +75,8 @@ namespace Quantum
         {
             if (e.ConsumableEntity != _slotEntities[_selectedSlotIndex]) return;
 
-            var renderer = _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Renderer>(true);
-            renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
+            var animator = _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Animator>();
+            animator.SetBool("IsUsed", true);
         }
 
         private void SelectSlotValuable(EntityRef playerEntity, int slotIndex)
@@ -97,30 +98,30 @@ namespace Quantum
         {
             if (playerEntity != EntityRef) return;
 
-            var frame = VerifiedFrame;
-            if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            if (!VerifiedFrame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
 
-            var fpsPrefab = frame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
+            var fpsPrefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
             var index = (int)slotIndex;
 
             _slotEntities[index] = valuableEntity;
             _slotVisuals[index] = Instantiate(fpsPrefab, _slotObjects[index].transform);
 
-            _slotVisuals[index].SetActive(index == _selectedSlotIndex);
-
-            if (frame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight))
+            if (VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight))
             {
                 var light = _slotVisuals[index].GetComponentInChildren<Light>(true);
                 light.enabled = flashlight->IsOn;
             }
-            else if (frame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable))
+            else if (VerifiedFrame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable))
             {
                 if (consumable->IsUsed)
                 {
-                    var renderer = _slotVisuals[index].GetComponentInChildren<Renderer>(true);
-                    renderer.material.SetColor("_EmissiveColor", renderer.material.color * 0f);
+                    var animator = _slotVisuals[index].GetComponentInChildren<Animator>();
+                    animator.SetBool("IsUsed", true);
+                    animator.keepAnimatorStateOnDisable = true;
                 }
             }
+
+            _slotVisuals[index].SetActive(index == _selectedSlotIndex);
         }
     }
 }

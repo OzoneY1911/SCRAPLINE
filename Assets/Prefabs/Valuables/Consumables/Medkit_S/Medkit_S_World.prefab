@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eadad032f81fc6e4f89196af513c6905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Quantum.ConsumableView
-  _renderer: {fileID: 1978369803744122649}
+  _animator: {fileID: 8944698396753951468}
 --- !u!114 &2895488776454999459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,15 +441,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8944698396753951468}
   m_SourcePrefab: {fileID: 100100000, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
+--- !u!1 &32766180882691788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
+  m_PrefabInstance: {fileID: 915639727437482909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8944698396753951468
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32766180882691788}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4abd0dc1c1bfadf49bba1a4f96f0238e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &810568795580591222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
-  m_PrefabInstance: {fileID: 915639727437482909}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &1978369803744122649 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 168ff1b136af1614b81d29d4ad53e468, type: 3}
   m_PrefabInstance: {fileID: 915639727437482909}
   m_PrefabAsset: {fileID: 0}
