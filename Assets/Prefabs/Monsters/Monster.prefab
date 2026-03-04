@@ -426,5 +426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeMonster
   Prototype:
+    Config:
+      Id:
+        Value: 359389162692471763
     State:
       Value: 0

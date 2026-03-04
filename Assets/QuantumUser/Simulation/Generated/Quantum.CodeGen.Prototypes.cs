@@ -490,11 +490,12 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Monster))]
-  public unsafe partial class MonsterPrototype : ComponentPrototype<Quantum.Monster> {
+  public unsafe class MonsterPrototype : ComponentPrototype<Quantum.Monster> {
     public AssetRef<MonsterConfig> Config;
     [HideInInspector()]
     public Quantum.QEnum32<MonsterState> State;
-    partial void MaterializeUser(Frame frame, ref Quantum.Monster result, in PrototypeMaterializationContext context);
+    [HideInInspector()]
+    public MapEntityId ChaseTarget;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Monster component = default;
         Materialize((Frame)f, ref component, in context);
@@ -503,7 +504,7 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Monster result, in PrototypeMaterializationContext context = default) {
         result.Config = this.Config;
         result.State = this.State;
-        MaterializeUser(frame, ref result, in context);
+        PrototypeValidator.FindMapEntity(this.ChaseTarget, in context, out result.ChaseTarget);
     }
   }
   [System.SerializableAttribute()]

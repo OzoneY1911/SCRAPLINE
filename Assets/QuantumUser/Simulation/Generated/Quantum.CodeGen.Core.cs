@@ -1553,18 +1553,22 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Monster : Quantum.IComponent {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 24;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public AssetRef<MonsterConfig> Config;
     [FieldOffset(0)]
     [HideInInspector()]
     public MonsterState State;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public EntityRef ChaseTarget;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 5297;
         hash = hash * 31 + Config.GetHashCode();
         hash = hash * 31 + (Int32)State;
+        hash = hash * 31 + ChaseTarget.GetHashCode();
         return hash;
       }
     }
@@ -1572,6 +1576,7 @@ namespace Quantum {
         var p = (Monster*)ptr;
         serializer.Stream.Serialize((Int32*)&p->State);
         AssetRef.Serialize(&p->Config, serializer);
+        EntityRef.Serialize(&p->ChaseTarget, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]

@@ -140,6 +140,23 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class MonsterPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.MonsterPrototype> {
+    public AssetRef<MonsterConfig> Config;
+    [HideInInspector()]
+    public Quantum.QEnum32<MonsterState> State;
+    [HideInInspector()]
+    public Quantum.QuantumEntityPrototype ChaseTarget;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.MonsterPrototype prototype);
+    public override Quantum.Prototypes.MonsterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.MonsterPrototype();
+      converter.Convert(this.Config, out result.Config);
+      converter.Convert(this.State, out result.State);
+      converter.Convert(this.ChaseTarget, out result.ChaseTarget);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class PlayerDraggingPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.PlayerDraggingPrototype> {
     [HideInInspector()]
     public QBoolean IsDragging;
