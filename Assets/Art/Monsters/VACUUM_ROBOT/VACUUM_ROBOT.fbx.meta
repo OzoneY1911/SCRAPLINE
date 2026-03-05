@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3f30e9d9dac1b3041a3a6591ce7d52c7
+guid: bc747b3d390c00e45bc4e3c40d2c8049
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: FIRESAVER
-    second: {fileID: 2100000, guid: f4a6f5b7359dbbc4a8961e4242d65336, type: 2}
+      name: VACUUM_ROBOT
+    second: {fileID: 2100000, guid: 61b1ba86f99336c4e972d31f04ea6f7f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -51,7 +51,7 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1

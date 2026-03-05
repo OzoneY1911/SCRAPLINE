@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Medkit_S_Used
+  m_Name: Medkit_Used
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0

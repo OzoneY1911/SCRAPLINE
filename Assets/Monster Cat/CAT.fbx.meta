@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3f30e9d9dac1b3041a3a6591ce7d52c7
+guid: 3e06689d6674091429434050a92c2de3
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: FIRESAVER
-    second: {fileID: 2100000, guid: f4a6f5b7359dbbc4a8961e4242d65336, type: 2}
+      name: CAT
+    second: {fileID: 2100000, guid: 859417b2ad894f149845ceb357a32c4c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -51,7 +51,7 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -99,7 +99,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1

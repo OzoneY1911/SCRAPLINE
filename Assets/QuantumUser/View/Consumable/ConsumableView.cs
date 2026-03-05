@@ -1,14 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace Quantum
 {
     public unsafe class ConsumableView : QuantumEntityViewComponent
     {
-        [SerializeField] private Animator _animator;
+        private Animator _animator;
 
         public override void OnActivate(Frame frame)
         {
             QuantumEvent.Subscribe<EventOnConsumableUsed>(this, OnEventConsumableUsed);
+
+            _animator = GetComponentInChildren<Animator>();
         }
 
         private void OnEnable()

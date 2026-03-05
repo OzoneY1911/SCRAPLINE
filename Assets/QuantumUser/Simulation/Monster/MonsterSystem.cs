@@ -37,7 +37,10 @@ namespace Quantum
             {
                 case MonsterState.Patrol:
                     if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var transform)) return;
-                    if (PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity))
+
+                    var monsterConfig = frame.FindAsset<MonsterConfig>(filter.Monster->Config);
+
+                    if (monsterConfig.CanChase && PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity))
                     {
                         filter.Monster->ChaseTarget = playerEntity;
                         EnterState(frame, filter.Entity, MonsterState.Chase);
