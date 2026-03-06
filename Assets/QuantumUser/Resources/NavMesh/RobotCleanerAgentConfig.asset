@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 321274561, guid: b156eeaae3f741b40af66649a4748430, type: 3}
-  m_Name: MonsterAgentConfig
+  m_Name: RobotCleanerAgentConfig
   m_EditorClassIdentifier: Quantum.Engine.dll::Quantum.NavMeshAgentConfig
   Identifier:
-    Path: QuantumUser/Resources/NavMesh/MonsterAgentConfig
+    Path: QuantumUser/Resources/NavMesh/RobotCleanerAgentConfig
     Guid:
       Value: 535962011925319008
   UpdateInterval: 1
-  PathQuality: 1
+  PathQuality: 2
   CachedWaypointCount: 6
   MaxRepathTimeout:
     RawValue: 327680
@@ -28,17 +28,17 @@ MonoBehaviour:
   AutomaticTargetCorrection: 1
   AutomaticTargetCorrectionRadius:
     RawValue: 65536
-  EnableWaypointDetectionAxis: 0
+  EnableWaypointDetectionAxis: 1
   WaypointDetectionAxisExtend:
-    RawValue: 32768
+    RawValue: 42598
   WaypointDetectionAxisOffset:
     RawValue: 0
   DefaultWaypointDetectionDistance:
-    RawValue: 655
+    RawValue: 6554
   MovementType: 1
   VerticalPositioning: 1
   Speed:
-    RawValue: 65536
+    RawValue: 32768
   AngularSpeed:
     RawValue: 65536
   Acceleration:

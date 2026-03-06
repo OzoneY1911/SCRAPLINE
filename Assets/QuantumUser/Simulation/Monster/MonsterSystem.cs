@@ -18,10 +18,11 @@ namespace Quantum
 
         public void OnNavMeshWaypointReached(Frame frame, EntityRef entity, FPVector3 waypoint, Navigation.WaypointFlag waypointFlags, ref bool resetAgent)
         {
+            if (waypointFlags != Navigation.WaypointFlag.Target) return;
+            resetAgent = false;
+            
             if (!frame.Unsafe.TryGetPointer<NavMeshPathfinder>(entity, out var pathfinder)) return;
             if (!frame.Unsafe.TryGetPointer<Monster>(entity, out var monster)) return;
-
-            resetAgent = false;
 
             switch (monster->State)
             {
@@ -80,7 +81,7 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<NavMeshPathfinder>(entity, out var pathfinder)) return;
             if (!frame.Unsafe.TryGetPointer<Monster>(entity, out var monster)) return;
             if (!frame.Unsafe.TryGetPointer<Transform3D>(monster->ChaseTarget, out var targetTransform)) return;
-
+            
             pathfinder->SetTarget(frame, targetTransform->Position, frame.Map.NavMeshes["Navmesh"]);
         }
     }
