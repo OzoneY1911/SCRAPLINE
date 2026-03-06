@@ -1,3 +1,4 @@
+using Photon.Deterministic;
 using UnityEngine;
 
 namespace Quantum
@@ -15,10 +16,13 @@ namespace Quantum
         private float _smoothedY;
         private float _smoothedCrouch;
 
+        private FP _previousYaw;
+
         private static readonly int _speedXHash = Animator.StringToHash("SpeedX");
         private static readonly int _speedYHash = Animator.StringToHash("SpeedY");
         private static readonly int _crouchSpeedHash = Animator.StringToHash("CrouchSpeed");
         private static readonly int _isCrouchingHash = Animator.StringToHash("IsCrouching");
+        private static readonly int _isStompingHash = Animator.StringToHash("IsStomping");
 
         public override void OnLateUpdateView()
         {
@@ -91,6 +95,21 @@ namespace Quantum
 
             _animator.SetFloat(_speedXHash, _smoothedX);
             _animator.SetFloat(_speedYHash, _smoothedY);
+
+            if (!movement.IsCrouching && horizontalMagnitude <= 0.05f)
+            {
+                if (VerifiedFrame.TryGet(EntityRef, out Player player) == false) return;
+
+                FP deltaYaw = FPMath.Abs(player.LookYaw - _previousYaw);
+
+                _animator.SetBool(_isStompingHash, deltaYaw > FP._0);
+                
+                _previousYaw = player.LookYaw;
+            }
+            else
+            {
+                _animator.SetBool(_isStompingHash, false);
+            }
 
             // CROUCH LOCOMOTION
 
