@@ -2,9 +2,14 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public class PlayerFPVAnimatorView : QuantumEntityViewComponent
+    public unsafe class PlayerFPVAnimatorView : QuantumEntityViewComponent
     {
         [SerializeField] private Animator _animator;
+
+        public override void OnActivate(Frame frame)
+        {
+            QuantumEvent.Subscribe<EventInventorySlotSelected>(this, OnEventInventorySlotSelected);
+        }
 
         public override void OnLateUpdateView()
         {
@@ -18,6 +23,15 @@ namespace Quantum
             var dragging = frame.Get<PlayerDragging>(EntityRef);
 
             _animator.SetBool("IsDragging", dragging.IsDragging);
+        }
+
+        private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
+        {
+            if (EntityRef != e.PlayerEntity) return;
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
+
+            _animator.SetBool("IsHolding", playerInventory->Slots[(int)e.SlotIndex] != EntityRef.None);
         }
     }
 }
