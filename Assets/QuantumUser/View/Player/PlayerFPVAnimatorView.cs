@@ -9,6 +9,8 @@ namespace Quantum
         public override void OnActivate(Frame frame)
         {
             QuantumEvent.Subscribe<EventInventorySlotSelected>(this, OnEventInventorySlotSelected);
+            QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
+            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
         }
 
         public override void OnLateUpdateView()
@@ -31,7 +33,30 @@ namespace Quantum
 
             if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
 
-            _animator.SetBool("IsHolding", playerInventory->Slots[(int)e.SlotIndex] != EntityRef.None);
+            _animator.SetBool(
+                "IsHolding", 
+                PlayerInventoryUtils.IsSlotSelected(playerInventory) 
+                && !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory));
+        }
+
+        private void OnEventValuableCollected(EventValuableCollected e)
+        {
+            if (EntityRef != e.PlayerEntity) return;
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
+
+            if (playerInventory->SelectedSlotIndex != e.SlotIndex) return;
+
+            _animator.SetBool("IsHolding", true);
+        }
+
+        private void OnEventValuableDropped(EventValuableDropped e)
+        {
+            if (EntityRef != e.PlayerEntity) return;
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
+
+            _animator.SetBool("IsHolding", false);
         }
     }
 }

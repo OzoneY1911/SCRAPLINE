@@ -14,7 +14,7 @@ AvatarMask:
   - m_Path: arm_left_lp.001
     m_Weight: 0
   - m_Path: arm_right_lp.001
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: arms_rig_deform
     m_Weight: 0
   - m_Path: arms_rig_deform/DEF-upper_arm.L
