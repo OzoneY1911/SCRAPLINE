@@ -81,14 +81,17 @@ namespace Quantum
         private void SelectSlotValuable(EntityRef playerEntity, int slotIndex)
         {
             if (playerEntity != EntityRef) return;
-
             if (!VerifiedFrame.IsVerified) return;
+            if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
 
             _selectedSlotIndex = (int)slotIndex;
+
+            if (_selectedSlotIndex == (int)SlotIndex.None || PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory)) return;
 
             for (int i = 0; i < _slotObjects.Count; i++)
             {
                 if (_slotVisuals[i] == null) continue;
+
                 _slotVisuals[i].SetActive(i == (int)slotIndex);
             }
         }
