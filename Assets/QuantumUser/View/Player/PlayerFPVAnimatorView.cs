@@ -6,11 +6,15 @@ namespace Quantum
     {
         [SerializeField] private Animator _animator;
 
-        public override void OnActivate(Frame frame)
+        public override void OnUpdateView()
         {
-            QuantumEvent.Subscribe<EventInventorySlotSelected>(this, OnEventInventorySlotSelected);
-            QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
-            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
+            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
+
+            bool isHolding =
+                PlayerInventoryUtils.IsSlotSelected(playerInventory) &&
+                !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory);
+
+            _animator.SetBool("IsHolding", isHolding);
         }
 
         public override void OnLateUpdateView()
