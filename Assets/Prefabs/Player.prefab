@@ -683,6 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3981550591613749900}
   _neckBonePivot: {fileID: 1929441453402778824}
+  _LeftArmBonePivot: {fileID: 3353206787533447256}
   _RightArmBonePivot: {fileID: 2104138987919856528}
   _speedLerp: 8
 --- !u!114 &4017798720553644554
@@ -1034,6 +1035,11 @@ Transform:
 --- !u!4 &2104138987919856528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7331922347752744497, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+  m_PrefabInstance: {fileID: 507957030706760287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3353206787533447256 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2991617159453239815, guid: 618323a65353d9441b6af30647a928a9, type: 3}
   m_PrefabInstance: {fileID: 507957030706760287}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3383053531104925386
