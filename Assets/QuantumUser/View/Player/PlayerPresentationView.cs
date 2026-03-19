@@ -20,47 +20,102 @@ namespace Quantum
             _slotEntities = new EntityRef[_slotObjects.Count];
             _slotVisuals = new GameObject[_slotObjects.Count];
 
-            QuantumEvent.Subscribe<EventInventorySlotSelected>(this, OnEventInventorySlotSelected);
-            QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
-            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
-
             QuantumEvent.Subscribe<EventFlashlightToggled>(this, OnEventFlashlightToggled);
             QuantumEvent.Subscribe<EventOnConsumableUsed>(this, OnEventConsumableUsed);
 
             if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var playerInventory)) return;
 
-            SelectSlotValuable(EntityRef, (int)SlotIndex.None);
             for (int i = 0; i < playerInventory->Slots.Length; i++)
             {
                 var valuableEntity = playerInventory->Slots[i];
                 if (valuableEntity == EntityRef.None) continue;
 
-                CollectSlotValuable(EntityRef, valuableEntity, i);
+                _slotEntities[i] = valuableEntity;
+                SpawnSlotVisual(valuableEntity, i);
+
+                _selectedSlotIndex = (int)playerInventory->SelectedSlotIndex;
             }
-            SelectSlotValuable(EntityRef, (int)playerInventory->SelectedSlotIndex);
         }
 
-        private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
+        public override void OnUpdateView()
         {
-            SelectSlotValuable(e.PlayerEntity, (int)e.SlotIndex);
+            if (!VerifiedFrame.Unsafe.TryGetPointer<Player>(EntityRef, out Player* player)) return;
+            if (!Game.PlayerIsLocal(player->PlayerRef)) return;
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var playerInventory)) return;
+
+            for (int i = 0; i < playerInventory->Slots.Length; i++)
+            {
+                var valuableEntity = playerInventory->Slots[i];
+
+                if (valuableEntity != _slotEntities[i])
+                {
+                    if (_slotVisuals[i] != null)
+                    {
+                        Destroy(_slotVisuals[i]);
+                        _slotVisuals[i] = null;
+                    }
+
+                    _slotEntities[i] = valuableEntity;
+
+                    if (valuableEntity != EntityRef.None)
+                    {
+                        SpawnSlotVisual(valuableEntity, i);
+                    }
+                }
+            }
+
+            _selectedSlotIndex = (int)playerInventory->SelectedSlotIndex;
+            if (_selectedSlotIndex == (int)SlotIndex.None || PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory)) return;
+
+            for (int i = 0; i < _slotVisuals.Length; i++)
+            {
+                if (_slotVisuals[i] == null) continue;
+
+                bool wasActive = _slotVisuals[i].activeSelf;
+                bool isActive = i == _selectedSlotIndex && playerInventory->Slots[i] != EntityRef.None;
+
+                _slotVisuals[i].SetActive(isActive);
+
+                if (!wasActive && isActive)
+                {
+                    InitializeSlotVisual(_slotEntities[i], _slotVisuals[i]);
+                }
+            }
         }
 
-        private void OnEventValuableCollected(EventValuableCollected e)
+        private void SpawnSlotVisual(EntityRef valuableEntity, int slotIndex)
         {
-            CollectSlotValuable(e.PlayerEntity, e.ValuableEntity, (int)e.SlotIndex);
+            if (!VerifiedFrame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+
+            var prefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
+
+            GameObject visual = Instantiate(prefab, _slotObjects[slotIndex].transform);
+
+            InitializeSlotVisual(valuableEntity, visual);
+
+            _slotVisuals[slotIndex] = visual;
         }
 
-        private void OnEventValuableDropped(EventValuableDropped e)
+        private void InitializeSlotVisual(EntityRef entity, GameObject visual)
         {
-            if (e.PlayerEntity != EntityRef) return;
-            if (!VerifiedFrame.IsVerified) return;
-
-            int index = (int)e.SlotIndex;
-
-            Destroy(_slotVisuals[index]);
-
-            _slotEntities[index] = EntityRef.None;
-            _slotVisuals[index] = null;
+            if (VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(entity, out var flashlight))
+            {
+                var light = visual.GetComponentInChildren<Light>(true);
+                light.enabled = flashlight->IsOn;
+            }
+            else if (VerifiedFrame.Unsafe.TryGetPointer<Consumable>(entity, out var consumable))
+            {
+                if (consumable->IsUsed)
+                {
+                    Animator animator = visual.GetComponentInChildren<Animator>();
+                    if (animator != null)
+                    {
+                        animator.SetBool("IsUsed", true);
+                        animator.keepAnimatorStateOnDisable = true;
+                    }
+                }
+            }
         }
 
         private void OnEventFlashlightToggled(EventFlashlightToggled e)
@@ -76,54 +131,6 @@ namespace Quantum
 
             var animator = _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Animator>();
             animator.SetBool("IsUsed", true);
-        }
-
-        private void SelectSlotValuable(EntityRef playerEntity, int slotIndex)
-        {
-            if (playerEntity != EntityRef) return;
-            if (!VerifiedFrame.IsVerified) return;
-            if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
-
-            _selectedSlotIndex = (int)slotIndex;
-
-            if (_selectedSlotIndex == (int)SlotIndex.None || PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory)) return;
-
-            for (int i = 0; i < _slotObjects.Count; i++)
-            {
-                if (_slotVisuals[i] == null) continue;
-
-                _slotVisuals[i].SetActive(i == (int)slotIndex);
-            }
-        }
-
-        private void CollectSlotValuable(EntityRef playerEntity, EntityRef valuableEntity, int slotIndex)
-        {
-            if (playerEntity != EntityRef) return;
-
-            if (!VerifiedFrame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
-
-            var fpsPrefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
-            var index = (int)slotIndex;
-
-            _slotEntities[index] = valuableEntity;
-            _slotVisuals[index] = Instantiate(fpsPrefab, _slotObjects[index].transform);
-
-            if (VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(valuableEntity, out var flashlight))
-            {
-                var light = _slotVisuals[index].GetComponentInChildren<Light>(true);
-                light.enabled = flashlight->IsOn;
-            }
-            else if (VerifiedFrame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable))
-            {
-                if (consumable->IsUsed)
-                {
-                    var animator = _slotVisuals[index].GetComponentInChildren<Animator>();
-                    animator.SetBool("IsUsed", true);
-                    animator.keepAnimatorStateOnDisable = true;
-                }
-            }
-
-            _slotVisuals[index].SetActive(index == _selectedSlotIndex);
         }
     }
 }
