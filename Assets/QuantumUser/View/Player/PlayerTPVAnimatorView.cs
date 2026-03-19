@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public class PlayerTPVAnimatorView : QuantumEntityViewComponent
+    public unsafe class PlayerTPVAnimatorView : QuantumEntityViewComponent
     {
         [SerializeField] private Animator _animator;
 
         [SerializeField] private Transform _neckBonePivot;
+        [SerializeField] private Transform _LeftArmBonePivot;
         [SerializeField] private Transform _RightArmBonePivot;
 
         [SerializeField] private float _speedLerp = 8f;
@@ -23,6 +24,8 @@ namespace Quantum
         private static readonly int _crouchSpeedHash = Animator.StringToHash("CrouchSpeed");
         private static readonly int _isCrouchingHash = Animator.StringToHash("IsCrouching");
         private static readonly int _isStompingHash = Animator.StringToHash("IsStomping");
+        private static readonly int _isDraggingHash = Animator.StringToHash("IsDragging");
+        private static readonly int _isHoldingHash = Animator.StringToHash("IsHolding");
 
         public override void OnLateUpdateView()
         {
@@ -36,6 +39,7 @@ namespace Quantum
             var playerPitch = Mathf.Clamp(player.LookPitch.AsFloat, -75f, 90f);
 
             HandleNeckBone(frame, playerPitch);
+            HandleLeftArmBone(frame, playerPitch);
             HandleRightArmBone(frame, playerPitch);
 
             HandleMovementAnimation(frame);
@@ -47,11 +51,27 @@ namespace Quantum
             _neckBonePivot.localRotation *= neckPitchOffset;
         }
 
+        private void HandleLeftArmBone(Frame frame, float playerPitch)
+        {
+            if (!frame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var playerInventory))
+                return;
+
+            bool isHolding = PlayerInventoryUtils.IsSlotSelected(playerInventory) && !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory);
+
+            _animator.SetBool(_isHoldingHash, isHolding);
+
+            if (isHolding)
+            {
+                Quaternion leftArmPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.down);
+                _LeftArmBonePivot.localRotation *= leftArmPitchOffset;
+            }
+        }
+
         private void HandleRightArmBone(Frame frame, float playerPitch)
         {
             var dragging = frame.Get<PlayerDragging>(EntityRef);
 
-            _animator.SetBool("IsDragging", dragging.IsDragging);
+            _animator.SetBool(_isDraggingHash, dragging.IsDragging);
 
             if (dragging.IsDragging)
             {
