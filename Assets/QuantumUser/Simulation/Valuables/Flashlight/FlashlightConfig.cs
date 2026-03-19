@@ -7,5 +7,9 @@ namespace Quantum
         [Header("Flashlight Settings")]
         public ushort MaxCharge;
         public ushort DischargePerSecond;
+
+        [Header("Flashlight Visual Settings")]
+        public Material IsOffMaterial;
+        public Material IsOnMaterial;
     }
 }

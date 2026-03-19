@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Quantum
 {
-    public unsafe class PlayerPresentationView : QuantumEntityViewComponent
+    public unsafe class PlayerFPVPresentationView : QuantumEntityViewComponent
     {
         [SerializeField] private List<GameObject> _slotObjects;
 

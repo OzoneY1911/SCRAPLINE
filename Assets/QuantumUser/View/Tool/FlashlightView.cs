@@ -9,8 +9,6 @@ namespace Quantum
 
         [Header("Glass Settings")]
         [SerializeField] private Renderer _glassRenderer;
-        [SerializeField] private Material _isOffMaterial;
-        [SerializeField] private Material _isOnMaterial;
 
         public override void OnActivate(Frame frame)
         {
@@ -39,14 +37,16 @@ namespace Quantum
         private void SetFlashlight(EntityRef flashlightEntity, bool isOn)
         {
             if (EntityRef != flashlightEntity) return;
+            if (!VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(flashlightEntity, out var flashlight)) return;
+
+            var flashlightConfig = VerifiedFrame.FindAsset<FlashlightConfig>(flashlight->Config);
+            var flashlightMaterials = _glassRenderer.sharedMaterials;
 
             _light.enabled = isOn;
 
-            var flashlightMaterials = _glassRenderer.sharedMaterials;
-
             flashlightMaterials[1] = isOn
-                ? _isOnMaterial
-                : _isOffMaterial;
+                ? flashlightConfig.IsOnMaterial
+                : flashlightConfig.IsOffMaterial;
 
             _glassRenderer.sharedMaterials = flashlightMaterials;
         }

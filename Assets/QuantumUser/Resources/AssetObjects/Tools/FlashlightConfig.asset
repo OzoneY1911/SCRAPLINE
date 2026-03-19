@@ -23,3 +23,5 @@ MonoBehaviour:
   FPSPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}
   MaxCharge: 100
   DischargePerSecond: 5
+  IsOffMaterial: {fileID: 2100000, guid: 25e093a3365efcf478aea1a7e5e9efec, type: 2}
+  IsOnMaterial: {fileID: 2100000, guid: d705a608f8c26d9489eb57e9f01e0fe4, type: 2}

@@ -172,9 +172,10 @@ GameObject:
   - component: {fileID: 3013892407601267510}
   - component: {fileID: 2829479000295034248}
   - component: {fileID: 5862907059742735172}
-  - component: {fileID: 9116527284477225375}
   - component: {fileID: 4017798720553644554}
+  - component: {fileID: 9116527284477225375}
   - component: {fileID: 5865180421293987965}
+  - component: {fileID: 155642028528529636}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -669,6 +670,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c697b6b5d00cb4aa20be1b4dd5429b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4017798720553644554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab0a08dd28dbc540babcb5627316e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Quantum.PlayerFPVAnimatorView
+  _animator: {fileID: 5661354330555772285}
 --- !u!114 &9116527284477225375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -686,19 +700,6 @@ MonoBehaviour:
   _LeftArmBonePivot: {fileID: 3353206787533447256}
   _RightArmBonePivot: {fileID: 2104138987919856528}
   _speedLerp: 8
---- !u!114 &4017798720553644554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2843376217146476403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ab0a08dd28dbc540babcb5627316e02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Quantum.PlayerFPVAnimatorView
-  _animator: {fileID: 5661354330555772285}
 --- !u!114 &5865180421293987965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +716,19 @@ MonoBehaviour:
   - {fileID: 4219761442342047144}
   - {fileID: 1782279798175489214}
   - {fileID: 7795659125335065449}
+--- !u!114 &155642028528529636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac647622577e594dae67d071650a8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Quantum.PlayerTPVPresentationView
+  _handSocket: {fileID: 4278914790750867309}
 --- !u!1 &3595415551305420334
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +763,37 @@ Transform:
   - {fileID: 1596711537373754584}
   m_Father: {fileID: 808740679351696482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3919320873626982366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4278914790750867309}
+  m_Layer: 0
+  m_Name: TPV Socket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4278914790750867309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919320873626982366}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -0.00005, y: 0.001198, z: -0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7687903329497022507}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1 &4219761442342047144
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 584501005847774556}
   m_Layer: 0
-  m_Name: Valuable Pivot
+  m_Name: FPV Socket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -990,6 +1035,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 618323a65353d9441b6af30647a928a9, type: 3}
       insertIndex: 0
       addedObject: {fileID: 808740679351696482}
+    - targetCorrespondingSourceObject: {fileID: -1316094102956750220, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4278914790750867309}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 618323a65353d9441b6af30647a928a9, type: 3}
       insertIndex: -1
@@ -1040,6 +1088,11 @@ Transform:
 --- !u!4 &3353206787533447256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2991617159453239815, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+  m_PrefabInstance: {fileID: 507957030706760287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7687903329497022507 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1316094102956750220, guid: 618323a65353d9441b6af30647a928a9, type: 3}
   m_PrefabInstance: {fileID: 507957030706760287}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3383053531104925386
