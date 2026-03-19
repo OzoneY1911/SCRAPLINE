@@ -16,7 +16,7 @@ AvatarMask:
   - m_Path: arm_moldings_lp
     m_Weight: 0
   - m_Path: arm_right_lp
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: display_lp
     m_Weight: 0
   - m_Path: display_molding_lp
