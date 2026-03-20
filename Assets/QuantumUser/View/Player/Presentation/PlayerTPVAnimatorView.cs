@@ -5,17 +5,24 @@ namespace Quantum
 {
     public unsafe class PlayerTPVAnimatorView : QuantumEntityViewComponent
     {
+        [Header("Animator Reference")]
         [SerializeField] private Animator _animator;
 
+        [Header("Bone Pivots")]
         [SerializeField] private Transform _neckBonePivot;
         [SerializeField] private Transform _LeftArmBonePivot;
         [SerializeField] private Transform _RightArmBonePivot;
 
-        [SerializeField] private float _speedLerp = 8f;
+        [Header("Smoothing Settings")]
+        [SerializeField] private float _boneLerpSpeed = 8f;
+        [SerializeField] private float _armLerpSpeed = 10f;
 
         private float _smoothedX;
         private float _smoothedY;
         private float _smoothedCrouch;
+
+        private float _leftArmWeight;
+        private float _rightArmWeight;
 
         private FP _previousYaw;
 
@@ -56,28 +63,50 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var playerInventory))
                 return;
 
-            bool isHolding = PlayerInventoryUtils.IsSlotSelected(playerInventory) && !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory);
+            bool isHolding =
+                PlayerInventoryUtils.IsSlotSelected(playerInventory) &&
+                !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory);
 
             _animator.SetBool(_isHoldingHash, isHolding);
 
-            if (isHolding)
-            {
-                Quaternion leftArmPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.down);
-                _LeftArmBonePivot.localRotation *= leftArmPitchOffset;
-            }
+            float targetWeight = isHolding ? 1f : 0f;
+            _leftArmWeight = Mathf.Lerp(_leftArmWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
+
+            // Get animation pose (IMPORTANT)
+            Quaternion baseRotation = _LeftArmBonePivot.localRotation;
+
+            // Create pitch offset
+            Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.down);
+
+            // Blend pitch
+            Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, _leftArmWeight);
+
+            // Apply cleanly (NOT *=)
+            _LeftArmBonePivot.localRotation = baseRotation * blendedOffset;
         }
 
         private void HandleRightArmBone(Frame frame, float playerPitch)
         {
             var dragging = frame.Get<PlayerDragging>(EntityRef);
 
-            _animator.SetBool(_isDraggingHash, dragging.IsDragging);
+            bool isDragging = dragging.IsDragging;
 
-            if (dragging.IsDragging)
-            {
-                Quaternion rightArmPitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.up);
-                _RightArmBonePivot.localRotation *= rightArmPitchOffset;
-            }
+            _animator.SetBool(_isDraggingHash, isDragging);
+
+            float targetWeight = isDragging ? 1f : 0f;
+            _rightArmWeight = Mathf.Lerp(_rightArmWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
+
+            // Base animation pose
+            Quaternion baseRotation = _RightArmBonePivot.localRotation;
+
+            // Pitch offset (adjust axis if needed)
+            Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.up);
+
+            // Blend from identity → target
+            Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, _rightArmWeight);
+
+            // Apply (NO *=)
+            _RightArmBonePivot.localRotation = baseRotation * blendedOffset;
         }
 
         private void HandleMovementAnimation(Frame frame)
@@ -110,8 +139,8 @@ namespace Quantum
             float targetX = normalizedX * speedScale;
             float targetY = normalizedY * speedScale;
 
-            _smoothedX = Mathf.Lerp(_smoothedX, targetX, Time.deltaTime * _speedLerp);
-            _smoothedY = Mathf.Lerp(_smoothedY, targetY, Time.deltaTime * _speedLerp);
+            _smoothedX = Mathf.Lerp(_smoothedX, targetX, Time.deltaTime * _boneLerpSpeed);
+            _smoothedY = Mathf.Lerp(_smoothedY, targetY, Time.deltaTime * _boneLerpSpeed);
 
             _animator.SetFloat(_speedXHash, _smoothedX);
             _animator.SetFloat(_speedYHash, _smoothedY);
@@ -143,9 +172,31 @@ namespace Quantum
 
             float targetCrouch = (horizontalMagnitude > 0.05f) ? 1f : 0f;
 
-            _smoothedCrouch = Mathf.Lerp(_smoothedCrouch, targetCrouch, Time.deltaTime * _speedLerp);
+            _smoothedCrouch = Mathf.Lerp(_smoothedCrouch, targetCrouch, Time.deltaTime * _boneLerpSpeed);
 
             _animator.SetFloat(_crouchSpeedHash, _smoothedCrouch);
+        }
+
+        private void HandleArmBone(
+            Transform bonePivot,
+            float playerPitch,
+            bool isActive,
+            int animatorBoolHash,
+            Vector3 axis,
+            ref float armWeight)
+        {
+            _animator.SetBool(animatorBoolHash, isActive);
+
+            float targetWeight = isActive ? 1f : 0f;
+            armWeight = Mathf.Lerp(armWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
+
+            Quaternion baseRotation = bonePivot.localRotation;
+
+            Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, axis);
+
+            Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, armWeight);
+
+            bonePivot.localRotation = baseRotation * blendedOffset;
         }
     }
 }
