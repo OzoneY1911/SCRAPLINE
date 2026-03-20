@@ -67,22 +67,13 @@ namespace Quantum
                 PlayerInventoryUtils.IsSlotSelected(playerInventory) &&
                 !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory);
 
-            _animator.SetBool(_isHoldingHash, isHolding);
-
-            float targetWeight = isHolding ? 1f : 0f;
-            _leftArmWeight = Mathf.Lerp(_leftArmWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
-
-            // Get animation pose (IMPORTANT)
-            Quaternion baseRotation = _LeftArmBonePivot.localRotation;
-
-            // Create pitch offset
-            Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.down);
-
-            // Blend pitch
-            Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, _leftArmWeight);
-
-            // Apply cleanly (NOT *=)
-            _LeftArmBonePivot.localRotation = baseRotation * blendedOffset;
+            HandleArmBone(
+                _LeftArmBonePivot,
+                playerPitch,
+                isHolding,
+                _isHoldingHash,
+                Vector3.down,
+                ref _leftArmWeight);
         }
 
         private void HandleRightArmBone(Frame frame, float playerPitch)
@@ -91,22 +82,13 @@ namespace Quantum
 
             bool isDragging = dragging.IsDragging;
 
-            _animator.SetBool(_isDraggingHash, isDragging);
-
-            float targetWeight = isDragging ? 1f : 0f;
-            _rightArmWeight = Mathf.Lerp(_rightArmWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
-
-            // Base animation pose
-            Quaternion baseRotation = _RightArmBonePivot.localRotation;
-
-            // Pitch offset (adjust axis if needed)
-            Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, Vector3.up);
-
-            // Blend from identity → target
-            Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, _rightArmWeight);
-
-            // Apply (NO *=)
-            _RightArmBonePivot.localRotation = baseRotation * blendedOffset;
+            HandleArmBone(
+                _RightArmBonePivot,
+                playerPitch,
+                isDragging,
+                _isDraggingHash,
+                Vector3.up,
+                ref _rightArmWeight);
         }
 
         private void HandleMovementAnimation(Frame frame)
@@ -191,9 +173,7 @@ namespace Quantum
             armWeight = Mathf.Lerp(armWeight, targetWeight, Time.deltaTime * _armLerpSpeed);
 
             Quaternion baseRotation = bonePivot.localRotation;
-
             Quaternion pitchOffset = Quaternion.AngleAxis(playerPitch, axis);
-
             Quaternion blendedOffset = Quaternion.Slerp(Quaternion.identity, pitchOffset, armWeight);
 
             bonePivot.localRotation = baseRotation * blendedOffset;
