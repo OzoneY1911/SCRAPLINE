@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3e06689d6674091429434050a92c2de3
+guid: 23789c45b6e6d5243b581cbc041e6ce3
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: CAT
-    second: {fileID: 2100000, guid: 859417b2ad894f149845ceb357a32c4c, type: 2}
+      name: CAT_EVIL
+    second: {fileID: 2100000, guid: 17e237a28e5e86542bdae0ac83e3fc2d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -99,7 +99,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
@@ -107,7 +107,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
+  importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
