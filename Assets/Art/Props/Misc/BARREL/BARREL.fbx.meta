@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: BARREL
+    second: {fileID: 2100000, guid: 53ad2db8aa7ed0b4ba8febc242a1125b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: BARREL_DETS
     second: {fileID: 2100000, guid: 8fe4d5b5141b3aa47a176a9644f2090b, type: 2}
   - first:

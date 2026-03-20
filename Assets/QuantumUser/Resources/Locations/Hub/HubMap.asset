@@ -906,7 +906,7 @@ MonoBehaviour:
     - rid: 2734434552981225474
     - rid: 2734434552981225475
     - rid: 2734434552981225476
-  SerializedTriangleDataUncompressedSize: 163976
+  SerializedTriangleDataUncompressedSize: 164048
   references:
     version: 2
     RefIds:
