@@ -2594,7 +2594,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.083333336
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -3174,6 +3174,10 @@ PrefabInstance:
       propertyPath: m_InnerSpotPercent
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 4892560909758033935, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+      propertyPath: PhysicsCollider.Shape3D.PositionOffset.Z.RawValue
+      value: 10322
+      objectReference: {fileID: 0}
     - target: {fileID: 4954824224347215395, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
       propertyPath: m_Version
       value: 14
@@ -3189,6 +3193,10 @@ PrefabInstance:
     - target: {fileID: 4954824224347215395, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
       propertyPath: m_InnerSpotPercent
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6827971623591611707, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+      propertyPath: PhysicsCollider.Shape3D.PositionOffset.Z.RawValue
+      value: 10322
       objectReference: {fileID: 0}
     - target: {fileID: 6883571388637776688, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
       propertyPath: m_InnerSpotAngle
@@ -3213,6 +3221,10 @@ PrefabInstance:
     - target: {fileID: 7704390137110737991, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
       propertyPath: m_InnerSpotAngle
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560392368869426466, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+      propertyPath: PhysicsCollider.Shape3D.PositionOffset.Z.RawValue
+      value: 10322
       objectReference: {fileID: 0}
     - target: {fileID: 9108636010170389956, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
       propertyPath: m_LocalPosition.x

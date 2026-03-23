@@ -17036,7 +17036,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -17047,19 +17047,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -19637,7 +19637,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -19648,19 +19648,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -26312,7 +26312,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -26323,19 +26323,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -26716,7 +26716,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -26727,19 +26727,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -26933,7 +26933,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -26944,19 +26944,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -27966,7 +27966,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -27977,19 +27977,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -29577,7 +29577,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -29588,19 +29588,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -29811,7 +29811,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -29822,19 +29822,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:
@@ -31269,7 +31269,7 @@ MonoBehaviour:
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 16
+          ShapeType: 2
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
@@ -31280,19 +31280,19 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 0
+              RawValue: 3276
             Z:
               RawValue: 0
           BoxExtents:
             X:
-              RawValue: 32768
+              RawValue: 12653
             Y:
-              RawValue: 32768
+              RawValue: 12653
             Z:
-              RawValue: 32768
+              RawValue: 2457
           RotationOffset:
             X:
-              RawValue: 0
+              RawValue: 17694720
             Y:
               RawValue: 0
             Z:

@@ -293,6 +293,50 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: e14219920d13ba84ba686884ea2dd225, type: 2}
+--- !u!1 &34038905
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34038907}
+  - component: {fileID: 34038906}
+  m_Layer: 0
+  m_Name: SceneIDMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &34038906
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34038905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1902708944}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+--- !u!4 &34038907
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34038905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &44912859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -728,13 +772,6 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries:
-  - id: 0
-    category: 0
-    gameObject: {fileID: 660312502}
-  - id: 1
-    category: 0
-    gameObject: {fileID: 1743118412}
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -3466,7 +3503,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 900a81c83a1dae74688828b17e8eed03, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: c514fd3ea8ef57e4bb04a45d5bb92a71, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -4698,7 +4735,7 @@ Transform:
   m_GameObject: {fileID: 806325953}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5000002, y: -0.50000006, z: -0.4999999, w: 0.49999988}
-  m_LocalPosition: {x: 0.0488, y: -0.00199, z: 0.025999997}
+  m_LocalPosition: {x: 0.046800002, y: -0.00199, z: 0.025999997}
   m_LocalScale: {x: 0.010000001, y: 0.010000001, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4730,8 +4767,8 @@ MonoBehaviour:
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
-  m_FadeDistance: 10000
-  m_VolumetricFadeDistance: 10000
+  m_FadeDistance: 30
+  m_VolumetricFadeDistance: 30
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
@@ -4804,7 +4841,7 @@ MonoBehaviour:
     m_Level: 0
   m_ShadowDimmer: 1
   m_VolumetricShadowDimmer: 1
-  m_ShadowFadeDistance: 10000
+  m_ShadowFadeDistance: 30
   m_UseContactShadow:
     m_Override: 0
     m_UseOverride: 1
@@ -4857,7 +4894,7 @@ Light:
   serializedVersion: 12
   m_Type: 3
   m_Color: {r: 0.8443396, g: 0.9947234, b: 1, a: 1}
-  m_Intensity: 141.47105
+  m_Intensity: 1.7683883
   m_Range: 10.821961
   m_SpotAngle: 30
   m_InnerSpotAngle: 0
@@ -4896,7 +4933,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 3, y: 1.5}
   m_BounceIntensity: 1
@@ -4932,8 +4969,28 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_FadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_InnerSpotPercent
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_UseContactShadow.m_Override
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867064980952848886, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4997,7 +5054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Range
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Enabled
@@ -5005,11 +5062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Intensity
-      value: 159.15494
+      value: 39.788734
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_UseColorTemperature
@@ -5017,19 +5074,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 6.573344e+28
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 2.1e-44
+      value: 1.0829418e+24
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 2.2e-44
+      value: 4.8418473e+30
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 2.4e-44
+      value: 2.3750396e+20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5964,8 +6021,28 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_FadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_InnerSpotPercent
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_UseContactShadow.m_Override
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867064980952848886, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6029,7 +6106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Range
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Enabled
@@ -6037,11 +6114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Intensity
-      value: 159.15494
+      value: 39.788734
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_UseColorTemperature
@@ -6049,19 +6126,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 7.3964775e+31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 2.246734e-30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.86e-43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: NaN
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6713,6 +6790,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516545736}
   m_CullTransparentMesh: 1
+--- !u!1 &1523763531
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523763533}
+  - component: {fileID: 1523763532}
+  m_Layer: 0
+  m_Name: SceneIDMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1523763532
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523763531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2048546098}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+--- !u!4 &1523763533
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523763531}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1535425904
 GameObject:
   m_ObjectHideFlags: 0
@@ -6831,6 +6952,50 @@ MonoBehaviour:
         Value: 0
     Trigger: 0
   SmoothSphereMeshCollisions: 0
+--- !u!1 &1565275880
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1565275882}
+  - component: {fileID: 1565275881}
+  m_Layer: 0
+  m_Name: SceneIDMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1565275881
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565275880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1800156794}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+--- !u!4 &1565275882
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565275880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1567467666 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1839330186852470597, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
@@ -7138,8 +7303,8 @@ MonoBehaviour:
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
-  m_FadeDistance: 10000
-  m_VolumetricFadeDistance: 10000
+  m_FadeDistance: 30
+  m_VolumetricFadeDistance: 30
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
@@ -7212,7 +7377,7 @@ MonoBehaviour:
     m_Level: 0
   m_ShadowDimmer: 1
   m_VolumetricShadowDimmer: 1
-  m_ShadowFadeDistance: 10000
+  m_ShadowFadeDistance: 30
   m_UseContactShadow:
     m_Override: 0
     m_UseOverride: 1
@@ -7265,7 +7430,7 @@ Light:
   serializedVersion: 12
   m_Type: 3
   m_Color: {r: 0.84313726, g: 1, b: 0.8856812, a: 1}
-  m_Intensity: 32.152515
+  m_Intensity: 1.7683883
   m_Range: 10.594042
   m_SpotAngle: 30
   m_InnerSpotAngle: 0
@@ -7304,7 +7469,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 6, y: 3.3}
   m_BounceIntensity: 1
@@ -7548,7 +7713,7 @@ MonoBehaviour:
       rangeCompressionFactor: 1
     influence:
       m_Shape: 0
-      m_BoxSize: {x: 10, y: 10, z: 10}
+      m_BoxSize: {x: 12, y: 10, z: 10}
       m_BoxBlendDistancePositive: {x: 0.5, y: 0.5, z: 0.5}
       m_BoxBlendDistanceNegative: {x: 0.5, y: 0.5, z: 0.5}
       m_BoxBlendNormalDistancePositive: {x: 0, y: 0, z: 0}
@@ -7711,7 +7876,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: c514fd3ea8ef57e4bb04a45d5bb92a71, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 900a81c83a1dae74688828b17e8eed03, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -7941,7 +8106,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 10, y: 10, z: 10}
+  m_BoxSize: {x: 12, y: 10, z: 10}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -8126,6 +8291,21 @@ MonoBehaviour:
   PossibleValuables:
   - Id:
       Value: 1433569620044031698
+--- !u!115 &1800156794
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: SceneObjectIDMapSceneAsset
+  m_Namespace: UnityEngine.Rendering.HighDefinition
+  m_AssemblyName: Unity.RenderPipelines.HighDefinition.Runtime
 --- !u!1001 &1838489301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8552,8 +8732,28 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_FadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_InnerSpotPercent
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_UseContactShadow.m_Override
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867064980952848886, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8617,7 +8817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Range
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Enabled
@@ -8625,11 +8825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Intensity
-      value: 159.15494
+      value: 39.788734
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_UseColorTemperature
@@ -8637,25 +8837,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 3.5564e-41
+      value: 1.578803e-19
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 2.4124123e-21
+      value: 1.8469266e+25
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.86e-43
+      value: 3894.902
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: NaN
+      value: 1.0947093e+27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+--- !u!115 &1902708944
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: SceneObjectIDMapSceneAsset
+  m_Namespace: UnityEngine.Rendering.HighDefinition
+  m_AssemblyName: Unity.RenderPipelines.HighDefinition.Runtime
 --- !u!1 &1904333014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cf7f431ea481ee14792ddc6055098a66, type: 3}
@@ -9100,8 +9315,28 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_FadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_MinFilterSize
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_InnerSpotPercent
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936117474828109250, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
+      propertyPath: m_UseContactShadow.m_Override
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867064980952848886, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9165,7 +9400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Range
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Enabled
@@ -9173,11 +9408,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Intensity
-      value: 159.15494
+      value: 39.788734
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_Shadows.m_Type
@@ -9193,19 +9428,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 4.6885e-41
+      value: 1.809187e-38
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: NaN
+      value: 1.8091867e-38
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.71e-43
+      value: 1.8275541e-38
       objectReference: {fileID: 0}
     - target: {fileID: 7482917595393026285, guid: 0064df45194fd524e9666444ff0193b8, type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 0
+      value: 1.8000033e-38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9325,6 +9560,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6a3a19744d293b04e8349f9c89fd36a4, type: 3}
   m_PrefabInstance: {fileID: 1929325564}
   m_PrefabAsset: {fileID: 0}
+--- !u!115 &2048546098
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: SceneObjectIDMapSceneAsset
+  m_Namespace: UnityEngine.Rendering.HighDefinition
+  m_AssemblyName: Unity.RenderPipelines.HighDefinition.Runtime
 --- !u!4 &2049064671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 454002326458972537, guid: 1f9dc9ae2102d4a4785bb33993f5b5a7, type: 3}
@@ -12071,3 +12321,6 @@ SceneRoots:
   - {fileID: 78073150}
   - {fileID: 1271804107}
   - {fileID: 128036637}
+  - {fileID: 34038907}
+  - {fileID: 1523763533}
+  - {fileID: 1565275882}
