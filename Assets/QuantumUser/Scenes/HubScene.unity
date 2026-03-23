@@ -7840,7 +7840,7 @@ Light:
   serializedVersion: 12
   m_Type: 3
   m_Color: {r: 0.84313726, g: 1, b: 0.8856812, a: 1}
-  m_Intensity: 1.7683883
+  m_Intensity: 1.7683879
   m_Range: 10.594042
   m_SpotAngle: 30
   m_InnerSpotAngle: 0
@@ -7881,11 +7881,11 @@ Light:
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 2
-  m_AreaSize: {x: 6, y: 3.3}
+  m_AreaSize: {x: 4, y: 3.3}
   m_BounceIntensity: 1
   m_ColorTemperature: 10987
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 14.017856}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 13.18682}
   m_UseBoundingSphereOverride: 1
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
@@ -11269,6 +11269,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 930204885158791566, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930204885158791566, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930204885158791566, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930204885158791566, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -11316,6 +11328,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1277225818196233941, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 792502003}
+    - target: {fileID: 1277225818196233941, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277225818196233941, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277225818196233941, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277225818196233941, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1563048318505110309, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -11330,6 +11362,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1563048318505110309, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706787548416067234, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101562402892099724, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101562402892099724, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101562402892099724, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
+      propertyPath: m_MatchWidthOrHeight
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2128849233076016807, guid: 10becd1a8ca49ce408b52c209be8112a, type: 3}
