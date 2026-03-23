@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 639068529450906723
+  lastModified: 639098670604584043
   FileSizes:
   - Name: Desktop
     Value: 1942
@@ -35,10 +35,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639068540260502318
+  lastModified: 639098676544301980
   FileSizes:
   - Name: Desktop
-    Value: 2196480
+    Value: 2539808
   Exists: 1
 --- !u!114 &-2973706128835611095
 MonoBehaviour:
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639068540234008588
+  lastModified: 639098670600256878
   FileSizes:
   - Name: Desktop
-    Value: 1012
+    Value: 1060
   Exists: 1
 --- !u!114 &-2828510378666334032
 MonoBehaviour:
@@ -129,7 +129,7 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639068540233992286
+  lastModified: 639098670600246851
   FileSizes:
   - Name: Desktop
     Value: 1074
@@ -156,13 +156,14 @@ MonoBehaviour:
   - {fileID: -1666722376422374163}
   - {fileID: 5291992651843766433}
   - {fileID: -2828510378666334032}
+  - {fileID: 3567440053842918902}
   EditorParameters: []
   MasterBanks:
   - {fileID: -68164164631974384}
   StringsBanks:
   - {fileID: -2973706128835611095}
   cacheVersion: 131858
-  cacheTime: 639068540260502318
+  cacheTime: 639098676544301980
   SerializableEventsDict:
   - key: event:/Voice/VoiceChat
     index: 0
@@ -170,6 +171,35 @@ MonoBehaviour:
     index: 1
   - key: event:/Music/MainMenuMusic
     index: 2
+  - key: event:/Music/Radio
+    index: 3
+--- !u!114 &3567440053842918902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Radio
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/Radio
+  Guid:
+    Data1: -1131626401
+    Data2: 1316473641
+    Data3: 1336400263
+    Data4: -800052919
+  Banks:
+  - {fileID: -7961805131083515282}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 7.6
+  Length: 43656
 --- !u!114 &5291992651843766433
 MonoBehaviour:
   m_ObjectHideFlags: 0
