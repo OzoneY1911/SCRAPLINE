@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3002442712645540136}
   m_Layer: 0
-  m_Name: Medkit_L_FPS
+  m_Name: Medkit_L_FPV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

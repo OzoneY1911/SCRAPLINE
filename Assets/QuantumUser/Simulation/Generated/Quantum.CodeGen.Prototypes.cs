@@ -271,10 +271,15 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
-  public unsafe partial class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
+  public unsafe class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
     public AssetRef<Map> TargetMap;
     public QBoolean IsActive;
-    partial void MaterializeUser(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context);
+    public MapEntityId HatchEntity;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 HatchInitialRotation;
+    [HideInInspector()]
+    public QBoolean HatchIsOpen;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
         Materialize((Frame)f, ref component, in context);
@@ -283,7 +288,9 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
         result.TargetMap = this.TargetMap;
         result.IsActive = this.IsActive;
-        MaterializeUser(frame, ref result, in context);
+        PrototypeValidator.FindMapEntity(this.HatchEntity, in context, out result.HatchEntity);
+        result.HatchInitialRotation = FPQuaternion.Euler(this.HatchInitialRotation);
+        result.HatchIsOpen = this.HatchIsOpen;
     }
   }
   [System.SerializableAttribute()]

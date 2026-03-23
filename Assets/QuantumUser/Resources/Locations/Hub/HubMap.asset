@@ -55,6 +55,50 @@ MonoBehaviour:
         RawValue: 46340
     Position:
       X:
+        RawValue: -334250
+      Y:
+        RawValue: 85107
+      Z:
+        RawValue: -458835
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 50000
+      Y:
+        RawValue: 10900
+      Z:
+        RawValue: 68150
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: LOBBY_DOORS
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 0
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
         RawValue: -120600
       Y:
         RawValue: 118707
@@ -86,7 +130,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 0
+      ColliderIndex: 1
       MutableMode: 0
   - Rotation:
       X:
@@ -130,50 +174,6 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 1
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: 0
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: SHOPWALLS
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
       ColliderIndex: 2
       MutableMode: 0
   - Rotation:
@@ -187,15 +187,15 @@ MonoBehaviour:
         RawValue: 46340
     Position:
       X:
-        RawValue: 0
+        RawValue: -58900
       Y:
-        RawValue: 13107
+        RawValue: 15807
       Z:
-        RawValue: 0
+        RawValue: -804519
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -204,14 +204,14 @@ MonoBehaviour:
       RawValue: 0
     BoxExtents:
       X:
-        RawValue: 0
+        RawValue: 65500
       Y:
-        RawValue: 0
+        RawValue: 65500
       Z:
-        RawValue: 0
+        RawValue: 3350
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: SHOPWALLS2
+      Name: HATCH
       Tag: Untagged
       Layer: 0
       Asset:
@@ -255,7 +255,7 @@ MonoBehaviour:
         RawValue: 0
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: SHOPPIPES
+      Name: SHOPWALLS
       Tag: Untagged
       Layer: 0
       Asset:
@@ -263,6 +263,94 @@ MonoBehaviour:
           Value: 0
       IsTrigger: 0
       ColliderIndex: 4
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOPWALLS2
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 5
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOPPIPES
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 6
       MutableMode: 0
   - Rotation:
       X:
@@ -306,7 +394,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 5
+      ColliderIndex: 7
       MutableMode: 0
   - Rotation:
       X:
@@ -350,7 +438,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 6
+      ColliderIndex: 8
       MutableMode: 0
   - Rotation:
       X:
@@ -394,7 +482,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 7
+      ColliderIndex: 9
       MutableMode: 0
   - Rotation:
       X:
@@ -438,7 +526,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 8
+      ColliderIndex: 10
       MutableMode: 0
   - Rotation:
       X:
@@ -482,7 +570,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 9
+      ColliderIndex: 11
       MutableMode: 0
   - Rotation:
       X:
@@ -526,7 +614,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 10
+      ColliderIndex: 12
       MutableMode: 0
   - Rotation:
       X:
@@ -570,7 +658,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 11
+      ColliderIndex: 13
       MutableMode: 0
   - Rotation:
       X:
@@ -614,7 +702,51 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 12
+      ColliderIndex: 14
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 6029
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: -325255
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: BARREL
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -658,7 +790,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 16
       MutableMode: 0
   - Rotation:
       X:
@@ -702,7 +834,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 17
       MutableMode: 0
   - Rotation:
       X:
@@ -746,7 +878,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 15
+      ColliderIndex: 18
       MutableMode: 0
   - Rotation:
       X:
@@ -790,7 +922,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 19
       MutableMode: 0
   - Rotation:
       X:
@@ -834,7 +966,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 17
+      ColliderIndex: 20
       MutableMode: 0
   MapEntities:
   - Components:
@@ -883,6 +1015,10 @@ MonoBehaviour:
   - Components:
     - rid: 3805672522716807168
   - Components:
+    - rid: 1367491484382658560
+    - rid: 1367491484382658561
+    - rid: 1367491484382658562
+  - Components:
     - rid: 3072651487248121856
     - rid: 3072651487248121857
     - rid: 3072651487248121858
@@ -906,7 +1042,7 @@ MonoBehaviour:
     - rid: 2734434552981225474
     - rid: 2734434552981225475
     - rid: 2734434552981225476
-  SerializedTriangleDataUncompressedSize: 164048
+  SerializedTriangleDataUncompressedSize: 206756
   references:
     version: 2
     RefIds:
@@ -1129,6 +1265,68 @@ MonoBehaviour:
         InZoneValuables: []
         InZoneValue:
           RawValue: 0
+    - rid: 1367491484382658560
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 19005
+          Z:
+            RawValue: -804519
+        Rotation:
+          X:
+            RawValue: 17696016
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+    - rid: 1367491484382658561
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: -58982
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: -12
+          BoxExtents:
+            X:
+              RawValue: 58982
+            Y:
+              RawValue: 58982
+            Z:
+              RawValue: 1356
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 0
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 1367491484382658562
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
     - rid: 2244274753957265408
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1231,6 +1429,17 @@ MonoBehaviour:
           Id:
             Value: 335349104245932771
         IsActive:
+          Value: 0
+        HatchEntity:
+          SceneIndexPlusOne: 11
+        HatchInitialRotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+        HatchIsOpen:
           Value: 0
     - rid: 3072651487248121856
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -1396,7 +1605,7 @@ MonoBehaviour:
         Config:
           Value: 58
         Mass:
-          RawValue: 327680
+          RawValue: 196608
         Drag:
           RawValue: 32768
         AngularDrag:
@@ -1600,7 +1809,7 @@ MonoBehaviour:
         Config:
           Value: 58
         Mass:
-          RawValue: 327680
+          RawValue: 196608
         Drag:
           RawValue: 32768
         AngularDrag:
@@ -1870,7 +2079,7 @@ MonoBehaviour:
         Config:
           Value: 58
         Mass:
-          RawValue: 327680
+          RawValue: 196608
         Drag:
           RawValue: 32768
         AngularDrag:

@@ -88,7 +88,7 @@ namespace Quantum
         {
             if (!VerifiedFrame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
 
-            var prefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).FPSPrefab;
+            var prefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).FPVPrefab;
 
             GameObject visual = Instantiate(prefab, _slotObjects[slotIndex].transform);
 
@@ -99,6 +99,13 @@ namespace Quantum
 
         private void InitializeSlotVisual(EntityRef entity, GameObject visual)
         {
+            var visualRenderers = visual.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in visualRenderers)
+            {
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                return;
+            }
+
             if (VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(entity, out var flashlight))
             {
                 var light = visual.GetComponentInChildren<Light>(true);

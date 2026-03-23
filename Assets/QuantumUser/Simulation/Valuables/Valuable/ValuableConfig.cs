@@ -12,6 +12,7 @@ namespace Quantum
         public ushort DefaultValue;
         public ushort DefaultFragility;
 
-        public GameObject FPSPrefab;
+        public GameObject FPVPrefab;
+        public GameObject TPVPrefab;
     }
 }

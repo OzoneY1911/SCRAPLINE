@@ -20,7 +20,8 @@ MonoBehaviour:
   IsPocketValuable: 1
   DefaultValue: 350
   DefaultFragility: 0
-  FPSPrefab: {fileID: 1334150468440431206, guid: b239f73191d47c248a2cfc53a793dd2e, type: 3}
+  FPVPrefab: {fileID: 1334150468440431206, guid: b239f73191d47c248a2cfc53a793dd2e, type: 3}
+  TPVPrefab: {fileID: 1334150468440431206, guid: 9dc0c30184d50e54aac5242f8847d9f7, type: 3}
   HealthDelta:
     RawValue: 6553600
   StaminaDelta:

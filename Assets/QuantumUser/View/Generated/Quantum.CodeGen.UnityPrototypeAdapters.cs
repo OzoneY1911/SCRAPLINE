@@ -66,6 +66,28 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class InteractableMapChangerPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractableMapChangerPrototype> {
+    public AssetRef<Map> TargetMap;
+    public QBoolean IsActive;
+    public Quantum.QuantumEntityPrototype HatchEntity;
+    [UnitAttribute(Units.Degrees)]
+    [HideInInspector()]
+    public FPVector3 HatchInitialRotation;
+    [HideInInspector()]
+    public QBoolean HatchIsOpen;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableMapChangerPrototype prototype);
+    public override Quantum.Prototypes.InteractableMapChangerPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.InteractableMapChangerPrototype();
+      converter.Convert(this.TargetMap, out result.TargetMap);
+      converter.Convert(this.IsActive, out result.IsActive);
+      converter.Convert(this.HatchEntity, out result.HatchEntity);
+      converter.Convert(this.HatchInitialRotation, out result.HatchInitialRotation);
+      converter.Convert(this.HatchIsOpen, out result.HatchIsOpen);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class InteractableQuotaZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractableQuotaZonePrototype> {
     public Quantum.QuantumEntityPrototype TargetQuotaZone;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableQuotaZonePrototype prototype);

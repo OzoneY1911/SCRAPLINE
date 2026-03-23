@@ -25,7 +25,7 @@ namespace Quantum
             float mouseY = Mathf.Clamp(lookRotationDelta.y * _swayStrength, -_maxSwayAngle, _maxSwayAngle);
 
             Quaternion targetRotation =
-                Quaternion.AngleAxis(-mouseY, Vector3.up) *
+                Quaternion.AngleAxis(mouseY, Vector3.up) *
                 Quaternion.AngleAxis(mouseX, Vector3.right);
 
             transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, _swaySpeed * Time.deltaTime);

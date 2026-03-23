@@ -20,7 +20,8 @@ MonoBehaviour:
   IsPocketValuable: 1
   DefaultValue: 200
   DefaultFragility: 0
-  FPSPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}
+  FPVPrefab: {fileID: 7941051285161059586, guid: 9b3f54d74dde3b3459222ac7e6ad941f, type: 3}
+  TPVPrefab: {fileID: 7941051285161059586, guid: cd64701ba3a04ec4e82e4c4c2ab6117b, type: 3}
   MaxCharge: 100
   DischargePerSecond: 5
   IsOffMaterial: {fileID: 2100000, guid: 25e093a3365efcf478aea1a7e5e9efec, type: 2}

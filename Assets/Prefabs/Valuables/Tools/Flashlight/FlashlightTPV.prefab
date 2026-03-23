@@ -40,13 +40,13 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6455419589646644894}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 228.03017
-  m_Range: 30
-  m_SpotAngle: 108.92627
+  m_Intensity: 237.58974
+  m_Range: 15
+  m_SpotAngle: 60
   m_InnerSpotAngle: 1
   m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
@@ -250,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 594087388813685792}
   m_Layer: 0
-  m_Name: FlashlightFPS
+  m_Name: FlashlightTPV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,11 +295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7072302
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: -0.7069834
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalRotation.y
@@ -307,11 +307,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -89.98
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12e46ad0a8e1e14cbb4ac8a8dcafee9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

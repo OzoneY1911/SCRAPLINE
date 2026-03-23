@@ -3,4 +3,10 @@ component InteractableMapChanger
     asset_ref<Map> TargetMap;
 
     Boolean IsActive;
+
+    entity_ref HatchEntity;
+    [HideInInspector]
+    FPQuaternion HatchInitialRotation;
+    [HideInInspector]
+    Boolean HatchIsOpen;
 }

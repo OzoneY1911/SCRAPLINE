@@ -1,3 +1,4 @@
+using Photon.Deterministic;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -22,6 +23,11 @@ namespace Quantum
             {
                 frame.Global->TrackedInteractableMapChanger = filter.Entity;
             }
+
+            if (filter.MapChanger->IsActive)
+            {
+                OpenHatch(frame, ref filter);
+            }
         }
 
         public void OnCompleteAllQuotaZones(Frame frame)
@@ -39,6 +45,20 @@ namespace Quantum
             var mapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(frame.Global->TrackedInteractableMapChanger);
 
             mapChanger->IsActive = true;
+
+            if (mapChanger->HatchIsOpen) return;
+
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(mapChanger->HatchEntity, out var hatchTransform)) return;
+
+            mapChanger->HatchInitialRotation = hatchTransform->Rotation;
+            mapChanger->HatchIsOpen = true;
+        }
+
+        private void OpenHatch(Frame frame, ref Filter filter)
+        {
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.MapChanger->HatchEntity, out var hatchTransform)) return;
+
+            hatchTransform->Rotation = FPQuaternion.Slerp(hatchTransform->Rotation, filter.MapChanger->HatchInitialRotation * FPQuaternion.Euler(0, FP.FromFloat_UNSAFE(15), 0), frame.DeltaTime);
         }
     }
 }

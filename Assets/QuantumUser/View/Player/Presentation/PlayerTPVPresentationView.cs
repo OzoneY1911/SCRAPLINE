@@ -13,8 +13,6 @@ namespace Quantum
         {
             if (!VerifiedFrame.Unsafe.TryGetPointer<Player>(EntityRef, out Player* player)) return;
 
-            if (Game.PlayerIsLocal(player->PlayerRef)) return;
-
             if (!VerifiedFrame.Unsafe.TryGetPointer<PlayerInventory>(EntityRef, out var inventory)) return;
 
             EntityRef selected = EntityRef.None;
@@ -41,12 +39,23 @@ namespace Quantum
                     {
                         var prefab = VerifiedFrame
                             .FindAsset<ValuableConfig>(valuable->Config)
-                            .FPSPrefab;
+                            .TPVPrefab;
 
                         _currentVisual = Instantiate(prefab, _handSocket);
+
+                        if (Game.PlayerIsLocal(player->PlayerRef))
+                        {
+                            var currentVisualRenderers = _currentVisual.GetComponentsInChildren<Renderer>();
+                            foreach (var renderer in currentVisualRenderers)
+                            {
+                                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                            }
+                        }
                     }
                 }
             }
+
+            if (Game.PlayerIsLocal(player->PlayerRef)) return;
 
             // ALWAYS sync state
             if (_currentVisual != null && _currentEntity != EntityRef.None)

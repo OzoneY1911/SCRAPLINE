@@ -1368,24 +1368,38 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 56;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public AssetRef<Map> TargetMap;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     public QBoolean IsActive;
+    [FieldOffset(16)]
+    public EntityRef HatchEntity;
+    [FieldOffset(24)]
+    [HideInInspector()]
+    public FPQuaternion HatchInitialRotation;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public QBoolean HatchIsOpen;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
         hash = hash * 31 + TargetMap.GetHashCode();
         hash = hash * 31 + IsActive.GetHashCode();
+        hash = hash * 31 + HatchEntity.GetHashCode();
+        hash = hash * 31 + HatchInitialRotation.GetHashCode();
+        hash = hash * 31 + HatchIsOpen.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
+        QBoolean.Serialize(&p->HatchIsOpen, serializer);
         QBoolean.Serialize(&p->IsActive, serializer);
         AssetRef.Serialize(&p->TargetMap, serializer);
+        EntityRef.Serialize(&p->HatchEntity, serializer);
+        FPQuaternion.Serialize(&p->HatchInitialRotation, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
