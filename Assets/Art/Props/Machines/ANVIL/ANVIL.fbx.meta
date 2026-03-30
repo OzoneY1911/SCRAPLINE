@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: d8dff7de5c39e7a47a8d55a1af2d72bd
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ANVIL
+    second: {fileID: 2100000, guid: c64ab8dab1ee77c4bbbb8bfed2952584, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Scene
-      takeName: Scene
-      internalID: -623603649343465320
+      name: ANVIL|ANVIL_DEF
+      takeName: ANVIL|ANVIL_DEF
+      internalID: 8853869751072687022
       firstFrame: 0
-      lastFrame: 60
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -85,6 +90,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
