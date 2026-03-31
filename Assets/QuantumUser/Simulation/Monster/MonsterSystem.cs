@@ -1,4 +1,5 @@
 using Photon.Deterministic;
+using System.Threading;
 
 namespace Quantum
 {
@@ -34,22 +35,79 @@ namespace Quantum
 
         public override void Update(Frame frame, ref Filter filter)
         {
+            var config = frame.FindAsset<MonsterConfig>(filter.Monster->Config);
+
             switch (filter.Monster->State)
             {
                 case MonsterState.Patrol:
-                    if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var transform)) return;
-
-                    var monsterConfig = frame.FindAsset<MonsterConfig>(filter.Monster->Config);
-
-                    if (monsterConfig.CanChase && PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity))
-                    {
-                        filter.Monster->ChaseTarget = playerEntity;
-                        EnterState(frame, filter.Entity, MonsterState.Chase);
-                    }
+                    UpdatePatrol(frame, ref filter, config);
                     break;
                 case MonsterState.Chase:
-                    if ((frame.Number & 3) == 0) SetChaseTarget(frame, filter.Entity);
+                    UpdateChase(frame, ref filter, config);
                     break;
+                case MonsterState.Attack:
+                    UpdateAttack(frame, ref filter, config);
+                    break;
+            }
+        }
+
+        private void UpdatePatrol(Frame frame, ref Filter filter, MonsterConfig config)
+        {
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var transform)) return;
+
+            if (config.CanChase && PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity))
+            {
+                filter.Monster->ChaseTarget = playerEntity;
+                EnterState(frame, filter.Entity, MonsterState.Chase);
+            }
+        }
+
+        private void UpdateChase(Frame frame, ref Filter filter, MonsterConfig config)
+        {
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var monsterTransform)) return;
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Monster->ChaseTarget, out var targetTransform)) return;
+
+            FP distance = FPVector3.Distance(monsterTransform->Position, targetTransform->Position);
+
+            if (distance <= config.AttackDistance)
+            {
+                if (config.CanAttack)
+                {
+                    EnterState(frame, filter.Entity, MonsterState.Attack);
+                }
+                else
+                {
+
+                }
+                return;
+            }
+
+            if ((frame.Number & 3) == 0) SetChaseTarget(frame, filter.Entity);
+        }
+
+        private void UpdateAttack(Frame frame, ref Filter filter, MonsterConfig config)
+        {
+            var monster = filter.Monster;
+
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var transform)) return;
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(monster->ChaseTarget, out var targetTransform)) return;
+
+            FP distance = FPVector3.Distance(transform->Position, targetTransform->Position);
+
+            // If player moved away → chase again
+            if (distance > config.AttackDistance)
+            {
+                EnterState(frame, filter.Entity, MonsterState.Chase);
+                return;
+            }
+
+            // Rotate towards player (important part)
+            FPVector3 direction = targetTransform->Position - transform->Position;
+            direction.Y = 0;
+
+            if (direction.SqrMagnitude > FP._0)
+            {
+                transform->Rotation = FPQuaternion.LookRotation(direction);
             }
         }
 
@@ -60,10 +118,16 @@ namespace Quantum
 
             monster->State = targetState;
 
-            switch (monster->State)
+            switch (targetState)
             {
                 case MonsterState.Patrol:
                     SetPatrolTarget(frame, pathfinder);
+                    break;
+                case MonsterState.Chase:
+                    SetChaseTarget(frame, entity);
+                    break;
+                case MonsterState.Attack:
+                    pathfinder->Stop(frame, entity);
                     break;
             }
         }

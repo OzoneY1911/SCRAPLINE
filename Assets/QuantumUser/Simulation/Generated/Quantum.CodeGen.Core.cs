@@ -95,6 +95,7 @@ namespace Quantum {
   public enum MonsterState : int {
     Patrol,
     Chase,
+    Attack,
   }
   public enum ResourceType : int {
     Metal,
