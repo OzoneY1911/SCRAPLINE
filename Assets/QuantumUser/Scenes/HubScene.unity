@@ -6103,9 +6103,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1139695236214215487, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1139695236214215487, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_enableVertexGradient
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3576248619564517001, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5013350053648919694, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
       propertyPath: m_Name
       value: Quota Zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6146,6 +6174,10 @@ PrefabInstance:
     - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9032648455905486175, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6643,6 +6675,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3e06689d6674091429434050a92c2de3, type: 3}
       propertyPath: m_Name
       value: CAT
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3e06689d6674091429434050a92c2de3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7485,7 +7521,6 @@ MonoBehaviour:
   - {fileID: 1536673766256026457}
   - {fileID: 1903040408756749007}
   - {fileID: 1567467666}
-  - {fileID: 1183805976}
   - {fileID: 1061990725}
   - {fileID: 1054825123}
   Asset: {fileID: 0}

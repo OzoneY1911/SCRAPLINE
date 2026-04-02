@@ -16656,9 +16656,9 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -622264
+            RawValue: -621019
           Y:
-            RawValue: 82116
+            RawValue: 105054
           Z:
             RawValue: 1218969
         Rotation:
@@ -16683,14 +16683,14 @@ MonoBehaviour:
             X:
               RawValue: 0
             Y:
-              RawValue: 3276
+              RawValue: 0
             Z:
-              RawValue: -655
+              RawValue: 0
           BoxExtents:
             X:
-              RawValue: 18774
+              RawValue: 61276
             Y:
-              RawValue: 3421
+              RawValue: 22937
             Z:
               RawValue: 2020
           RotationOffset:

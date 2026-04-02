@@ -5,10 +5,15 @@ using UnityEngine;
 
 public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 {
-    [Header("Resource Demand")]
+    [Header("Helper Text")]
+    [SerializeField] private TextMeshProUGUI _stateLabelTMP;
+    [SerializeField] private TextMeshProUGUI _controlHintTMP;
+
+    [Header("Resource Demands")]
+    [SerializeField] private GameObject _resourceDemandsObject;
     [SerializeField] private TextMeshProUGUI _resourceDemandsTMP;
 
-    [Header("Quota Zone Progress Bar")]
+    [Header("Progress Bar")]
     [SerializeField] private Transform _progressBarContainer;
     [SerializeField] private GameObject _progressBarPrefab;
 
@@ -47,6 +52,10 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
                 progressBar.MaxValue = demand.Value.AsFloat;
                 _progressBars.Add(progressBar);
             }
+
+            _stateLabelTMP.gameObject.SetActive(false);
+            _controlHintTMP.text = "TAP SCREEN TO COMPLETE";
+            _resourceDemandsObject.SetActive(true);
             _resourceDemandsTMP.text = demandsText;
 
             QuantumEvent.UnsubscribeListener<EventQuotaZoneActivated>(this);
@@ -94,7 +103,13 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
         {
             Destroy(progressBar.gameObject);
         }
-        _resourceDemandsTMP.text = "COMPLETED";
+
+        _stateLabelTMP.gameObject.SetActive(true);
+        _stateLabelTMP.text = "COMPLETED";
+        _stateLabelTMP.color = new Color(0f, .5f, 0f);
+
+        _controlHintTMP.gameObject.SetActive(false);
+        _resourceDemandsObject.SetActive(false);
 
         QuantumEvent.UnsubscribeListener<EventQuotaZoneActivated>(this);
     }
