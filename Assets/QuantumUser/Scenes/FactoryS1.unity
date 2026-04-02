@@ -2124,6 +2124,7 @@ MonoBehaviour:
   - {fileID: 391055120}
   - {fileID: 391055119}
   - {fileID: 391055118}
+  - {fileID: 528925905}
   - {fileID: 941440884}
   - {fileID: 941440847}
   - {fileID: 941440846}
@@ -2403,6 +2404,17 @@ Transform:
   - {fileID: 1355731160}
   m_Father: {fileID: 2069868699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &528925905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2625652532337158189, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_PrefabInstance: {fileID: 919883257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
 --- !u!1001 &541064168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2855,23 +2867,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7848515351434260982, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.678
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5536852394373415134, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1965629586}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1149495709510785217, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 9053863186850532762, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
 --- !u!114 &919883258 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1690551362537338919, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6401401180967190066, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
   m_PrefabInstance: {fileID: 919883257}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -2879,7 +2889,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!114 &919883259 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3153959640065247698, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}

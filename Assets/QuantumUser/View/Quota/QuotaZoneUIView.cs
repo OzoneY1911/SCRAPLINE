@@ -6,7 +6,7 @@ using UnityEngine;
 public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 {
     [Header("Resource Demand")]
-    [SerializeField] private TextMeshPro _resourceDemandsTMP;
+    [SerializeField] private TextMeshProUGUI _resourceDemandsTMP;
 
     [Header("Quota Zone Progress Bar")]
     [SerializeField] private Transform _progressBarContainer;
