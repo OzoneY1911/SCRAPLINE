@@ -55,7 +55,7 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<Transform3D>(filter.Entity, out var transform)) return;
 
-            if (config.CanChase && PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity))
+            if (config.CanChase && PhysicsUtils.PlayerIsInRange(frame, transform->Position, out var playerEntity, config.ChaseStartDistance))
             {
                 filter.Monster->ChaseTarget = playerEntity;
                 EnterState(frame, filter.Entity, MonsterState.Chase);
@@ -80,6 +80,10 @@ namespace Quantum
 
                 }
                 return;
+            }
+            else if (distance >= config.ChaseStopDistance)
+            {
+                EnterState(frame, filter.Entity, MonsterState.Patrol);
             }
 
             if ((frame.Number & 3) == 0) SetChaseTarget(frame, filter.Entity);

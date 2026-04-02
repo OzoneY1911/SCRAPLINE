@@ -9,6 +9,8 @@ namespace Quantum
         public bool CanAttack;
 
         [Header("Monster Settings")]
+        public ushort ChaseStartDistance;
+        public ushort ChaseStopDistance;
         public ushort AttackDistance;
     }
 }

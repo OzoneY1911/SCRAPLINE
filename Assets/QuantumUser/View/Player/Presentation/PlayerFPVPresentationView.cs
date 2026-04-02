@@ -103,7 +103,6 @@ namespace Quantum
             foreach (var renderer in visualRenderers)
             {
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                return;
             }
 
             if (VerifiedFrame.Unsafe.TryGetPointer<Flashlight>(entity, out var flashlight))
@@ -127,9 +126,20 @@ namespace Quantum
 
         private void OnEventFlashlightToggled(EventFlashlightToggled e)
         {
-            if (e.FlashlightEntity != _slotEntities[_selectedSlotIndex]) return;
+            for (int i = 0; i < _slotEntities.Length; i++)
+            {
+                if (e.FlashlightEntity != _slotEntities[i]) continue;
 
-            _slotVisuals[_selectedSlotIndex].GetComponentInChildren<Light>().enabled = e.IsOn;
+                if (_slotVisuals[i] == null) return;
+
+                var light = _slotVisuals[i].GetComponentInChildren<Light>(true);
+                if (light != null)
+                {
+                    light.enabled = e.IsOn;
+                }
+
+                return;
+            }
         }
 
         private void OnEventConsumableUsed(EventOnConsumableUsed e)

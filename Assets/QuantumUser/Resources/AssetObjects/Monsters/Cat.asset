@@ -18,4 +18,6 @@ MonoBehaviour:
       Value: 325625805892432707
   CanChase: 1
   CanAttack: 1
+  ChaseStartDistance: 3
+  ChaseStopDistance: 5
   AttackDistance: 1

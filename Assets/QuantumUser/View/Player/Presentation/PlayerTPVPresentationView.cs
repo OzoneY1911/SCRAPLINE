@@ -22,7 +22,6 @@ namespace Quantum
                 selected = inventory->Slots[(int)inventory->SelectedSlotIndex];
             }
 
-            // Rebuild only if changed
             if (selected != _currentEntity)
             {
                 if (_currentVisual != null)
@@ -57,7 +56,6 @@ namespace Quantum
 
             if (Game.PlayerIsLocal(player->PlayerRef)) return;
 
-            // ALWAYS sync state
             if (_currentVisual != null && _currentEntity != EntityRef.None)
             {
                 InitializeSlotVisual(_currentEntity, _currentVisual);

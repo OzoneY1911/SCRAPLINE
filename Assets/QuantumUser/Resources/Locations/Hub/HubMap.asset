@@ -442,6 +442,50 @@ MonoBehaviour:
       MutableMode: 0
   - Rotation:
       X:
+        RawValue: 32482
+      Y:
+        RawValue: 33051
+      Z:
+        RawValue: 33051
+      W:
+        RawValue: -32482
+    Position:
+      X:
+        RawValue: -153616
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 139657
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOPRACK (3)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 9
+      MutableMode: 0
+  - Rotation:
+      X:
         RawValue: 0
       Y:
         RawValue: 46340
@@ -482,7 +526,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 9
+      ColliderIndex: 10
       MutableMode: 0
   - Rotation:
       X:
@@ -526,7 +570,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 10
+      ColliderIndex: 11
       MutableMode: 0
   - Rotation:
       X:
@@ -570,7 +614,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 11
+      ColliderIndex: 12
       MutableMode: 0
   - Rotation:
       X:
@@ -614,7 +658,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 12
+      ColliderIndex: 13
       MutableMode: 0
   - Rotation:
       X:
@@ -658,7 +702,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 14
       MutableMode: 0
   - Rotation:
       X:
@@ -702,7 +746,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -746,7 +790,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 15
+      ColliderIndex: 16
       MutableMode: 0
   - Rotation:
       X:
@@ -790,7 +834,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 17
       MutableMode: 0
   - Rotation:
       X:
@@ -834,7 +878,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 17
+      ColliderIndex: 18
       MutableMode: 0
   - Rotation:
       X:
@@ -878,7 +922,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 18
+      ColliderIndex: 19
       MutableMode: 0
   - Rotation:
       X:
@@ -922,7 +966,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 19
+      ColliderIndex: 20
       MutableMode: 0
   - Rotation:
       X:
@@ -966,7 +1010,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 20
+      ColliderIndex: 21
       MutableMode: 0
   MapEntities:
   - Components:
@@ -1049,7 +1093,7 @@ MonoBehaviour:
     - rid: 8100184270863073283
     - rid: 8100184270863073284
     - rid: 8100184270863073285
-  SerializedTriangleDataUncompressedSize: 206756
+  SerializedTriangleDataUncompressedSize: 210896
   references:
     version: 2
     RefIds:
@@ -2341,23 +2385,23 @@ MonoBehaviour:
             RawValue: 65536
           PositionOffset:
             X:
-              RawValue: 51487
+              RawValue: 4
             Y:
-              RawValue: 5187
+              RawValue: 23321
             Z:
-              RawValue: 311951
+              RawValue: -5832
           BoxExtents:
             X:
-              RawValue: 20445
+              RawValue: 18688
             Y:
-              RawValue: 5128
+              RawValue: 23267
             Z:
-              RawValue: 18719
+              RawValue: 15275
           RotationOffset:
             X:
               RawValue: 0
             Y:
-              RawValue: 5898240
+              RawValue: 0
             Z:
               RawValue: 0
           UserTag: 0

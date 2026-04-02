@@ -96,7 +96,7 @@ MonoBehaviour:
       RawValue: 13107
   PositionOffset:
     X:
-      RawValue: -98304
+      RawValue: -229376
     Y:
       RawValue: 131072
     Z:
@@ -139,7 +139,7 @@ MonoBehaviour:
       RawValue: 13107
   PositionOffset:
     X:
-      RawValue: 98303
+      RawValue: -32768
     Y:
       RawValue: 131072
     Z:
@@ -182,7 +182,7 @@ MonoBehaviour:
       RawValue: 13107
   PositionOffset:
     X:
-      RawValue: 0
+      RawValue: -131072
     Y:
       RawValue: 196608
     Z:
@@ -225,7 +225,7 @@ MonoBehaviour:
       RawValue: 13107
   PositionOffset:
     X:
-      RawValue: 0
+      RawValue: -131072
     Y:
       RawValue: -1638
     Z:

@@ -18,6 +18,7 @@
   <Project Path="Quantum.Unity.Editor.CodeGen.csproj" />
   <Project Path="FMODUnityResonance.csproj" />
   <Project Path="MicAmplifierEditor.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />
   <Project Path="PhotonVoiceApi.FMOD.csproj" />
   <Project Path="PhotonVoice.Utilities.Editor.csproj" />
