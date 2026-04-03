@@ -2827,6 +2827,58 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuotaZone_Room
       objectReference: {fileID: 0}
+    - target: {fileID: 1062173279927610607, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062173279927610607, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062173279927610607, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062173279927610607, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1062173279927610607, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190335
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950095895925212786, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2183196707406112647, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183196707406112647, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183196707406112647, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183196707406112647, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2183196707406112647, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210759751538325639, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177416239291178944, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 5536852394373415134, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
