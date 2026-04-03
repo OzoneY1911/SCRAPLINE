@@ -2883,17 +2883,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1382638799}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &525801608 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2674200493222287357, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-  m_PrefabInstance: {fileID: 1054825121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
 --- !u!1001 &541418428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6095,106 +6084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b98379d00f71bc04dba752c72f7e5a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1054825121
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1139695236214215487, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 1139695236214215487, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_enableVertexGradient
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3576248619564517001, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5013350053648919694, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_Name
-      value: Quota Zone
-      objectReference: {fileID: 0}
-    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5856796882296617620, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892308886765407782, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9032648455905486175, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.001
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
---- !u!114 &1054825123 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5199733605929273489, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-  m_PrefabInstance: {fileID: 1054825121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1060654007
 GameObject:
   m_ObjectHideFlags: 0
@@ -6240,17 +6129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapPoint
   Type: 2
---- !u!114 &1061990725 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6465693839292056034, guid: 005957273fe2a9f489009cb5ad4288f2, type: 3}
-  m_PrefabInstance: {fileID: 1054825121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1 &1079860616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7504,7 +7382,6 @@ MonoBehaviour:
   - {fileID: 152068421}
   - {fileID: 633380302}
   - {fileID: 162182537}
-  - {fileID: 525801608}
   MapEntityReferences:
   - {fileID: 0}
   - {fileID: 0}
@@ -7521,8 +7398,6 @@ MonoBehaviour:
   - {fileID: 1536673766256026457}
   - {fileID: 1903040408756749007}
   - {fileID: 1567467666}
-  - {fileID: 1061990725}
-  - {fileID: 1054825123}
   Asset: {fileID: 0}
 --- !u!4 &1354515412
 Transform:
@@ -13802,4 +13677,3 @@ SceneRoots:
   - {fileID: 1523763533}
   - {fileID: 1565275882}
   - {fileID: 1644800068}
-  - {fileID: 1054825121}
