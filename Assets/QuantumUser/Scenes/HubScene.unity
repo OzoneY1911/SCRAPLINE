@@ -6558,7 +6558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3e06689d6674091429434050a92c2de3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6576,6 +6576,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e06689d6674091429434050a92c2de3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1183805979}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e06689d6674091429434050a92c2de3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1183805980}
     - targetCorrespondingSourceObject: {fileID: -5967451773149344912, guid: 3e06689d6674091429434050a92c2de3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1628783983}
@@ -6890,6 +6893,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1183805980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183805974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8b5d831b07564b9dabb7a44f4411d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeHealth
+  Prototype:
+    Current:
+      RawValue: 0
+    Max:
+      RawValue: 1966080
 --- !u!1 &1207830965
 GameObject:
   m_ObjectHideFlags: 0
@@ -7400,6 +7420,7 @@ MonoBehaviour:
   - {fileID: 1536673766256026457}
   - {fileID: 1903040408756749007}
   - {fileID: 1567467666}
+  - {fileID: 1183805976}
   Asset: {fileID: 0}
 --- !u!4 &1354515412
 Transform:

@@ -1086,6 +1086,14 @@ MonoBehaviour:
     - rid: 2734434552981225474
     - rid: 2734434552981225475
     - rid: 2734434552981225476
+  - Components:
+    - rid: 8100184270863073280
+    - rid: 8100184270863073281
+    - rid: 8100184270863073282
+    - rid: 8100184270863073283
+    - rid: 8100184270863073284
+    - rid: 8100184270863073285
+    - rid: 8100184270863073286
   SerializedTriangleDataUncompressedSize: 210896
   references:
     version: 2
@@ -2348,3 +2356,110 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
+    - rid: 8100184270863073280
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: 129761
+          Y:
+            RawValue: 13107
+          Z:
+            RawValue: 287047
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 17694720
+          Z:
+            RawValue: 0
+    - rid: 8100184270863073281
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 16384
+          CapsuleHeight:
+            RawValue: 65536
+          PositionOffset:
+            X:
+              RawValue: 4
+            Y:
+              RawValue: 23321
+            Z:
+              RawValue: -5832
+          BoxExtents:
+            X:
+              RawValue: 18688
+            Y:
+              RawValue: 23267
+            Z:
+              RawValue: 15275
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 0
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 8100184270863073282
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 8100184270863073283
+      type: {class: NavMeshPathfinderPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        AgentConfig:
+          Id:
+            Value: 535962011925319008
+        InitialTarget:
+          _hasValue: 0
+          _value:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+        InitialTargetNavMesh:
+          Id:
+            Value: 0
+        InitialTargetNavMeshName: 
+    - rid: 8100184270863073284
+      type: {class: NavMeshSteeringAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        OverrideMaxSpeed: 0
+        OverrideAcceleration: 0
+        MaxSpeed:
+          RawValue: 0
+        Acceleration:
+          RawValue: 0
+    - rid: 8100184270863073285
+      type: {class: HealthPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        Current:
+          RawValue: 0
+        Max:
+          RawValue: 1966080
+    - rid: 8100184270863073286
+      type: {class: MonsterPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        Config:
+          Id:
+            Value: 325625805892432707
+        State:
+          Value: 0
+        ChaseTarget:
+          SceneIndexPlusOne: 0
