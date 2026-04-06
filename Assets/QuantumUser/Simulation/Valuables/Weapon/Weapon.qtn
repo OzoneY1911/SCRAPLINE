@@ -1,0 +1,7 @@
+component Weapon
+{
+	asset_ref<WeaponConfig> Config;
+
+	[HideInInspector]
+	FrameTimer UseCooldown;
+}

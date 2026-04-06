@@ -110,6 +110,10 @@ namespace Quantum {
     Slot1 = 1,
     Slot2 = 2,
   }
+  public enum UseMode : int {
+    Press,
+    Hold,
+  }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
     Jump = 1 << 0,
@@ -2025,6 +2029,29 @@ namespace Quantum {
         FP.Serialize(&p->CurrentValue, serializer);
     }
   }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Weapon : Quantum.IComponent {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public AssetRef<WeaponConfig> Config;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public FrameTimer UseCooldown;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 8713;
+        hash = hash * 31 + Config.GetHashCode();
+        hash = hash * 31 + UseCooldown.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Weapon*)ptr;
+        AssetRef.Serialize(&p->Config, serializer);
+        FrameTimer.Serialize(&p->UseCooldown, serializer);
+    }
+  }
   public unsafe partial interface ISignalOnCompleteAllQuotaZones : ISignal {
     void OnCompleteAllQuotaZones(Frame f);
   }
@@ -2221,6 +2248,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Valuable>();
       BuildSignalsArrayOnComponentAdded<View>();
       BuildSignalsArrayOnComponentRemoved<View>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Weapon>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Weapon>();
     }
     partial void SetPlayerInputCodeGen(PlayerRef player, Input input) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
@@ -2570,12 +2599,14 @@ namespace Quantum {
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.UseMode), 4);
       typeRegistry.Register(typeof(Quantum.Valuable), Quantum.Valuable.SIZE);
       typeRegistry.Register(typeof(View), View.SIZE);
+      typeRegistry.Register(typeof(Quantum.Weapon), Quantum.Weapon.SIZE);
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 26)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 27)
         .AddBuiltInComponents()
         .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Consumable>(Quantum.Consumable.Serialize, null, null, ComponentFlags.None)
@@ -2603,6 +2634,7 @@ namespace Quantum {
         .Add<Quantum.ShopZone>(Quantum.ShopZone.Serialize, null, Quantum.ShopZone.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Teleporter>(Quantum.Teleporter.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Valuable>(Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None)
+        .Add<Quantum.Weapon>(Quantum.Weapon.Serialize, null, null, ComponentFlags.None)
         .Finish();
     }
     [Preserve()]
@@ -2622,6 +2654,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<QueryOptions>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ResourceType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.SlotIndex>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.UseMode>();
     }
   }
 }

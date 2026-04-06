@@ -1,9 +1,27 @@
 using Photon.Deterministic;
+using Quantum.Physics3D;
 
 namespace Quantum
 {
     public static unsafe class PlayerPhysicsUtils
     {
+        public static Hit3D? PlayerHitscan(Frame frame, Player* player, in FP distance)
+        {
+            var input = frame.GetPlayerInput(player->PlayerRef);
+            return frame.Physics3D.Raycast(
+                input->CameraPosition,
+                input->CameraForward,
+                distance,
+                ~player->LocalMask,
+                QueryOptions.HitSolids
+                );
+        }
+
+        public static Hit3D? PlayerInteractionHitscan(Frame frame, Player* player)
+        {
+            return PlayerHitscan(frame, player, player->InteractionDistance);
+        }
+
         public static bool IsGrounded(Frame frame, in PlayerMovementSystem.Filter filter)
         {
             FP yOffset = FP._0_10;

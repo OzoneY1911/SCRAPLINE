@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: ShovelConfig
   m_EditorClassIdentifier: Quantum.Simulation::Quantum.WeaponConfig
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Tools/ShovelConfig
+    Path: QuantumUser/Resources/AssetObjects/Weapons/ShovelConfig
     Guid:
       Value: 498368331588420855
   DisplayName: Shovel
   IsPocketValuable: 1
+  UseMode: 1
   DefaultValue: 500
   DefaultFragility: 0
   FPVPrefab: {fileID: 5289528943791311079, guid: 517d509001632d04f9b54169bcfb65f3, type: 3}
   TPVPrefab: {fileID: 5289528943791311079, guid: d28572f8c1bb35e43bddf2f13bcb9a5f, type: 3}
-  Damage: 10
-  FireRate: 60
+  Damage:
+    RawValue: 655360
+  FireRate:
+    RawValue: 3932160
   Range:
     RawValue: 98304

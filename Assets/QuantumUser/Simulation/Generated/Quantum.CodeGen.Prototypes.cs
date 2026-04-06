@@ -895,6 +895,24 @@ namespace Quantum.Prototypes {
         PrototypeValidator.FindMapEntity(this.TrackedZoneEntity, in context, out result.TrackedZoneEntity);
     }
   }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Weapon))]
+  public unsafe partial class WeaponPrototype : ComponentPrototype<Quantum.Weapon> {
+    public AssetRef<WeaponConfig> Config;
+    [HideInInspector()]
+    public Quantum.Prototypes.FrameTimerPrototype UseCooldown;
+    partial void MaterializeUser(Frame frame, ref Quantum.Weapon result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Weapon component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Weapon result, in PrototypeMaterializationContext context = default) {
+        result.Config = this.Config;
+        this.UseCooldown.Materialize(frame, ref result.UseCooldown, in context);
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
 }
 #pragma warning restore 0109
 #pragma warning restore 1591
