@@ -52,7 +52,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Aircool
-  m_Speed: 5
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -64,7 +64,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2692232018309039475, guid: dafa9558b971ea74fb2e9136a0992c73, type: 3}
+  m_Motion: {fileID: 7400000, guid: d948d4e406cc207439af7f1e830925f0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
