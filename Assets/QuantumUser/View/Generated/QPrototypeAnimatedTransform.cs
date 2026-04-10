@@ -14,18 +14,18 @@ namespace Quantum {
   using UnityEngine;
   
   [UnityEngine.DisallowMultipleComponent()]
-  public unsafe partial class QPrototypeAnimationTrigger : QuantumUnityComponentPrototype<Quantum.Prototypes.AnimationTriggerPrototype>, IQuantumUnityPrototypeWrapperForComponent<Quantum.AnimationTrigger> {
-    partial void CreatePrototypeUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AnimationTriggerPrototype prototype);
+  public unsafe partial class QPrototypeAnimatedTransform : QuantumUnityComponentPrototype<Quantum.Prototypes.AnimatedTransformPrototype>, IQuantumUnityPrototypeWrapperForComponent<Quantum.AnimatedTransform> {
+    partial void CreatePrototypeUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AnimatedTransformPrototype prototype);
     [DrawInline()]
     [ReadOnly(InEditMode = false)]
-    public Quantum.Prototypes.Unity.AnimationTriggerPrototype Prototype;
+    public Quantum.Prototypes.Unity.AnimatedTransformPrototype Prototype;
     public override System.Type ComponentType {
       get {
-        return typeof(Quantum.AnimationTrigger);
+        return typeof(Quantum.AnimatedTransform);
       }
     }
     public override ComponentPrototype CreatePrototype(Quantum.QuantumEntityPrototypeConverter converter) {
-      Quantum.Prototypes.AnimationTriggerPrototype result;
+      Quantum.Prototypes.AnimatedTransformPrototype result;
       converter.Convert(Prototype, out result);
       CreatePrototypeUser(converter, ref result);
       return result;

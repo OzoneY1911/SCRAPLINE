@@ -50,13 +50,40 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.AnimatedTransform))]
+  public unsafe class AnimatedTransformPrototype : ComponentPrototype<Quantum.AnimatedTransform> {
+    public MapEntityId Parent;
+    public FPVector3 TargetOffset;
+    public FP Speed;
+    [HideInInspector()]
+    public FPVector3 InitialLocalPosition;
+    [HideInInspector()]
+    public FP Progress;
+    [HideInInspector()]
+    public QBoolean IsActive;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.AnimatedTransform component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.AnimatedTransform result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.Parent, in context, out result.Parent);
+        result.TargetOffset = this.TargetOffset;
+        result.Speed = this.Speed;
+        result.InitialLocalPosition = this.InitialLocalPosition;
+        result.Progress = this.Progress;
+        result.IsActive = this.IsActive;
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.AnimationTrigger))]
-  public unsafe partial class AnimationTriggerPrototype : ComponentPrototype<Quantum.AnimationTrigger> {
+  public unsafe class AnimationTriggerPrototype : ComponentPrototype<Quantum.AnimationTrigger> {
     [HideInInspector()]
     public QBoolean IsToggled;
     [HideInInspector()]
     public UInt16 InTriggerCount;
-    partial void MaterializeUser(Frame frame, ref Quantum.AnimationTrigger result, in PrototypeMaterializationContext context);
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] AnimatedTargets = {};
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.AnimationTrigger component = default;
         Materialize((Frame)f, ref component, in context);
@@ -65,7 +92,16 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.AnimationTrigger result, in PrototypeMaterializationContext context = default) {
         result.IsToggled = this.IsToggled;
         result.InTriggerCount = this.InTriggerCount;
-        MaterializeUser(frame, ref result, in context);
+        if (this.AnimatedTargets.Length == 0) {
+          result.AnimatedTargets = default;
+        } else {
+          var hashSet = frame.AllocateHashSet(out result.AnimatedTargets, this.AnimatedTargets.Length);
+          for (int i = 0; i < this.AnimatedTargets.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.AnimatedTargets[i], in context, out tmp);
+            hashSet.Add(tmp);
+          }
+        }
     }
   }
   [System.SerializableAttribute()]

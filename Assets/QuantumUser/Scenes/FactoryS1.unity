@@ -480,6 +480,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &337302154 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8526180585905275994, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_PrefabInstance: {fileID: 919883257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &337302155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6182675566848062154, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_PrefabInstance: {fileID: 919883257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &337302156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1361229946702543107, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_PrefabInstance: {fileID: 919883257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &337302157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3565265231474347923, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
+  m_PrefabInstance: {fileID: 919883257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1 &343134945
 GameObject:
   m_ObjectHideFlags: 0
@@ -2164,6 +2208,13 @@ MonoBehaviour:
   - {fileID: 1792156889}
   - {fileID: 1792156887}
   - {fileID: 1792156885}
+  - {fileID: 1243042878}
+  - {fileID: 1243042875}
+  - {fileID: 1243042872}
+  - {fileID: 1243042869}
+  - {fileID: 1243042866}
+  - {fileID: 1243042863}
+  - {fileID: 1243042860}
   - {fileID: 941440843}
   - {fileID: 941440806}
   - {fileID: 941440805}
@@ -2203,6 +2254,13 @@ MonoBehaviour:
   - {fileID: 1792156817}
   - {fileID: 1792156815}
   - {fileID: 1792156813}
+  - {fileID: 1243042857}
+  - {fileID: 1243042854}
+  - {fileID: 1243042851}
+  - {fileID: 1243042848}
+  - {fileID: 1243042845}
+  - {fileID: 1243042842}
+  - {fileID: 1243042839}
   - {fileID: 391055174}
   - {fileID: 391055173}
   - {fileID: 391055172}
@@ -2221,13 +2279,23 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1383967211697700445}
+  - {fileID: 2041954010}
+  - {fileID: 2041954009}
   - {fileID: 919883258}
   - {fileID: 981234891}
   - {fileID: 981234890}
+  - {fileID: 337302157}
+  - {fileID: 337302156}
   - {fileID: 981234889}
+  - {fileID: 337302155}
+  - {fileID: 337302154}
   - {fileID: 314557591}
+  - {fileID: 1243042883}
   - {fileID: 941440913}
+  - {fileID: 1243042884}
   - {fileID: 1770470622}
+  - {fileID: 1243042882}
+  - {fileID: 1243042881}
   - {fileID: 1792156956}
   - {fileID: 0}
   - {fileID: 1792156954}
@@ -2299,6 +2367,34 @@ MonoBehaviour:
   - {fileID: 1792156888}
   - {fileID: 0}
   - {fileID: 1792156886}
+  - {fileID: 0}
+  - {fileID: 1243042880}
+  - {fileID: 1243042879}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042877}
+  - {fileID: 1243042876}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042874}
+  - {fileID: 1243042873}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042871}
+  - {fileID: 1243042870}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042868}
+  - {fileID: 1243042867}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042865}
+  - {fileID: 1243042864}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042862}
+  - {fileID: 1243042861}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1792156884}
   - {fileID: 0}
@@ -2372,12 +2468,52 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1792156814}
   - {fileID: 0}
+  - {fileID: 1243042859}
+  - {fileID: 1243042858}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042856}
+  - {fileID: 1243042855}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042853}
+  - {fileID: 1243042852}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042850}
+  - {fileID: 1243042849}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042847}
+  - {fileID: 1243042846}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042844}
+  - {fileID: 1243042843}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1243042841}
+  - {fileID: 1243042840}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 2075102699}
+  - {fileID: 1153041444}
+  - {fileID: 1153041443}
   - {fileID: 2075102698}
+  - {fileID: 1153041442}
+  - {fileID: 1153041441}
   - {fileID: 391055130}
+  - {fileID: 1202019571}
+  - {fileID: 1202019570}
+  - {fileID: 1202019569}
+  - {fileID: 1202019568}
   - {fileID: 618531086}
   - {fileID: 618531085}
+  - {fileID: 1202019567}
+  - {fileID: 1202019566}
   - {fileID: 618531084}
+  - {fileID: 1202019565}
+  - {fileID: 1202019564}
   - {fileID: 1357561005}
   - {fileID: 1008230787}
   - {fileID: 1663514294}
@@ -4782,6 +4918,138 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1697375089328492177, guid: cdcf880bcb5de3a4482ef365c94821b2, type: 3}
   m_PrefabInstance: {fileID: 1008230786}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1153041441 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7764476114985594686, guid: dc2eb0ee5ccaabd47a53d46c4bb3ed00, type: 3}
+  m_PrefabInstance: {fileID: 1208107950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1153041442 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5214789421357390254, guid: dc2eb0ee5ccaabd47a53d46c4bb3ed00, type: 3}
+  m_PrefabInstance: {fileID: 1208107950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1153041443 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6886370403814511431, guid: dc2eb0ee5ccaabd47a53d46c4bb3ed00, type: 3}
+  m_PrefabInstance: {fileID: 1208107950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1153041444 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8939398830372218327, guid: dc2eb0ee5ccaabd47a53d46c4bb3ed00, type: 3}
+  m_PrefabInstance: {fileID: 1208107950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7615202860707881664, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5346036767714202704, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6385137510188094039, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019567 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8863860349020464327, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1636879049599460045, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3830608800871076957, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019570 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4861535944387082365, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1202019571 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6983384916826017517, guid: 3cbea3fd2db58454b92966ee478c558a, type: 3}
+  m_PrefabInstance: {fileID: 391055117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1001 &1208107950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5227,6 +5495,512 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1697375089328492177, guid: cdcf880bcb5de3a4482ef365c94821b2, type: 3}
   m_PrefabInstance: {fileID: 1216815528}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1243042839 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3822578102838897, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042840 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 17100833311242636, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3054784072509831879, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042842 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 377994719309863531, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 364718669665863062, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3411398932821575389, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3401864826096891283, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3387990643672722030, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 386337022403193125, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 719006017202895741, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042849 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 705721171364816000, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2563460066509662155, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4628681760851221021, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4615402414752581088, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7662084187705820843, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042854 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2848573041456203221, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042855 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2862459320054012456, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042856 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1000216271314901347, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042857 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4292414534973568582, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4296695472036358587, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1295041317505116912, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6519606646071718928, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042861 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6506327280614271981, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8075827982782654630, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1392422489245958536, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042864 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1397159747292388981, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4124085119752297790, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7769397212847962797, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7774097078168675664, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042868 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4736415619757139483, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042869 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3991881984153028143, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3987750555570805202, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2093983556458191513, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6081828708673535739, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6077514786295324934, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9083671990732595789, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042875 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 488035833917100187, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 501183247076118374, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3219101154679999533, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042878 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6932474779319500310, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &1243042879 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6918739141868020203, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042880 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5358237253031912096, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042881 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2834401121022820516, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042882 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 345513245702403636, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042883 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9012351364547159398, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &1243042884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6812854880862426102, guid: 3e927edd286f3144ca4068385a6c1b82, type: 3}
+  m_PrefabInstance: {fileID: 941440802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!114 &1344536579 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6642596331192652653, guid: d0bbee1ce923ed44ea93a03b524d5ca2, type: 3}
@@ -7950,6 +8724,28 @@ MonoBehaviour:
   LocalPlayer:
     _index: 0
   LocalPlayerView: {fileID: 0}
+--- !u!114 &2041954009 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2407924663698413061, guid: fc7f70b7358747d4e874bcd7a551c393, type: 3}
+  m_PrefabInstance: {fileID: 1383967211697700444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &2041954010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 213067775560982677, guid: fc7f70b7358747d4e874bcd7a551c393, type: 3}
+  m_PrefabInstance: {fileID: 1383967211697700444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1 &2069868698
 GameObject:
   m_ObjectHideFlags: 0

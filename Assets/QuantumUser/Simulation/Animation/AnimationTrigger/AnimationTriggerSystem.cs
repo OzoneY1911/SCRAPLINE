@@ -13,7 +13,8 @@ namespace Quantum
                 if (animationTrigger->InTriggerCount > 1) return;
 
                 animationTrigger->IsToggled = true;
-                frame.Events.AnimationTriggered(triggerInfo.Entity);
+
+                SetTargets(frame, animationTrigger, true);
             }
         }
 
@@ -28,7 +29,19 @@ namespace Quantum
                 if (animationTrigger->InTriggerCount != 0) return;
 
                 animationTrigger->IsToggled = false;
-                frame.Events.AnimationTriggered(triggerInfo.Entity);
+
+                SetTargets(frame, animationTrigger, false);
+            }
+        }
+
+        private void SetTargets(Frame frame, AnimationTrigger* animationTrigger, bool active)
+        {
+            var animatedTargets = frame.ResolveHashSet<EntityRef>(animationTrigger->AnimatedTargets);
+            foreach (var targetEntity in animatedTargets)
+            {
+                if (!frame.Unsafe.TryGetPointer<AnimatedTransform>(targetEntity, out var animatedTransform)) return;
+
+                animatedTransform->IsActive = active;
             }
         }
     }

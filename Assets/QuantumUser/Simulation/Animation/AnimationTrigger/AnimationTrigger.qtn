@@ -5,6 +5,8 @@ component AnimationTrigger
 
     [HideInInspector]
     UInt16 InTriggerCount;
+
+    hash_set<entity_ref> AnimatedTargets;
 }
 
 event AnimationTriggered

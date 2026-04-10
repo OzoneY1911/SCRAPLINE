@@ -1,0 +1,15 @@
+component AnimatedTransform
+{
+    EntityRef Parent;
+    FPVector3 TargetOffset;
+    FP Speed;
+    
+    [HideInInspector]
+	FPVector3 InitialLocalPosition;
+
+    [HideInInspector]
+    FP Progress;
+
+    [HideInInspector]
+    Boolean IsActive;
+}

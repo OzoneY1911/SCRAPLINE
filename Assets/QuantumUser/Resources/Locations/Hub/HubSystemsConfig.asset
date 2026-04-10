@@ -60,6 +60,12 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
+      AssemblyQualifiedName: Quantum.AnimatedTransformSystem, Quantum.Simulation,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
       AssemblyQualifiedName: Quantum.TeleporterSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
@@ -109,12 +115,6 @@ MonoBehaviour:
     Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.PlayerUseSystem, Quantum.Simulation, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.PlayerDeathSystem, Quantum.Simulation, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

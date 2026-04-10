@@ -1198,8 +1198,49 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct AnimatedTransform : Quantum.IComponent {
+    public const Int32 SIZE = 80;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public EntityRef Parent;
+    [FieldOffset(56)]
+    public FPVector3 TargetOffset;
+    [FieldOffset(24)]
+    public FP Speed;
+    [FieldOffset(32)]
+    [HideInInspector()]
+    public FPVector3 InitialLocalPosition;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public FP Progress;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public QBoolean IsActive;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 10303;
+        hash = hash * 31 + Parent.GetHashCode();
+        hash = hash * 31 + TargetOffset.GetHashCode();
+        hash = hash * 31 + Speed.GetHashCode();
+        hash = hash * 31 + InitialLocalPosition.GetHashCode();
+        hash = hash * 31 + Progress.GetHashCode();
+        hash = hash * 31 + IsActive.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (AnimatedTransform*)ptr;
+        QBoolean.Serialize(&p->IsActive, serializer);
+        EntityRef.Serialize(&p->Parent, serializer);
+        FP.Serialize(&p->Progress, serializer);
+        FP.Serialize(&p->Speed, serializer);
+        FPVector3.Serialize(&p->InitialLocalPosition, serializer);
+        FPVector3.Serialize(&p->TargetOffset, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct AnimationTrigger : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(4)]
     [HideInInspector()]
@@ -1207,18 +1248,29 @@ namespace Quantum {
     [FieldOffset(0)]
     [HideInInspector()]
     public UInt16 InTriggerCount;
+    [FieldOffset(8)]
+    public QHashSetPtr<EntityRef> AnimatedTargets;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 7321;
         hash = hash * 31 + IsToggled.GetHashCode();
         hash = hash * 31 + InTriggerCount.GetHashCode();
+        hash = hash * 31 + AnimatedTargets.GetHashCode();
         return hash;
       }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      AnimatedTargets = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.AnimationTrigger*)ptr;
+      p->ClearPointers((Frame)frame, entity);
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (AnimationTrigger*)ptr;
         serializer.Stream.Serialize(&p->InTriggerCount);
         QBoolean.Serialize(&p->IsToggled, serializer);
+        QHashSet.Serialize(&p->AnimatedTargets, serializer, Statics.SerializeEntityRef);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2158,6 +2210,8 @@ namespace Quantum {
       _ISignalOnShopValuableDestroyedSystems = BuildSignalsArray<ISignalOnShopValuableDestroyed>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
+      BuildSignalsArrayOnComponentAdded<Quantum.AnimatedTransform>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.AnimatedTransform>();
       BuildSignalsArrayOnComponentAdded<Quantum.AnimationTrigger>();
       BuildSignalsArrayOnComponentRemoved<Quantum.AnimationTrigger>();
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -2449,22 +2503,22 @@ namespace Quantum {
     }
   }
   public unsafe partial class Statics {
+    public static FrameSerializer.Delegate SerializeEntityRef;
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
     public static FrameSerializer.Delegate SerializeNestedChildEntity;
-    public static FrameSerializer.Delegate SerializeEntityRef;
     public static FrameSerializer.Delegate SerializeFPPoint;
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
+      SerializeEntityRef = EntityRef.Serialize;
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
       SerializeNestedChildEntity = Quantum.NestedChildEntity.Serialize;
-      SerializeEntityRef = EntityRef.Serialize;
       SerializeFPPoint = Quantum.FPPoint.Serialize;
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
@@ -2472,6 +2526,7 @@ namespace Quantum {
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {
+      typeRegistry.Register(typeof(Quantum.AnimatedTransform), Quantum.AnimatedTransform.SIZE);
       typeRegistry.Register(typeof(Quantum.AnimationTrigger), Quantum.AnimationTrigger.SIZE);
       typeRegistry.Register(typeof(AssetGuid), AssetGuid.SIZE);
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
@@ -2606,9 +2661,10 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 27)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 28)
         .AddBuiltInComponents()
-        .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.AnimatedTransform>(Quantum.AnimatedTransform.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.AnimationTrigger>(Quantum.AnimationTrigger.Serialize, null, Quantum.AnimationTrigger.OnRemoved, ComponentFlags.None)
         .Add<Quantum.Consumable>(Quantum.Consumable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Draggable>(Quantum.Draggable.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Flashlight>(Quantum.Flashlight.Serialize, null, null, ComponentFlags.None)

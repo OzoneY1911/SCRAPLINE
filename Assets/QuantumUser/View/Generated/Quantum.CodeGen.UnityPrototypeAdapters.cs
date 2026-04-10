@@ -50,6 +50,48 @@ namespace Quantum.Prototypes.Unity {
   #endif //;
   
   [System.SerializableAttribute()]
+  public unsafe partial class AnimatedTransformPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AnimatedTransformPrototype> {
+    public Quantum.QuantumEntityPrototype Parent;
+    public FPVector3 TargetOffset;
+    public FP Speed;
+    [HideInInspector()]
+    public FPVector3 InitialLocalPosition;
+    [HideInInspector()]
+    public FP Progress;
+    [HideInInspector()]
+    public QBoolean IsActive;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AnimatedTransformPrototype prototype);
+    public override Quantum.Prototypes.AnimatedTransformPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.AnimatedTransformPrototype();
+      converter.Convert(this.Parent, out result.Parent);
+      converter.Convert(this.TargetOffset, out result.TargetOffset);
+      converter.Convert(this.Speed, out result.Speed);
+      converter.Convert(this.InitialLocalPosition, out result.InitialLocalPosition);
+      converter.Convert(this.Progress, out result.Progress);
+      converter.Convert(this.IsActive, out result.IsActive);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class AnimationTriggerPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.AnimationTriggerPrototype> {
+    [HideInInspector()]
+    public QBoolean IsToggled;
+    [HideInInspector()]
+    public UInt16 InTriggerCount;
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] AnimatedTargets = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.AnimationTriggerPrototype prototype);
+    public override Quantum.Prototypes.AnimationTriggerPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.AnimationTriggerPrototype();
+      converter.Convert(this.IsToggled, out result.IsToggled);
+      converter.Convert(this.InTriggerCount, out result.InTriggerCount);
+      converter.Convert(this.AnimatedTargets, out result.AnimatedTargets);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class InteractablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractablePrototype> {
     [HideInInspector()]
     public Quantum.QuantumEntityPrototype Entity;
