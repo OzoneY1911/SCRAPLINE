@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 1902708944}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &34038907
 Transform:
   m_ObjectHideFlags: 19
@@ -788,6 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -7809,6 +7811,7 @@ MonoBehaviour:
   m_Script: {fileID: 2048546098}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &1523763533
 Transform:
   m_ObjectHideFlags: 19
@@ -7971,6 +7974,7 @@ MonoBehaviour:
   m_Script: {fileID: 1800156794}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &1565275882
 Transform:
   m_ObjectHideFlags: 19
@@ -9736,6 +9740,10 @@ PrefabInstance:
       propertyPath: m_StaticShadowCaster
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6c6dc4cf5d3a7a04f9b541f8f3f296e4, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e58a02353eea1f14c9610f5322880911, type: 2}
     - target: {fileID: 919132149155446097, guid: 6c6dc4cf5d3a7a04f9b541f8f3f296e4, type: 3}
       propertyPath: m_Name
       value: SHOPRACK

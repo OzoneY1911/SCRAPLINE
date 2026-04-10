@@ -49,6 +49,7 @@ MonoBehaviour:
   priority: 0
   customPasses:
   - rid: 755576284433350911
+  - rid: 5816454134123987015
   injectionPoint: 3
   m_TargetCamera: {fileID: 0}
   useTargetCamera: 0
@@ -92,3 +93,21 @@ MonoBehaviour:
         stencilDepthFailOperation: 0
         shaderPass: 0
         variableRateShading: 0
+    - rid: 5816454134123987015
+      type: {class: OutlinePass, ns: Modules.Rendering.Outline, asm: Assembly-CSharp}
+      data:
+        m_Name: Outline Pass
+        enabled: 1
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        OutlineLayer:
+          serializedVersion: 2
+          m_Bits: 0
+        OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+        Threshold: 1
+        Thickness: 2
+        OutlineIntensity: 1
+        OutlineShader: {fileID: 4800000, guid: b33a51847f8403b42a746ab57680b3e9, type: 3}
