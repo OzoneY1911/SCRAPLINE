@@ -1569,6 +1569,105 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194239367}
   m_CullTransparentMesh: 1
+--- !u!1001 &212338743
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 250835474}
+    m_Modifications:
+    - target: {fileID: 115760335558212153, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_Name
+      value: LOCKER2
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.2000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.4000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202742072312648120, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+      propertyPath: PhysicsCollider.Shape3D.PositionOffset.Z.RawValue
+      value: -10326
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+--- !u!4 &212338744 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 779285213790773379, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+  m_PrefabInstance: {fileID: 212338743}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &212338745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7265719036534765297, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+  m_PrefabInstance: {fileID: 212338743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+--- !u!114 &212338746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5673503670515837511, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+  m_PrefabInstance: {fileID: 212338743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
+--- !u!114 &212338747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7270025260183955724, guid: 7fb2c715e2a18a242ae40e3a49684fbc, type: 3}
+  m_PrefabInstance: {fileID: 212338743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1001 &215264862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1707,7 +1806,7 @@ Transform:
   - {fileID: 1719227528}
   - {fileID: 1971795786}
   - {fileID: 152068423}
-  - {fileID: 633380304}
+  - {fileID: 212338744}
   - {fileID: 660312503}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2564,7 +2663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolume
   mode: 1
-  size: {x: 16.109999, y: 8.144185, z: 24.55}
+  size: {x: 16.109999, y: 8.144185, z: 24.550003}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -2604,7 +2703,7 @@ Transform:
   m_GameObject: {fileID: 449133031}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03499937, y: 2.6620927, z: -4.125}
+  m_LocalPosition: {x: -0.03499937, y: 2.6620927, z: -4.124998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3197,118 +3296,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
   m_PrefabInstance: {fileID: 615557641}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &633380301
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 250835474}
-    m_Modifications:
-    - target: {fileID: 2844565642448784141, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.2000003
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.000000104308114
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4182062617376845083, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_Name
-      value: LOCKER (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4182062617376845083, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4586207933359710858, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: PhysicsBody.Mass.RawValue
-      value: 196608
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625448369973927788, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticShadowCaster
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862364926160734361, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7767025804961364674, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9192494132252157057, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-      propertyPath: m_StaticShadowCaster
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
---- !u!114 &633380302 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6256304738637335428, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-  m_PrefabInstance: {fileID: 633380301}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
---- !u!114 &633380303 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7972197367907010016, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-  m_PrefabInstance: {fileID: 633380301}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
---- !u!4 &633380304 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3549535141244155809, guid: 58736818199d0ad40a81f3f2287edeef, type: 3}
-  m_PrefabInstance: {fileID: 633380301}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &634556595
 PrefabInstance:
@@ -7400,7 +7387,7 @@ MonoBehaviour:
   - {fileID: 1916036159}
   - {fileID: 63313277}
   - {fileID: 152068421}
-  - {fileID: 633380302}
+  - {fileID: 212338745}
   - {fileID: 162182537}
   MapEntityReferences:
   - {fileID: 0}
@@ -7411,7 +7398,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 152068422}
   - {fileID: 0}
-  - {fileID: 633380303}
+  - {fileID: 212338746}
+  - {fileID: 212338747}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 821848293}
   - {fileID: 7144155419369989917}

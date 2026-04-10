@@ -939,7 +939,7 @@ MonoBehaviour:
       Y:
         RawValue: 13107
       Z:
-        RawValue: 262144
+        RawValue: 288358
     PhysicsMaterial:
       Id:
         Value: 0
@@ -959,7 +959,7 @@ MonoBehaviour:
         RawValue: 0
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: LOCKERMAIN
+      Name: LOCKER2MAIN
       Tag: Untagged
       Layer: 9
       Asset:
@@ -1050,14 +1050,23 @@ MonoBehaviour:
   - Components:
     - rid: 2244274753957265408
   - Components:
-    - rid: 5651955646166204416
-    - rid: 5651955646166204417
-    - rid: 5651955646166204418
-    - rid: 5651955646166204419
-    - rid: 5651955646166204420
-    - rid: 5651955646166204421
+    - rid: 5762633266154700800
+    - rid: 5762633266154700801
+    - rid: 5762633266154700802
+    - rid: 5762633266154700803
+    - rid: 5762633266154700804
+    - rid: 5762633266154700805
   - Components:
-    - rid: 3805672522716807168
+    - rid: 1295200884073955328
+    - rid: 1295200884073955329
+    - rid: 1295200884073955330
+    - rid: 1295200884073955331
+    - rid: 1295200884073955332
+    - rid: 1295200884073955333
+  - Components:
+    - rid: 4157983301971214336
+  - Components:
+    - rid: 1806407953436114944
   - Components:
     - rid: 1367491484382658560
     - rid: 1367491484382658561
@@ -1094,7 +1103,7 @@ MonoBehaviour:
     - rid: 8100184270863073284
     - rid: 8100184270863073285
     - rid: 8100184270863073286
-  SerializedTriangleDataUncompressedSize: 210896
+  SerializedTriangleDataUncompressedSize: 212240
   references:
     version: 2
     RefIds:
@@ -1317,6 +1326,193 @@ MonoBehaviour:
         InZoneValuables: []
         InZoneValue:
           RawValue: 0
+    - rid: 1295200884073955328
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -393216
+          Y:
+            RawValue: 78643
+          Z:
+            RawValue: 309166
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 11796480
+          Z:
+            RawValue: 0
+    - rid: 1295200884073955329
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: -1217
+            Y:
+              RawValue: -2785
+            Z:
+              RawValue: 10326
+          BoxExtents:
+            X:
+              RawValue: 2048
+            Y:
+              RawValue: 49152
+            Z:
+              RawValue: 10321
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 9
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 1295200884073955330
+      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Config:
+          Value: 58
+        Mass:
+          RawValue: 196608
+        Drag:
+          RawValue: 32768
+        AngularDrag:
+          RawValue: 32768
+        CenterOfMass:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+        RotationFreeze:
+          Value: 0
+        GravityScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaMode: 0
+        ExplicitInertiaTensor:
+          X:
+            RawValue: 65536
+          Y:
+            RawValue: 65536
+          Z:
+            RawValue: 65536
+        ParametricInertiaShape:
+          ShapeType: 0
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+    - rid: 1295200884073955331
+      type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        JointConfigs:
+        - StartDisabled: 0
+          JointType: 3
+          UserTag: 0
+          ConnectedEntity:
+            SceneIndexPlusOne: 12
+          ConnectedAnchor:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          Anchor:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          Axis:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: -65536
+            Z:
+              RawValue: 0
+          Frequency:
+            RawValue: 0
+          DampingRatio:
+            RawValue: 0
+          AutoConfigureDistance: 0
+          Distance:
+            RawValue: 0
+          MinDistance:
+            RawValue: 0
+          MaxDistance:
+            RawValue: 0
+          UseAngleLimits: 1
+          LowerAngle:
+            RawValue: -7208960
+          UpperAngle:
+            RawValue: 0
+          UseMotor: 0
+          MotorSpeed:
+            RawValue: 0
+          MaxMotorTorque:
+            _hasValue: 0
+            _value:
+              RawValue: 0
+    - rid: 1295200884073955332
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 1295200884073955333
+      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
     - rid: 1367491484382658560
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1379,6 +1575,23 @@ MonoBehaviour:
       data:
         CallbackFlags:
           Value: 0
+    - rid: 1806407953436114944
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -393216
+          Y:
+            RawValue: 78643
+          Z:
+            RawValue: 309166
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 11796480
+          Z:
+            RawValue: 0
     - rid: 2244274753957265408
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1483,7 +1696,7 @@ MonoBehaviour:
         IsActive:
           Value: 0
         HatchEntity:
-          SceneIndexPlusOne: 11
+          SceneIndexPlusOne: 13
         HatchInitialRotation:
           X:
             RawValue: 0
@@ -1577,23 +1790,6 @@ MonoBehaviour:
         TargetLocation:
           Type:
             Value: 1
-    - rid: 3805672522716807168
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -391577
-          Y:
-            RawValue: 78643
-          Z:
-            RawValue: 272465
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 11796480
-          Z:
-            RawValue: 0
     - rid: 4090557877406662656
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1762,7 +1958,7 @@ MonoBehaviour:
             RawValue: 0
           UseAngleLimits: 1
           LowerAngle:
-            RawValue: -6553600
+            RawValue: -7208960
           UpperAngle:
             RawValue: 0
           UseMotor: 0
@@ -1798,16 +1994,16 @@ MonoBehaviour:
             RawValue: 11796480
           Z:
             RawValue: 0
-    - rid: 5651955646166204416
+    - rid: 4157983301971214336
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
           X:
-            RawValue: -391577
+            RawValue: -393216
           Y:
             RawValue: 78643
           Z:
-            RawValue: 272465
+            RawValue: 267550
         Rotation:
           X:
             RawValue: 0
@@ -1815,176 +2011,6 @@ MonoBehaviour:
             RawValue: 11796480
           Z:
             RawValue: 0
-    - rid: 5651955646166204417
-      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        ShapeConfig:
-          ShapeType: 2
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 130
-            Y:
-              RawValue: -2785
-            Z:
-              RawValue: 10321
-          BoxExtents:
-            X:
-              RawValue: 710
-            Y:
-              RawValue: 49152
-            Z:
-              RawValue: 10321
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-        Layer: 9
-        IsTrigger: 0
-        PhysicsMaterial:
-          Id:
-            Value: 0
-    - rid: 5651955646166204418
-      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Config:
-          Value: 58
-        Mass:
-          RawValue: 196608
-        Drag:
-          RawValue: 32768
-        AngularDrag:
-          RawValue: 32768
-        CenterOfMass:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        RotationFreeze:
-          Value: 0
-        GravityScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaMode: 0
-        ExplicitInertiaTensor:
-          X:
-            RawValue: 65536
-          Y:
-            RawValue: 65536
-          Z:
-            RawValue: 65536
-        ParametricInertiaShape:
-          ShapeType: 0
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          BoxExtents:
-            X:
-              RawValue: 32768
-            Y:
-              RawValue: 32768
-            Z:
-              RawValue: 32768
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-    - rid: 5651955646166204419
-      type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        JointConfigs:
-        - StartDisabled: 0
-          JointType: 3
-          UserTag: 0
-          ConnectedEntity:
-            SceneIndexPlusOne: 10
-          ConnectedAnchor:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          Anchor:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          Axis:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: -65536
-            Z:
-              RawValue: 0
-          Frequency:
-            RawValue: 0
-          DampingRatio:
-            RawValue: 0
-          AutoConfigureDistance: 0
-          Distance:
-            RawValue: 0
-          MinDistance:
-            RawValue: 0
-          MaxDistance:
-            RawValue: 0
-          UseAngleLimits: 1
-          LowerAngle:
-            RawValue: -6553600
-          UpperAngle:
-            RawValue: 0
-          UseMotor: 0
-          MotorSpeed:
-            RawValue: 0
-          MaxMotorTorque:
-            _hasValue: 0
-            _value:
-              RawValue: 0
-    - rid: 5651955646166204420
-      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        CallbackFlags:
-          Value: 0
-    - rid: 5651955646166204421
-      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        _empty_prototype_dummy_field_: 0
     - rid: 5676808304773300224
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2068,6 +2094,193 @@ MonoBehaviour:
       data:
         TargetShopZone:
           SceneIndexPlusOne: 4
+    - rid: 5762633266154700800
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -393216
+          Y:
+            RawValue: 78643
+          Z:
+            RawValue: 267550
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 11796480
+          Z:
+            RawValue: 0
+    - rid: 5762633266154700801
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 2
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: -1217
+            Y:
+              RawValue: -2785
+            Z:
+              RawValue: -10326
+          BoxExtents:
+            X:
+              RawValue: 2048
+            Y:
+              RawValue: 49152
+            Z:
+              RawValue: 10321
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+        Layer: 9
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 5762633266154700802
+      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Config:
+          Value: 58
+        Mass:
+          RawValue: 196608
+        Drag:
+          RawValue: 32768
+        AngularDrag:
+          RawValue: 32768
+        CenterOfMass:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+        RotationFreeze:
+          Value: 0
+        GravityScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaMode: 0
+        ExplicitInertiaTensor:
+          X:
+            RawValue: 65536
+          Y:
+            RawValue: 65536
+          Z:
+            RawValue: 65536
+        ParametricInertiaShape:
+          ShapeType: 0
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+    - rid: 5762633266154700803
+      type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        JointConfigs:
+        - StartDisabled: 0
+          JointType: 3
+          UserTag: 0
+          ConnectedEntity:
+            SceneIndexPlusOne: 11
+          ConnectedAnchor:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          Anchor:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          Axis:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: -65536
+            Z:
+              RawValue: 0
+          Frequency:
+            RawValue: 0
+          DampingRatio:
+            RawValue: 0
+          AutoConfigureDistance: 0
+          Distance:
+            RawValue: 0
+          MinDistance:
+            RawValue: 0
+          MaxDistance:
+            RawValue: 0
+          UseAngleLimits: 1
+          LowerAngle:
+            RawValue: 0
+          UpperAngle:
+            RawValue: 7208960
+          UseMotor: 0
+          MotorSpeed:
+            RawValue: 0
+          MaxMotorTorque:
+            _hasValue: 0
+            _value:
+              RawValue: 0
+    - rid: 5762633266154700804
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 5762633266154700805
+      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
     - rid: 5955020165048434688
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2236,7 +2449,7 @@ MonoBehaviour:
             RawValue: 0
           UseAngleLimits: 1
           LowerAngle:
-            RawValue: -6553600
+            RawValue: -7208960
           UpperAngle:
             RawValue: 0
           UseMotor: 0
