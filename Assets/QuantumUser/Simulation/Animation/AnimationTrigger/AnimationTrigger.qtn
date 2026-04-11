@@ -8,8 +8,3 @@ component AnimationTrigger
 
     hash_set<entity_ref> AnimatedTargets;
 }
-
-event AnimationTriggered
-{
-    entity_ref Entity;
-}
