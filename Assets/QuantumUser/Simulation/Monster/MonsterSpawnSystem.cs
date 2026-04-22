@@ -1,6 +1,6 @@
 namespace Quantum
 {
-    public unsafe class MonsterSpawnSystem : SystemSignalsOnly
+    public unsafe class MonsterSpawnSystem : SystemSignalsOnly, ISignalOnMapChanged
     {
         public override void OnInit(Frame frame)
         {
@@ -12,6 +12,21 @@ namespace Quantum
             var monsterEntity = frame.Create(customData.MonsterPrototypes[monsterIndex]);
 
             customData.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
+        }
+
+        public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
+        {
+            var entitiesToDestroy = frame.AllocateList<EntityRef>();
+
+            foreach (var (entity, monster) in frame.Unsafe.GetComponentBlockIterator<Monster>())
+            {
+                entitiesToDestroy.Add(entity);
+            }
+
+            foreach (var entity in entitiesToDestroy)
+            {
+                frame.Destroy(entity);
+            }
         }
     }
 }

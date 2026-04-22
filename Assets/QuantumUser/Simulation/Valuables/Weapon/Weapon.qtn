@@ -3,5 +3,10 @@ component Weapon
 	asset_ref<WeaponConfig> Config;
 
 	[HideInInspector]
+	UInt16 CurrentAmmo;
+
+	[HideInInspector]
 	FrameTimer UseCooldown;
+	[HideInInspector]
+	FrameTimer ReloadCooldown;
 }

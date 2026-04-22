@@ -936,7 +936,11 @@ namespace Quantum.Prototypes {
   public unsafe partial class WeaponPrototype : ComponentPrototype<Quantum.Weapon> {
     public AssetRef<WeaponConfig> Config;
     [HideInInspector()]
+    public UInt16 CurrentAmmo;
+    [HideInInspector()]
     public Quantum.Prototypes.FrameTimerPrototype UseCooldown;
+    [HideInInspector()]
+    public Quantum.Prototypes.FrameTimerPrototype ReloadCooldown;
     partial void MaterializeUser(Frame frame, ref Quantum.Weapon result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Weapon component = default;
@@ -945,7 +949,9 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Weapon result, in PrototypeMaterializationContext context = default) {
         result.Config = this.Config;
+        result.CurrentAmmo = this.CurrentAmmo;
         this.UseCooldown.Materialize(frame, ref result.UseCooldown, in context);
+        this.ReloadCooldown.Materialize(frame, ref result.ReloadCooldown, in context);
         MaterializeUser(frame, ref result, in context);
     }
   }

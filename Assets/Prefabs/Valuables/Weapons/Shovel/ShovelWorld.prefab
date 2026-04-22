@@ -510,7 +510,7 @@ MonoBehaviour:
   Prototype:
     Config:
       Id:
-        Value: 498368331588420855
+        Value: 412396893385808298
     IsShopValuable:
       Value: 0
     CurrentValue:
@@ -584,8 +584,9 @@ MonoBehaviour:
   Prototype:
     Config:
       Id:
-        Value: 498368331588420855
-    Timer:
+        Value: 412396893385808298
+    CurrentAmmo: 0
+    UseCooldown:
       Mode: 0
       Frames: 0
       Seconds:

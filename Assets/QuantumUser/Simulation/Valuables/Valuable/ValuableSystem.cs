@@ -2,33 +2,14 @@ using Photon.Deterministic;
 
 namespace Quantum
 {
-    public unsafe class ValuableSystem : SystemSignalsOnly, ISignalOnComponentAdded<Valuable>, ISignalOnCollisionEnter3D, ISignalOnMapChanged
+    public unsafe class ValuableSystem : SystemSignalsOnly, ISignalOnComponentAdded<Valuable>, ISignalOnCollisionEnter3D
     {
-
         public void OnAdded(Frame frame, EntityRef entity, Valuable* valuable)
         {
             var valuableConfig = frame.FindAsset<ValuableConfig>(valuable->Config);
 
             valuable->CurrentValue = valuableConfig.DefaultValue;
             valuable->CurrentFragility = valuableConfig.DefaultFragility;
-        }
-
-        public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
-        {
-            if (frame.FindAsset<Map>(previousMap).name != "HubMap") return;
-
-            var entitiesToDestroy = frame.AllocateList<EntityRef>();
-
-            foreach (var (entity, valuable) in frame.Unsafe.GetComponentBlockIterator<Valuable>())
-            {
-                if (valuable->IsShopValuable) entitiesToDestroy.Add(entity);
-            }
-
-            foreach (var entity in entitiesToDestroy)
-            {
-                frame.Signals.OnShopValuableDestroyed(entity);
-                frame.Destroy(entity);
-            }
         }
 
         public void OnCollisionEnter3D(Frame frame, CollisionInfo3D info)

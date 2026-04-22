@@ -58450,11 +58450,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: 131072
+            RawValue: -183500
           Y:
-            RawValue: 104857
+            RawValue: 52428
           Z:
-            RawValue: 26214
+            RawValue: -262143
         Rotation:
           X:
             RawValue: 0

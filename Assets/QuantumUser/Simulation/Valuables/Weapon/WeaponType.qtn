@@ -1,0 +1,5 @@
+enum WeaponType
+{
+	Gun,
+	Melee
+}

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de6b47a2aa6aae847a05adf556223e10, type: 3}
-  m_Name: ShovelConfig
+  m_Name: DoubleBarrelConfig
   m_EditorClassIdentifier: Quantum.Simulation::Quantum.WeaponConfig
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/Weapons/ShovelConfig
+    Path: QuantumUser/Resources/AssetObjects/Weapons/DoubleBarrelConfig
     Guid:
-      Value: 498368331588420855
+      Value: 412396893385808298
   DisplayName: Shovel
   IsPocketValuable: 1
   UseMode: 1
@@ -23,11 +23,13 @@ MonoBehaviour:
   DefaultFragility: 0
   FPVPrefab: {fileID: 5289528943791311079, guid: 517d509001632d04f9b54169bcfb65f3, type: 3}
   TPVPrefab: {fileID: 5289528943791311079, guid: d28572f8c1bb35e43bddf2f13bcb9a5f, type: 3}
-  WeaponType: 1
+  WeaponType: 0
   Damage:
     RawValue: 655360
   FireRate:
     RawValue: 3932160
   Range:
     RawValue: 98304
-  MagSize: 0
+  MagSize: 15
+  ReloadTime:
+    RawValue: 196608

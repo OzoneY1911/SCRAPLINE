@@ -114,6 +114,10 @@ namespace Quantum {
     Press,
     Hold,
   }
+  public enum WeaponType : int {
+    Gun,
+    Melee,
+  }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
     Jump = 1 << 0,
@@ -2083,24 +2087,34 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Weapon : Quantum.IComponent {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 32;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
-    public AssetRef<WeaponConfig> Config;
     [FieldOffset(8)]
+    public AssetRef<WeaponConfig> Config;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public UInt16 CurrentAmmo;
+    [FieldOffset(24)]
     [HideInInspector()]
     public FrameTimer UseCooldown;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public FrameTimer ReloadCooldown;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 8713;
         hash = hash * 31 + Config.GetHashCode();
+        hash = hash * 31 + CurrentAmmo.GetHashCode();
         hash = hash * 31 + UseCooldown.GetHashCode();
+        hash = hash * 31 + ReloadCooldown.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Weapon*)ptr;
+        serializer.Stream.Serialize(&p->CurrentAmmo);
         AssetRef.Serialize(&p->Config, serializer);
+        FrameTimer.Serialize(&p->ReloadCooldown, serializer);
         FrameTimer.Serialize(&p->UseCooldown, serializer);
     }
   }
@@ -2130,6 +2144,9 @@ namespace Quantum {
   }
   public unsafe partial interface ISignalOnValuableUseRequested : ISignal {
     void OnValuableUseRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
+  }
+  public unsafe partial interface ISignalOnValuableReloadRequested : ISignal {
+    void OnValuableReloadRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
   }
   public unsafe partial interface ISignalOnValuableDropRequested : ISignal {
     void OnValuableDropRequested(Frame f, EntityRef playerEntity, EntityRef valuableEntity);
@@ -2170,6 +2187,7 @@ namespace Quantum {
     private ISignalOnValuableCollectAttempted[] _ISignalOnValuableCollectAttemptedSystems;
     private ISignalOnValuableCollected[] _ISignalOnValuableCollectedSystems;
     private ISignalOnValuableUseRequested[] _ISignalOnValuableUseRequestedSystems;
+    private ISignalOnValuableReloadRequested[] _ISignalOnValuableReloadRequestedSystems;
     private ISignalOnValuableDropRequested[] _ISignalOnValuableDropRequestedSystems;
     private ISignalOnInZoneValuableCollectedByPlayer[] _ISignalOnInZoneValuableCollectedByPlayerSystems;
     private ISignalOnPlayerJump[] _ISignalOnPlayerJumpSystems;
@@ -2199,6 +2217,7 @@ namespace Quantum {
       _ISignalOnValuableCollectAttemptedSystems = BuildSignalsArray<ISignalOnValuableCollectAttempted>();
       _ISignalOnValuableCollectedSystems = BuildSignalsArray<ISignalOnValuableCollected>();
       _ISignalOnValuableUseRequestedSystems = BuildSignalsArray<ISignalOnValuableUseRequested>();
+      _ISignalOnValuableReloadRequestedSystems = BuildSignalsArray<ISignalOnValuableReloadRequested>();
       _ISignalOnValuableDropRequestedSystems = BuildSignalsArray<ISignalOnValuableDropRequested>();
       _ISignalOnInZoneValuableCollectedByPlayerSystems = BuildSignalsArray<ISignalOnInZoneValuableCollectedByPlayer>();
       _ISignalOnPlayerJumpSystems = BuildSignalsArray<ISignalOnPlayerJump>();
@@ -2416,6 +2435,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnValuableUseRequested(_f, playerEntity, valuableEntity);
+          }
+        }
+      }
+      public void OnValuableReloadRequested(EntityRef playerEntity, EntityRef valuableEntity) {
+        var array = _f._ISignalOnValuableReloadRequestedSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnValuableReloadRequested(_f, playerEntity, valuableEntity);
           }
         }
       }
@@ -2658,6 +2686,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Valuable), Quantum.Valuable.SIZE);
       typeRegistry.Register(typeof(View), View.SIZE);
       typeRegistry.Register(typeof(Quantum.Weapon), Quantum.Weapon.SIZE);
+      typeRegistry.Register(typeof(Quantum.WeaponType), 4);
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
@@ -2711,6 +2740,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ResourceType>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.SlotIndex>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.UseMode>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.WeaponType>();
     }
   }
 }

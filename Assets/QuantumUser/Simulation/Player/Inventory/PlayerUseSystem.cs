@@ -35,9 +35,8 @@ namespace Quantum
                     break;
             }
 
-            if (!shouldUse) return;
-
-            frame.Signals.OnValuableUseRequested(filter.Entity, valuableEntity);
+            if (shouldUse) frame.Signals.OnValuableUseRequested(filter.Entity, valuableEntity);
+            if (input->Reload.WasPressed) frame.Signals.OnValuableReloadRequested(filter.Entity, valuableEntity);
         }
     }
 }
