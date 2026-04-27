@@ -165,6 +165,11 @@ namespace Quantum.Menu {
         Controller.Get<QuantumMenuUISettings>().Show();
     }
 
+    protected virtual void OnCustomizationButtonPressed()
+    {
+        Controller.Get<QuantumMenuUICustomization>().Show();
+    }
+
     /// <summary>
     /// Is called when the <see cref="_copySessionButton"/> is pressed using SendMessage() from the UI object.
     /// </summary>

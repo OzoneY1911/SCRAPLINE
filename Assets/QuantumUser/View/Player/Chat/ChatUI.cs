@@ -1,4 +1,3 @@
-using Photon.Chat;
 using Quantum;
 using TMPro;
 using UnityEngine;
@@ -19,6 +18,10 @@ public class ChatUI : PersistentSingletonMono<ChatUI>
     [SerializeField] private float _chatHideDelay = 4;
 
     private bool _isChatFocused;
+
+    public bool IsChatFocused => _isChatFocused;
+
+    public bool IsShowingChat;
 
     protected override void Awake()
     {
@@ -47,36 +50,20 @@ public class ChatUI : PersistentSingletonMono<ChatUI>
         _chatManager.OnChatUserSubscribed -= HandleNewSubscription;
     }
 
-    private void Update()
-    {
-        if (_inputManager == null) _inputManager = FindAnyObjectByType<InputManager>();
-
-        if (_inputManager.PlayerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
-        {
-            if (!_isChatFocused)
-            {
-                ShowChatUI();
-                StartTyping();
-            }
-            else
-            {
-                TrySendMessage();
-            }
-        }
-    }
-
-    private void ShowChatUI()
+    public void ShowChatUI()
     {
         CancelInvoke();
         _chatCanvas.enabled = true;
+        IsShowingChat = true;
     }
 
     private void HideChatUI()
     {
         _chatCanvas.enabled = false;
+        IsShowingChat = false;
     }
 
-    private void StartTyping()
+    public void StartTyping()
     {
         _isChatFocused = true;
         _chatInput.interactable = true;
@@ -90,7 +77,7 @@ public class ChatUI : PersistentSingletonMono<ChatUI>
         _chatInput.DeactivateInputField();
     }
 
-    private void TrySendMessage()
+    public void TrySendMessage()
     {
         var message = _chatInput.text.Trim();
 

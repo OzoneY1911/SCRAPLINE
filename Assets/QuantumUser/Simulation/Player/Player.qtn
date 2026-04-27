@@ -15,3 +15,9 @@ component Player
     [HideInInspector]
     FP LookPitch;
 }
+
+event PlayerEmoteChanged
+{
+    entity_ref PlayerEntity;
+    asset_ref<EmoteConfig> EmoteConfig;
+}

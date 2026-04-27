@@ -423,6 +423,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleCustomization"",
+                    ""type"": ""Button"",
+                    ""id"": ""18294588-5335-49f1-b5f8-39a71103c9a4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -445,6 +454,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ToggleChat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""580c6d7b-d8b5-4cbd-971f-b8a421ebd725"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCustomization"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1136,6 +1156,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PersistentMap = asset.FindActionMap("PersistentMap", throwIfNotFound: true);
         m_PersistentMap_ToggleSessionMenu = m_PersistentMap.FindAction("ToggleSessionMenu", throwIfNotFound: true);
         m_PersistentMap_ToggleChat = m_PersistentMap.FindAction("ToggleChat", throwIfNotFound: true);
+        m_PersistentMap_ToggleCustomization = m_PersistentMap.FindAction("ToggleCustomization", throwIfNotFound: true);
         // DeathCamera
         m_DeathCamera = asset.FindActionMap("DeathCamera", throwIfNotFound: true);
         m_DeathCamera_Look = m_DeathCamera.FindAction("Look", throwIfNotFound: true);
@@ -1456,6 +1477,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPersistentMapActions> m_PersistentMapActionsCallbackInterfaces = new List<IPersistentMapActions>();
     private readonly InputAction m_PersistentMap_ToggleSessionMenu;
     private readonly InputAction m_PersistentMap_ToggleChat;
+    private readonly InputAction m_PersistentMap_ToggleCustomization;
     /// <summary>
     /// Provides access to input actions defined in input action map "PersistentMap".
     /// </summary>
@@ -1475,6 +1497,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PersistentMap/ToggleChat".
         /// </summary>
         public InputAction @ToggleChat => m_Wrapper.m_PersistentMap_ToggleChat;
+        /// <summary>
+        /// Provides access to the underlying input action "PersistentMap/ToggleCustomization".
+        /// </summary>
+        public InputAction @ToggleCustomization => m_Wrapper.m_PersistentMap_ToggleCustomization;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1507,6 +1533,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleChat.started += instance.OnToggleChat;
             @ToggleChat.performed += instance.OnToggleChat;
             @ToggleChat.canceled += instance.OnToggleChat;
+            @ToggleCustomization.started += instance.OnToggleCustomization;
+            @ToggleCustomization.performed += instance.OnToggleCustomization;
+            @ToggleCustomization.canceled += instance.OnToggleCustomization;
         }
 
         /// <summary>
@@ -1524,6 +1553,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleChat.started -= instance.OnToggleChat;
             @ToggleChat.performed -= instance.OnToggleChat;
             @ToggleChat.canceled -= instance.OnToggleChat;
+            @ToggleCustomization.started -= instance.OnToggleCustomization;
+            @ToggleCustomization.performed -= instance.OnToggleCustomization;
+            @ToggleCustomization.canceled -= instance.OnToggleCustomization;
         }
 
         /// <summary>
@@ -2059,6 +2091,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleChat(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleCustomization" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleCustomization(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "DeathCamera" which allows adding and removing callbacks.

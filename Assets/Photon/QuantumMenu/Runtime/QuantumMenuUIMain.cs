@@ -51,6 +51,8 @@ namespace Quantum.Menu {
     /// </summary>
     [InlineHelp, SerializeField] protected UnityEngine.UI.Button _settingsButton;
 
+    [SerializeField] protected UnityEngine.UI.Button _customizationButton;
+
     partial void AwakeUser();
     partial void InitUser();
     partial void ShowUser();
@@ -184,6 +186,11 @@ namespace Quantum.Menu {
     /// </summary>
     protected virtual void OnSettingsButtonPressed() {
       Controller.Show<QuantumMenuUISettings>();
+    }
+
+    protected virtual void OnCustomizationButtonPressed()
+    {
+        Controller.Show<QuantumMenuUICustomization>();
     }
 
     /// <summary>

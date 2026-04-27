@@ -1,35 +1,43 @@
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class TMPFontReplacer
 {
-    [MenuItem("Tools/Replace TMP Font")]
+    [MenuItem("Tools/Replace TMP Font (Current Scene)")]
     public static void ReplaceFont()
     {
         TMP_FontAsset newFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
-            "Assets/Art/Fonts/ZenDotsKir SDF");
+            "Assets/Art/Fonts/ZenDotsKir SDF.asset");
 
-        string[] guids = AssetDatabase.FindAssets("t:Prefab t:Scene");
-
-        foreach (string guid in guids)
+        if (newFont == null)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            Object asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+            Debug.LogError("Font not found.");
+            return;
+        }
 
-            GameObject go = asset as GameObject;
-            if (go == null) continue;
+        Scene scene = SceneManager.GetActiveScene();
+        GameObject[] roots = scene.GetRootGameObjects();
 
-            TMP_Text[] texts = go.GetComponentsInChildren<TMP_Text>(true);
+        int count = 0;
+
+        foreach (GameObject root in roots)
+        {
+            TMP_Text[] texts = root.GetComponentsInChildren<TMP_Text>(true);
 
             foreach (TMP_Text text in texts)
             {
-                text.font = newFont;
-                EditorUtility.SetDirty(text);
+                if (text.font != newFont)
+                {
+                    Undo.RecordObject(text, "Replace TMP Font");
+                    text.font = newFont;
+                    EditorUtility.SetDirty(text);
+                    count++;
+                }
             }
         }
 
-        AssetDatabase.SaveAssets();
-        Debug.Log("Font replacement done.");
+        Debug.Log($"Replaced font on {count} TMP components in active scene.");
     }
 }

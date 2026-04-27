@@ -13,7 +13,6 @@ namespace Quantum
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
             var playerEntity = SpawnPlayer(frame, playerRef);
-
             frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers).Add(playerRef, playerEntity);
             frame.ResolveList<EntityRef>(frame.Global->AlivePlayers).Add(playerEntity);
         }

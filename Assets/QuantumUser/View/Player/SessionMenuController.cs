@@ -5,8 +5,11 @@ using UnityEngine;
 public class SessionMenuController : PersistentSingletonMono<SessionMenuController>
 {
     private InputManager _inputManager;
+
     private GameObject _menuContent;
-    private QuantumMenuUISettings _menuUISettings;
+    private QuantumMenuUISettings _menuSettings;
+    private QuantumMenuUICustomization _menuCustomization;
+    private ChatUI _chatUI;
 
     private void OnEnable()
     {
@@ -16,13 +19,15 @@ public class SessionMenuController : PersistentSingletonMono<SessionMenuControll
     private void Start()
     {
         _menuContent = FindAnyObjectByType<QuantumMenuUIGameplay>().transform.GetChild(0).gameObject;
-        _menuUISettings = FindAnyObjectByType<QuantumMenuUISettings>(FindObjectsInactive.Include);
+        _menuSettings = FindAnyObjectByType<QuantumMenuUISettings>(FindObjectsInactive.Include);
+        _menuCustomization = FindAnyObjectByType<QuantumMenuUICustomization>(FindObjectsInactive.Include);
+        _chatUI = FindAnyObjectByType<ChatUI>();
     }
 
     private void OnDisable()
     {
         if (_inputManager == null) return;
-        _inputManager.SessionMenuToggled -= OnSessionMenuToggled;
+        _inputManager.UIStateChanged -= OnUIStateChanged;
     }
 
     private void Update()
@@ -30,7 +35,7 @@ public class SessionMenuController : PersistentSingletonMono<SessionMenuControll
         if (_inputManager != null) return;
 
         _inputManager = FindAnyObjectByType<InputManager>();
-        _inputManager.SessionMenuToggled += OnSessionMenuToggled;
+        _inputManager.UIStateChanged += OnUIStateChanged;
     }
 
     private void OnGameDestroyed(CallbackGameDestroyed callback)
@@ -39,13 +44,29 @@ public class SessionMenuController : PersistentSingletonMono<SessionMenuControll
         Destroy(gameObject);
     }
 
-    private void OnSessionMenuToggled()
+    private void OnUIStateChanged(UIState state)
     {
-        _menuContent.SetActive(!_menuContent.activeSelf);
-
-        if (!_menuContent.activeSelf && _menuUISettings.IsShowing)
+        switch (state)
         {
-            _menuUISettings.Hide();
+            case UIState.SessionMenu:
+                _menuContent.SetActive(true);
+                break;
+            case UIState.Customization:
+                _menuCustomization.Show();
+                break;
+            case UIState.Chat:
+                if (!_chatUI.IsChatFocused)
+                {
+                    _chatUI.ShowChatUI();
+                    _chatUI.StartTyping();
+                }
+                break;
+            case UIState.None:
+                _menuContent.SetActive(false);
+                if (_menuSettings.IsShowing) _menuSettings.Hide();
+                if (_menuCustomization.IsShowing) _menuCustomization.Hide();
+                if (_chatUI.IsShowingChat) _chatUI.TrySendMessage();
+                break;
         }
     }
 }

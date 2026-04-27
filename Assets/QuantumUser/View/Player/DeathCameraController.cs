@@ -36,7 +36,8 @@ public unsafe class DeathCameraController : MonoBehaviour
             {
                 if (PlayerView.PlayerTransforms.TryGetValue(entity, out var playerTransform))
                 {
-                    _inputManager.SetSoloMap(_inputManager.PlayerControls.DeathCamera);
+                    _inputManager.SetUIState(UIState.None);
+                    _inputManager.PlayerControls.DeathCamera.Enable();
                     _deathCamera.Follow = playerTransform;
                     break;
                 }

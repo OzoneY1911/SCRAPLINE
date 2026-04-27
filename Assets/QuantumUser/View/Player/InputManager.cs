@@ -1,7 +1,15 @@
 ﻿using Quantum;
+using Quantum.Menu;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
+public enum UIState
+{
+    None,
+    Chat,
+    SessionMenu,
+    Customization
+}
 
 public class InputManager : PersistentSingletonMono<InputManager>
 {
@@ -9,122 +17,90 @@ public class InputManager : PersistentSingletonMono<InputManager>
 
     public PlayerControls PlayerControls => _playerControls;
 
-    private InputActionMap _previousMap;
-    private InputActionMap _currentMap;
+    private UIState _currentState = UIState.None;
 
-    public event Action SessionMenuToggled;
+    private QuantumMenuUICustomization _menuCustomization;
+
+    public event Action<UIState> UIStateChanged;
 
     protected override void Awake()
     {
         base.Awake();
-
         _playerControls = new PlayerControls();
+
+        _menuCustomization = FindAnyObjectByType<QuantumMenuUICustomization>(FindObjectsInactive.Include);
     }
 
     private void OnEnable()
     {
-        EnableControls();
-        SetSoloMap(_playerControls.Main);
+        _playerControls.Enable();
+        SetUIState(UIState.None);
 
         QuantumCallback.Subscribe<CallbackGameStarted>(this, OnGameStarted);
         QuantumCallback.Subscribe<CallbackGameDestroyed>(this, OnGameDestroyed);
+
+        _menuCustomization.MenuCustomizationClosed += OnMenuCustomizationClosed;
     }
 
     private void OnGameStarted(CallbackGameStarted callback)
     {
-        EnableControls();
-        SetSoloMap(_playerControls.Main);
-    }
+        _playerControls.Enable();
 
-    private void OnGameDestroyed(CallbackGameDestroyed callback)
-    {
-         DisableControls();
+        if (_currentState != UIState.None) SetUIState(UIState.None);
     }
 
     private void OnDisable()
     {
-        DisableControls();
+        _playerControls.Disable();
+        _menuCustomization.MenuCustomizationClosed -= OnMenuCustomizationClosed;
+    }
+
+    private void OnGameDestroyed(CallbackGameDestroyed callback)
+    {
+        _playerControls.Disable();
     }
 
     private void Update()
     {
         if (_playerControls.PersistentMap.ToggleSessionMenu.WasPressedThisFrame())
-        {
-            RequestSessionMenuToggle();
-        }
+            ToggleUIState(UIState.SessionMenu);
 
         if (_playerControls.PersistentMap.ToggleChat.WasPressedThisFrame())
-        {
-            RequestChatToggle();
-        }
+            ToggleUIState(UIState.Chat);
+
+        if (_playerControls.PersistentMap.ToggleCustomization.WasPressedThisFrame())
+            ToggleUIState(UIState.Customization);
     }
 
-    private void EnableControls() => _playerControls.Enable();
-    private void DisableControls() => _playerControls.Disable();
-
-    private void ToggleCursor()
+    private void ToggleUIState(UIState state)
     {
-        if (Cursor.lockState == CursorLockMode.Locked)
+        SetUIState(_currentState == state ? UIState.None : state);
+    }
+
+    public void SetUIState(UIState state)
+    {
+        if (_currentState != UIState.None && state != UIState.None) return;
+
+        _currentState = state;
+
+        if (state == UIState.None)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            Cursor.visible = false;
+            _playerControls.Main.Enable();
             Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
-
-    public void SetSoloMap(InputActionMap map)
-    {
-        if (_currentMap != null)
-        {
-            _previousMap = _currentMap;
-        }
-        _currentMap = map;
-
-        DisableControls();
-        _playerControls.PersistentMap.Enable();
-        map.Enable();
-    }
-
-    public void EnablePreviousMap()
-    {
-        _previousMap?.Enable();
-        _currentMap = _previousMap;
-        _previousMap = null;
-    }
-
-    public void RequestSessionMenuToggle()
-    {
-        ToggleCursor();
-
-        if (_playerControls.PersistentMap.ToggleChat.enabled)
-        {
-            SetSoloMap(_playerControls.PersistentMap);
-            _playerControls.PersistentMap.ToggleChat.Disable();
+            Cursor.visible = false;
         }
         else
         {
-            EnablePreviousMap();
-            _playerControls.PersistentMap.ToggleChat.Enable();
+            _playerControls.Main.Disable();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
-        SessionMenuToggled?.Invoke();
+        UIStateChanged?.Invoke(state);
     }
 
-    private void RequestChatToggle()
+    private void OnMenuCustomizationClosed()
     {
-        if (_playerControls.PersistentMap.ToggleSessionMenu.enabled)
-        {
-            SetSoloMap(_playerControls.PersistentMap);
-            _playerControls.PersistentMap.ToggleSessionMenu.Disable();
-        }
-        else
-        {
-            EnablePreviousMap();
-            _playerControls.PersistentMap.ToggleSessionMenu.Enable();
-        }
+        SetUIState(UIState.None);
     }
 }

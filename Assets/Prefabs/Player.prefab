@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 9116527284477225375}
   - component: {fileID: 5865180421293987965}
   - component: {fileID: 155642028528529636}
+  - component: {fileID: 3848464537957057794}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -699,7 +700,8 @@ MonoBehaviour:
   _neckBonePivot: {fileID: 1929441453402778824}
   _LeftArmBonePivot: {fileID: 3353206787533447256}
   _RightArmBonePivot: {fileID: 2104138987919856528}
-  _speedLerp: 8
+  _boneLerpSpeed: 8
+  _armLerpSpeed: 10
 --- !u!114 &5865180421293987965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,6 +731,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Quantum.PlayerTPVPresentationView
   _handSocket: {fileID: 4278914790750867309}
+--- !u!114 &3848464537957057794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ec515d690824c419d05dba523c439b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEmoteManager
+  _visorRenderer: {fileID: 350408873019011934}
 --- !u!1 &3595415551305420334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1061,11 @@ PrefabInstance:
 --- !u!4 &37745439995145652 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+  m_PrefabInstance: {fileID: 507957030706760287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &350408873019011934 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8948574149010179839, guid: 618323a65353d9441b6af30647a928a9, type: 3}
   m_PrefabInstance: {fileID: 507957030706760287}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &850557918154422030 stripped

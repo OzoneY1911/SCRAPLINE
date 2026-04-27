@@ -7,6 +7,7 @@
     {
         static partial void AddCommandFactoriesUser(ICollection<IDeterministicCommandFactory> factories, RuntimeConfig gameConfig, SimulationConfig simulationConfig)
         {
+            factories.Add(new CommandSetEmote());
             // Add or remove commands to the collection.
             // factories.Add(new NavMeshAgentTestSystem.RunTest());
         }
