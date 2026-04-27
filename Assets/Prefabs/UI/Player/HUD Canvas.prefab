@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 7954241845427274984}
   - component: {fileID: 7267730145947411375}
   - component: {fileID: 4550073550600782337}
+  - component: {fileID: 4840246068746745259}
   m_Layer: 5
   m_Name: Crosshair
   m_TagString: Untagged
@@ -499,6 +500,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &4840246068746745259
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507831015109814809}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 978fb3b62fa37814abb40bbc0c3e6cb7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3551381203172421018
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +676,7 @@ GameObject:
   - component: {fileID: 1237868476032928558}
   - component: {fileID: 2107965038043531170}
   - component: {fileID: 7242691287119057759}
+  - component: {fileID: 2511462556908999117}
   m_Layer: 5
   m_Name: HUD Canvas
   m_TagString: Untagged
@@ -818,6 +842,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moneyTMP: {fileID: 2328416633612455471}
+--- !u!114 &2511462556908999117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3783083828697005769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f21ab5bf79b4ed45ac96b0f5e258594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Quantum.PlayerCrosshairView
+  _crosshairAnimator: {fileID: 4840246068746745259}
 --- !u!1 &4165088400754571455
 GameObject:
   m_ObjectHideFlags: 0
