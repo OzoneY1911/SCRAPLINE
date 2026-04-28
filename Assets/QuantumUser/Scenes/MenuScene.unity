@@ -1703,6 +1703,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02b12b1c89dc7944a558f9813a95ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2040001854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040001856}
+  - component: {fileID: 2040001855}
+  m_Layer: 0
+  m_Name: Customization Preview Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2040001855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040001854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25396e682bbbfa41a769c97e7725fc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomizationPreviewManager
+  _visorRenderer: {fileID: 481034252}
+--- !u!4 &2040001856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040001854}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2062930265
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,7 +7209,6 @@ GameObject:
   - component: {fileID: 2453488607432979237}
   - component: {fileID: 398788518126217222}
   - component: {fileID: 6767846270668547021}
-  - component: {fileID: 6767846270668547022}
   m_Layer: 5
   m_Name: QuantumMenuViewCustomization
   m_TagString: Untagged
@@ -7187,19 +7231,6 @@ MonoBehaviour:
   _isModal: 0
   _plugins: []
   _backButton: {fileID: 635875528}
---- !u!114 &6767846270668547022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6767846270668547020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b25396e682bbbfa41a769c97e7725fc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CustomizationPreviewManager
-  _visorRenderer: {fileID: 481034252}
 --- !u!224 &6769103683245818241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9625,3 +9656,4 @@ SceneRoots:
   - {fileID: 465228958}
   - {fileID: 676738162}
   - {fileID: 1048566170}
+  - {fileID: 2040001856}

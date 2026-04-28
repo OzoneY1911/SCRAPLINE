@@ -1681,23 +1681,26 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 40;
+    public const Int32 SIZE = 48;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public SByte Strength;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     public FP InteractionDistance;
     [FieldOffset(4)]
     public LayerMask LocalMask;
     [FieldOffset(8)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
-    [FieldOffset(32)]
+    [FieldOffset(40)]
     [HideInInspector()]
     public FP LookYaw;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     [HideInInspector()]
     public FP LookPitch;
+    [FieldOffset(16)]
+    [HideInInspector()]
+    public AssetRef<EmoteConfig> CurrentEmoteConfig;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
@@ -1707,6 +1710,7 @@ namespace Quantum {
         hash = hash * 31 + PlayerRef.GetHashCode();
         hash = hash * 31 + LookYaw.GetHashCode();
         hash = hash * 31 + LookPitch.GetHashCode();
+        hash = hash * 31 + CurrentEmoteConfig.GetHashCode();
         return hash;
       }
     }
@@ -1715,6 +1719,7 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->Strength);
         LayerMask.Serialize(&p->LocalMask, serializer);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
+        AssetRef.Serialize(&p->CurrentEmoteConfig, serializer);
         FP.Serialize(&p->InteractionDistance, serializer);
         FP.Serialize(&p->LookPitch, serializer);
         FP.Serialize(&p->LookYaw, serializer);

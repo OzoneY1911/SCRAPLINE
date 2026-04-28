@@ -14,7 +14,12 @@ component Player
 
     [HideInInspector]
     FP LookPitch;
+
+    [HideInInspector]
+    asset_ref<EmoteConfig> CurrentEmoteConfig;
 }
+
+event PlayerSpawned { }
 
 event PlayerEmoteChanged
 {

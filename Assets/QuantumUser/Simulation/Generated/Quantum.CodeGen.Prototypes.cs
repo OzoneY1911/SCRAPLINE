@@ -599,6 +599,8 @@ namespace Quantum.Prototypes {
     public FP LookYaw;
     [HideInInspector()]
     public FP LookPitch;
+    [HideInInspector()]
+    public AssetRef<EmoteConfig> CurrentEmoteConfig;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Player component = default;
@@ -612,6 +614,7 @@ namespace Quantum.Prototypes {
         result.PlayerRef = this.PlayerRef;
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;
+        result.CurrentEmoteConfig = this.CurrentEmoteConfig;
         MaterializeUser(frame, ref result, in context);
     }
   }

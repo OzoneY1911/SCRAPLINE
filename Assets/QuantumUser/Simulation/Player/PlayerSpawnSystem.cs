@@ -10,6 +10,8 @@ namespace Quantum
             frame.Global->AlivePlayers = frame.AllocateList<EntityRef>(frame.MaxPlayerCount);
         }
 
+        
+
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
             var playerEntity = SpawnPlayer(frame, playerRef);
@@ -20,10 +22,14 @@ namespace Quantum
         public void OnPlayerRemoved(Frame frame, PlayerRef playerRef)
         {
             var activePlayers = frame.ResolveDictionary<PlayerRef, EntityRef>(frame.Global->ActivePlayers);
+            var alivePlayers = frame.ResolveList<EntityRef>(frame.Global->AlivePlayers);
+            
+            if (!activePlayers.TryGetValue(playerRef, out var entity)) return;
 
-            frame.ResolveList<EntityRef>(frame.Global->AlivePlayers).Remove(activePlayers[playerRef]);
-
+            alivePlayers.Remove(activePlayers[playerRef]);
             activePlayers.Remove(playerRef);
+
+            frame.Destroy(entity);
         }
 
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
@@ -54,6 +60,8 @@ namespace Quantum
                 SetLocalLayer(frame, playerRef, playerEntity);
             }
             SetInventory(frame, playerEntity);
+
+            frame.Events.PlayerSpawned();
 
             return playerEntity;
         }
