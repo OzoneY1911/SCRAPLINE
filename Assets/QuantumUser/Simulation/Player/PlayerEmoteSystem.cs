@@ -12,7 +12,6 @@ namespace Quantum
         {
             if (frame.TryGetPlayerCommand<CommandSetEmote>(filter.Player->PlayerRef, out var command))
             {
-                filter.Player->CurrentEmoteConfig = command.EmoteConfig;
                 frame.Events.PlayerEmoteChanged(filter.Entity, command.EmoteConfig);
             }
         }
