@@ -743,6 +743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ec515d690824c419d05dba523c439b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEmoteManager
+  _playerObject: {fileID: 37745439995145652}
+  _playerFPVObject: {fileID: 2988626803672658209}
   _visorRenderer: {fileID: 350408873019011934}
 --- !u!1 &3595415551305420334
 GameObject:

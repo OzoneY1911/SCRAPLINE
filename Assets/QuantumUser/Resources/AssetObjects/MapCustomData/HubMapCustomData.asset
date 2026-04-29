@@ -22,11 +22,11 @@ MonoBehaviour:
   PlayerSpawnPoints:
   - Position:
       X:
-        RawValue: 98304
+        RawValue: -262144
       Y:
         RawValue: 0
       Z:
-        RawValue: -570818
+        RawValue: -794951
     Rotation:
       X:
         RawValue: 0
@@ -38,11 +38,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: -254279
+        RawValue: -27525
       Y:
         RawValue: 0
       Z:
-        RawValue: -665845
+        RawValue: -834928
     Rotation:
       X:
         RawValue: 0
@@ -70,11 +70,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: -262144
+        RawValue: -254279
       Y:
         RawValue: 0
       Z:
-        RawValue: -794951
+        RawValue: -665845
     Rotation:
       X:
         RawValue: 0
@@ -86,11 +86,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: -27525
+        RawValue: 98304
       Y:
         RawValue: 0
       Z:
-        RawValue: -834928
+        RawValue: -570818
     Rotation:
       X:
         RawValue: 0
@@ -168,11 +168,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: -308674
+        RawValue: 110755
       Y:
         RawValue: 13107
       Z:
-        RawValue: 275251
+        RawValue: -288358
     Rotation:
       X:
         RawValue: 0
@@ -184,11 +184,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: 110755
+        RawValue: -308674
       Y:
         RawValue: 13107
       Z:
-        RawValue: -288358
+        RawValue: 275251
     Rotation:
       X:
         RawValue: 0
@@ -220,6 +220,86 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
+          RawValue: 107544
+        Z:
+          RawValue: -113705
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 65536
+    PossibleValuables:
+    - Id:
+        Value: 1342479856752798171
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 107544
+        Z:
+          RawValue: 28311
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 65536
+    PossibleValuables:
+    - Id:
+        Value: 1278256861798324795
+  - Data:
+      Position:
+        X:
+          RawValue: -189623
+        Y:
+          RawValue: 38666
+        Z:
+          RawValue: 125857
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: -45252
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 47404
+    PossibleValuables:
+    - Id:
+        Value: 1445472756152308425
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 75956
+        Z:
+          RawValue: 28311
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 65536
+    PossibleValuables:
+    - Id:
+        Value: 1278256861798324795
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
           RawValue: 70713
         Z:
           RawValue: -211877
@@ -238,29 +318,69 @@ MonoBehaviour:
   - Data:
       Position:
         X:
-          RawValue: -189623
+          RawValue: -405536
         Y:
-          RawValue: 73465
+          RawValue: 107544
         Z:
-          RawValue: 125857
+          RawValue: -256835
       Rotation:
         X:
           RawValue: 0
         Y:
-          RawValue: -45252
+          RawValue: 0
         Z:
           RawValue: 0
         W:
-          RawValue: 47404
+          RawValue: 65536
     PossibleValuables:
     - Id:
-        Value: 1445472756152308425
+        Value: 1433569620044031698
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 69009
+        Z:
+          RawValue: -256835
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 65536
+    PossibleValuables:
+    - Id:
+        Value: 1433569620044031698
+  - Data:
+      Position:
+        X:
+          RawValue: -405536
+        Y:
+          RawValue: 107544
+        Z:
+          RawValue: -72745
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 65536
+    PossibleValuables:
+    - Id:
+        Value: 1342479856752798171
   - Data:
       Position:
         X:
           RawValue: -189623
         Y:
-          RawValue: 38666
+          RawValue: 73465
         Z:
           RawValue: 125857
       Rotation:
@@ -298,43 +418,23 @@ MonoBehaviour:
   - Data:
       Position:
         X:
-          RawValue: -405536
-        Y:
-          RawValue: 75956
-        Z:
-          RawValue: 73269
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 65536
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
+          RawValue: -189623
         Y:
           RawValue: 107544
         Z:
-          RawValue: -256835
+          RawValue: 125857
       Rotation:
         X:
           RawValue: 0
         Y:
-          RawValue: 0
+          RawValue: -45252
         Z:
           RawValue: 0
         W:
-          RawValue: 65536
+          RawValue: 47404
     PossibleValuables:
     - Id:
-        Value: 1433569620044031698
+        Value: 1445472756152308425
   - Data:
       Position:
         X:
@@ -360,66 +460,6 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
-          RawValue: 75956
-        Z:
-          RawValue: 28311
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 65536
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 107544
-        Z:
-          RawValue: 28311
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 65536
-    PossibleValuables:
-    - Id:
-        Value: 1278256861798324795
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 69009
-        Z:
-          RawValue: -256835
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 65536
-    PossibleValuables:
-    - Id:
-        Value: 1433569620044031698
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
           RawValue: 107544
         Z:
           RawValue: -215875
@@ -440,7 +480,7 @@ MonoBehaviour:
         X:
           RawValue: -405536
         Y:
-          RawValue: 107544
+          RawValue: 75956
         Z:
           RawValue: -113705
       Rotation:
@@ -462,7 +502,7 @@ MonoBehaviour:
         Y:
           RawValue: 75956
         Z:
-          RawValue: -113705
+          RawValue: 73269
       Rotation:
         X:
           RawValue: 0
@@ -474,44 +514,4 @@ MonoBehaviour:
           RawValue: 65536
     PossibleValuables:
     - Id:
-        Value: 1342479856752798171
-  - Data:
-      Position:
-        X:
-          RawValue: -405536
-        Y:
-          RawValue: 107544
-        Z:
-          RawValue: -72745
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: 0
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 65536
-    PossibleValuables:
-    - Id:
-        Value: 1342479856752798171
-  - Data:
-      Position:
-        X:
-          RawValue: -189623
-        Y:
-          RawValue: 107544
-        Z:
-          RawValue: 125857
-      Rotation:
-        X:
-          RawValue: 0
-        Y:
-          RawValue: -45252
-        Z:
-          RawValue: 0
-        W:
-          RawValue: 47404
-    PossibleValuables:
-    - Id:
-        Value: 1445472756152308425
+        Value: 1278256861798324795
