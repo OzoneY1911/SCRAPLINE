@@ -7,6 +7,11 @@ public class DefaultToggleSetter : MonoBehaviour
 
     private void OnEnable()
     {
+        Invoke("EnableDefaultToggle", .001f);
+    }
+
+    private void EnableDefaultToggle()
+    {
         _toggle.isOn = true;
     }
 }
