@@ -13,6 +13,15 @@
 
 // merged AssemblyAttributes
 
+#region DetectUnityDefines.cs
+
+[assembly: Quantum.MarkPlatformAsIL2CPPIfEnableIL2CPPDefined]
+[assembly: Quantum.MarkPlatformAsWebIfUnityWebGlDefined]
+[assembly: Quantum.MarkProfilerAsEnabledIfEnableProfilerDefinedAttribute]
+
+#endregion
+
+
 #region RegisterResourcesLoader.cs
 
 // register a default loader; it will attempt to load the asset from their default paths if they happen to be Resources

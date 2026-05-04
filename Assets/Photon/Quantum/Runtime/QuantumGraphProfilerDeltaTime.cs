@@ -1,4 +1,5 @@
 namespace Quantum.Profiling {
+#if !QUANTUM_DISABLE_GRAPHPROFILER
   using UnityEngine;
 
   /// <summary>
@@ -7,6 +8,7 @@ namespace Quantum.Profiling {
   public sealed class QuantumGraphProfilerDeltaTime : QuantumGraphProfilerValueSeries {
     /// <inheritdoc/>
     protected override void OnUpdate() {
+      //AddValues(Time.unscaledDeltaTime, Time.unscaledDeltaTime * 0.4f);
       AddValue(Time.unscaledDeltaTime);
     }
 
@@ -16,4 +18,5 @@ namespace Quantum.Profiling {
       Graph.SetThresholds(frameMs * 1.25f, frameMs * 1.5f, frameMs * 2.0f);
     }
   }
+#endif
 }

@@ -37,55 +37,62 @@ namespace Quantum.Editor {
     double _nextForceRepaint;
     double _heartbeatTimestamp;
     Vector2? _scrollRect;
-    
-     /// <summary>
-     /// Get and sets current page from PlayerPrefs. It's handy for domain reloads.
-     /// </summary>
-     static int CurrentPage {
-       get {
-         if (_currentPage.HasValue == false) {
-           _currentPage = PlayerPrefs.GetInt(CurrentPagePlayerPrefsKey, 0);
-         }
-         return _currentPage.Value;
-       }
-       set {
-         if (_currentPage.HasValue == false || _currentPage.Value != value) {
-           PlayerPrefs.SetInt(CurrentPagePlayerPrefsKey, value);
-         }
-         _currentPage = value;
-       }
-     }
 
-     /// <summary>
-     /// Get and sets current scrolling from PlayerPrefs. It's handy for domain reloads.
-     /// </summary>
-     Vector2 ScrollRect {
+    /// <summary>
+    /// Get and sets current page from PlayerPrefs. It's handy for domain reloads.
+    /// </summary>
+    static int CurrentPage {
       get {
-         if (_scrollRect.HasValue == false) {
-           try {
-             _scrollRect = JsonUtility.FromJson<Vector2>(PlayerPrefs.GetString(ScrollRectPlayerPrefsKey, ""));
-           } catch {
-             _scrollRect = Vector2.zero;
-           }
-         }
-         return _scrollRect.Value;
-       }
-       set {
-         if (_scrollRect.HasValue == false || _scrollRect.Value != value) {
-           PlayerPrefs.SetString(ScrollRectPlayerPrefsKey, JsonUtility.ToJson(value));
-         }
-         _scrollRect = value;
-       }
-     }
+        if (_currentPage.HasValue == false) {
+          _currentPage = PlayerPrefs.GetInt(CurrentPagePlayerPrefsKey, 0);
+        }
+        return _currentPage.Value;
+      }
+      set {
+        if (_currentPage.HasValue == false || _currentPage.Value != value) {
+          PlayerPrefs.SetInt(CurrentPagePlayerPrefsKey, value);
+        }
+        _currentPage = value;
+      }
+    }
 
-     public static void FindPages(List<QuantumEditorHubPage> pages, string assetLabel) {
-       foreach (var c in AssetDatabase.FindAssets($"l:{assetLabel} t:{nameof(QuantumEditorHubPageSO)}")
-                  .Select(x => AssetDatabase.GUIDToAssetPath(x))
-                  .Select(path => AssetDatabase.LoadAssetAtPath<QuantumEditorHubPageSO>(path).Content)) {
-         pages.AddRange(c);
-       }
-     }
-     
+    /// <summary>
+    /// Get and sets current scrolling from PlayerPrefs. It's handy for domain reloads.
+    /// </summary>
+    Vector2 ScrollRect {
+      get {
+        if (_scrollRect.HasValue == false) {
+          try {
+            _scrollRect = JsonUtility.FromJson<Vector2>(PlayerPrefs.GetString(ScrollRectPlayerPrefsKey, ""));
+          } catch {
+            _scrollRect = Vector2.zero;
+          }
+        }
+        return _scrollRect.Value;
+      }
+      set {
+        if (_scrollRect.HasValue == false || _scrollRect.Value != value) {
+          PlayerPrefs.SetString(ScrollRectPlayerPrefsKey, JsonUtility.ToJson(value));
+        }
+        _scrollRect = value;
+      }
+    }
+
+    public static void FindPages(List<QuantumEditorHubPage> pages, string assetLabel) {
+      foreach (var c in AssetDatabase.FindAssets($"l:{assetLabel} t:{nameof(QuantumEditorHubPageSO)}")
+                 .Select(x => AssetDatabase.GUIDToAssetPath(x))
+                 .Select(path => AssetDatabase.LoadAssetAtPath<QuantumEditorHubPageSO>(path).Content)) {
+        pages.AddRange(c);
+      }
+    }
+
+    public static void CloseOpenInstance() {
+      if (HasOpenInstances<QuantumEditorHubWindow>()) {
+        var window = GetWindow<QuantumEditorHubWindow>();
+        window?.Close();
+      }
+    }
+
     protected static List<QuantumEditorHubPage> Pages {
       get {
         if (_pagesInitialized == false) {
@@ -93,9 +100,24 @@ namespace Quantum.Editor {
           try {
             _pages = new List<QuantumEditorHubPage>();
             FindPagesUser(_pages);
-            
+
             if (_pages.Count == 0) {
               FindPages(_pages, QuantumEditorHubPage.AssetLabel);
+            }
+
+            // pages can be hidden based on custom conditions
+            QuantumEditorHubWindow window = null;
+            if (EditorWindow.HasOpenInstances<QuantumEditorHubWindow>()) {
+              window = GetWindow<QuantumEditorHubWindow>();
+            }
+
+            if (window != null) {
+              for (int i = _pages.Count - 1; i >= 0; i--) {
+                var page = _pages[i];
+                if (page.CheckIsHidden(window.CustomConditionCheck)) {
+                  _pages.RemoveAt(i);
+                }
+              }
             }
 
             // Pages can overwrite each other by title
@@ -110,7 +132,7 @@ namespace Quantum.Editor {
             }
 
             _pagesInitialized = _pages.Count > 0;
-          } catch (Exception e){
+          } catch (Exception e) {
             Log.Exception(e);
           }
         }
@@ -120,7 +142,7 @@ namespace Quantum.Editor {
     }
 
     public virtual string AppId { get; set; } = string.Empty;
-    
+
     public virtual Object SdkAppSettingsAsset { get; }
 
     public Vector2 ContentSize => new Vector2(position.width - NavWidth - ContentMargin * 2, position.height);
@@ -151,7 +173,7 @@ namespace Quantum.Editor {
     protected static void OpenCurrentPage() {
       OpenPage(CurrentPage);
     }
-    
+
     protected static void OpenPage(int page) {
       if (Application.isPlaying) {
         return;
@@ -160,7 +182,7 @@ namespace Quantum.Editor {
       QuantumEditorHubWindow window = null;
 
       CreateWindowUser(ref window);
-      
+
       if (window == null) {
         window = GetWindow<QuantumEditorHubWindow>(true, "Photon Hub", true);
       }
@@ -252,7 +274,7 @@ namespace Quantum.Editor {
       if (EditorApplication.isPlayingOrWillChangePlaymode) {
         return;
       }
-      
+
       var shouldPopup = false;
       var page = CurrentPage;
       CheckPopupConditionUser(ref shouldPopup, ref page);

@@ -149,13 +149,13 @@ namespace Quantum {
     public void OnGUI() {
       if (ShowReplayLabel && _instantReplay != null) {
         GUI.contentColor = Color.red;
-        GUI.Label(new Rect(10, 10, 200, 100), "INSTANT REPLAY");
+        GUI.Label(new Rect(10, 30, 200, 100), "INSTANT REPLAY");
 
         bool guiEnabled = GUI.enabled;
         try {
           GUI.enabled = _instantReplay.CanSeek;
           var frameNumber = _instantReplay.ReplayGame.Frames.Verified.Number;
-          var seekFrameNumber = (int)GUI.HorizontalSlider(new Rect(10, 40, 150, 100), frameNumber, _instantReplay.StartFrame, _instantReplay.EndFrame);
+          var seekFrameNumber = (int)GUI.HorizontalSlider(new Rect(10, 50, 150, 100), frameNumber, _instantReplay.StartFrame, _instantReplay.EndFrame);
           if (_instantReplay.CanSeek && frameNumber != seekFrameNumber) {
             _instantReplay.SeekFrame(seekFrameNumber);
           }
@@ -185,10 +185,10 @@ namespace Quantum {
     #region Instant Replay Callbacks
 
     void OnReplayStarted(QuantumGame game) {
-      Debug.LogFormat("### Starting quantum instant replay at frame {0} ###", game.Frames.Predicted.Number);
+      Debug.LogFormat("### Starting Quantum instant replay at frame {0} ###", game.Frames.Predicted.Number);
 
       // FindObjectOfType is super slow, but it serves the demo purpose here.
-      var entityViewUpdater = FindFirstObjectByType<QuantumEntityViewUpdater>();
+      var entityViewUpdater = FindAnyObjectByType<QuantumEntityViewUpdater>();
       if (entityViewUpdater != null) {
         entityViewUpdater.SetCurrentGame(game);
         entityViewUpdater.TeleportAllEntities();
@@ -200,7 +200,7 @@ namespace Quantum {
     void OnReplayStopped() {
       Debug.LogFormat("### Stopping Quantum instant replay and resuming the live game ###");
 
-      var entityViewUpdater = FindFirstObjectByType<QuantumEntityViewUpdater>();
+      var entityViewUpdater = FindAnyObjectByType<QuantumEntityViewUpdater>();
       if (entityViewUpdater != null) {
         entityViewUpdater.SetCurrentGame(QuantumRunner.Default.Game);
         entityViewUpdater.TeleportAllEntities();

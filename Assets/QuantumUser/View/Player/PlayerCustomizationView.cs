@@ -8,7 +8,7 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
     [SerializeField] private Transform _playerFPVObject;
     [SerializeField] private Renderer _visorRenderer;
 
-    private List<Renderer> _playerRenderers = new();
+    private List<Renderer> _playerColorableRenderers = new();
     private List<Renderer> _playerFPVRenderers = new();
 
     private void OnEnable()
@@ -25,9 +25,9 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
         {
             var renderer = _playerObject.GetChild(i).GetComponent<Renderer>();
 
-            if (renderer == null) continue;
+            if (renderer == null || !renderer.gameObject.CompareTag("Colorable")) continue;
 
-            _playerRenderers.Add(renderer);
+            _playerColorableRenderers.Add(renderer);
         }
 
         for (int i = 0; i < _playerFPVObject.childCount; i++)
@@ -60,14 +60,14 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
             e.ColorRGB.Z.AsFloat
             );
 
-        foreach (var renderer in _playerRenderers)
+        foreach (var renderer in _playerColorableRenderers)
         {
-            renderer.material.SetColor("_BaseColor", newColor);
+            renderer.materials[0].SetColor("_BaseColor", newColor);
         }
 
         foreach (var renderer in _playerFPVRenderers)
         {
-            renderer.material.SetColor("_BaseColor", newColor);
+            renderer.materials[0].SetColor("_BaseColor", newColor);
         }
     }
 }

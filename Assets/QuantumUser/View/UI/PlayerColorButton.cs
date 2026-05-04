@@ -27,6 +27,6 @@ public class PlayerColorButton : MonoBehaviour
         {
             ColorRGB = _colorRGB
         };
-        QuantumRunner.Default.Game.SendCommand(command);
+        QuantumRunner.Default.Game.AddCommand(command);
     }
 }

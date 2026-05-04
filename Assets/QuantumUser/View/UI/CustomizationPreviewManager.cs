@@ -8,7 +8,7 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
     [SerializeField] private Transform _playerObject;
     [SerializeField] private Renderer _visorRenderer;
 
-    private List<Renderer> _playerRenderers = new();
+    private List<Renderer> _playerColorableRenderers = new();
 
     private EmoteConfig _currentEmoteConfig;
     private FPVector3 _currentColorRGB;
@@ -21,9 +21,9 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
         {
             var renderer = _playerObject.GetChild(i).GetComponent<Renderer>();
 
-            if (renderer == null) continue;
+            if (renderer == null || !renderer.gameObject.CompareTag("Colorable")) continue;
 
-            _playerRenderers.Add(renderer);
+            _playerColorableRenderers.Add(renderer);
         }
     }
 
@@ -42,7 +42,7 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
             {
                 EmoteConfig = _currentEmoteConfig
             };
-            game.SendCommand(emoteCommand);
+            game.AddCommand(emoteCommand);
         }
 
         if (_currentColorRGB != FPVector3.Zero)
@@ -51,7 +51,7 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
             {
                 ColorRGB = _currentColorRGB
             };
-            game.SendCommand(colorCommand);
+            game.AddCommand(colorCommand);
         }
     }
 
@@ -69,9 +69,9 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
             FP.FromFloat_UNSAFE(color.b)
             );
 
-        foreach (var renderer in _playerRenderers)
+        foreach (var renderer in _playerColorableRenderers)
         {
-            renderer.material.SetColor("_BaseColor", color);
+            renderer.materials[0].SetColor("_BaseColor", color);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Quantum {
     public Boolean SmoothSphereMeshCollisions = false;
 
     [NonSerialized]
+    [Obsolete("Will be removed in future updates. Use the output from Bake or CreateMeshTriangles methods instead.")]
     public MeshTriangleVerticesCcw MeshTriangles = new MeshTriangleVerticesCcw();
 
     void Reset() {
@@ -47,15 +48,24 @@ namespace Quantum {
       }
     }
     
+    public bool Bake(Int32 index, out MeshTriangleVerticesCcw meshTriangles) {
+      meshTriangles = CreateMeshTriangles();
+      if (meshTriangles == null) {
+        return false;
+      }
+      
+      meshTriangles.MeshColliderIndex = index;
+
+#pragma warning disable CS0618 // Type or member is obsolete
+      MeshTriangles = meshTriangles;
+#pragma warning restore CS0618 // Type or member is obsolete
+
+      return meshTriangles.Triangles.Length > 0;
+    }
+
+    [Obsolete("Use overload that outputs MeshTriangleVerticesCcw instead.")]
     public bool Bake(Int32 index) {
-      MeshTriangles = CreateMeshTriangles();
-      MeshTriangles.MeshColliderIndex = index;
-
-#if UNITY_EDITOR
-      UnityEditor.EditorUtility.SetDirty(this);
-#endif
-
-      return MeshTriangles.Triangles.Length > 0;
+      return Bake(index, out _);
     }
 
     /// <summary>

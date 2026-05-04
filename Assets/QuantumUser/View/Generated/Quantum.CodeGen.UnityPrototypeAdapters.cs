@@ -117,6 +117,15 @@ namespace Quantum.Prototypes.Unity {
     public FPVector3 HatchInitialRotation;
     [HideInInspector()]
     public QBoolean HatchIsOpen;
+    [Header("Procedural Settings")]
+    public AssetRef<Map> SourceMapAsset;
+    public UInt16 BranchDepth;
+    public UInt16 BranchWidth;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
+    public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype QuotaZoneRoom;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.InteractableMapChangerPrototype prototype);
     public override Quantum.Prototypes.InteractableMapChangerPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.InteractableMapChangerPrototype();
@@ -125,6 +134,13 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.HatchEntity, out result.HatchEntity);
       converter.Convert(this.HatchInitialRotation, out result.HatchInitialRotation);
       converter.Convert(this.HatchIsOpen, out result.HatchIsOpen);
+      converter.Convert(this.SourceMapAsset, out result.SourceMapAsset);
+      converter.Convert(this.BranchDepth, out result.BranchDepth);
+      converter.Convert(this.BranchWidth, out result.BranchWidth);
+      converter.Convert(this.ProceduralRooms, out result.ProceduralRooms);
+      converter.Convert(this.StartRoom, out result.StartRoom);
+      converter.Convert(this.DeadEndRoom, out result.DeadEndRoom);
+      converter.Convert(this.QuotaZoneRoom, out result.QuotaZoneRoom);
       ConvertUser(converter, ref result);
       return result;
     }

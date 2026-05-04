@@ -88,7 +88,7 @@ namespace Quantum {
     /// Will append <see cref="AppVersionMachineIdPostfix"/> when machine id is selected.
     /// </summary>
     public string AppVersion => AppVersionMachineId != null ? $"{AppVersionMachineId.AppVersion}{AppVersionMachineIdPostfix}" : AppVersionOverride;
-    
+
     /// <summary>
     /// Implement in the SDK to connect and start a game with the given start parameters.
     /// This method used exceptions to escalate errors.
@@ -112,7 +112,6 @@ namespace Quantum {
 
 namespace Quantum {
   using static UnityEngine.Object;
-  using static QuantumUnityExtensions;
 
   /// <summary>
   /// The Quantum Multiplayer Play Mode command to join a session with the mini menu.

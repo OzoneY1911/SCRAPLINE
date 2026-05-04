@@ -12,7 +12,11 @@ namespace Quantum {
   /// <summary>
   /// The SimulationConfig holds parameters used in the ECS layer and inside core systems like physics and navigation.
   /// </summary>
-  public partial class SimulationConfig : AssetObject {
+  public partial class SimulationConfig : AssetObject
+#if QUANTUM_UNITY
+    , ISerializationCallbackReceiver
+#endif
+  {
     /// <summary>
     /// Obsolete: Don't use the hard coded guids instead reference the simulation config used in the RuntimeConfig.
     /// </summary>
@@ -45,22 +49,43 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Global entities configuration
+    /// Global entities settings.
     /// </summary>
     [Space, InlineHelp]
     public FrameBase.EntitiesConfig Entities;
     
     /// <summary>
-    /// Global physics configurations.
+    /// Global physics settings.
     /// </summary>
     [Space, InlineHelp]
     public PhysicsCommon.Config Physics;
     
     /// <summary>
-    /// Global navmesh configurations.
+    /// Global navmesh settings.
     /// </summary>
     [Space, InlineHelp]
     public Navigation.Config Navigation;
+
+    /// <summary>
+    /// Global heap settings.
+    /// </summary>
+    [Space, InlineHelp]
+    public FrameHeapConfig Heap;
+
+    #region Legacy
+
+    [HideInInspector, Obsolete("Use Heap.TrackingMode")]
+    public HeapTrackingMode HeapTrackingMode;
+    [HideInInspector, Obsolete("Use Heap.PageShift")]
+    public int HeapPageShift;
+    [HideInInspector, Obsolete("Use Heap.PageCount")]
+    public int HeapPageCount;
+    [HideInInspector, Obsolete("Use Heap.ExtraHeapCount")]
+    public int HeapExtraCount;
+    [HideInInspector]
+    public bool HeapSettingsMigrated;
+
+    #endregion
 
     /// <summary>
     /// This option will trigger a Unity scene load during the Quantum start sequence.\n
@@ -85,87 +110,57 @@ namespace Quantum {
     public int ThreadCount = 2;
 
     /// <summary>
-    /// How long to store checksumed verified frames. The are used to generate a frame dump in case of a checksum error happening. Not used in Replay and Local mode. Default is 3.
+    /// How long to store checksumed verified frames. They are used to generate a frame dump in case of a checksum error happening. Not used in Replay and Local mode. Default is 3.
     /// </summary>
     [InlineHelp]
     public FP ChecksumSnapshotHistoryLengthSeconds = 3;
 
     /// <summary>
-    /// Additional options for checksum dumps, if the default settings don't provide a clear picture. 
+    /// Additional options for checksum dumps, if the default settings don't provide a clear picture.
     /// </summary>
     [InlineHelp]
     public SimulationConfigChecksumErrorDumpOptions ChecksumErrorDumpOptions;
 
     /// <summary>
-    /// If and to which extent allocations in the Frame Heap should be tracked when in Debug mode.
-    /// Recommended modes for development is `DetectLeaks`.
-    /// While actively debugging a memory leak,`TraceAllocations` mode can be enabled (warning: tracing is very slow).
-    /// </summary>
-    [Header("Frame Heap Settings")]
-    [InlineHelp]
-    public HeapTrackingMode HeapTrackingMode = HeapTrackingMode.DetectLeaks;
-
-    /// <summary>
-    /// Define the max heap size for one page of memory the frame class uses for custom allocations like QList for example. The default is 15.
-    /// </summary>
-    /// <remarks>2^15 = 32.768 bytes</remarks>
-    /// <remarks><code>TotalHeapSizeInBytes = (1 &lt;&lt; HeapPageShift) * HeapPageCount</code></remarks>
-    [InlineHelp]
-    public int HeapPageShift = 15;
-
-    /// <summary>
-    /// Define the max heap page count for memory the frame class uses for custom allocations like QList for example. Default is 256.
-    /// </summary>
-    /// <remarks><code>TotalHeapSizeInBytes = (1 &lt;&lt; HeapPageShift) * HeapPageCount</code></remarks>
-    [InlineHelp]
-    public int HeapPageCount = 256;
-
-    /// <summary>
-    /// Sets extra heaps to allocate for a session in case you need to
-    /// create 'auxiliary' frames than actually required for the simulation itself.
-    /// Default is 0.
-    /// </summary>
-    [InlineHelp]
-    public int HeapExtraCount = 0;
-
-    /// <summary>
     /// The asset loaded callback, caches fixed calculation results.
     /// </summary>
     /// <param name="resourceManager">Resource manager.</param>
-    /// <param name="allocator">The allocator.</param>
-    public override void Loaded(IResourceManager resourceManager, Native.Allocator allocator) {
+    public override void Loaded(IResourceManager resourceManager) {
       Physics.PenetrationCorrection = FPMath.Clamp01(Physics.PenetrationCorrection);
       ThreadCount = Math.Max(1, ThreadCount);
     }
     
 #if QUANTUM_UNITY
     /// <summary>
-    /// Unity Reset() method is used to initialized class fields with default values.
+    /// Unity Reset() method is used to initialize class fields with default values.
     /// </summary>
     public override void Reset() {
       Physics    = new PhysicsCommon.Config();
       Navigation = new Navigation.Config();
+      Heap       = new FrameHeapConfig();
 
-      ImportLayersFromUnity(PhysicsType.Physics3D);
+      // Automatic should be the default value, but in order to keep backwards compatibility we
+      // use Manual as the default and only assign Automatic here in Reset, which is called for
+      // newly created instances. This way existing instances are left in Manual mode and won't
+      // unexpectedly start automatic imports.
+      Physics.ImportMode = PhysicsCommon.PhysicsImportMode.Automatic;
+
+      Physics.MatrixImportSource = PhysicsCommon.PhysicsMatrixImportSource._3D;
+
+      ImportLayerListAndMatrixFromUnity();
     }
 
-    void ImportLayersFromUnity3D() {
-      ImportLayersFromUnity(PhysicsType.Physics3D);
-#if UNITY_EDITOR
-      EditorUtility.SetDirty(this);
-#endif
+    private void OnValidate() {
+      if (Physics.ImportMode == PhysicsCommon.PhysicsImportMode.Automatic) {
+        // Import is cheap, so don't bother checking if the mode or source value actually changed and always import.
+        ImportLayerListAndMatrixFromUnity();
+      }
     }
-    
-    void ImportLayersFromUnity2D() {
-      ImportLayersFromUnity(PhysicsType.Physics2D);
-#if UNITY_EDITOR
-      EditorUtility.SetDirty(this);
-#endif
-    }
-    
+
     /// <summary>
     /// Physics 2D or 3D used for importing layers from Unity.
     /// </summary>
+    [Obsolete("Replaced by " + nameof(PhysicsCommon.PhysicsImportMode) + " and " + nameof(PhysicsCommon.Config.MatrixImportSource))]
     public enum PhysicsType {
       /// <summary>
       /// Quantum Physics 3D.
@@ -176,16 +171,39 @@ namespace Quantum {
       /// </summary>
       Physics2D
     }
-    
-    /// <summary>
-    /// Import Unity physics layers.
-    /// </summary>
-    /// <param name="physicsType">The physics type to import from.</param>
+
+    [Obsolete("Use " + nameof(ImportLayerListAndMatrixFromUnity) + " instead")]
     public void ImportLayersFromUnity(PhysicsType physicsType = PhysicsType.Physics3D) {
-      Physics.Layers      = GetUnityLayerNameArray();
-      Physics.LayerMatrix = GetUnityLayerMatrix(physicsType);
+      var source = physicsType == PhysicsType.Physics3D
+        ? PhysicsCommon.PhysicsMatrixImportSource._3D
+        : PhysicsCommon.PhysicsMatrixImportSource._2D;
+
+      Physics.Layers = GetUnityLayerNameArray();
+      Physics.LayerMatrix = GetUnityLayerMatrix(source);
     }
-    
+
+    /// <summary>
+    /// Import Unity physics layer list and matrix specified in config's <see cref="PhysicsCommon.Config.MatrixImportSource"/>.
+    /// </summary>
+    public void ImportLayerListAndMatrixFromUnity() {
+      ImportLayerListFromUnity();
+      ImportLayerMatrixFromUnity();
+    }
+
+    /// <summary>
+    /// Import Unity physics layer list.
+    /// </summary>
+    public void ImportLayerListFromUnity() {
+      Physics.Layers = GetUnityLayerNameArray();
+    }
+
+    /// <summary>
+    /// Import Unity physics layer matrix specified in config's <see cref="PhysicsCommon.Config.MatrixImportSource"/>.
+    /// </summary>
+    public void ImportLayerMatrixFromUnity() {
+      Physics.LayerMatrix = GetUnityLayerMatrix(Physics.MatrixImportSource);
+    }
+
     /// <summary>
     /// Creates 32 physics layer names from Unity.
     /// </summary>
@@ -206,22 +224,22 @@ namespace Quantum {
     /// <summary>
     /// Creates 32 physics layer masks from Unity.
     /// </summary>
-    /// <param name="physicsType"></param>
-    public static Int32[] GetUnityLayerMatrix(PhysicsType physicsType) {
+    /// <param name="source">Specifies the source of the layer masks: 3D or 2D</param>
+    public static Int32[] GetUnityLayerMatrix(PhysicsCommon.PhysicsMatrixImportSource source) {
       var matrix = new Int32[32];
 
       for (Int32 a = 0; a < 32; ++a) {
         for (Int32 b = 0; b < 32; ++b) {
           bool ignoreLayerCollision = false;
           
-          switch (physicsType) {
+          switch (source) {
 #if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
-            case PhysicsType.Physics3D:
+            case PhysicsCommon.PhysicsMatrixImportSource._3D:
               ignoreLayerCollision = UnityEngine.Physics.GetIgnoreLayerCollision(a, b);
               break;
 #endif
 #if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
-            case PhysicsType.Physics2D:
+            case PhysicsCommon.PhysicsMatrixImportSource._2D:
               ignoreLayerCollision = UnityEngine.Physics2D.GetIgnoreLayerCollision(a, b);
               break;
 #endif
@@ -237,8 +255,32 @@ namespace Quantum {
       }
 
       return matrix;
-    }    
-#endif
+    }
+
+    /// <inheritdoc cref="ISerializationCallbackReceiver.OnBeforeSerialize"/>
+    public void OnBeforeSerialize() {
+    }
+
+    /// <inheritdoc cref="ISerializationCallbackReceiver.OnAfterDeserialize"/>
+    public void OnAfterDeserialize() {
+#if UNITY_EDITOR
+      // 3.1 Migrating heap config
+#pragma warning disable CS0618 // Type or member is obsolete
+      if (HeapSettingsMigrated == false && HeapPageCount > 0) {
+        Heap.PageShift = HeapPageShift;
+        Heap.PageCount = HeapPageCount;
+        Heap.TrackingMode = HeapTrackingMode;
+        Heap.ExtraHeapCount = HeapExtraCount;
+        // Force to new page based management and migrate page size, actual required size could be smaller
+        // PageCount not required because heap grows dynamically now
+        Heap.Management = HeapManagement.PageBased;
+        Heap.PageSize = (HeapPageSize) Math.Clamp(HeapPageShift - 10, 0, (int)HeapPageSize.Size_128_KiB);
+        HeapSettingsMigrated = true;
+      }
+#pragma warning restore CS0618 // Type or member is obsolete
+#endif // UNITY_EDITOR
+    }
+#endif // QUANTUM_UNITY
   }
 
   /// <summary>
@@ -267,5 +309,4 @@ namespace Quantum {
     /// </summary>
     SceneMesh3D          = 1 << 4,
   }
-
 }

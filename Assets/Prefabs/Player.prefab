@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 5865180421293987965}
   - component: {fileID: 155642028528529636}
   - component: {fileID: 3848464537957057794}
+  - component: {fileID: 6144231697856486590}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -271,7 +272,7 @@ MonoBehaviour:
         X:
           RawValue: 0
         Y:
-          RawValue: 0
+          RawValue: 58982
         Z:
           RawValue: 0
       BoxExtents:
@@ -298,7 +299,7 @@ MonoBehaviour:
   PhysicsBody:
     IsEnabled: 1
     Config2D: 116
-    Config3D: 122
+    Config3D: 63
     RotationFreeze: 255
     InertiaMode: 0
     Mass:
@@ -515,11 +516,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prototype:
     WalkSpeed:
-      RawValue: 327680
+      RawValue: 655360
     RunSpeed:
-      RawValue: 524288
+      RawValue: 983040
     CrouchSpeed:
-      RawValue: 196608
+      RawValue: 327680
     JumpForce:
       RawValue: 655360
     HeightStanding:
@@ -746,6 +747,22 @@ MonoBehaviour:
   _playerObject: {fileID: 37745439995145652}
   _playerFPVObject: {fileID: 2988626803672658209}
   _visorRenderer: {fileID: 350408873019011934}
+--- !u!114 &6144231697856486590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843376217146476403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7706d4b9fc4dc468d3a1cf0c2dde40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QPrototypeKCC
+  Prototype:
+    Settings:
+      Id:
+        Value: 385596505887953737
 --- !u!1 &3595415551305420334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,9 +1059,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6649236490436364465, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
+      objectReference: {fileID: 0}
+    - target: {fileID: -6103838405635353199, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 618323a65353d9441b6af30647a928a9, type: 3}
       propertyPath: m_Name
       value: player_animated
+      objectReference: {fileID: 0}
+    - target: {fileID: 1893212327003668950, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387923339593897277, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653757937375445989, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830521264606292798, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      propertyPath: m_TagString
+      value: Colorable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1054,7 +1054,11 @@ namespace Quantum {
 
       try {
         disposables.Add(QuantumCallback.SubscribeManual((CallbackGameStarted c) => {
-          var runner = QuantumRunner.FindRunner(c.Game);
+          var runner = QuantumRunnerRegistry.Global.FindRunner(c.Game);
+          if (!runner) {
+            return;
+          }
+
           Debug.Assert(runner);
           Assert.Check(runner.Session.IsPaused == false);
 
@@ -1154,7 +1158,7 @@ namespace Quantum {
     public static IDisposable Initialize() {
       return QuantumCallback.SubscribeManual((CallbackGameStarted c) => {
         var runner = QuantumRunner.FindRunner(c.Game);
-        if (runner != QuantumRunner.Default) {
+        if (runner == null || runner != QuantumRunner.Default) {
           // only work for the default runner
           return;
         }
@@ -2031,6 +2035,22 @@ namespace Quantum {
 #endregion
 
 
+#region Assets/Photon/Quantum/Runtime/Entity/IQuantumSnapshotInterpolationTimer.cs
+
+namespace Quantum {
+	/// <summary>
+	/// Interface to access the interpolation timer state.
+	/// </summary>
+	public interface IQuantumSnapshotInterpolationTimer
+	{
+		float Alpha { get; }
+		int CurrentFrom { get; }
+	}
+}
+
+#endregion
+
+
 #region Assets/Photon/Quantum/Runtime/Entity/IQuantumViewComponent.cs
 
 namespace Quantum {
@@ -2071,7 +2091,7 @@ namespace Quantum {
     /// <param name="game"></param>
     void GameChanged(QuantumGame game);
     /// <summary>
-    /// Is toggled during <see cref="Activate"/> and <see cref="Deactivate"/>."/>
+    /// Is toggled during <see cref="Activate"/> and <see cref="Deactivate"/>.
     /// </summary>
     bool IsActive { get; }
     /// <summary>
@@ -2130,21 +2150,23 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
+  using System.Collections.Generic;
   using UnityEngine;
 
   public unsafe partial class QuantumEntityPrototypeConverter {
-    public readonly QuantumEntityPrototype[] OrderedMapPrototypes;
+    public readonly IList<QuantumEntityPrototype> ContextPrototypes;
     public readonly QuantumEntityPrototype   AssetPrototype;
     public readonly QuantumMapData           Map;
 
-    public QuantumEntityPrototypeConverter(QuantumMapData map, QuantumEntityPrototype[] orderedMapPrototypes) {
+    public QuantumEntityPrototypeConverter(QuantumMapData map, IList<QuantumEntityPrototype> contextPrototypes) {
       Map = map;
-      OrderedMapPrototypes = orderedMapPrototypes;
+      ContextPrototypes = contextPrototypes;
       InitUser();
     }
 
-    public QuantumEntityPrototypeConverter(QuantumEntityPrototype prototypeAsset) {
-      AssetPrototype = prototypeAsset;
+    public QuantumEntityPrototypeConverter(QuantumEntityPrototype assetPrototype, IList<QuantumEntityPrototype> contextPrototypes = null) {
+      AssetPrototype = assetPrototype;
+      ContextPrototypes = contextPrototypes;
       InitUser();
     }
 
@@ -2178,10 +2200,10 @@ namespace Quantum {
     }
 
     public void Convert(QuantumEntityPrototype prototype, out MapEntityId result) {
-      if (AssetPrototype != null) {
+      if (ContextPrototypes == null) {
         result = AssetPrototype == prototype ? MapEntityId.Create(0) : MapEntityId.Invalid;
       } else {
-        var index = Array.IndexOf(OrderedMapPrototypes, prototype);
+        var index = ContextPrototypes.IndexOf(prototype);
         result = index >= 0 ? MapEntityId.Create(index) : MapEntityId.Invalid;
       }
     }
@@ -2200,7 +2222,7 @@ namespace Quantum {
         Assert.Check(Map != null);
         Assert.Check(Map.gameObject.scene == sceneReference.gameObject.scene);
 
-        var index = Array.IndexOf(OrderedMapPrototypes, sceneReference);
+        var index = ContextPrototypes.IndexOf(sceneReference);
         if (index >= 0) {
           result = EntityPrototypeRef.FromMasterAsset(Map.AssetRef, index);
         } else {
@@ -2505,7 +2527,7 @@ namespace Quantum {
     /// </summary>
     public virtual void OnEnable() {
       if (Updater == null && UseFindUpdater) {
-        Updater = FindFirstObjectByType<QuantumEntityViewUpdater>();
+        Updater = FindAnyObjectByType<QuantumEntityViewUpdater>();
       }
 
       if (Updater != null) {
@@ -2544,7 +2566,7 @@ namespace Quantum {
   /// Configuration of the snapshot interpolation mode when selected in <see cref="QuantumEntityView.InterpolationMode"/>.
   /// </summary>
   [Serializable]
-  public class QuantumSnapshotInterpolationTimer {
+  public class QuantumSnapshotInterpolationTimer : IQuantumSnapshotInterpolationTimer {
     
     [Range(1.0f, 5.0f)]
     public float TimeDilationPercentage = 2;
@@ -2555,11 +2577,9 @@ namespace Quantum {
     [Range(0.25f, 1.0f)]
     public float ElasticWindowTicks = 0.5f;
 
-    [HideInInspector]
-    public int CurrentFrom;
+    public int CurrentFrom { get; private set; }
 
-    [HideInInspector]
-    public float Alpha = 0;
+    public float Alpha { get; private set; }
 
     int _verified;
     float _accumulatedDelta;
@@ -2822,7 +2842,7 @@ namespace Quantum {
     /// Is only called internally.
     /// </summary>
     public void UpdateView() {
-      using var profilerScope = HostProfiler.Start("QuantumViewComponent.UpdateView");
+      using var profilerScope = HostProfiler.Markers.EntityViewComponentOnUpdateView();
       OnUpdateView();
     }
 
@@ -2830,7 +2850,7 @@ namespace Quantum {
     /// Is only called internally.
     /// </summary>
     public void LateUpdateView() {
-      using var profilerScope = HostProfiler.Start("QuantumViewComponent.OnLateUpdateView");
+      using var profilerScope = HostProfiler.Markers.EntityViewComponentOnLateUpdateView();
       OnLateUpdateView();
     }
 
@@ -2929,6 +2949,47 @@ namespace Quantum {
 #endregion
 
 
+#region Assets/Photon/Quantum/Runtime/Gizmos/Config/GizmoEnableScopeAttribute.cs
+
+namespace Quantum {
+  using System;
+
+  /// <summary>
+  /// Attribute requires a Header attribute.
+  /// </summary>
+  public class GizmoDisableScopeAttribute : Attribute {
+    /// <summary>
+    /// Disable the scope when this define is set.
+    /// </summary>
+    public string Define;
+
+    /// <summary>
+    /// Disable this scope.
+    /// </summary>
+    public bool Disable;
+
+    /// <summary>
+    /// Create the attribute.
+    /// </summary>
+    /// <param name="disable">Set a bool to disable directly this scope.</param>
+    /// <param name="define">Disable this scope when this define is set.</param>
+    public GizmoDisableScopeAttribute(bool disable, string define) {
+      Define = define;
+      Disable = disable;
+    }
+
+    /// <summary>
+    ///  Create the attribute.
+    /// </summary>
+    /// <param name="define">Disable this scope when this define is set.</param>
+    public GizmoDisableScopeAttribute(string define) : this(false, define) { }
+  }
+}
+
+
+#endregion
+
+
 #region Assets/Photon/Quantum/Runtime/Gizmos/Config/GizmoIconColorAttribute.cs
 
 namespace Quantum {
@@ -2995,7 +3056,11 @@ namespace Quantum {
     /// <summary>
     /// Draw the CharacterController3D and CharacterController2D components.
     /// </summary>
-    [Header("Physics Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Orange)]
+    [Header("Physics Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Orange), GizmoDisableScope(
+#if !(QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D) && !(QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D)
+      true, 
+#endif
+      "QUANTUM_DISABLE_PHYSCS_GIZMOS")]
     public QuantumGizmoEntry CharacterController = new PhysicsComponentGizmoEntry(QuantumGizmoColors.TransparentYellow);
 
     /// <summary>
@@ -3079,7 +3144,11 @@ namespace Quantum {
     /// <summary>
     /// Draw the NavMesh. The QuantumMap game object will trigger DrawOnlySelected.
     /// </summary>
-    [Header("NavMesh Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Blue)]
+    [Header("NavMesh Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Blue), GizmoDisableScope(
+#if !QUANTUM_ENABLE_AI_NAVIGATION
+      true, 
+#endif
+      "QUANTUM_DISABLE_NAVMESH_GIZMOS")]
     public NavMeshGizmoEntry NavMesh = new NavMeshGizmoEntry(QuantumGizmoColors.TransparentLightBlue, QuantumGizmoColors.TransparentMaroon) { Enabled = true, OnlyDrawSelected = true };
 
     /// <summary>
@@ -3125,8 +3194,7 @@ namespace Quantum {
     /// <summary>
     /// Draw the NavMesh pathfinder component. Only available at runtime.
     /// </summary>
-    [Header("NavMesh Runtime Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Cyan)]
-    // components
+    [Header("NavMesh Runtime Gizmos"), GizmoIconColor(ScriptHeaderBackColor.Cyan), GizmoDisableScope("QUANTUM_DISABLE_NAVMESH_GIZMOS")]
     public NavMeshComponentGizmoEntry NavMeshPathfinder = new NavMeshComponentGizmoEntry(QuantumGizmoColors.Magenta);
 
     /// <summary>
@@ -3380,6 +3448,20 @@ namespace Quantum {
     public QuantumGizmoEntry(Color color) {
       Color = color;
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Override to add custom UI elements to the gizmo style popup.
+    /// </summary>
+    /// <param name="root">The popup root element to add children to.</param>
+    /// <param name="onValueChanged">Call this after modifying a field value.</param>
+    public virtual void CreateStylePopupContent(UnityEngine.UIElements.VisualElement root, Action onValueChanged) { }
+
+    /// <summary>
+    /// Override to specify the desired height of the gizmo style popup.
+    /// </summary>
+    public virtual float StylePopupHeight => 120;
+#endif
   }
 
   /// <summary>
@@ -3592,7 +3674,7 @@ namespace Quantum {
     public QuantumGizmoCallbackAttribute Attribute;
     public MethodInfo Method;
     public MethodInfo SelectionValidation;
-    public QuantumUserGizmoEntry Entry;
+    public QuantumGizmoEntry Entry;
   }
 
   /// <summary>
@@ -3658,7 +3740,7 @@ namespace Quantum {
               SelectionValidation = attr.SelectionValidation != null
                 ? settingsType.GetMethod(attr.SelectionValidation, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
                 : null,
-              Entry = (QuantumUserGizmoEntry)settingsType.GetField(attr.FieldName).GetValue(gizmoSettings)
+              Entry = (QuantumGizmoEntry)settingsType.GetField(attr.FieldName).GetValue(gizmoSettings)
             });
           }
         }
@@ -3750,9 +3832,7 @@ namespace Quantum {
       if (frame != null) {
         DrawMapGizmos(frame.Map, frame, entityViewUpdater != null ? entityViewUpdater.MapData : null);
 
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
         OnDrawGizmos_NavMesh(frame, entityViewUpdater, gizmosSettings, type);
-#endif
 
 #if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
         DrawRuntimePhysicsComponents_3D(gizmosSettings, frame);
@@ -4259,7 +4339,7 @@ namespace Quantum {
 
       FPMathUtils.LoadLookupTables();
 
-      var map = behaviour.GetAsset(false);
+      var map = behaviour.GetAsset(forEditor: true);
       if (!map) {
         return;
       }
@@ -4268,13 +4348,15 @@ namespace Quantum {
 
       var navmeshList = new List<NavMesh>();
 
-      foreach (var navmeshLink in map.NavMeshLinks) {
+      foreach (var navmeshLink in map.NavMeshAssets) {
         if (navmeshLink.IsValid) {
           navmeshList.Add(QuantumUnityDB.GetGlobalAsset(navmeshLink));
         }
       }
 
-      DrawMapNavMesh(map, navmeshList, NavMeshRegionMask.Default, _settings, behaviour);
+      if (navmeshList.Count > 0) {
+        DrawMapNavMesh(map, navmeshList, NavMeshRegionMask.Default, _settings, behaviour);
+      }
     }
 
     private static void DrawManyNonDynamicMapColliders(List<MonoBehaviour> list) {
@@ -4858,7 +4940,8 @@ namespace Quantum {
       NavMeshRegionMask mask,
       QuantumGameGizmosSettings gizmosSettings, 
       QuantumMapData mapData) {
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
+
+#if !QUANTUM_DISABLE_NAVMESH_GIZMOS
 
       var navMeshRegionMask = mask;
       
@@ -5017,8 +5100,8 @@ namespace Quantum {
         }
       }
 #endif
-        }
-      }
+    }
+  }
 #endif
 }
 
@@ -5028,7 +5111,13 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/Gizmos/QuantumGameGizmos.NavMesh.cs
 
 namespace Quantum {
-#if UNITY_EDITOR && QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
+#if UNITY_EDITOR
+#if QUANTUM_DISABLE_NAVMESH_GIZMOS
+  public partial class QuantumGameGizmos {
+    static unsafe void OnDrawGizmos_NavMesh(Frame frame, QuantumEntityViewUpdater entityViewUpdater, QuantumGameGizmosSettings gizmosSettings, UnityEditor.GizmoType type) {
+    }
+  }
+#else 
   using System;
   using System.Collections.Generic;
   using System.Linq;
@@ -5049,6 +5138,10 @@ namespace Quantum {
 
       if (frame.DynamicAssetDB.IsEmpty == false) {
         _cachedNavMeshes.AddRange(frame.DynamicAssetDB.Assets.OfType<NavMesh>().ToList());
+      }
+
+      if (_cachedNavMeshes.Count == 0) {
+        return;
       }
 
       DrawMapNavMesh(frame.Map, _cachedNavMeshes, *frame.NavMeshRegionMask, gizmosSettings, entityViewUpdater != null ? entityViewUpdater.MapData : null);
@@ -5470,7 +5563,8 @@ namespace Quantum {
       }
     }
   }
-#endif
+#endif // QUANTUM_DISABLE_NAVMESH_GIZMOS
+#endif // UNITY_EDITOR
 }
 
 #endregion
@@ -5659,16 +5753,16 @@ namespace Quantum {
       }
     }
 
-    private static unsafe void DrawCompoundShape2D(Frame f, Shape2D* compoundShape, Transform2D* transform,
+    private static unsafe void DrawCompoundShape2D(Frame frame, Shape2D* compoundShape, Transform2D* transform,
       Transform2DVertical* transformVertical, Color color, float height, QuantumGizmoStyle style = default) {
       Debug.Assert(compoundShape->Type == Shape2DType.Compound);
 
-      if (compoundShape->Compound.GetShapes(f, out var shapesBuffer, out var count)) {
+      if (compoundShape->Compound.GetShapes(frame, out var shapesBuffer, out var count)) {
         for (var i = 0; i < count; i++) {
           var shape = shapesBuffer + i;
 
           if (shape->Type == Shape2DType.Compound) {
-            DrawCompoundShape2D(f, shape, transform, transformVertical, color, height, style);
+            DrawCompoundShape2D(frame, shape, transform, transformVertical, color, height, style);
           } else {
             var pos = transform->Position.ToUnityVector3();
             var rot = transform->Rotation.ToUnityQuaternion();
@@ -5683,7 +5777,7 @@ namespace Quantum {
             }
 #endif
 
-            DrawShape2DGizmo(*shape, pos, rot, color, height, f, style);
+            DrawShape2DGizmo(*shape, pos, rot, color, height, frame, style);
           }
         }
       }
@@ -6197,16 +6291,16 @@ namespace Quantum {
     }
 
 
-    private static unsafe void DrawCompoundShape3D(Frame f, Shape3D* compoundShape, Transform3D* transform, Color color,
+    private static unsafe void DrawCompoundShape3D(Frame frame, Shape3D* compoundShape, Transform3D* transform, Color color,
       QuantumGizmoStyle style = default) {
       Debug.Assert(compoundShape->Type == Shape3DType.Compound);
 
-      if (compoundShape->Compound.GetShapes(f, out var shapesBuffer, out var count)) {
+      if (compoundShape->Compound.GetShapes(frame, out var shapesBuffer, out var count)) {
         for (var i = 0; i < count; i++) {
           var shape = shapesBuffer + i;
 
           if (shape->Type == Shape3DType.Compound) {
-            DrawCompoundShape3D(f, shape, transform, color, style);
+            DrawCompoundShape3D(frame, shape, transform, color, style);
           } else {
             DrawShape3DGizmo(*shape, transform->Position.ToUnityVector3(), transform->Rotation.ToUnityQuaternion(),
               color, style);
@@ -6519,6 +6613,15 @@ namespace Quantum {
     public Type AssetType => SerializableAssetType;
   }
   
+#if !QUANTUM_DISABLE_ASSET_BUNDLE_ASSET_SOURCE
+  [Serializable]
+  public class QuantumAssetObjectSourceAssetBundle: QuantumAssetSourceAssetBundle<Quantum.AssetObject>, IQuantumAssetObjectSource {
+    public SerializableType<Quantum.AssetObject> SerializableAssetType;
+
+    public Type AssetType => SerializableAssetType;
+  }
+#endif
+  
 #if (QUANTUM_ADDRESSABLES || QUANTUM_ENABLE_ADDRESSABLES) && !QUANTUM_DISABLE_ADDRESSABLES
   [Serializable]
   public class QuantumAssetObjectSourceAddressable : QuantumAssetSourceAddressable<Quantum.AssetObject>, IQuantumAssetObjectSource {
@@ -6568,7 +6671,7 @@ namespace Quantum {
 
     [Obsolete("Use EditorGUILayout.PropertyField instead", true)]
     public static bool Inspector(this IQuantumEditorGUI gui, SerializedObject obj, string propertyPath, string[] filters = null, bool skipRoot = true, QuantumEditorGUIPropertyCallback callback = null, bool drawScript = false) {
-      return gui.Inspector(obj.FindPropertyOrThrow(propertyPath), filters: filters, skipRoot: skipRoot, callback: callback, drawScript: drawScript);
+      return gui.Inspector(obj.FindProperty(propertyPath) ?? throw new ArgumentOutOfRangeException(propertyPath), filters: filters, skipRoot: skipRoot, callback: callback, drawScript: drawScript);
     }
 
     [Obsolete("Use EditorGUILayout.PropertyField instead", true)]
@@ -7121,7 +7224,7 @@ namespace Quantum {
   /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class QuantumAssetSourceAddressable<T> where T : UnityEngine.Object {
-    
+
     /// <see cref="RuntimeKey"/>
     [Obsolete("Use RuntimeKey instead")]
     public AssetReference Address {
@@ -7139,17 +7242,17 @@ namespace Quantum {
         }
       }
     }
-    
+
     /// <summary>
     /// Addressables runtime key. Can be used in any form Addressables supports, such as asset name, label, or address.
     /// </summary>
     [UnityAddressablesRuntimeKey]
     public string RuntimeKey;
-    
+
     [NonSerialized]
     private int _acquireCount;
 
-    [NonSerialized] 
+    [NonSerialized]
     private AsyncOperationHandle _op;
 
     /// <inheritdoc cref="QuantumAssetSourceResource{T}.Acquire"/>
@@ -7185,15 +7288,15 @@ namespace Quantum {
           throw;
         }
       }
-      
+
       if (_op.OperationException != null) {
         throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}", _op.OperationException);
       }
-      
+
       Assert.Check(_op.Result != null, "_op.Result != null");
       return ValidateResult(_op.Result);
     }
-    
+
     private void LoadInternal(bool synchronous) {
       Assert.Check(!_op.IsValid());
 
@@ -7204,7 +7307,7 @@ namespace Quantum {
       if (_op.Status == AsyncOperationStatus.Failed) {
         throw new Exception($"Failed to load asset: {RuntimeKey}", _op.OperationException);
       }
-      
+
       if (synchronous) {
         _op.WaitForCompletion();
       }
@@ -7214,7 +7317,7 @@ namespace Quantum {
       if (_op.IsValid()) {
         var op = _op;
         _op = default;
-        Addressables.Release(op);  
+        Addressables.Release(op);
       }
     }
 
@@ -7226,7 +7329,7 @@ namespace Quantum {
         if (result is GameObject gameObject == false) {
           throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset is not a GameObject, but a {result.GetType()}");
         }
-        
+
         var component = ((GameObject)result).GetComponent<T>();
         if (!component) {
           throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset does not contain component {typeof(T)}");
@@ -7238,17 +7341,275 @@ namespace Quantum {
       if (result is T asset) {
         return asset;
       }
-      
+
       throw new InvalidOperationException($"Failed to load asset: {RuntimeKey}; asset is not of type {typeof(T)}, but {result.GetType()}");
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceResource{T}.Description"/>
     public string Description => "RuntimeKey: " + RuntimeKey;
-    
+
 #if UNITY_EDITOR
     /// <inheritdoc cref="QuantumAssetSourceResource{T}.EditorInstance"/>
     public T EditorInstance => (T)QuantumAddressablesUtils.LoadEditorInstance(RuntimeKey);
 #endif
+  }
+}
+#endif
+
+#endregion
+
+
+#region QuantumAssetSourceAssetBundle.cs
+
+#if !QUANTUM_DISABLE_ASSET_BUNDLE_ASSET_SOURCE
+namespace Quantum {
+  using System;
+  using System.IO;
+  using System.Runtime.ExceptionServices;
+  using UnityEditor;
+  using UnityEngine;
+  using Object = UnityEngine.Object;
+
+  /// <summary>
+  /// An AssetBundle-based implementation of the asset source pattern. The asset is loaded from AssetBundles.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
+  [Serializable]
+  public partial class QuantumAssetSourceAssetBundle<T> where T : Object {
+    /// <summary>
+    /// Name of the asset bundle.
+    /// </summary>
+    public string AssetBundleName;
+    /// <summary>
+    /// Name of the asset in the bundle.
+    /// </summary>
+    public string AssetName;
+    /// <summary>
+    /// Nested asset name, for sub assets.
+    /// </summary>
+    public string NestedAssetName;
+
+    [NonSerialized]
+    object _state;
+    [NonSerialized]
+    int _acquireCount;
+
+    /// <inheritdoc cref="QuantumAssetSourceResource{T}.Acquire"/>
+    public void Acquire(bool synchronous) {
+      if (_acquireCount == 0) {
+        LoadInternal(synchronous);
+      }
+      _acquireCount++;
+    }
+
+    /// <inheritdoc cref="QuantumAssetSourceResource{T}.Release"/>
+    public void Release() {
+      if (_acquireCount <= 0) {
+        throw new Exception("Asset is not loaded");
+      }
+      if (--_acquireCount == 0) {
+        UnloadInternal();
+      }
+    }
+
+    /// <inheritdoc cref="QuantumAssetSourceResource{T}.IsCompleted"/>
+    public bool IsCompleted {
+      get {
+        if (_state == null) {
+          // hasn't started
+          return false;
+        }
+
+        if (_state is AssetBundleRequest asyncOp && !asyncOp.isDone) {
+          // still loading, wait
+          return false;
+        }
+
+        return true;
+      }
+    }
+
+    /// <inheritdoc cref="QuantumAssetSourceResource{T}.WaitForResult"/>
+    public T WaitForResult() {
+      Assert.Check(_state != null);
+      if (_state is AssetBundleRequest asyncOp) {
+        if (asyncOp.isDone) {
+          if (string.IsNullOrEmpty(NestedAssetName)) {
+            _state = asyncOp.asset;
+          } else {
+            _state = QuantumAssetSourceAssetBundle.FindAsset(asyncOp.allAssets, NestedAssetName);
+          }
+        } else {
+          // just load synchronously, then pass through
+          _state = null;
+          LoadInternal(synchronous: true);
+        }
+      }
+
+      return ValidateResult(_state);
+    }
+
+    private void LoadInternal(bool synchronous) {
+      Assert.Check(_state == null);
+      try {
+        // load the bundle, if not yet loaded
+        var bundle = GetAssetBundle(AssetBundleName);
+        if (bundle == null) {
+          throw new InvalidOperationException($"Unable to load asset bundle {AssetBundleName}");
+        }
+
+        if (typeof(T).IsSubclassOf(typeof(Component))) {
+          _state = QuantumAssetSourceAssetBundle.LoadAssetFromBundle<GameObject>(bundle, AssetName, NestedAssetName, synchronous);
+        } else {
+          _state = QuantumAssetSourceAssetBundle.LoadAssetFromBundle<T>(bundle, AssetName, NestedAssetName, synchronous);
+        }
+
+      } catch (Exception ex) {
+        _state = ExceptionDispatchInfo.Capture(ex);
+      }
+    }
+
+    private void UnloadInternal() {
+      if (_state is AssetBundleRequest asyncOp) {
+        asyncOp.completed += op => {
+          // unload stuff
+          var asset = ((AssetBundleRequest)op).asset;
+          if (asset) {
+            QuantumAssetSourceAssetBundle.AssetUnloaded?.Invoke(asset);
+          }
+        };
+      } else if (_state is Object obj) {
+        QuantumAssetSourceAssetBundle.AssetUnloaded?.Invoke(obj);
+      }
+
+      _state = null;
+    }
+
+    static AssetBundle GetAssetBundle(string bundleName) {
+      // first, try to locate from loaded bundles
+      foreach (var assetBundle in AssetBundle.GetAllLoadedAssetBundles()) {
+        if (string.Equals(assetBundle.name, bundleName, StringComparison.Ordinal)) {
+          return assetBundle;
+        }
+      }
+
+      if (QuantumAssetSourceAssetBundle.AssetBundleRequested != null) {
+        return QuantumAssetSourceAssetBundle.AssetBundleRequested(bundleName);
+      }
+
+      // try to load from filesystem as fallback
+      var bundlePath = Path.Combine(Application.streamingAssetsPath, bundleName);
+      return AssetBundle.LoadFromFile(bundlePath);
+    }
+
+    private T ValidateResult(object result) {
+      if (_state == null) {
+        throw new InvalidOperationException($"Missing AssetBundle {AssetBundleName} asset: {AssetName}{(string.IsNullOrEmpty(NestedAssetName) ? "" : $"[{NestedAssetName}]")}");
+      }
+      if (result is ExceptionDispatchInfo exception) {
+        exception.Throw();
+        throw new NotSupportedException();
+      }
+      if (result == null) {
+        throw new InvalidOperationException($"Failed to load asset: {AssetBundleName}[{AssetName}]; asset is null");
+      }
+      if (typeof(T).IsSubclassOf(typeof(Component))) {
+        if (result is GameObject == false) {
+          throw new InvalidOperationException($"Failed to load asset: {AssetBundleName}[{AssetName}]; asset is not a GameObject, but a {result.GetType()}");
+        }
+
+        var component = ((GameObject)result).GetComponent<T>();
+        if (!component) {
+          throw new InvalidOperationException($"Failed to load asset: {AssetBundleName}[{AssetName}]; asset does not contain component {typeof(T)}");
+        }
+
+        return component;
+      }
+
+      if (result is T asset) {
+        return asset;
+      }
+
+      throw new InvalidOperationException($"Failed to load asset: {AssetBundleName}[{AssetName}]; asset is not of type {typeof(T)}, but {result.GetType()}");
+    }
+
+    /// <summary>
+    /// The description of the asset source. Used for debugging.
+    /// </summary>
+    public string Description => $"AssetBundle: {AssetBundleName}, {AssetName}{(string.IsNullOrEmpty(NestedAssetName) ? "" : $"[{NestedAssetName}]")}";
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Returns the asset instance for Editor purposes. Does not call <see cref="Acquire"/>.
+    /// </summary>
+    public T EditorInstance {
+      get {
+        if (string.IsNullOrEmpty(AssetBundleName) || string.IsNullOrEmpty(AssetName)) {
+          return null;
+        }
+
+        var paths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(AssetBundleName, Path.GetFileNameWithoutExtension(AssetName));
+        foreach (var path in paths) {
+          if (!path.EndsWith(AssetName, StringComparison.OrdinalIgnoreCase)) {
+            continue;
+          }
+          var assets = AssetDatabase.LoadAllAssetsAtPath(path);
+          foreach (var potentialAsset in assets) {
+            if (potentialAsset is not T obj) {
+              continue;
+            }
+
+            if (string.IsNullOrEmpty(NestedAssetName) || NestedAssetName.Equals(potentialAsset.name, StringComparison.OrdinalIgnoreCase)) {
+              return obj;
+            }
+          }
+        }
+
+        return null;
+      }
+    }
+#endif
+  }
+
+  /// <summary>
+  /// Utility for <see cref="QuantumAssetSourceAssetBundle{T}"/>.
+  /// </summary>
+  public static class QuantumAssetSourceAssetBundle {
+    /// <summary>
+    /// Global callback that allows for custom AssetBundle loading.
+    /// </summary>
+    public static Func<string, AssetBundle> AssetBundleRequested;
+    /// <summary>
+    /// Global callback invoked when an asset is being unloaded.
+    /// </summary>
+    public static Action<Object> AssetUnloaded;
+
+    internal static object LoadAssetFromBundle<T>(AssetBundle bundle, string assetName, string nestedAssetName, bool synchronous) where T : Object {
+      if (synchronous) {
+        if (string.IsNullOrEmpty(nestedAssetName)) {
+          return bundle.LoadAsset<T>(assetName);
+        } else {
+          var allAssets = bundle.LoadAssetWithSubAssets<T>(assetName);
+          return allAssets != null ? FindAsset(allAssets, nestedAssetName) : null;
+        }
+      } else {
+        if (string.IsNullOrEmpty(nestedAssetName)) {
+          return bundle.LoadAssetAsync<T>(assetName);
+        } else {
+          return bundle.LoadAssetWithSubAssetsAsync<T>(assetName);
+        }
+      }
+    }
+
+    internal static T FindAsset<T>(T[] assets, string assetName) where T : Object {
+      foreach (var asset in assets) {
+        if (asset && asset.name == assetName) {
+          return asset;
+        }
+      }
+
+      return default;
+    }
   }
 }
 #endif
@@ -7271,7 +7632,7 @@ namespace Quantum {
   /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class QuantumAssetSourceResource<T> where T : UnityEngine.Object {
-    
+
     /// <summary>
     /// Resource path. Note that this is a Unity resource path, not a file path.
     /// </summary>
@@ -7285,7 +7646,7 @@ namespace Quantum {
     [NonSerialized]
     private object _state;
     [NonSerialized]
-    private int    _acquireCount;
+    private int _acquireCount;
 
     /// <summary>
     /// Loads the asset. In synchronous mode, the asset is loaded immediately. In asynchronous mode, the asset is loaded in the background.
@@ -7321,7 +7682,7 @@ namespace Quantum {
           // hasn't started
           return false;
         }
-        
+
         if (_state is ResourceRequest asyncOp && !asyncOp.isDone) {
           // still loading, wait
           return false;
@@ -7346,9 +7707,9 @@ namespace Quantum {
           LoadInternal(synchronous: true);
         }
       }
-      
+
       if (_state == null) {
-        throw new InvalidOperationException($"Failed to load asset {typeof(T)}: {ResourcePath}[{SubObjectName}]. Asset is null.");  
+        throw new InvalidOperationException($"Failed to load asset {typeof(T)}: {ResourcePath}[{SubObjectName}]. Asset is null.");
       }
 
       if (_state is T asset) {
@@ -7375,7 +7736,7 @@ namespace Quantum {
         _state = ExceptionDispatchInfo.Capture(ex);
       }
     }
-    
+
     private static T LoadNamedResource(string resoucePath, string subObjectName) {
       var assets = UnityResources.LoadAll<T>(resoucePath);
 
@@ -7388,7 +7749,7 @@ namespace Quantum {
 
       return null;
     }
-    
+
     private void LoadInternal(bool synchronous) {
       Assert.Check(_state == null);
       try {
@@ -7417,12 +7778,12 @@ namespace Quantum {
 
       _state = null;
     }
-    
+
     /// <summary>
     /// The description of the asset source. Used for debugging.
     /// </summary>
     public string Description => $"Resource: {ResourcePath}{(!string.IsNullOrEmpty(SubObjectName) ? $"[{SubObjectName}]" : "")}";
-    
+
 #if UNITY_EDITOR
     /// <summary>
     /// Returns the asset instance for Editor purposes. Does not call <see cref="Acquire"/>.
@@ -7455,14 +7816,14 @@ namespace Quantum {
     /// </summary>
     [FormerlySerializedAs("Prefab")]
     public T Object;
-    
+
     /// <see cref="Object"/>
     [Obsolete("Use Object instead")]
     public T Prefab {
       get => Object;
       set => Object = value;
     }
-    
+
     /// <summary>
     /// Returns <see langword="true"/>.
     /// </summary>
@@ -7492,7 +7853,7 @@ namespace Quantum {
 
       return Object;
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceResource{T}.Description"/>
     public string Description {
       get {
@@ -7508,7 +7869,7 @@ namespace Quantum {
         }
       }
     }
-    
+
 #if UNITY_EDITOR
     /// <summary>
     /// Returns <seealso cref="Object"/>.
@@ -7536,33 +7897,33 @@ namespace Quantum {
   /// <typeparam name="T"></typeparam>
   [Serializable]
   public partial class QuantumAssetSourceStaticLazy<T> where T : UnityEngine.Object {
-    
+
     /// <summary>
     /// The asset reference. Can only point to an asset, runtime-created objects will not work.
     /// </summary>
-    [FormerlySerializedAs("Prefab")] 
+    [FormerlySerializedAs("Prefab")]
     public LazyLoadReference<T> Object;
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.Prefab"/>
     [Obsolete("Use Object instead")]
     public LazyLoadReference<T> Prefab {
       get => Object;
       set => Object = value;
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.IsCompleted"/>
     public bool IsCompleted => true;
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.Acquire"/>
     public void Acquire(bool synchronous) {
       // do nothing
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.Release"/>
     public void Release() {
       // do nothing
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.WaitForResult"/>
     public T WaitForResult() {
       if (Object.asset == null) {
@@ -7571,7 +7932,7 @@ namespace Quantum {
 
       return Object.asset;
     }
-    
+
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.Description"/>
     public string Description {
       get {
@@ -7589,7 +7950,7 @@ namespace Quantum {
         }
       }
     }
-    
+
 #if UNITY_EDITOR
     /// <inheritdoc cref="QuantumAssetSourceStatic{T}.EditorInstance"/>
     public T EditorInstance => Object.asset;
@@ -7611,7 +7972,7 @@ namespace Quantum {
   using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
   using static InternalLogStreams;
-  
+
   /// <summary>
   /// If applied at the assembly level, allows <see cref="QuantumGlobalScriptableObject{T}"/> to be loaded with Addressables.
   /// </summary>
@@ -7627,7 +7988,7 @@ namespace Quantum {
     /// The address to load from.
     /// </summary>
     public string Address { get; }
-    
+
     /// <summary>
     /// Loads the asset from the <see cref="Address"/>. Uses WaitForCompletion internally, so platforms that do not support it need
     /// to preload the address prior to loading.
@@ -7635,15 +7996,15 @@ namespace Quantum {
     public override QuantumGlobalScriptableObjectLoadResult Load(Type type) {
 #if (QUANTUM_ADDRESSABLES || QUANTUM_ENABLE_ADDRESSABLES) && !QUANTUM_DISABLE_ADDRESSABLES
       Assert.Check(!string.IsNullOrEmpty(Address));
-      
+
       var op = Addressables.LoadAssetAsync<QuantumGlobalScriptableObject>(Address);
       var instance = op.WaitForCompletion();
       if (op.Status == AsyncOperationStatus.Succeeded) {
         Assert.Check(instance);
-        return new (instance, x => Addressables.Release(op));
+        return new(instance, x => Addressables.Release(op));
       }
-      
-      
+
+
       LogTrace?.Log($"Failed to load addressable at address {Address} for type {type.FullName}: {op.OperationException}");
       return default;
 #else
@@ -7658,9 +8019,9 @@ namespace Quantum {
     public override Task<QuantumGlobalScriptableObjectLoadResult> LoadAsync(Type type) {
 #if (QUANTUM_ADDRESSABLES || QUANTUM_ENABLE_ADDRESSABLES) && !QUANTUM_DISABLE_ADDRESSABLES
       Assert.Check(!string.IsNullOrEmpty(Address));
-      
+
       var tcs = new TaskCompletionSource<QuantumGlobalScriptableObjectLoadResult>();
-      
+
       var op = Addressables.LoadAssetAsync<QuantumGlobalScriptableObject>(Address);
       op.Completed += _op => {
         if (_op.Status == AsyncOperationStatus.Succeeded) {
@@ -7693,7 +8054,7 @@ namespace Quantum {
   using UnityEngine.Scripting;
   using Object = UnityEngine.Object;
   using static InternalLogStreams;
-  
+
   /// <summary>
   /// If applied at the assembly level, allows <see cref="QuantumGlobalScriptableObject{T}"/> to be loaded with Resources.
   /// There is a default registration for this attribute, which attempts to load the asset from Resources using path from
@@ -7707,7 +8068,7 @@ namespace Quantum {
     public QuantumGlobalScriptableObjectResourceAttribute(Type objectType, string resourcePath = "") : base(objectType) {
       ResourcePath = resourcePath;
     }
-    
+
     /// <summary>
     /// Path in Resources.
     /// </summary>
@@ -7716,16 +8077,16 @@ namespace Quantum {
     /// If loaded in the editor, should the result be instantiated instead of returning the asset itself? The default is <see langword="true"/>. 
     /// </summary>
     public bool InstantiateIfLoadedInEditor { get; set; } = true;
-    
+
     /// <summary>
     /// Loads the asset from Resources synchronously.
     /// </summary>
     public override QuantumGlobalScriptableObjectLoadResult Load(Type type) {
-      
+
       var attribute = type.GetCustomAttribute<QuantumGlobalScriptableObjectAttribute>();
       Assert.Check(attribute != null);
 
-      var resourcePath = GetResourcePath(type, attribute); 
+      var resourcePath = GetResourcePath(type, attribute);
       if (resourcePath == null) {
         return default;
       }
@@ -7747,8 +8108,8 @@ namespace Quantum {
       Assert.Check(attribute != null);
 
       var tcs = new TaskCompletionSource<QuantumGlobalScriptableObjectLoadResult>();
-      
-      var resourcePath = GetResourcePath(type, attribute); 
+
+      var resourcePath = GetResourcePath(type, attribute);
       if (resourcePath == null) {
         tcs.SetResult(default);
       } else {
@@ -7760,7 +8121,7 @@ namespace Quantum {
           request.completed += op => {
             var instance = ((ResourceRequest)op).asset;
             if (instance) {
-              tcs.SetResult(HandleInstance(instance));  
+              tcs.SetResult(HandleInstance(instance));
             } else {
               LogTrace?.Log($"Unable to load resource at path {resourcePath} for type {type.FullName}");
               tcs.SetResult(default);
@@ -7794,7 +8155,7 @@ namespace Quantum {
         return ResourcePath;
       }
     }
-    
+
     QuantumGlobalScriptableObjectLoadResult HandleInstance(Object instance) {
       if (InstantiateIfLoadedInEditor && Application.isEditor) {
         var clone = Object.Instantiate(instance);
@@ -7842,6 +8203,39 @@ namespace Quantum {
   }
 }
 #endif
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/QuantumBackwardCompatibility.Common.cs
+
+// merged BackwardCompatibility
+
+#region Object.cs
+
+namespace Quantum {
+  static class ObjectExtensions {
+#if UNITY_6000_3_OR_NEWER
+    public static UnityEngine.EntityId GetObjectId(this UnityEngine.Object obj) {
+      return obj.GetEntityId();
+    }
+#else
+    public static int GetObjectId(this UnityEngine.Object obj) {
+      return obj.GetInstanceID();
+    }
+#endif
+  }
+  
+#if !UNITY_6000_3_OR_NEWER
+  static class EntityId {
+    public static int None => 0;
+  }
+#endif
+}
+
+#endregion
+
+
 
 #endregion
 
@@ -7911,7 +8305,7 @@ namespace Quantum {
     /// <param name="game">Quantum game</param>
     public virtual void OnGameResync(QuantumGame game) { }
     /// <summary>
-    /// Is called by <see cref="CallbackGameDestroyed"/> when the session has been destroyed."/>
+    /// Is called by <see cref="CallbackGameDestroyed"/> when the session has been destroyed.
     /// </summary>
     /// <param name="game">Quantum game</param>
     public virtual void OnGameDestroyed(QuantumGame game) { }
@@ -8991,6 +9385,8 @@ namespace Quantum {
           // Rewind the copied stream
           _inputStream.SeekOrThrow(0, SeekOrigin.Begin);
           replayInputProvider = new StreamReplayInputProvider(_inputStream, liveGame.Session.FrameVerified.Number);
+        } else if (liveGame.Session.IsReplay && liveGame.Session.StreamReplayProvider != null) {
+          replayInputProvider = liveGame.Session.StreamReplayProvider.Clone(snapshot.Number, EndFrame);
         }
       } else {
         replayInputProvider = liveGame.Session.IsReplay ? liveGame.Session.ReplayProvider : liveGame.RecordedInputs;
@@ -9016,21 +9412,11 @@ namespace Quantum {
       _loop = loop;
 
       // Create all required start parameters and serialize the snapshot as start data.
-      var arguments = new SessionRunner.Arguments {
-        RunnerFactory = QuantumRunnerUnityFactory.DefaultFactory,
-        GameParameters = QuantumRunnerUnityFactory.CreateGameParameters,
-        RuntimeConfig = liveGame.Configurations.Runtime,
-        SessionConfig = deterministicConfig,
-        ReplayProvider = replayInputProvider,
-        GameMode = DeterministicGameMode.Replay,
-        FrameData = snapshot.Serialize(DeterministicFrameSerializeMode.Blit),
-        InitialTick = snapshot.Number,
-        RunnerId = "InstantReplay",
-        PlayerCount = deterministicConfig.PlayerCount,
-        HeapExtraCount = snapshotsForRewind?.Count ?? 0,
-      };
+      var arguments = new SessionRunner.Arguments();
+      arguments.InitForInstantReplay(liveGame, snapshot, replayInputProvider);
+      arguments.HeapExtraCount = snapshotsForRewind?.Count ?? 0;
 
-      _replayRunner = QuantumRunner.StartGame(arguments);
+      _replayRunner = (QuantumRunner)SessionRunner.Start(arguments);
       _replayRunner.IsSessionUpdateDisabled = true;
 
       // Run a couple of frames until fully initialized (replayRunner.Session.FrameVerified is set and session state isRunning).
@@ -19367,7 +19753,6 @@ namespace Quantum {
   using UnityEditor;
   using UnityEngine;
   using UnityEngine.SceneManagement;
-  using Debug = UnityEngine.Debug;
 
   public class QuantumMapDataBaker {
     [StaticField(StaticFieldResetMode.None)]
@@ -19462,7 +19847,7 @@ namespace Quantum {
 
         // Serialize to binary some of the data (max 20 megabytes for now)
         var bytestream = new ByteStream(new Byte[asset.GetStaticColliderTrianglesSerializedSize(isWriting: true)]);
-        asset.SerializeStaticColliderTriangles(bytestream, allocator: null, true);
+        asset.SerializeStaticColliderTriangles(bytestream, true);
 
         binaryDataAsset.SetData(bytestream.ToArray(), binaryDataAsset.IsCompressed);
         EditorUtility.SetDirty(binaryDataAsset);
@@ -19472,18 +19857,16 @@ namespace Quantum {
       }
     }
 
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
-
-    public static IEnumerable<Quantum.NavMesh> BakeNavMeshes(QuantumMapData data, Boolean inEditor) {
+    public static IEnumerable<Quantum.NavMesh> BakeNavMeshes(QuantumMapData data, Boolean inEditor, Boolean importUnityNavmesh = true) {
       FPMathUtils.LoadLookupTables();
 
       var asset = data.GetAsset(inEditor);
-      asset.NavMeshLinks = new AssetRef<NavMesh>[0];
+      asset.NavMeshAssets = new AssetRef<NavMesh>[0];
       asset.Regions      = new string[0];
 
       InvokeCallbacks("OnBeforeBakeNavMesh", data);
 
-      var navmeshes = BakeNavMeshesLoop(data, asset).ToList();
+      var navmeshes = BakeNavMeshesLoop(data, asset, importUnityNavmesh).ToList();
 
       InvokeCallbacks("OnCollectNavMeshes", data, navmeshes);
 
@@ -19537,7 +19920,7 @@ namespace Quantum {
             EditorUtility.CopySerialized(navmesh, navMeshAsset);
             EditorUtility.SetDirty(navMeshAsset);
 
-            ArrayUtils.Add(ref asset.NavMeshLinks, (Quantum.AssetRef<Quantum.NavMesh>)navMeshAsset);
+            ArrayUtils.Add(ref asset.NavMeshAssets, (Quantum.AssetRef<Quantum.NavMesh>)navMeshAsset);
             EditorUtility.SetDirty(asset);
           }
         }
@@ -19550,7 +19933,7 @@ namespace Quantum {
         // B) Creating new QAssetNavMesh ScriptableObjects (see above) and inject them into the DB (use UnityDB.OnAssetLoad callback).
         foreach (var navmesh in navmeshes) {
           navmesh.Path = asset.name + "_" + navmesh.Name;
-          ArrayUtils.Add(ref asset.NavMeshLinks, (Quantum.AssetRef<Quantum.NavMesh>)navmesh);
+          ArrayUtils.Add(ref asset.NavMeshAssets, (Quantum.AssetRef<Quantum.NavMesh>)navmesh);
         }
       }
 
@@ -19559,13 +19942,7 @@ namespace Quantum {
       return navmeshes;
     }
 
-#else 
-    public static IEnumerable<Quantum.NavMesh> BakeNavMeshes(QuantumMapData data, Boolean inEditor) {
-      return null;
-    }
-#endif
-
-      static StaticColliderData GetStaticData(GameObject gameObject, QuantumStaticColliderSettings settings, int colliderId) {
+    static StaticColliderData GetStaticData(GameObject gameObject, QuantumStaticColliderSettings settings, int colliderId) {
       return new StaticColliderData {
         Asset         = settings.Asset,
         Name          = gameObject.name,
@@ -19882,7 +20259,7 @@ namespace Quantum {
         var staticColliderIndex = staticCollider3DList.Count;
 
         // bake mesh
-        if (collider.Bake(staticColliderIndex)) {
+        if (collider.Bake(staticColliderIndex, out var meshTriangles)) {
           Assert.Check(staticColliderIndex == staticCollider3DList.Count);
 
           // add on list
@@ -19901,7 +20278,7 @@ namespace Quantum {
           data.StaticCollider3DReferences.Add(collider);
 
           // add to static collider data
-          asset.CollidersManagedTriangles.Add(staticColliderIndex, collider.MeshTriangles);
+          asset.CollidersManagedTriangles.Add(staticColliderIndex, meshTriangles);
         }
       }
 
@@ -20136,9 +20513,7 @@ namespace Quantum {
       }
     }
 
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
-
-    static IEnumerable<Quantum.NavMesh> BakeNavMeshesLoop(QuantumMapData data, Map asset) {
+    static IEnumerable<Quantum.NavMesh> BakeNavMeshesLoop(QuantumMapData data, Map asset, Boolean importUnityNavmesh = true) {
 
 #if UNITY_EDITOR
       QuantumGameGizmos.InvalidateGizmos();
@@ -20150,7 +20525,8 @@ namespace Quantum {
       var allBakeData = new List<NavMeshBakeData>();
 
       // Collect unity navmeshes
-      {
+#if QUANTUM_ENABLE_AI_NAVIGATION && !QUANTUM_DISABLE_AI_NAVIGATION
+      if (importUnityNavmesh) {
         var unityNavmeshes = data.GetComponentsInChildren<QuantumMapNavMeshUnity>().ToList();
 
         // The sorting is important to always generate the same order of regions name list.
@@ -20160,21 +20536,25 @@ namespace Quantum {
           // If NavMeshSurface installed, this will deactivate non linked surfaces 
           // to make the CalculateTriangulation work only with the selected Unity navmesh.
           List<GameObject> deactivatedObjects = new List<GameObject>();
+          List<UnityEngine.Object> existingData = new List<UnityEngine.Object>();
 
           try {
             if (unityNavmeshes[i].NavMeshSurfaces != null && unityNavmeshes[i].NavMeshSurfaces.Length > 0) {
-#if QUANTUM_ENABLE_AI_NAVIGATION
-                var surfaces = FindLocalObjects<Unity.AI.Navigation.NavMeshSurface>(scene);
-                foreach (var surface in surfaces) {
-                  if (unityNavmeshes[i].NavMeshSurfaces.Contains(surface.gameObject) == false) {
-                    surface.gameObject.SetActive(false);
-                    deactivatedObjects.Add(surface.gameObject);
+              var surfaces = FindLocalObjects<Unity.AI.Navigation.NavMeshSurface>(scene);
+              
+              foreach (var surface in surfaces) {
+                if (unityNavmeshes[i].NavMeshSurfaces.Contains(surface.gameObject) == false) {
+                  surface.gameObject.SetActive(false);
+                  deactivatedObjects.Add(surface.gameObject);
+                } else {
+                  if (surface.navMeshData != null) {
+                    existingData.Add(surface.navMeshData);
                   }
                 }
-#endif
+              }
             }
 
-            var bakeData = QuantumNavMesh.ImportFromUnity(scene, unityNavmeshes[i].Settings, unityNavmeshes[i].name);
+            var bakeData = QuantumNavMesh.ImportFromUnity(scene, unityNavmeshes[i].Settings, unityNavmeshes[i].name, existingData);
             if (bakeData == null) {
               Log.Error($"Could not import navmesh '{unityNavmeshes[i].name}'");
             } else {
@@ -20194,6 +20574,7 @@ namespace Quantum {
           }
         }
       }
+#endif
 
       // Collect custom bake data
       InvokeCallbacks("OnCollectNavMeshBakeData", data, allBakeData);
@@ -20233,8 +20614,6 @@ namespace Quantum {
         }
       }
     }
-
-#endif
 
     private static void SortBySiblingIndex<T>(T[] array) where T : Component {
       // sort by sibling indices; this should be uniform across machines
@@ -20331,7 +20710,7 @@ namespace Quantum {
     }
     
 #if UNITY_EDITOR
-    public static void UpdateManagedReferenceIds(Quantum.Map context, QuantumEntityPrototype prototype, ComponentPrototype[] componentPrototypes) {
+    public static void UpdateManagedReferenceIds(Quantum.Map context, UnityEngine.Object prototype, ComponentPrototype[] componentPrototypes) {
       
       var  id = GlobalObjectId.GetGlobalObjectIdSlow(prototype);
 
@@ -20445,6 +20824,7 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/QuantumNavMesh.cs
 
 namespace Quantum {
+#if QUANTUM_ENABLE_AI_NAVIGATION && !QUANTUM_DISABLE_AI_NAVIGATION
   using System;
   using System.Collections.Generic;
   using System.Linq;
@@ -20452,31 +20832,8 @@ namespace Quantum {
   using Photon.Deterministic;
   using UnityEngine;
   using UnityEngine.SceneManagement;
-  using UnityEngine.Serialization;
   using Object = System.Object;
   using Plane = UnityEngine.Plane;
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
-  using UnityEngine.AI;
-#endif
-
-  /// <summary>
-  /// How Quantum navmesh regions are imported from the Unity navmesh.
-  /// </summary>
-  public enum NavmeshRegionImportMode {
-    /// <summary>
-    /// Regions are not imported.
-    /// </summary>
-    Disabled = 0,
-    /// <summary>
-    /// Requires <see cref="QuantumNavMeshRegion"/> scripts to setup region data to increase the max region count to 64.
-    /// Supports using different region names for different maps.
-    /// </summary>
-    Advanced = 1,
-    /// <summary>
-    /// Uses the Unity NavMesh areas to directly generate regions and use according area names. Limited to 30 different global regions.
-    /// </summary>
-    Simple = 2
-  }
 
   /// <summary>
   /// This class is a collection of utility methods to import Unity NavMesh data into Quantum NavMesh data.
@@ -20485,7 +20842,6 @@ namespace Quantum {
 
     #region Importing From Unity
 
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
     /// <summary>
     /// Intermediate mesh vertex data structure.
     /// </summary>
@@ -20510,7 +20866,6 @@ namespace Quantum {
         };
       }
     }
-#endif
 
     /// <summary>
     /// The default minimum agent radius. Will be updated during importing the Unity navmesh.
@@ -20518,112 +20873,11 @@ namespace Quantum {
     [StaticField(StaticFieldResetMode.None)]
     public static float DefaultMinAgentRadius = 0.25f;
 
-    /// <summary>
-    /// The Unity navmesh import settings.
-    /// </summary>
-    [Serializable]
-    public class ImportSettings {
-      /// <summary>
-      /// The Unity NavMesh is a collection of non - connected triangles, this option is very important and combines shared vertices.
-      /// </summary>
-      [InlineHelp]
-      public bool WeldIdenticalVertices = true;
-      /// <summary>
-      /// Don't make the epsilon too small, vertices to fuse are missed, also don't make the value too big as it will deform your navmesh. Min = float.Epsilon.
-      /// </summary>
-      [InlineHelp]
-      [Min(float.Epsilon)]
-      [DrawIf("WeldIdenticalVertices", true)]
-      public float WeldVertexEpsilon = 0.0001f;
-      /// <summary>
-      /// Post processes imported Unity navmesh with a Delaunay triangulation to reduce long triangles.
-      /// </summary>
-      [InlineHelp]
-      public bool DelaunayTriangulation = false;
-      /// <summary>
-      /// In 3D the triangulation can deform the navmesh on slopes, check this option to restrict the triangulation to triangles that lie in the same plane.
-      /// </summary>
-      [InlineHelp]
-      [DrawIf("DelaunayTriangulation", true)]
-      public bool DelaunayTriangulationRestrictToPlanes = false;
-      /// <summary>
-      /// Sometimes vertices are lying on other triangle edges, this will lead to unwanted borders being detected, this option splits those vertices.
-      /// </summary>
-      [InlineHelp]
-      public bool FixTrianglesOnEdges = true;
-      /// <summary>
-      /// Increase this value when borders inside the navmesh are generated.
-      /// Start by setting the epsilon to 0.0001 and never increase to more than 0.001.
-      /// Default is 1e-6f (0.000001f).
-      /// </summary>
-      [InlineHelp]
-      [Min(float.Epsilon)]
-      [DrawIf("FixTrianglesOnEdges", true)]
-      public float FixTrianglesOnEdgesEpsilon = 0.000001f;
-      /// <summary>
-      /// Make the height offset considerably larger than FixTrianglesOnEdgesEpsilon to better detect degenerate triangles. Is the navmesh becomes deformed chose a smaller epsilon. . Min = float.Epsilon. Default is 0.05.
-      /// </summary>
-      [InlineHelp]
-      [Min(float.Epsilon)]
-      [DrawIf("FixTrianglesOnEdges", true)]
-      public float FixTrianglesOnEdgesHeightEpsilon = 0.05f;
-      /// <summary>
-      /// Automatically correct navmesh link position to the closest triangle by searching this distance (default is 0).
-      /// </summary>
-      [InlineHelp]
-      public float LinkErrorCorrection = 0.0f;
-      /// <summary>
-      /// SpiralOut will be considerably faster but fallback triangles can be null.
-      /// </summary>
-      [InlineHelp]
-      public NavMeshBakeDataFindClosestTriangle ClosestTriangleCalculation = NavMeshBakeDataFindClosestTriangle.None;
-      /// <summary>
-      /// Number of cells to search triangles in neighbors.
-      /// </summary>
-      [InlineHelp]
-      [DrawIf("ClosestTriangleCalculation", (long)NavMeshBakeDataFindClosestTriangle.BruteForce, CompareOperator.NotEqual)]
-      public int ClosestTriangleCalculationDepth = 3;
-      /// <summary>
-      /// Activate this and the navmesh baking will flip Y and Z to support navmeshes generated in the XY plane.
-      /// </summary>
-      [InlineHelp]
-      public bool EnableQuantum_XY;
-      /// <summary>
-      /// The agent radius that the navmesh is build for. The value is retrieved from Unity settings when baking in Editor.
-      /// </summary>
-      [InlineHelp]
-      public FP MinAgentRadius = FP._0_25;
-      /// <summary>
-      /// Toggle the Quantum region import.
-      /// </summary>
-      [Obsolete("Has been replaced by ImportRegionMode")]
-      public bool ImportRegions => ImportRegionMode == NavmeshRegionImportMode.Advanced;
-      /// <summary>
-      /// Toggle the region import mode. Default is Simple.
-      /// </summary>
-      [InlineHelp]
-      [FormerlySerializedAs("ImportRegions")]
-      public NavmeshRegionImportMode ImportRegionMode = NavmeshRegionImportMode.Simple;
-      /// <summary>
-      /// The artificial margin is necessary because the Unity NavMesh does not fit the source size very well. The value is added to the navmesh area and checked against all Quantum Region scripts to select the correct region id.
-      /// </summary>
-      [InlineHelp]
-      [DrawIf("ImportRegionMode", (int)NavmeshRegionImportMode.Advanced, mode: DrawIfMode.Hide)]
-      public float RegionDetectionMargin = 0.4f;
-      /// <summary>
-      /// The region area ids to import.
-      /// </summary>
-      [HideInInspector]
-      [DrawIf("ImportRegionMode", (int)NavmeshRegionImportMode.Disabled, compare: CompareOperator.Greater, mode: DrawIfMode.Hide)]
-      public List<Int32> RegionAreaIds;
-    }
 
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
-
-    /// <summary>
-    /// The navmesh import utility methods.
-    /// </summary>
-    public static class ImportUtils {
+  /// <summary>
+  /// The navmesh import utility methods.
+  /// </summary>
+  public static class ImportUtils {
       /// <summary>
       /// Tries to merge vertices that are very close to each other into a single vertex.
       /// </summary>
@@ -20954,25 +21208,12 @@ namespace Quantum {
     public static Dictionary<int, string> CreateUnityNavmeshAreaMap() {
       var unityNavmeshAreaMap = new Dictionary<int, string>();
 
-#if UNITY_2023_3_OR_NEWER
-      var unityAreaNames = UnityEngine.AI.NavMesh.GetAreaNames();
+      var unityAreaNames = QuantumUnityNavMeshUtils.GetAreaNames();
       for (int i = 0; i < unityAreaNames.Length; i++) {
-        unityNavmeshAreaMap.Add(UnityEngine.AI.NavMesh.GetAreaFromName(unityAreaNames[i]), unityAreaNames[i]);
+        unityNavmeshAreaMap.Add(QuantumUnityNavMeshUtils.GetAreaFromName(unityAreaNames[i]), unityAreaNames[i]);
       }
 
       return unityNavmeshAreaMap;
-#else
-#if UNITY_EDITOR
-      // Only supported for Editor
-      var unityAreaNames = UnityEditor.GameObjectUtility.GetNavMeshAreaNames();
-      for (int i = 0; i < unityAreaNames.Length; i++) {
-        unityNavmeshAreaMap.Add(UnityEditor.GameObjectUtility.GetNavMeshAreaFromName(unityAreaNames[i]), unityAreaNames[i]);
-      }
-      return unityNavmeshAreaMap;
-#else
-      throw new Exception("GetNavMeshAreaNames is only supported in Editor or Unity version 2023.1+");
-#endif
-#endif
     }
 
     /// <summary>
@@ -20981,8 +21222,9 @@ namespace Quantum {
     /// <param name="scene">The Unity scene.</param>
     /// <param name="settings">The navmesh import settings.</param>
     /// <param name="name">The navmesh.</param>
+    /// <param name="existingData">The existing NavMeshData from Unity (optional)</param>
     /// <returns>The resulting imported navmesh.</returns>
-    public static NavMeshBakeData ImportFromUnity(Scene scene, ImportSettings settings, string name) {
+    public static NavMeshBakeData ImportFromUnity(Scene scene, ImportSettings settings, string name, IEnumerable<UnityEngine.Object> existingData = null) {
       var result = new NavMeshBakeData();
 
       using (var progressBar = Log.Settings.Level <= LogLevel.Debug ? new ProgressBar("Importing Unity NavMesh", true) : null) {
@@ -21119,13 +21361,18 @@ namespace Quantum {
         }
 
         // Find links
-        var links = new List<NavMeshLinkTemp>();
-#if QUANTUM_ENABLE_AI_NAVIGATION
-        links.AddRange(QuantumMapDataBaker.FindLocalObjects<Unity.AI.Navigation.NavMeshLink>(scene).Select(l => new NavMeshLinkTemp(l)));
-#endif
+        var links = new List<UnityNavMeshLinkData>();
+#if UNITY_EDITOR
+        if (existingData != null && settings.ImportAutoGeneratedLinks) {
+          foreach (var data in existingData) {
+            links.AddRange(UnityNavMeshLinkData.ExtractFrom((UnityEngine.AI.NavMeshData)data));
+          }
+        }
+#endif        
+        links.AddRange(QuantumMapDataBaker.FindLocalObjects<Unity.AI.Navigation.NavMeshLink>(scene).Select(l => new UnityNavMeshLinkData(l)));
 #if !UNITY_2023_3_OR_NEWER
 #pragma warning disable CS0618 // Type or member is obsolete
-        links.AddRange(QuantumMapDataBaker.FindLocalObjects<OffMeshLink>(scene).Select(l => new NavMeshLinkTemp(l)));
+        links.AddRange(QuantumMapDataBaker.FindLocalObjects<UnityEngine.AI.OffMeshLink>(scene).Select(l => new UnityNavMeshLinkData(l)));
 #pragma warning restore CS0618
 #endif
         result.Links = new NavMeshBakeDataLink[0];
@@ -21150,10 +21397,8 @@ namespace Quantum {
                 }
                 break;
               case NavmeshRegionImportMode.Advanced:
-                var navMeshRegion = links[l].Object.GetComponent<QuantumNavMeshRegion>();
-                if (navMeshRegion != null && string.IsNullOrEmpty(navMeshRegion.Id) == false) {
-                  regionId = navMeshRegion.Id;
-                }
+                
+                regionId = links[l].RegionId;
                 break;
             }
 
@@ -21188,7 +21433,7 @@ namespace Quantum {
                 Bidirectional = links[l].Bidirectional,
                 CostOverride = FP.FromFloat_UNSAFE(links[l].CostModifier),
                 RegionId = regionId,
-                Name = links[l].Object.name
+                Name = links[l].Name
               });
             }
 
@@ -21218,7 +21463,6 @@ namespace Quantum {
     /// <param name="navmeshSurfaces">List of navmesh surfaces to analyze.</param>
     /// <returns>The smallets agent radius in FP.</returns>
     public static FP FindSmallestAgentRadius(GameObject[] navmeshSurfaces) {
-#if QUANTUM_ENABLE_AI_NAVIGATION      
       if (navmeshSurfaces != null) {
         // Try Unity Navmesh Surface tool
         float agentRadius = float.MaxValue;
@@ -21240,12 +21484,11 @@ namespace Quantum {
           return FP.FromFloat_UNSAFE(agentRadius);
         }
       }
-#endif
 
       return FP.FromFloat_UNSAFE(DefaultMinAgentRadius);
     }
 
-    private struct NavMeshLinkTemp {
+    public struct UnityNavMeshLinkData {
       public Vector3 StartPoint;
       public Vector3 EndPoint;
       public float Width;
@@ -21254,10 +21497,60 @@ namespace Quantum {
       public bool AutoUpdatePosition;
       public bool IsEnabled;
       public int Area;
-      public GameObject Object;
+      public string Name;
+      public string RegionId;
 
-#if QUANTUM_ENABLE_AI_NAVIGATION
-      public NavMeshLinkTemp(Unity.AI.Navigation.NavMeshLink link) {
+#if UNITY_EDITOR
+      /// <summary>
+      /// Construct from a serialized OffMeshLink element inside NavMeshData
+      /// </summary>
+      private UnityNavMeshLinkData(UnityEditor.SerializedProperty element, int index)
+      {
+        // Extract serialized values
+        Vector3 start = element.FindPropertyRelative("m_Start").vector3Value;
+        Vector3 end = element.FindPropertyRelative("m_End").vector3Value;
+        float radius = element.FindPropertyRelative("m_Radius").floatValue;
+        int area = element.FindPropertyRelative("m_Area").intValue;
+        int direction = element.FindPropertyRelative("m_LinkDirection").intValue;
+
+        // Map into struct fields
+        StartPoint = start;
+        EndPoint = end;
+        Width = radius * 2f; 
+        CostModifier = 1f;   
+        Bidirectional = (direction == 0);
+        AutoUpdatePosition = false; // not serialized
+        IsEnabled = true;           // from navmeshdata, assumed enabled
+        Area = area;
+        Name = $"Link_{index}";
+        CreateUnityNavmeshAreaMap().TryGetValue(area, out RegionId);
+      }
+
+      /// <summary>
+      /// Extract all OffMeshLinks from a NavMeshData into UnityNavMeshLinkData[]
+      /// </summary>
+      public static UnityNavMeshLinkData[] ExtractFrom(UnityEngine.AI.NavMeshData navMeshData) {
+        if (navMeshData == null)
+          return Array.Empty<UnityNavMeshLinkData>();
+
+        UnityEditor.SerializedObject so = new UnityEditor.SerializedObject(navMeshData);
+        UnityEditor.SerializedProperty linksProp = so.FindProperty("m_OffMeshLinks");
+
+        if (linksProp == null || !linksProp.isArray)
+          return Array.Empty<UnityNavMeshLinkData>();
+
+        var result = new UnityNavMeshLinkData[linksProp.arraySize];
+
+        for (int i = 0; i < linksProp.arraySize; i++) {
+          var element = linksProp.GetArrayElementAtIndex(i);
+          result[i] = new UnityNavMeshLinkData(element, i);
+        }
+
+        return result;
+      }
+#endif
+
+      public UnityNavMeshLinkData(Unity.AI.Navigation.NavMeshLink link) {
         StartPoint = link.transform != null ? link.transform.TransformPoint(link.startPoint) : link.startPoint;
         EndPoint   = link.transform != null ? link.transform.TransformPoint(link.endPoint)   : link.endPoint;
         Width = link.width;
@@ -21266,13 +21559,17 @@ namespace Quantum {
         AutoUpdatePosition = link.autoUpdate;
         IsEnabled = link.enabled;
         Area = link.area;
-        Object = link.gameObject;
+        Name = link.gameObject.name;
+        if (link.TryGetComponent(out QuantumNavMeshRegion quantumNavMeshRegion)) {
+          RegionId = quantumNavMeshRegion.Id;
+        } else {
+          CreateUnityNavmeshAreaMap().TryGetValue(link.area, out RegionId);
+        }
       }
-#endif
 
 #if !UNITY_2023_3_OR_NEWER
 #pragma warning disable CS0618 // Type or member is obsolete
-      public NavMeshLinkTemp(OffMeshLink link) {
+      public UnityNavMeshLinkData(UnityEngine.AI.OffMeshLink link) {
         Assert.Always(link.startTransform != null && link.endTransform != null, "Failed to import Off Mesh Link '{0}' start or end transforms are invalid", link.name);
 
         StartPoint = link.startTransform.position;
@@ -21283,7 +21580,12 @@ namespace Quantum {
         AutoUpdatePosition = link.autoUpdatePositions;
         IsEnabled = link.enabled && link.activated;
         Area = link.area;
-        Object = link.gameObject;
+        Name = link.gameObject.name;
+        if (link.TryGetComponent(out QuantumNavMeshRegion quantumNavMeshRegion)) {
+          RegionId = quantumNavMeshRegion.Id;
+        } else {
+          CreateUnityNavmeshAreaMap().TryGetValue(link.area, out RegionId);
+        }
       }
 #pragma warning restore CS0618
 #endif
@@ -21844,22 +22146,10 @@ namespace Quantum {
         return diff.SqrMagnitude();
       }
     }
-#endif
-
-    #endregion
-
-    #region Gizmos
-
-#if UNITY_EDITOR
-
-
-#endif
 
     #endregion
 
     #region Delaunay Triangulation
-
-#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
 
     //MIT License
     //Copyright(c) 2020 Erik Nordeus
@@ -22163,19 +22453,19 @@ namespace Quantum {
         bool bcd = IsTriangleOrientedClockwise(b, c, d);
         bool cad = IsTriangleOrientedClockwise(c, a, d);
 
-        if (abc && abd && bcd & !cad) {
+        if (abc && abd && bcd && !cad) {
           isConvex = true;
-        } else if (abc && abd && !bcd & cad) {
+        } else if (abc && abd && !bcd && cad) {
           isConvex = true;
-        } else if (abc && !abd && bcd & cad) {
+        } else if (abc && !abd && bcd && cad) {
           isConvex = true;
         }
         //The opposite sign, which makes everything inverted
-        else if (!abc && !abd && !bcd & cad) {
+        else if (!abc && !abd && !bcd && cad) {
           isConvex = true;
-        } else if (!abc && !abd && bcd & !cad) {
+        } else if (!abc && !abd && bcd && !cad) {
           isConvex = true;
-        } else if (!abc && abd && !bcd & !cad) {
+        } else if (!abc && abd && !bcd && !cad) {
           isConvex = true;
         }
 
@@ -22261,10 +22551,151 @@ namespace Quantum {
         t2.edge = four;
       }
     }
-
-#endif
-
     #endregion
+  }
+#endif
+}
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/QuantumNavMesh.ImportSettings.cs
+
+namespace Quantum {
+  using Photon.Deterministic;
+  using System;
+  using System.Collections.Generic;
+  using UnityEngine;
+  using UnityEngine.Serialization;
+
+  /// <summary>
+  /// How Quantum navmesh regions are imported from the Unity navmesh.
+  /// </summary>
+  public enum NavmeshRegionImportMode {
+    /// <summary>
+    /// Regions are not imported.
+    /// </summary>
+    Disabled = 0,
+    /// <summary>
+    /// Requires <see cref="QuantumNavMeshRegion"/> scripts to setup region data to increase the max region count to 64.
+    /// Supports using different region names for different maps.
+    /// </summary>
+    Advanced = 1,
+    /// <summary>
+    /// Uses the Unity NavMesh areas to directly generate regions and use according area names. Limited to 30 different global regions.
+    /// </summary>
+    Simple = 2
+  }
+
+  /// <summary>
+  /// This class is a collection of utility methods to import Unity NavMesh data into Quantum NavMesh data.
+  /// </summary>
+  public partial class QuantumNavMesh {
+    /// <summary>
+    /// The Unity navmesh import settings.
+    /// </summary>
+    [Serializable]
+    public class ImportSettings {
+      /// <summary>
+      /// The Unity NavMesh is a collection of non - connected triangles, this option is very important and combines shared vertices.
+      /// </summary>
+      [InlineHelp]
+      public bool WeldIdenticalVertices = true;
+      /// <summary>
+      /// Don't make the epsilon too small, vertices to fuse are missed, also don't make the value too big as it will deform your navmesh. Min = float.Epsilon.
+      /// </summary>
+      [InlineHelp]
+      [Min(float.Epsilon)]
+      [DrawIf("WeldIdenticalVertices", true)]
+      public float WeldVertexEpsilon = 0.0001f;
+      /// <summary>
+      /// Post processes imported Unity navmesh with a Delaunay triangulation to reduce long triangles.
+      /// </summary>
+      [InlineHelp]
+      public bool DelaunayTriangulation = false;
+      /// <summary>
+      /// In 3D the triangulation can deform the navmesh on slopes, check this option to restrict the triangulation to triangles that lie in the same plane.
+      /// </summary>
+      [InlineHelp]
+      [DrawIf("DelaunayTriangulation", true)]
+      public bool DelaunayTriangulationRestrictToPlanes = false;
+      /// <summary>
+      /// Sometimes vertices are lying on other triangle edges, this will lead to unwanted borders being detected, this option splits those vertices.
+      /// </summary>
+      [InlineHelp]
+      public bool FixTrianglesOnEdges = true;
+      /// <summary>
+      /// Increase this value when borders inside the navmesh are generated.
+      /// Start by setting the epsilon to 0.0001 and never increase to more than 0.001.
+      /// Default is 1e-6f (0.000001f).
+      /// </summary>
+      [InlineHelp]
+      [Min(float.Epsilon)]
+      [DrawIf("FixTrianglesOnEdges", true)]
+      public float FixTrianglesOnEdgesEpsilon = 0.000001f;
+      /// <summary>
+      /// Make the height offset considerably larger than FixTrianglesOnEdgesEpsilon to better detect degenerate triangles. Is the navmesh becomes deformed chose a smaller epsilon. . Min = float.Epsilon. Default is 0.05.
+      /// </summary>
+      [InlineHelp]
+      [Min(float.Epsilon)]
+      [DrawIf("FixTrianglesOnEdges", true)]
+      public float FixTrianglesOnEdgesHeightEpsilon = 0.05f;
+      /// <summary>
+      /// Automatically correct navmesh link position to the closest triangle by searching this distance (default is 0).
+      /// </summary>
+      [InlineHelp]
+      public float LinkErrorCorrection = 0.0f;
+      /// <summary>
+      /// SpiralOut will be considerably faster but fallback triangles can be null.
+      /// </summary>
+      [InlineHelp]
+      public NavMeshBakeDataFindClosestTriangle ClosestTriangleCalculation = NavMeshBakeDataFindClosestTriangle.None;
+      /// <summary>
+      /// Number of cells to search triangles in neighbors.
+      /// </summary>
+      [InlineHelp]
+      [DrawIf("ClosestTriangleCalculation", (long)NavMeshBakeDataFindClosestTriangle.BruteForce, CompareOperator.NotEqual)]
+      public int ClosestTriangleCalculationDepth = 3;
+      /// <summary>
+      /// Activate this and the navmesh baking will flip Y and Z to support navmeshes generated in the XY plane.
+      /// </summary>
+      [InlineHelp]
+      public bool EnableQuantum_XY;
+      /// <summary>
+      /// The agent radius that the navmesh is build for. The value is retrieved from Unity settings when baking in Editor.
+      /// </summary>
+      [InlineHelp]
+      public FP MinAgentRadius = FP._0_25;
+      /// <summary>
+      /// Toggle the Quantum region import.
+      /// </summary>
+      [Obsolete("Has been replaced by ImportRegionMode")]
+      public bool ImportRegions => ImportRegionMode == NavmeshRegionImportMode.Advanced;
+      /// <summary>
+      /// Toggle the region import mode. Default is Simple.
+      /// </summary>
+      [InlineHelp]
+      [FormerlySerializedAs("ImportRegions")]
+      public NavmeshRegionImportMode ImportRegionMode = NavmeshRegionImportMode.Simple;
+
+      /// <summary>
+      /// If Quantum should import Links that were auto generated by Unity.
+      /// Only works in Unity 2022 and above, since Unity did not generate links before that.
+      /// </summary>
+      public bool ImportAutoGeneratedLinks = true;
+      /// <summary>
+      /// The artificial margin is necessary because the Unity NavMesh does not fit the source size very well. The value is added to the navmesh area and checked against all Quantum Region scripts to select the correct region id.
+      /// </summary>
+      [InlineHelp]
+      [DrawIf("ImportRegionMode", (int)NavmeshRegionImportMode.Advanced, mode: DrawIfMode.Hide)]
+      public float RegionDetectionMargin = 0.4f;
+      /// <summary>
+      /// The region area ids to import.
+      /// </summary>
+      [HideInInspector]
+      [DrawIf("ImportRegionMode", (int)NavmeshRegionImportMode.Disabled, compare: CompareOperator.Greater, mode: DrawIfMode.Hide)]
+      public List<Int32> RegionAreaIds;
+    }
   }
 }
 
@@ -22745,7 +23176,7 @@ namespace Quantum {
     /// <summary>
     /// Return all active QuantumRunners.
     /// </summary>
-    public static IEnumerable<QuantumRunner> ActiveRunners => QuantumRunnerRegistry.Global.ActiveRunners.Select(r => (QuantumRunner)r);
+    public static IEnumerable<QuantumRunner> ActiveRunners => QuantumRunnerRegistry.Global.ActiveRunners.Where(r => r is QuantumRunner).Select(r => (QuantumRunner)r);
 
     /// <summary>
     /// Find a QuantumRunner by id.
@@ -22856,11 +23287,11 @@ namespace Quantum {
     /// <summary>
     /// The runner shutdown callback is used to destroy the UnityObject.
     /// </summary>
-    /// <param name="cause">Shutdown cause</param>
-    protected override void OnShutdown(ShutdownCause cause) {
+    /// <param name="args">Shutdown args</param>
+    protected override void OnShutdown(ShutdownArgs args) {
       QuantumRunnerRegistry.Global.RemoveRunner(this);
       if (UnityObject != null && UnityObject.gameObject != null) {
-        GameObject.Destroy(UnityObject.gameObject);
+        GameObject.Destroy(UnityObject);
       }
     }
 
@@ -22873,7 +23304,6 @@ namespace Quantum {
         return;
       }
 
-      // TODO: Replace with AddToPlayerLoop, PlayerLoopSystem
       switch (DeltaTimeType) {
         case SimulationUpdateTime.Default:
           Service();
@@ -22884,7 +23314,192 @@ namespace Quantum {
         case SimulationUpdateTime.EngineUnscaledDeltaTime:
           Service(Time.unscaledDeltaTime);
           break;
+        case SimulationUpdateTime.EngineUnscaledCappedDeltaTime:
+          Service(Mathf.Min(Time.unscaledDeltaTime, Time.maximumDeltaTime));
+          break;
       }
+    }
+  }
+}
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/QuantumRunnerExtensions.cs
+
+namespace Quantum {
+  using Photon.Deterministic;
+  using Photon.Realtime;
+  using UnityEngine;
+  using static QuantumUnityExtensions;
+  using static UnityEngine.Object;
+
+  /// <summary>
+  /// Extension methods to enhance creating and initializing <see cref="SessionRunner.Arguments"/> to simplify Quantum start procedures.
+  /// Using any form of <see cref="Init(ref SessionRunner.Arguments, RuntimeConfig)"/> is optional and can be replaced by setting all arguments manually.
+  /// </summary>
+  public static class QuantumRunnerExtensions {
+    /// <summary>
+    /// Init the session runner arguments to bind Unity related and global defaults.
+    /// It's replacing <see cref="QuantumRunnerUnityFactory.CreateGameParameters"/>.
+    /// Sets defaults for AssetSerializer CallbackDispatcher, EventDispatcher, ResourceManager, RunnerFactory, TaskRunner,
+    /// SessionConfig, RuntimeConfig and PlayerCount.
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="runtimeConfig">Runtime config</param>
+    /// <returns>Modified arguments</returns>
+    public static ref SessionRunner.Arguments Init(this ref SessionRunner.Arguments arguments, RuntimeConfig runtimeConfig) {
+      Assert.Always(runtimeConfig != null, "Requires valid RuntimeConfig");
+
+      arguments.AssetSerializer = new QuantumUnityJsonSerializer();
+      arguments.CallbackDispatcher = QuantumCallback.Dispatcher;
+      arguments.EventDispatcher = QuantumEvent.Dispatcher;
+      arguments.PlayerCount = Input.MAX_COUNT;
+      arguments.ResourceManager = QuantumUnityDB.Global;
+      arguments.RunnerFactory = QuantumRunnerUnityFactory.DefaultFactory;
+      arguments.TaskRunner = QuantumTaskRunnerJobs.GetInstance();
+      arguments.SessionConfig = QuantumDeterministicSessionConfigAsset.DefaultConfig;
+
+      var runtimeConfigCopy = default(RuntimeConfig);
+
+      // If simulation config not set, clone the runtime config and set the default one.
+      if (runtimeConfig.SimulationConfig.Id.IsValid == false && QuantumDefaultConfigs.TryGetGlobal(out var defaultConfigs)) {
+        runtimeConfigCopy ??= arguments.AssetSerializer.CloneConfig(runtimeConfig);
+        runtimeConfigCopy.SimulationConfig = defaultConfigs.SimulationConfig;
+        QuantumEditorLog.Warn("RuntimeConfig does not have a valid SimulationConfig set, using default.", defaultConfigs.SimulationConfig);
+      }
+
+      // If systems config not set, clone the runtime config and set the default one.
+      if (runtimeConfig.SystemsConfig.IsValid == false && QuantumDefaultConfigs.TryGetGlobal(out var defaultConfigs2)) {
+        runtimeConfigCopy ??= arguments.AssetSerializer.CloneConfig(runtimeConfig);
+        runtimeConfigCopy.SystemsConfig = defaultConfigs2.SystemsConfig;
+        QuantumEditorLog.Warn("RuntimeConfig does not have a valid SystemsConfig set, using default.", defaultConfigs2.SystemsConfig);
+      }
+
+      // If map is not set, try finding a local one.
+      if (runtimeConfig.Map.IsValid == false) {
+        var mapData = FindAnyObjectByType<QuantumMapData>();
+        if (mapData != null) {
+          runtimeConfigCopy ??= arguments.AssetSerializer.CloneConfig(runtimeConfig);
+          runtimeConfigCopy.Map = mapData.AssetRef;
+          QuantumEditorLog.Warn("RuntimeConfig does not have a valid Map set, using local map data.", mapData);
+        }
+      }
+
+      arguments.RuntimeConfig = runtimeConfigCopy ?? runtimeConfig;
+
+      return ref arguments;
+    }
+
+    /// <summary>
+    /// Initializes session runner arguments to start a local simulation.
+    /// <see cref="Init(ref SessionRunner.Arguments, RuntimeConfig)"/>
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="runtimeConfig">Runtime config</param>
+    /// <returns>Modified arguments</returns>
+    public static ref SessionRunner.Arguments InitForLocal(this ref SessionRunner.Arguments arguments, RuntimeConfig runtimeConfig) {
+      arguments.Init(runtimeConfig);
+
+      arguments.GameMode = DeterministicGameMode.Local;
+
+      return ref arguments;
+    }
+
+    /// <summary>
+    /// Initializes session runner arguments to start a multiplayer simulation.
+    /// <see cref="Init(ref SessionRunner.Arguments, RuntimeConfig)"/>
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="runtimeConfig">Runtime config</param>
+    /// <param name="client">The connected Realtime client object</param>
+    /// <param name="clientId">The <see cref="SessionRunner.Arguments.ClientId"/></param>
+    /// <param name="clientShutdownOption">Optional connection shutdown options</param>
+    /// <returns>Modified arguments</returns>
+    public static ref SessionRunner.Arguments InitForMultiplayer(this ref SessionRunner.Arguments arguments, RuntimeConfig runtimeConfig, RealtimeClient client, string clientId, ShutdownConnectionOptions clientShutdownOption = ShutdownConnectionOptions.Disconnect) {
+      arguments.Init(runtimeConfig);
+
+      arguments.ClientId = clientId;
+      arguments.GameMode = DeterministicGameMode.Multiplayer;
+      arguments.Communicator = new QuantumNetworkCommunicator(client, clientShutdownOption);
+
+      return ref arguments;
+
+    }
+
+    /// <summary>
+    /// Initializes session runner arguments to start a local replay simulation from a file.
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="replayFile">Source of the replay data</param>
+    /// <param name="serializer">Optionally the asset serializer, for example <see cref="QuantumUnityJsonSerializer"/></param>
+    /// <param name="assets">Optionally the Quantum DB assets as binary serialized (e.g. from a file).</param>
+    /// <returns>Modified arguments</returns>
+    public static ref SessionRunner.Arguments InitForReplay(this ref SessionRunner.Arguments arguments, QuantumReplayFile replayFile, IAssetSerializer serializer = null, byte[] assets = null) {
+      serializer ??= new QuantumUnityJsonSerializer();
+      var runtimeConfig = serializer.ConfigFromByteArray<RuntimeConfig>(replayFile.RuntimeConfigData.Decode(), compressed: true);
+
+      arguments.Init(runtimeConfig);
+
+      arguments.SessionConfig = replayFile.DeterministicConfig;
+      arguments.ReplayProvider = replayFile.CreateInputProvider();
+      arguments.GameMode = DeterministicGameMode.Replay;
+      arguments.PlayerCount = replayFile.DeterministicConfig.PlayerCount;
+      arguments.InitialTick = replayFile.InitialTick;
+      arguments.FrameData = replayFile.InitialFrameData;
+
+      assets = assets ?? replayFile.AssetDatabaseData?.Decode();
+
+      if (assets?.Length > 0) {
+        var resourceManager = new ResourceManagerStatic(serializer.AssetsFromByteArray(assets));
+        arguments.ResourceManager = resourceManager;
+        arguments.ShutdownCallback += (args) => resourceManager.Dispose();
+      }
+
+      if (arguments.ReplayProvider == null) {
+        QuantumEditorLog.Warn("The replay file does not contain an input provider, replay playback is not possible.");
+      }
+
+      return ref arguments;
+    }
+
+    /// <summary>
+    /// Initializes session runner arguments to start a local replay simulation from running simulation.
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="game">The main game to copy data from</param>
+    /// <param name="snapshot">The saved snapshot to start from</param>
+    /// <param name="replayProvider">The input provider</param>
+    /// <returns>Modified arguments</returns>
+    public static ref SessionRunner.Arguments InitForInstantReplay(this ref SessionRunner.Arguments arguments, QuantumGame game, Frame snapshot, IDeterministicReplayProvider replayProvider) {
+      arguments.Init(game.Configurations.Runtime);
+
+      arguments.FrameData = snapshot.Serialize();
+      arguments.InitialTick = snapshot.Number;
+      arguments.SessionConfig = game.Session.SessionConfig;
+      arguments.ReplayProvider = replayProvider;
+      arguments.GameMode = DeterministicGameMode.Replay;
+      arguments.RunnerId = "InstantReplay";
+      arguments.PlayerCount = game.Session.SessionConfig.PlayerCount;
+
+      return ref arguments;
+    }
+
+    /// <summary>
+    /// Initialized session arguments to start a local game from a snapshot file.
+    /// Internally uses <see cref="InitForReplay(ref SessionRunner.Arguments, QuantumReplayFile, IAssetSerializer, byte[])"/>
+    /// </summary>
+    /// <param name="arguments">Arguments to initialize</param>
+    /// <param name="replayFile">Source of the replay data</param>
+    /// <param name="serializer">Optionally the asset serializer, for example <see cref="QuantumUnityJsonSerializer"/></param>
+    /// <param name="assets">Optionally the Quantum DB assets as binary serialized (e.g. from a file).</param>
+    /// <returns></returns>
+    public static ref SessionRunner.Arguments InitForSnapshot(this ref SessionRunner.Arguments arguments, QuantumReplayFile replayFile, IAssetSerializer serializer = null, byte[] assets = null) {
+      InitForReplay(ref arguments, replayFile, serializer, assets);
+
+      arguments.GameMode = DeterministicGameMode.Local;
+
+      return ref arguments;
     }
   }
 }
@@ -22945,7 +23560,7 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Calls <see cref="SessionRunner.WaitForShutdownAsync(System.Threading.CancellationToken)"/> on all runners."/>
+    /// Calls <see cref="SessionRunner.WaitForShutdownAsync(System.Threading.CancellationToken)"/> on all runners.
     /// </summary>
     public System.Threading.Tasks.Task ShutdownAllAsync() {
       var tasks = new List<System.Threading.Tasks.Task>();
@@ -23006,12 +23621,12 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Runtime/QuantumRunnerUnityFactory.cs
 
 namespace Quantum {
-  using System;
-  using System.Threading.Tasks;
   using Photon.Analyzer;
   using Photon.Deterministic;
   using Photon.Realtime;
-  using Profiling;
+  using System;
+  using System.Runtime.InteropServices;
+  using System.Threading.Tasks;
   using UnityEngine;
 
   /// <summary>
@@ -23032,12 +23647,65 @@ namespace Quantum {
       AssetSerializer = new QuantumUnityJsonSerializer(),
       EventDispatcher = QuantumEvent.Dispatcher,
       ResourceManager = QuantumUnityDB.Global,
+      TaskRunner = QuantumTaskRunnerJobs.GetInstance(),
     };
+
+    [Obsolete("Use CreatePlatformInfo")]
+    public virtual DeterministicPlatformInfo CreatePlaformInfo => CreatePlatformInfo;
 
     /// <summary>
     /// Create the Unity platform information object.
     /// </summary>
-    public DeterministicPlatformInfo CreatePlaformInfo => CreatePlatformInfo();
+    public DeterministicPlatformInfo CreatePlatformInfo => new DeterministicPlatformInfo {
+      Architecture = RuntimeInformation.ProcessArchitecture switch {
+        Architecture.Arm => DeterministicPlatformInfo.Architectures.ARMv7,
+        Architecture.Arm64 => DeterministicPlatformInfo.Architectures.ARM64,
+        Architecture.X86 => DeterministicPlatformInfo.Architectures.x86,
+        Architecture.X64 => DeterministicPlatformInfo.Architectures.x64,
+        _ => throw new NotSupportedException($"{RuntimeInformation.ProcessArchitecture}"),
+      },
+
+#if UNITY_EDITOR
+      Runtime = DeterministicPlatformInfo.Runtimes.Mono,
+      RuntimeHost = DeterministicPlatformInfo.RuntimeHosts.UnityEditor,
+#if UNITY_EDITOR_WIN
+      Platform = DeterministicPlatformInfo.Platforms.Windows,
+#elif UNITY_EDITOR_OSX
+      Platform = DeterministicPlatformInfo.Platforms.OSX,
+#endif
+
+#else // UNITY_EDITOR
+      RuntimeHost = DeterministicPlatformInfo.RuntimeHosts.Unity,
+#if ENABLE_IL2CPP
+      Runtime = DeterministicPlatformInfo.Runtimes.IL2CPP,
+#else
+      Runtime = DeterministicPlatformInfo.Runtimes.Mono,
+#endif // ENABLE_IL2CPP
+
+#if UNITY_STANDALONE_WIN
+      Platform = DeterministicPlatformInfo.Platforms.Windows,
+#elif UNITY_STANDALONE_OSX
+      Platform = DeterministicPlatformInfo.Platforms.OSX,
+#elif UNITY_STANDALONE_LINUX
+      Platform = DeterministicPlatformInfo.Platforms.Linux,
+#elif UNITY_IOS
+      Platform = DeterministicPlatformInfo.Platforms.IOS,
+#elif UNITY_ANDROID
+      Platform = DeterministicPlatformInfo.Platforms.Android,
+#elif UNITY_TVOS
+      Platform = DeterministicPlatformInfo.Platforms.TVOS,
+#elif UNITY_XBOXONE
+      Platform = DeterministicPlatformInfo.Platforms.XboxOne,
+#elif UNITY_PS4
+      Platform = DeterministicPlatformInfo.Platforms.PlayStation4,
+#elif UNITY_SWITCH
+      Platform = DeterministicPlatformInfo.Platforms.Switch,
+#elif UNITY_WEBGL
+      Platform = DeterministicPlatformInfo.Platforms.WebGL,
+#endif // UNITY_STANDALONE_WIN
+
+#endif // UNITY_EDITOR
+    };
     /// <summary>
     /// Assign a task factory that will be used by the runner to create and chain new tasks.
     /// </summary>
@@ -23050,9 +23718,10 @@ namespace Quantum {
     /// Creates a unity GameObject and attaches a QuantumRunnerBehaviour to it which will then update the actual session runner object. 
     /// </summary>
     /// <param name="arguments">Session arguments</param>
+    /// <param name="defaultRunnerId">Optionally a default runner name</param>
     /// <returns>A session runner object</returns>
-    public SessionRunner CreateRunner(SessionRunner.Arguments arguments) {
-      var go = new GameObject($"QuantumRunner ({arguments.RunnerId})");
+    public SessionRunner CreateRunner(SessionRunner.Arguments arguments, string defaultRunnerId) {
+      var go = new GameObject($"QuantumRunner ({(string.IsNullOrEmpty(arguments.RunnerId) ? defaultRunnerId : arguments.RunnerId)})");
       GameObject.DontDestroyOnLoad(go);
       var script = go.AddComponent<QuantumRunnerBehaviour>();
       script.Runner = new QuantumRunner(script);
@@ -23075,99 +23744,99 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Create the Unity platform information object.
-    /// </summary>
-    /// <returns>Platform info object</returns>
-    public static DeterministicPlatformInfo CreatePlatformInfo() {
-      DeterministicPlatformInfo info;
-      info = new DeterministicPlatformInfo();
-      info.Allocator = new QuantumUnityNativeAllocator();
-      info.TaskRunner = QuantumTaskRunnerJobs.GetInstance();
-
-#if UNITY_EDITOR
-
-      info.Runtime = DeterministicPlatformInfo.Runtimes.Mono;
-      info.RuntimeHost = DeterministicPlatformInfo.RuntimeHosts.UnityEditor;
-      info.Architecture = DeterministicPlatformInfo.Architectures.x86;
-#if UNITY_EDITOR_WIN
-      info.Platform = DeterministicPlatformInfo.Platforms.Windows;
-#elif UNITY_EDITOR_OSX
-    info.Platform = DeterministicPlatformInfo.Platforms.OSX;
-#endif
-
-#else // UNITY_EDITOR
-    info.RuntimeHost = DeterministicPlatformInfo.RuntimeHosts.Unity;
-#if ENABLE_IL2CPP
-    info.Runtime = DeterministicPlatformInfo.Runtimes.IL2CPP;
-#else
-    info.Runtime = DeterministicPlatformInfo.Runtimes.Mono;
-#endif // ENABLE_IL2CPP
-
-#if UNITY_STANDALONE_WIN
-    info.Platform = DeterministicPlatformInfo.Platforms.Windows;
-#elif UNITY_STANDALONE_OSX
-    info.Platform = DeterministicPlatformInfo.Platforms.OSX;
-#elif UNITY_STANDALONE_LINUX
-    info.Platform = DeterministicPlatformInfo.Platforms.Linux;
-#elif UNITY_IOS
-    info.Platform = DeterministicPlatformInfo.Platforms.IOS;
-#elif UNITY_ANDROID
-    info.Platform = DeterministicPlatformInfo.Platforms.Android;
-#elif UNITY_TVOS
-    info.Platform = DeterministicPlatformInfo.Platforms.TVOS;
-#elif UNITY_XBOXONE
-    info.Platform = DeterministicPlatformInfo.Platforms.XboxOne;
-#elif UNITY_PS4
-    info.Platform = DeterministicPlatformInfo.Platforms.PlayStation4;
-#elif UNITY_SWITCH
-    info.Platform = DeterministicPlatformInfo.Platforms.Switch;
-#elif UNITY_WEBGL
-    info.Platform = DeterministicPlatformInfo.Platforms.WebGL;
-#endif // UNITY_STANDALONE_WIN
-
-#endif // UNITY_EDITOR
-
-      return info;
-    }
-
-    /// <summary>
     /// Static initializer to initialize Quantum base systems required by the factory and Quantum in general.
     /// </summary>
     /// <param name="force">Force reload the LUT</param>
     public static void Init(Boolean force = false) {
-      // verify using Unity unsafe utils
-      MemoryLayoutVerifier.Platform = new QuantumUnityMemoryLayoutVerifierPlatform();
-
-      // set native platform
-      Native.Utils = new QuantumUnityNativeUtility();
-
-      // load lookup table
-#if QUANTUM_ENABLE_ASYNC_LUT_LOADING
-      _ = FPMathUtils.LoadLookupTablesAsync(true);
-#else 
-      FPMathUtils.LoadLookupTables(force);
-#endif
-
-#if QUANTUM_ENABLE_SHARPZIPLIB && !QUANTUM_DISABLE_SHARPZIPLIB
-      Compression.Init(new CompressionSharpZipLib());
-#else
-      Compression.Init(new CompressionDotNet());
-#endif
-      
       // set runner factory and init Realtime.Async
       DefaultFactory = new QuantumRunnerUnityFactory();
-
-#if ENABLE_PROFILER
-      HostProfiler.Init(new QuantumUnityHostProfiler());
-#endif
-
-      // init debug draw functions
-#if QUANTUM_DRAW_SHAPES || UNITY_EDITOR
-      Draw.Init(DebugDraw.Ray, DebugDraw.Line, DebugDraw.Circle, DebugDraw.Sphere, DebugDraw.Rectangle, DebugDraw.Box, DebugDraw.Capsule, DebugDraw.Text, DebugDraw.Clear);
-#endif
     }
   }
 }
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/QuantumSnapshotProviderDemo.cs
+
+namespace Quantum.Experimental {
+  using Photon.Deterministic;
+  using Photon.Deterministic.Protocol;
+  using System;
+  using System.Threading;
+  using System.Threading.Tasks;
+
+  /// <summary>
+  /// An example to customize requested snapshot uploading.
+  /// This is marked experimental because it requires additional work when saving data on frame contex.
+  /// </summary>
+  public class QuantumSnapshotProviderDemo : IDeterministicSnapshotProvider {
+    private DeterministicFrame _frame;
+    private Task<FrameSnapshot[]> _task;
+    private CancellationTokenSource _cancel;
+
+    /// <summary>
+    /// The frame is copied before being serialized in on a worked thread.
+    /// This requires an extra frame heap.
+    /// </summary>
+    public int ExtraHeapCount => 1;
+
+    /// <summary>
+    /// Returns the completed encoded snapshot.
+    /// </summary>
+    public FrameSnapshot[] GetSnapshot() {
+      Assert.Always(IsCompleted);
+      var result = _task.Result;
+      _task = null;
+      return result;
+    }
+
+    /// <summary>
+    /// Returns <see langword="true"/> when a snapshot is read to be completed.
+    /// </summary>
+    public bool IsCompleted => _task != null && _task.IsCompleted;
+
+    /// <summary>
+    /// Initializing the snapshot provider for this Quantum session. Used to create a frame container.
+    /// </summary>
+    public void Init(DeterministicSession session, IDisposable frameContext) {
+      _frame = session.Game.CreateFrame(frameContext);
+      _frame.IsVerified = true;
+      _cancel = new CancellationTokenSource();
+    }
+
+    /// <summary>
+    /// Requesting a snapshot, use to CopyFrom and start async computation. 
+    /// </summary>
+    public void RequestSnapshot(DeterministicSession session, int referenceTick) {
+      Assert.Always(_task == null, "Already running");
+
+      var frame = session.FrameVerified;
+      _frame.CopyFrom(frame);
+
+      _task = Task.Run(() => PrepareAndSendSnapshot(_frame), _cancel.Token);
+    }
+
+    private static FrameSnapshot[] PrepareAndSendSnapshot(DeterministicFrame frame) {
+      var data = frame.Serialize();
+      var number = frame.Number;
+      return FrameSnapshot.Encode(number, data);
+    }
+
+    public void Dispose() {
+      if (_task != null) {
+        _cancel?.Cancel();
+        _cancel?.Dispose();
+      }
+      _cancel = null;
+      _task = null;
+
+      _frame?.Free();
+      _frame = null;
+    }
+  }
+}
+
 
 #endregion
 
@@ -23370,47 +24039,50 @@ namespace Quantum {
 #endregion
 
 
-#region Assets/Photon/Quantum/Runtime/QuantumUnityHostProfiler.cs
+#region Assets/Photon/Quantum/Runtime/QuantumStaticInitializer.cs
 
-#if ENABLE_PROFILER
 namespace Quantum {
-  using Profiling;
-  using Unity.Profiling;
-  using Unity.Profiling.LowLevel;
-  using Unity.Profiling.LowLevel.Unsafe;
+  using UnityEngine;
 
-  /// <summary>
-  /// Profiler implementation for Unity.
-  /// </summary>
-  public class QuantumUnityHostProfiler : IHostProfiler {
-    /// <inheritdoc cref="IHostProfiler.CreateMarker"/>
-    public HostProfilerMarker CreateMarker(string name) {
-      var ptr = ProfilerUnsafeUtility.CreateMarker(name, ProfilerCategory.Scripts, MarkerFlags.Default, 0);
-      return new HostProfilerMarker(ptr);
+  static class QuantumStaticInitializer {
+    /// <summary>
+    /// Initializes the logging system for Quantum. This method is called automatically when the assembly is loaded.
+    /// </summary>
+#if UNITY_EDITOR
+    [UnityEditor.InitializeOnLoadMethod]
+#endif
+    [RuntimeInitializeOnLoadMethod]
+    public static void Initialize() {
     }
 
-    /// <inheritdoc cref="IHostProfiler.StartMarker"/>
-    public void StartMarker(HostProfilerMarker marker) {
-      ProfilerUnsafeUtility.BeginSample(marker.RawValue);
-    }
+    static QuantumStaticInitializer() {
+      // load lookup table
+#if QUANTUM_ENABLE_ASYNC_LUT_LOADING
+      _ = FPMathUtils.LoadLookupTablesAsync(true);
+#else
+      if (Application.isEditor) {
+        FPMathUtils.TryLoadLookupTables();
+      } else {
+        FPMathUtils.LoadLookupTables();
+      }
+#endif
+      
+#if QUANTUM_ENABLE_SHARPZIPLIB && !QUANTUM_DISABLE_SHARPZIPLIB
+      Compression.Init(new CompressionSharpZipLib());
+#else
+      Compression.Init(new CompressionDotNet());
+#endif
 
-    /// <inheritdoc cref="IHostProfiler.EndMarker"/>
-    public void EndMarker(HostProfilerMarker marker) {
-      ProfilerUnsafeUtility.EndSample(marker.RawValue);
-    }
-
-    /// <inheritdoc cref="IHostProfiler.StartNamedMarker"/>
-    public void StartNamedMarker(string markerName) {
-      UnityEngine.Profiling.Profiler.BeginSample(markerName);
-    }
-
-    /// <inheritdoc cref="IHostProfiler.EndLastNamedMarker"/>
-    public void EndLastNamedMarker() {
-      UnityEngine.Profiling.Profiler.EndSample();
+      // init debug draw functions
+#if QUANTUM_DRAW_SHAPES || UNITY_EDITOR
+      Draw.Init(DebugDraw.Ray, DebugDraw.Line, DebugDraw.Circle, DebugDraw.Sphere, DebugDraw.Rectangle, DebugDraw.Box, DebugDraw.Capsule, DebugDraw.Text, DebugDraw.Clear);
+#endif
+      
+      Frame.InitStatic();
     }
   }
 }
-#endif
+
 
 #endregion
 
@@ -23804,6 +24476,7 @@ namespace Quantum {
   using System.Reflection;
   using Unity.Collections.LowLevel.Unsafe;
 
+  [Obsolete("No longer used")]
   public class QuantumUnityMemoryLayoutVerifierPlatform : MemoryLayoutVerifier.IPlatform {
     public int FieldOffset(FieldInfo field) {
       return UnsafeUtility.GetFieldOffset(field);
@@ -23811,167 +24484,6 @@ namespace Quantum {
 
     public int SizeOf(Type type) {
       return UnsafeUtility.SizeOf(type);
-    }
-  }
-}
-
-#endregion
-
-
-#region Assets/Photon/Quantum/Runtime/QuantumUnityNativeImplementation.cs
-
-namespace Quantum {
-  using Photon.Analyzer;
-  using Photon.Deterministic;
-  using Unity.Collections.LowLevel.Unsafe;
-  using UnityAllocator = global::Unity.Collections.Allocator;
-
-#if ENABLE_IL2CPP
-  using AOT;
-  using System;
-  using System.Collections.Generic;
-#endif
-
-#if ENABLE_IL2CPP
-  /// <summary>
-  /// Collection of native memory allocations used by Quantum when creating <see cref="QuantumUnityNativeAllocator.GetManagedVTable"/> under IL2CPP.
-  /// </summary>
-  internal sealed unsafe class QuantumUnityNativeAllocator_IL2CPP {
-    static readonly HashSet<IntPtr> _allocated = new();
-    static void TrackAlloc(IntPtr ptr) {
-#if DEBUG
-      lock (_allocated) {
-        _allocated.Add(ptr);
-      }
-#endif
-    }
-    static void TrackFree(IntPtr ptr) {
-#if DEBUG
-      lock (_allocated) {
-        if (_allocated.Remove(ptr) == false) {
-          throw new Exception($"Tried to free {ptr} which was not allocated");
-        }
-      }
-#endif
-    }
-    /// <inheritdoc cref="QuantumUnityNativeAllocator.Alloc(int)"/>
-    [MonoPInvokeCallback(typeof(Native.AllocateDelegate))]
-    public static IntPtr Allocate(UIntPtr size) {
-      var ptr = (IntPtr)UnsafeUtility.Malloc((uint)size, 4, UnityAllocator.Persistent);
-      TrackAlloc(ptr);
-      return ptr;
-    }
-    /// <inheritdoc cref="QuantumUnityNativeAllocator.Free(void*)"/>
-    [MonoPInvokeCallback(typeof(Native.FreeDelegate))]
-    public static void Free(IntPtr ptr) {
-      TrackFree(ptr);
-      UnsafeUtility.Free((void*)ptr, UnityAllocator.Persistent);
-    }
-    /// <inheritdoc cref="QuantumUnityNativeUtility.Copy(void*, void*, int)"/>
-    [MonoPInvokeCallback(typeof(Native.CopyDelegate))]
-    public static void Copy(IntPtr dst, IntPtr src, UIntPtr size) {
-      UnsafeUtility.MemCpy((void*)dst, (void*)src, (int)size);
-    }
-    /// <inheritdoc cref="QuantumUnityNativeUtility.Move(void*, void*, int)"/>
-    [MonoPInvokeCallback(typeof(Native.MoveDelegate))]
-    public static void Move(IntPtr dst, IntPtr src, UIntPtr size) {
-      UnsafeUtility.MemMove((void*)dst, (void*)src, (int)size);
-    }
-    /// <inheritdoc cref="QuantumUnityNativeUtility.Set(void*, byte, int)"/>
-    [MonoPInvokeCallback(typeof(Native.SetDelegate))]
-    public static void Set(IntPtr ptr, byte value, UIntPtr size) {
-      UnsafeUtility.MemSet((void*)ptr, value, (int)size);
-    }
-    /// <inheritdoc cref="QuantumUnityNativeUtility.Compare(void*, void*, int)"/>
-    [MonoPInvokeCallback(typeof(Native.CompareDelegate))]
-    public static int Compare(IntPtr ptr1, IntPtr ptr2, UIntPtr size) {
-      return UnsafeUtility.MemCmp((void*)ptr1, (void*)ptr2, (int)size);
-    }
-  }
-#endif
-
-  /// <summary>
-  /// The Unity implementation of the Quantum native memory allocator.
-  /// </summary>
-  public sealed unsafe class QuantumUnityNativeAllocator : Native.Allocator {
-    /// <inheritdoc />
-    public sealed override void* Alloc(int count) {
-      var ptr = UnsafeUtility.Malloc((uint)count, 4, UnityAllocator.Persistent);
-      TrackAlloc(ptr);
-      return ptr;
-    }
-
-    /// <inheritdoc />
-    public sealed override void* Alloc(int count, int alignment) {
-      var ptr = UnsafeUtility.Malloc((uint)count, alignment, UnityAllocator.Persistent);
-      TrackAlloc(ptr);
-      return ptr;
-    }
-
-    /// <inheritdoc />
-    public sealed override void Free(void* ptr) {
-      TrackFree(ptr);
-      UnsafeUtility.Free(ptr, UnityAllocator.Persistent);
-    }
-
-    /// <inheritdoc />
-    protected sealed override void Clear(void* dest, int count) {
-      UnsafeUtility.MemClear(dest, (uint)count);
-    }
-
-    /// <inheritdoc />
-    public sealed override Native.AllocatorVTableManaged GetManagedVTable() {
-#if ENABLE_IL2CPP
-      // IL2CPP does not support marshaling delegates that point to instance methods to native code.
-      return new Native.AllocatorVTableManaged(
-        new Native.AllocateDelegate(QuantumUnityNativeAllocator_IL2CPP.Allocate),
-        new Native.FreeDelegate(QuantumUnityNativeAllocator_IL2CPP.Free),
-        new Native.CopyDelegate(QuantumUnityNativeAllocator_IL2CPP.Copy),
-        new Native.MoveDelegate(QuantumUnityNativeAllocator_IL2CPP.Move),
-        new Native.SetDelegate(QuantumUnityNativeAllocator_IL2CPP.Set),
-        new Native.CompareDelegate(QuantumUnityNativeAllocator_IL2CPP.Compare)
-      );
-#else
-      return new Native.AllocatorVTableManaged(this, Native.Utils);
-#endif
-    }
-  }
-
-  /// <summary>
-  /// The Unity implementation of the Quantum native utility functions.
-  /// </summary>
-  public unsafe class QuantumUnityNativeUtility : Native.Utility {
-
-    /// <inheritdoc />
-    public override void Clear(void* dest, int count) {
-      UnsafeUtility.MemClear(dest, (long)count);
-    }
-
-    /// <inheritdoc />
-    public override void Copy(void* dest, void* src, int count) {
-      UnsafeUtility.MemCpy(dest, src, (long)count);
-    }
-
-    /// <inheritdoc />
-    public override void Move(void* dest, void* src, int count) {
-      UnsafeUtility.MemMove(dest, src, (long)count);
-    }
-
-    /// <inheritdoc />
-    public override void Set(void* dest, byte value, int count) {
-      UnsafeUtility.MemSet(dest, value, count);
-    }
-
-    /// <inheritdoc />
-    public override unsafe int Compare(void* ptr1, void* ptr2, int count) {
-      return UnsafeUtility.MemCmp(ptr1, ptr2, count);
-    }
-
-    /// <summary>
-    /// Reset statics. Currently does nothing.
-    /// </summary>
-    [StaticFieldResetMethod]
-    public static void ResetStatics() {
     }
   }
 }
@@ -23993,7 +24505,7 @@ namespace Quantum {
   using System.Reflection;
   using UnityEngine;
   using static InternalLogStreams;
-  
+
   /// <summary>
   /// A base class for ScriptableObjects that are meant to be globally accessible, at edit-time and runtime. The way such objects
   /// are loaded is driven by usages of <see cref="QuantumGlobalScriptableObjectSourceAttribute"/> attributes. 
@@ -24006,24 +24518,49 @@ namespace Quantum {
         }
       }
     }
-    
+
     internal static QuantumGlobalScriptableObjectSourceAttribute[] SourceAttributes => s_sourceAttributes.Value;
 
     private static readonly Lazy<QuantumGlobalScriptableObjectSourceAttribute[]> s_sourceAttributes = new Lazy<QuantumGlobalScriptableObjectSourceAttribute[]>(() => {
       return GetAssemblyAttributes<QuantumGlobalScriptableObjectSourceAttribute>().OrderBy(x => x.Order).ToArray();
     });
+
+    /// <summary>
+    /// Types that failed to load. Used to limit attempts until a reimport happens. Also, there's a nasty bug
+    /// at least in some Unity versions (verified on 2021), where if there's a type of the same name in multiple assemblies,
+    /// AssetDatabase.GetMainAssetPath may return the wrong one.
+    /// </summary>
+    internal static readonly HashSet<Type> _typesFailedToLoad = new(new TypeFullNameComparer());
+
+    class TypeFullNameComparer : IEqualityComparer<Type> {
+      public bool Equals(Type x, Type y) {
+        if (x == y) {
+          return true;
+        }
+
+        if (x == null) {
+          return false;
+        }
+
+        return string.Equals(x.FullName, y.FullName, StringComparison.Ordinal);
+      }
+
+      public int GetHashCode(Type obj) {
+        return obj?.FullName?.GetHashCode() ?? 0;
+      }
+    }
   }
-  
+
   /// <inheritdoc cref="QuantumGlobalScriptableObject{T}"/>
   public abstract partial class QuantumGlobalScriptableObject<T> : QuantumGlobalScriptableObject where T : QuantumGlobalScriptableObject<T> {
-    private static T                                                s_instance;
+    private static T s_instance;
     private static QuantumGlobalScriptableObjectUnloadDelegate s_unloadHandler;
-    
+
     /// <summary>
     /// Is this instance a global instance.
     /// </summary>
     public bool IsGlobal { get; private set; }
-    
+
     /// <summary>
     /// Invoked when the instance is loaded as global.
     /// </summary>
@@ -24036,17 +24573,21 @@ namespace Quantum {
     /// <param name="destroyed"></param>
     protected virtual void OnUnloadedAsGlobal(bool destroyed) {
     }
-    
+
     private static string LogPrefix => $"[Global {typeof(T).Name}]: ";
-    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetInstanceID()}]" : "null";
-    
+#if UNITY_6000_3_OR_NEWER
+    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetEntityId()}]" : "null";
+#else
+    private static string AsId(QuantumGlobalScriptableObject<T> obj) => obj ? $"[IID:{obj.GetObjectId()}]" : "null";
+#endif
+
     /// <summary>
     /// If the current instance is global, unsets <see cref="IsGlobal"/> and calls <see cref="OnUnloadedAsGlobal"/>
     /// </summary>
     protected virtual void OnDisable() {
       // OnDestroy is weird in ScriptableObjects; it can realistically only happen for fully runtime/scene bound ones. Addressables
       // seem to omit even OnDisable.
-      
+
       if (!IsGlobal) {
         LogTrace?.Log($"{LogPrefix}OnDisable called for {AsId(this)}, but is not global");
         return;
@@ -24061,7 +24602,7 @@ namespace Quantum {
       Assert.Check(object.ReferenceEquals(this, s_instance), $"Expected this to be the global instance");
       s_instance = null;
       s_unloadHandler = null;
-      
+
       IsGlobal = false;
       OnUnloadedAsGlobal(true);
     }
@@ -24090,7 +24631,7 @@ namespace Quantum {
         SetGlobalInternal(value, null);
       }
     }
-    
+
     /// <summary>
     /// Returns true if a global instance is loaded. Compared to <see cref="GlobalInternal"/>, it does not attempt to load an instance.
     /// </summary>
@@ -24120,7 +24661,7 @@ namespace Quantum {
     /// <returns></returns>
     protected static async System.Threading.Tasks.Task<T> GetGlobalAsyncInternal() {
       var instance = await GetOrLoadGlobalInstanceAsync();
-      
+
       if (ReferenceEquals(instance, null)) {
         throw new InvalidOperationException($"Failed to load {typeof(T).Name}. If this happens in edit mode, make sure Quantum is properly installed in the Quantum HUB. " +
           $"Otherwise, if the default path does not exist or does not point to a Resource, you need to use " +
@@ -24135,7 +24676,7 @@ namespace Quantum {
     /// </summary>
     /// <returns><see langword="true"/> if an instance was unloaded</returns>
     protected static bool UnloadGlobalInternal() {
-      
+
       var instance = s_instance;
       if (!instance) {
         return false;
@@ -24168,20 +24709,27 @@ namespace Quantum {
       if (s_instance) {
         return s_instance;
       }
-      
+
+      if (_typesFailedToLoad.Contains(typeof(T))) {
+        LogTrace?.Log($"Type {typeof(T).FullName} is in the failed list, early out with null");
+        return null;
+      }
+
       foreach (var sourceAttribute in SourceAttributes) {
         if (Application.isEditor) {
           if (!Application.isPlaying && !sourceAttribute.AllowEditMode) {
+            LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} failed to load {typeof(T).FullName}: edit mode");
             continue;
           }
         }
 
         if (sourceAttribute.ObjectType != typeof(T) && !typeof(T).IsSubclassOf(sourceAttribute.ObjectType)) {
+          LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} not compatible with {typeof(T).FullName}");
           continue;
         }
-        
+
         var result = sourceAttribute.Load(typeof(T));
-        
+
         if (s_instance) {
           LogTrace?.Log($"Something has loaded the instance of {typeof(T).FullName} while sync load was happening. Unloading the newly loaded instance and returning the actual global.");
           if (result.Object) {
@@ -24189,21 +24737,30 @@ namespace Quantum {
           }
           return s_instance;
         }
-        
+
         if (result.Object) {
           var instance = (T)result.Object;
           LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} was used to load {AsId(instance)}, has unloader: {result.Unloader != null}");
           SetGlobalInternal(instance, result.Unloader);
           return instance;
+        } else {
+          LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} failed to load {typeof(T).FullName}");
         }
 
         if (!sourceAttribute.AllowFallback) {
           // no fallback allowed
+          LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} failed to load {typeof(T).FullName} and disallows fallback");
           break;
         }
       }
 
-      LogTrace?.Log($"{LogPrefix} No source attribute was able to load the global instance");
+      if (Application.isEditor) {
+        LogTrace?.Log($"{LogPrefix} No source attribute was able to load the global instance, adding to the failed list: {typeof(T).FullName}");
+        _typesFailedToLoad.Add(typeof(T));
+      } else {
+        LogTrace?.Log($"{LogPrefix} No source attribute was able to load the global instance: {typeof(T).FullName}");
+      }
+
       return null;
     }
 
@@ -24211,7 +24768,7 @@ namespace Quantum {
       if (s_instance) {
         return s_instance;
       }
-      
+
       foreach (var sourceAttribute in SourceAttributes) {
         if (Application.isEditor) {
           if (!Application.isPlaying && !sourceAttribute.AllowEditMode) {
@@ -24222,7 +24779,7 @@ namespace Quantum {
         if (sourceAttribute.ObjectType != typeof(T) && !typeof(T).IsSubclassOf(sourceAttribute.ObjectType)) {
           continue;
         }
-        
+
         var task = sourceAttribute.LoadAsync(typeof(T));
         if (task == null) {
           if (!sourceAttribute.AllowFallback) {
@@ -24232,7 +24789,7 @@ namespace Quantum {
         }
 
         var result = await task;
-        
+
         if (s_instance) {
           LogWarn?.Log($"Something has loaded the instance of {typeof(T).FullName} while async load was happening. Unloading the newly loaded instance and returning the actual global.");
           if (result.Object) {
@@ -24240,14 +24797,14 @@ namespace Quantum {
           }
           return s_instance;
         }
-        
+
         if (result.Object) {
           var instance = (T)result.Object;
           LogTrace?.Log($"{LogPrefix} Loader {sourceAttribute} was used to load async {AsId(instance)}, has unloader: {result.Unloader != null}");
           SetGlobalInternal(instance, result.Unloader);
           return instance;
         }
-        
+
         if (!sourceAttribute.AllowFallback) {
           // no fallback allowed
           break;
@@ -24257,7 +24814,7 @@ namespace Quantum {
       LogTrace?.Log($"{LogPrefix} No source attribute was able to load the global instance");
       return null;
     }
-    
+
     private static void SetGlobalInternal(T value, QuantumGlobalScriptableObjectUnloadDelegate unloadHandler) {
       if (s_instance) {
         throw new InvalidOperationException($"Failed to set {typeof(T).Name} as global. A global instance is already loaded - it needs to be unloaded first");
@@ -24272,11 +24829,23 @@ namespace Quantum {
       if (value) {
         s_instance = value;
         s_unloadHandler = unloadHandler;
-        
+
         s_instance.IsGlobal = true;
         s_instance.OnLoadedAsGlobal();
       }
     }
+
+#if UNITY_EDITOR && QUANTUM_EDITOR_TRACE_IMPORT
+    class LogTraceAdapter {
+      public void Log(string value) {
+        QuantumEditorLog.TraceImport(value);
+        InternalLogStreams.LogTrace?.Log(value);
+      }
+    }
+
+    // ReSharper disable once InconsistentNaming
+    static readonly LogTraceAdapter LogTrace = new LogTraceAdapter();
+#endif
   }
 }
 
@@ -24300,7 +24869,7 @@ namespace Quantum {
     public QuantumGlobalScriptableObjectAttribute(string defaultPath) {
       DefaultPath = defaultPath;
     }
-    
+
     /// <summary>
     /// The default path for the asset.
     /// </summary>
@@ -24340,7 +24909,7 @@ namespace Quantum {
     public QuantumGlobalScriptableObjectSourceAttribute(Type objectType) {
       ObjectType = objectType;
     }
-    
+
     /// <summary>
     /// Type or the base type of <see cref="QuantumGlobalScriptableObject"/> that this loader supports.
     /// </summary>
@@ -24373,7 +24942,7 @@ namespace Quantum {
       return null;
     }
   }
-  
+
   [Obsolete("Use one of QuantumGlobalScriptableObjectSourceAttribute-derived types instead", true)]
   [AttributeUsage(AttributeTargets.Method)]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -24381,12 +24950,12 @@ namespace Quantum {
     public int Order { get; set; }
   }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-  
+
   /// <summary>
   /// A delegate that can be used to unload a <see cref="QuantumGlobalScriptableObject"/>.
   /// </summary>
   public delegate void QuantumGlobalScriptableObjectUnloadDelegate(QuantumGlobalScriptableObject instance);
-  
+
   /// <summary>
   /// The result of <see cref="QuantumGlobalScriptableObjectSourceAttribute.Load"/>. Contains the loaded object and an optional
   /// unloader delegate.
@@ -24395,19 +24964,19 @@ namespace Quantum {
     /// <summary>
     /// Object instance.
     /// </summary>
-    public readonly QuantumGlobalScriptableObject               Object;
+    public readonly QuantumGlobalScriptableObject Object;
     /// <summary>
     /// An optional delegate that is used to unload <see cref="Object"/>.
     /// </summary>
     public readonly QuantumGlobalScriptableObjectUnloadDelegate Unloader;
-    
+
     /// <param name="obj">Object instance.</param>
     /// <param name="unloader">An optional delegate that is used to unload <paramref name="obj"/>.</param>
     public QuantumGlobalScriptableObjectLoadResult(QuantumGlobalScriptableObject obj, QuantumGlobalScriptableObjectUnloadDelegate unloader = null) {
       Object = obj;
       Unloader = unloader;
     }
-    
+
     /// <summary>
     /// Implicitly converts a <see cref="QuantumGlobalScriptableObject"/> to a <see cref="QuantumGlobalScriptableObjectLoadResult"/>.
     /// </summary>
@@ -24427,7 +24996,7 @@ namespace Quantum {
   /// Base class for all Quantum MonoBehaviours.
   /// </summary>
   public abstract partial class QuantumMonoBehaviour : MonoBehaviour {
-    
+
   }
 }
 
@@ -24456,7 +25025,7 @@ namespace Quantum {
     /// <summary>Add the system after the parent system in the player loop.</summary>
     After
   }
-  
+
   /// <summary>
   /// Represents a system that has been added to the PlayerLoopSystem.
   /// </summary>
@@ -24465,12 +25034,12 @@ namespace Quantum {
     /// The type of the system.
     /// </summary>
     public readonly Type Type;
-    
+
     /// <summary/>
     public QuantumPlayerLoopSystemHandle(Type type) : this() {
       Type = type;
     }
-    
+
     /// <summary/>
     public void Dispose() {
       if (Type == null) {
@@ -24480,7 +25049,7 @@ namespace Quantum {
     }
   }
 
-  
+
   /// <summary>
   /// Utility class for manipulating Unity Player Loop System.
   /// </summary>
@@ -24494,7 +25063,7 @@ namespace Quantum {
       PlayerLoop.SetPlayerLoop(playerLoop);
       return result;
     }
-    
+
     /// <summary>
     /// Adds a new loop system in relation to <paramref name="referenceSystemType"/>
     /// </summary>
@@ -24505,7 +25074,7 @@ namespace Quantum {
 
       return new QuantumPlayerLoopSystemHandle(ownerType);
     }
-    
+
     static bool AddToPlayerLoopInternal(ref PlayerLoopSystem parentSystem, Type referenceSystemType, QuantumPlayerLoopSystemAddMode addMode, Type ownerType, PlayerLoopSystem.UpdateFunction updateDelegate) {
       ref PlayerLoopSystem[] list = ref parentSystem.subSystemList;
       var listLen = list?.Length ?? 0;
@@ -24554,11 +25123,11 @@ namespace Quantum {
       if (!playerLoop.RemoveFromPlayerLoop(type)) {
         return false;
       }
-      
+
       PlayerLoop.SetPlayerLoop(playerLoop);
       return true;
     }
-    
+
     /// <summary>
     /// Removes a player loop system of given type.
     /// </summary>
@@ -24650,14 +25219,14 @@ namespace Quantum {
   /// handling and integer enquotement.
   /// </summary>
   public static class JsonUtilityExtensions {
-    
+
     /// <see cref="JsonUtilityExtensions.FromJsonWithTypeAnnotation"/>
     public delegate Type TypeResolverDelegate(string typeName);
     /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Quantum.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string TypeSerializerDelegate(Type type);
     /// <see cref="JsonUtilityExtensions.ToJsonWithTypeAnnotation(object,Quantum.JsonUtilityExtensions.InstanceIDHandlerDelegate)"/>
     public delegate string InstanceIDHandlerDelegate(object context, int value);
-    
+
     private const string TypePropertyName = "$type";
 
     /// <summary>
@@ -24717,8 +25286,8 @@ namespace Quantum {
         ToJsonInternal(obj, writer, integerEnquoteMinDigits, typeSerializer, instanceIDHandler);
       }
     }
-    
-    
+
+
     /// <summary>
     /// Converts JSON with type annotation to an instance of <typeparamref name="T"/>. If the JSON contains type annotations, they need to match
     /// the expected result type. If there are no type annotations, use <paramref name="typeResolver"/> to return the expected type.
@@ -24759,7 +25328,7 @@ namespace Quantum {
 
         // list
         ++i;
-        for (var expectComma = false;; expectComma = true) {
+        for (var expectComma = false; ; expectComma = true) {
           i = SkipWhiteOrThrow(i);
 
           if (json[i] == ']') {
@@ -24795,7 +25364,7 @@ namespace Quantum {
       }
     }
 
-    
+
     private static object FromJsonWithTypeAnnotationInternal(string json, TypeResolverDelegate typeResolver = null, IList targetList = null) {
       Assert.Check(json != null);
 
@@ -24805,7 +25374,7 @@ namespace Quantum {
 
         // list
         ++i;
-        for (var expectComma = false;; expectComma = true) {
+        for (var expectComma = false; ; expectComma = true) {
           i = SkipWhiteOrThrow(i);
 
           if (json[i] == ']') {
@@ -24846,7 +25415,7 @@ namespace Quantum {
       }
     }
 
-    private static void ToJsonInternal(object obj, TextWriter writer, 
+    private static void ToJsonInternal(object obj, TextWriter writer,
       int? integerEnquoteMinDigits = null,
       TypeSerializerDelegate typeResolver = null,
       InstanceIDHandlerDelegate instanceIDHandler = null) {
@@ -24857,7 +25426,7 @@ namespace Quantum {
       if (integerEnquoteMinDigits.HasValue) {
         json = EnquoteIntegers(json, integerEnquoteMinDigits.Value);
       }
-      
+
       var type = obj.GetType();
 
       writer.Write("{\"");
@@ -24874,29 +25443,29 @@ namespace Quantum {
         Assert.Check('{' == json[0]);
         Assert.Check('}' == json[^1]);
         writer.Write(',');
-        
+
         if (instanceIDHandler != null) {
           int i = 1;
-          
-          for (;;) {
+
+          for (; ; ) {
             const string prefix = "{\"instanceID\":";
-            
+
             var nextInstanceId = json.IndexOf(prefix, i, StringComparison.Ordinal);
             if (nextInstanceId < 0) {
               break;
             }
-            
+
             // parse the number that follows; may be negative
             var start = nextInstanceId + prefix.Length;
             var end = json.IndexOf('}', start);
             var instanceId = int.Parse(json.AsSpan(start, end - start));
-            
+
             // append that part
             writer.Write(json.AsSpan(i, nextInstanceId - i));
             writer.Write(instanceIDHandler(obj, instanceId));
             i = end + 1;
           }
-          
+
           writer.Write(json.AsSpan(i, json.Length - i));
         } else {
           writer.Write(json.AsSpan(1, json.Length - 1));
@@ -24910,7 +25479,7 @@ namespace Quantum {
         if (endIndex < 0) {
           throw new InvalidOperationException($"Unable to find end of object's end (starting at {i})");
         }
-        
+
         Assert.Check(endIndex > i);
         Assert.Check(json[endIndex] == '}');
 
@@ -24931,7 +25500,7 @@ namespace Quantum {
           Assert.Check(!string.IsNullOrEmpty(typeInfo?.__TypeName));
           type = Type.GetType(typeInfo.__TypeName, true);
         }
-        
+
         if (type.IsSubclassOf(typeof(ScriptableObject))) {
           var instance = ScriptableObject.CreateInstance(type);
           JsonUtility.FromJsonOverwrite(part, instance);
@@ -24950,14 +25519,14 @@ namespace Quantum {
 
       throw new InvalidOperationException($"Malformed at {i}: expected {{ or null");
     }
-    
+
     internal static int FindObjectEnd(string json, int start = 0) {
       return FindScopeEnd(json, start, '{', '}');
     }
-    
+
     private static int FindScopeEnd(string json, int start, char cstart = '{', char cend = '}') {
       var depth = 0;
-      
+
       if (json[start] != cstart) {
         return -1;
       }
@@ -24969,7 +25538,7 @@ namespace Quantum {
           // now skip until the first unescaped quote
           while (i < json.Length) {
             if (json[++i] == '"')
-              // are we escaped?
+            // are we escaped?
             {
               if (json[i - 1] != '\\') {
                 break;
@@ -24988,7 +25557,7 @@ namespace Quantum {
 
       return -1;
     }
-    
+
     [Serializable]
     private class TypeNameWrapper {
 #pragma warning disable CS0649 // Set by serialization
@@ -25112,14 +25681,11 @@ namespace Quantum {
 #region QuantumLogInitializer.cs
 
 namespace Quantum {
-  using System;
   using UnityEngine;
-  
+
 #if UNITY_EDITOR
-  using UnityEditor;
-  using UnityEditor.Build;
 #endif
-  
+
   /// <summary>
   /// Initializes the logging system for Quantum. Use <see cref="InitializeUser"/> to completely override the log level and trace channels or
   /// to provide a custom logger. Use <see cref="InitializeUnityLoggerUser"/> to override default Unity logger settings.
@@ -25138,10 +25704,11 @@ namespace Quantum {
       isDark = UnityEditor.EditorGUIUtility.isProSkin;
       QuantumEditorLog.Initialize(isDark);
 #endif
-      
+
       LogLevel logLevel = QuantumLogConstants.DefinedLogLevel;
       TraceChannels traceChannels = QuantumLogConstants.DefinedTraceChannels;
       InitializeUser(ref logLevel, ref traceChannels);
+      InitializePartial(logLevel, traceChannels);
 
       if (Log.IsInitialized) {
         return;
@@ -25151,8 +25718,9 @@ namespace Quantum {
       InitializeUnityLoggerUser(ref logger);
       Log.Initialize(logLevel, logger.CreateLogStream, traceChannels);
     }
-    
+
     static partial void InitializeUser(ref LogLevel logLevel, ref TraceChannels traceChannels);
+    static partial void InitializePartial(LogLevel logLevel, TraceChannels traceChannels);
   }
 }
 
@@ -25164,7 +25732,6 @@ namespace Quantum {
 namespace Quantum {
   using System;
   using System.Diagnostics;
-  using System.Runtime.CompilerServices;
   using JetBrains.Annotations;
 #if QUANTUM_ENABLE_MPPM
   using System.Collections.Generic;
@@ -25179,7 +25746,7 @@ namespace Quantum {
   using UnityEngine;
   using Debug = UnityEngine.Debug;
 #endif
-  
+
   // ReSharper disable once IdentifierTypo
   /// <summary>
   /// The current status of MPPM. If the package is not enabled, this will always be <see cref="QuantumMppmStatus.Disabled"/>.
@@ -25198,7 +25765,7 @@ namespace Quantum {
     /// </summary>
     VirtualInstance
   }
-  
+
   /// <summary>
   /// Support for Multiplayer Play Mode (MPPM). It uses named pipes
   /// to communicate between the main Unity instance and virtual instances.
@@ -25208,12 +25775,12 @@ namespace Quantum {
 #endif
   // ReSharper disable once IdentifierTypo
   public partial class QuantumMppm {
-    
+
     /// <summary>
     /// The current status of MPPM.
     /// </summary>
     public static readonly QuantumMppmStatus Status = QuantumMppmStatus.Disabled;
-    
+
     /// <summary>
     /// If <see cref="Status"/> is <see cref="QuantumMppmStatus.MainInstance"/>, this static field can be used to send commands.
     /// </summary>
@@ -25234,7 +25801,7 @@ namespace Quantum {
 #endif
     }
 
-    
+
     /// <summary>
     /// Broadcasts a command to all virtual instances.
     /// </summary>
@@ -25251,59 +25818,59 @@ namespace Quantum {
     }
 
     private QuantumMppm() {
-      
+
     }
-    
+
 #if QUANTUM_ENABLE_MPPM && UNITY_EDITOR
     private static readonly string s_mainInstancePath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-    
+
     private const string PersistentCommandsFolderPath = "Temp/QuantumMppm";
     private const string MpeChannelName = "QuantumMppm";
-    
+
     private readonly int _mpeChannelId = ChannelService.ChannelNameToId(MpeChannelName);
     private readonly List<(int connectionId, string guid)> _acks = new List<(int, string)>();
     private readonly Regex _invalidFileCharactersRegex = new Regex(string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(new string(Path.GetInvalidFileNameChars()))));
-    
+
     static QuantumMppm() {
-      
+
       var indexOfMppmPrefix = Application.dataPath.LastIndexOf("/Library/VP/mppm", StringComparison.OrdinalIgnoreCase);
       Status = indexOfMppmPrefix < 0 ? QuantumMppmStatus.MainInstance : QuantumMppmStatus.VirtualInstance;
-    
+
       // start MPE (this check is canonical)
       if (!ChannelService.IsRunning()) {
         ChannelService.Start();
       }
-      
+
       QuantumEditorLog.TraceMppm($"Status: {Status}, MainInstancePath: {s_mainInstancePath}");
-      
+
       if (Status == QuantumMppmStatus.MainInstance) {
-        
+
         MainEditor = new QuantumMppm();
         // set up MPE channel
         var disconnect = ChannelService.GetOrCreateChannel(MpeChannelName, MainEditor.ReceiveAck);
         Debug.Assert(disconnect != null);
-        
+
         // ... but since new instances need to e.g. receive all the dependency hashes, set up a folder;
         // it needs to be cleared on every Unity start but survive between domain reloads
         string folderOwnedKey = $"Owns_{PersistentCommandsFolderPath}";
-        
+
         if (Directory.Exists(PersistentCommandsFolderPath) && !SessionState.GetBool(folderOwnedKey, false)) {
           QuantumEditorLog.TraceMppm($"Deleting leftover files from {PersistentCommandsFolderPath}");
           foreach (var file in Directory.GetFiles(PersistentCommandsFolderPath)) {
             File.Delete(file);
           }
         }
-        
+
         if (!Directory.Exists(PersistentCommandsFolderPath)) {
           QuantumEditorLog.TraceMppm($"Creating command folder {PersistentCommandsFolderPath}");
           Directory.CreateDirectory(PersistentCommandsFolderPath);
         }
         SessionState.SetBool(folderOwnedKey, true);
-        
+
       } else {
         // where is the main instance located?
         s_mainInstancePath = Application.dataPath.Substring(0, indexOfMppmPrefix);
-        
+
         // start the MPE client to await commands
         var client = ChannelClient.GetOrCreateClient(MpeChannelName);
         client.Start(true);
@@ -25311,7 +25878,7 @@ namespace Quantum {
         var disconnect = client.RegisterMessageHandler(async (byte[] data) => {
           var json = System.Text.Encoding.UTF8.GetString(data);
           var message = JsonUtility.FromJson<CommandWrapper>(json);
-          
+
           QuantumEditorLog.TraceMppm($"Received command {message.Data}");
           try {
             await message.Data.ExecuteAsync();
@@ -25323,7 +25890,7 @@ namespace Quantum {
           if (!message.Data.NeedsAck) {
             return;
           }
-          
+
           var ack = new AckMessage() {
             Guid = message.Guid
           };
@@ -25333,7 +25900,7 @@ namespace Quantum {
           client.Send(ackBytes);
         });
         Debug.Assert(disconnect != null);
-        
+
         // read persistent commands from the main instance
         var mainInstanceCommandsFolderPath = Path.Combine(s_mainInstancePath, PersistentCommandsFolderPath);
         Debug.Assert(Directory.Exists(mainInstanceCommandsFolderPath));
@@ -25349,19 +25916,19 @@ namespace Quantum {
         }
       }
     }
-    
+
     private void BroadcastInternal<T>(T data) where T : QuantumMppmCommand {
       Assert.Check(Status == QuantumMppmStatus.MainInstance, "Only the main instance can send commands");
-      
+
       var guid = Guid.NewGuid().ToString();
       var wrapper = new CommandWrapper() {
         Guid = guid,
         Data = data
       };
-      
-      var str   = JsonUtility.ToJson(wrapper);
+
+      var str = JsonUtility.ToJson(wrapper);
       var bytes = System.Text.Encoding.UTF8.GetBytes(str);
-      
+
       QuantumEditorLog.TraceMppm($"Broadcasting command {str}");
       ChannelService.BroadcastBinary(_mpeChannelId, bytes);
 
@@ -25372,7 +25939,7 @@ namespace Quantum {
         QuantumEditorLog.TraceMppm($"Saving persistent command to {filePath}");
         File.WriteAllText(filePath, str);
       }
-      
+
       if (data.NeedsAck) {
         // well, we need to wait
         var channels = ChannelService.GetChannelClientList();
@@ -25381,29 +25948,29 @@ namespace Quantum {
         WaitForAcks(numAcks, guid);
       }
     }
-    
+
     private void ReceiveAck(int connectionId, byte[] data) {
-      var json    = System.Text.Encoding.UTF8.GetString(data);
+      var json = System.Text.Encoding.UTF8.GetString(data);
       var message = JsonUtility.FromJson<AckMessage>(json);
       lock (_acks) {
         _acks.Add((connectionId, message.Guid));
       }
       QuantumEditorLog.TraceMppm($"Received ack {json}");
     }
-    
+
     private void WaitForAcks(int numAcks, string guid) {
-      var timer   = Stopwatch.StartNew();
+      var timer = Stopwatch.StartNew();
       var timeout = TimeSpan.FromSeconds(2);
-      
+
       QuantumEditorLog.TraceMppm($"Waiting for {numAcks} acks for {guid}");
-      
+
       while (timer.Elapsed < timeout) {
         for (int i = 0; numAcks > 0 && i < _acks.Count; i++) {
           var ack = _acks[i];
           if (ack.guid == guid) {
             _acks.RemoveAt(i);
             numAcks--;
-              
+
             QuantumEditorLog.TraceMppm($"Received ack for {guid} from {ack.connectionId}, {numAcks} left");
           }
         }
@@ -25412,15 +25979,15 @@ namespace Quantum {
           QuantumEditorLog.TraceMppm($"All acks received");
           return;
         }
-          
+
         QuantumEditorLog.TraceMppm($"Waiting for {numAcks} acks");
         ChannelService.DispatchMessages();
         Thread.Sleep(10);
       }
-      
+
       QuantumEditorLog.TraceMppm($"Timeout waiting for acks ({numAcks} left)");
     }
-    
+
     [Serializable]
     private class CommandWrapper {
       public string Guid;
@@ -25433,7 +26000,7 @@ namespace Quantum {
     }
 #endif
   }
-  
+
   /// <summary>
   /// The base class for all Quantum MPPM commands.
   /// </summary>
@@ -25452,13 +26019,13 @@ namespace Quantum {
     public virtual System.Threading.Tasks.Task ExecuteAsync() {
       Execute();
       return System.Threading.Tasks.Task.CompletedTask;
-    } 
-    
+    }
+
     /// <summary>
     /// Does the main instance need to wait for an ack?
     /// </summary>
     public virtual bool NeedsAck => false;
-    
+
     /// <summary>
     /// If the command is persistent (i.e. needs to be executed on each domain reload), this key is used to store it.
     /// </summary>
@@ -25489,13 +26056,13 @@ namespace Quantum {
     /// Hash of the custom dependency.
     /// </summary>
     public string Hash;
-      
+
     /// <inheritdoc cref="QuantumMppmCommand.NeedsAck"/>
     public override bool NeedsAck => true;
 
     /// <inheritdoc cref="QuantumMppmCommand.PersistentKey"/>
     public override string PersistentKey => $"Dependency_{DependencyName}";
-      
+
     /// <summary>
     /// Registers a custom dependency with the given name and hash.
     /// </summary>
@@ -25536,7 +26103,7 @@ namespace Quantum {
 #region QuantumUnityExtensions.cs
 
 namespace Quantum {
-#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER
+#if !UNITY_6000_4_OR_NEWER
   using UnityEngine;
 #endif
 
@@ -25544,10 +26111,10 @@ namespace Quantum {
   /// Provides backwards compatibility for Unity API.
   /// </summary>
   public static class QuantumUnityExtensions {
-    
+
     #region New Find API
 
-#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER 
+#if UNITY_2022_1_OR_NEWER && !UNITY_2022_2_OR_NEWER
     public enum FindObjectsInactive {
       Exclude,
       Include,
@@ -25609,11 +26176,77 @@ namespace Quantum {
         objArray[index] = (T)rawObjects[index];
       return objArray;
     }
-
 #endif
+    
+#if !UNITY_6000_4_OR_NEWER
+    public static T[] FindObjectsByType<T>() where T : Object {
+      return Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+    }
+
+    public static T[] FindObjectsByType<T>(FindObjectsInactive findObjectsInactive) where T : Object {
+      return Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None);
+    }
+    
+    public static Object[] FindObjectsByType(System.Type type) {
+      return Object.FindObjectsByType(type, FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+    }
+    
+    public static Object[] FindObjectsByType(System.Type type, FindObjectsInactive findObjectsInactive) {
+      return Object.FindObjectsByType(type, findObjectsInactive, FindObjectsSortMode.None);
+    }
+#endif
+    
+    
 
     #endregion
   }
+}
+
+#endregion
+
+
+#region QuantumUnityNavMeshUtils.cs
+
+namespace Quantum {
+#if QUANTUM_ENABLE_AI && !QUANTUM_DISABLE_AI
+
+  /// <summary>
+  /// Shared unity navmesh methods with backwards capabilty.
+  /// </summary>
+  public class QuantumUnityNavMeshUtils {
+    /// <summary>
+    /// Wraps GetAreaNames for backwards capability. Uses editor code for old versions.
+    /// </summary>
+    public static string[] GetAreaNames() {
+#if UNITY_6000_0_OR_NEWER || EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED
+      return UnityEngine.AI.NavMesh.GetAreaNames();
+#else
+#if UNITY_EDITOR
+      return UnityEditor.GameObjectUtility.GetNavMeshAreaNames();
+#else 
+      return new string[0];
+#endif
+#endif
+    }
+
+    /// <summary>
+    /// Wraps GetNavMeshAreaFromName for backwards capability. Uses editor code for old versions.
+    /// </summary>
+    /// <param name="name">Unity NavMesh area name</param>
+    public static int GetAreaFromName(string name) {
+#if UNITY_6000_0_OR_NEWER || EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED
+      return UnityEngine.AI.NavMesh.GetAreaFromName(name);
+#else
+#if UNITY_EDITOR
+      return UnityEditor.GameObjectUtility.GetNavMeshAreaFromName(name);
+#else 
+      return 0;
+#endif
+#endif
+    }
+  }
+
+#endif
 }
 
 #endregion
@@ -25626,13 +26259,13 @@ namespace Quantum {
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
-  using System.Threading.Tasks;
   using UnityEditor;
   using UnityEngine;
+  using UnityEngine.Pool;
   using UnityEngine.SceneManagement;
 
   /// <summary>
-  /// Exension and utility methods for <see cref="SceneManager"/> and <see cref="Scene"/> types.
+  /// Extension and utility methods for <see cref="SceneManager"/> and <see cref="Scene"/> types.
   /// </summary>
   static partial class QuantumUnitySceneManagerUtils {
 
@@ -25647,12 +26280,12 @@ namespace Quantum {
         return x.handle == y.handle;
       }
 
-      
+
       /// <summary>
       /// Returns <see cref="Scene.handle"/>
       /// </summary>
       public int GetHashCode(Scene obj) {
-        return obj.handle;
+        return obj.handle.GetHashCode();
       }
     }
 
@@ -25699,7 +26332,7 @@ namespace Quantum {
       if (!scene.isLoaded) {
         return false;
       }
-      
+
       for (int i = 0; i < SceneManager.sceneCount; ++i) {
         var s = SceneManager.GetSceneAt(i);
         if (s != scene && s.isLoaded) {
@@ -25716,7 +26349,7 @@ namespace Quantum {
       StringBuilder result = new StringBuilder();
 
       result.Append("[UnityScene:");
-      
+
       if (scene.IsValid()) {
         result.Append(scene.name);
         result.Append(", isLoaded:").Append(scene.isLoaded);
@@ -25729,7 +26362,7 @@ namespace Quantum {
         result.Append("<Invalid>");
       }
 
-      result.Append(", handle:").Append(scene.handle);
+      result.Append(", handle:").Append(scene.handle.ToString());
       result.Append("]");
       return result.ToString();
     }
@@ -25740,7 +26373,7 @@ namespace Quantum {
     public static string Dump(this LoadSceneParameters loadSceneParameters) {
       return $"[LoadSceneParameters: {loadSceneParameters.loadSceneMode}, localPhysicsMode:{loadSceneParameters.localPhysicsMode}]";
     }
-    
+
     /// <summary>
     /// Gets scene's build index based on its name or path.
     /// </summary>
@@ -25757,6 +26390,98 @@ namespace Quantum {
         }
 
         return -1;
+      }
+    }
+
+    /// <summary>
+    /// Gets all the root GameObjects, sorted by their simbling index.
+    /// </summary>
+    public static void GetRootGameObjectsInHierarchyOrder(this Scene scene, List<GameObject> rootGameObjects) {
+      scene.GetRootGameObjects(rootGameObjects ?? throw new ArgumentNullException(nameof(rootGameObjects)));
+      // roots are not served in any order, it seems; sort them by sibling index
+      rootGameObjects.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex()));
+    }
+    
+    /// <summary>
+    /// Gets all the component present on a scene, depth first.
+    /// </summary>
+    public static T GetSingleComponentOrThrow<T>(this Scene scene, bool includeInactive = false) where T : Component {
+      using (ListPool<GameObject>.Get(out var roots)) {
+        // order does not matter
+        scene.GetRootGameObjects(roots);
+
+        T result = null;
+
+        foreach (var root in roots) {
+          if (!includeInactive && !root.activeInHierarchy) {
+            continue;
+          }
+
+          var component = root.GetComponentInChildren<T>(includeInactive: includeInactive);
+          if (component) {
+            if (result) {
+              throw new InvalidOperationException($"Multiple components of type {typeof(T).FullName} found");
+            } else {
+              result = component;
+            }
+          }
+        }
+
+        if (result == null) {
+          throw new InvalidOperationException($"Components of type {typeof(T).FullName} not found");
+        }
+        
+        return result;
+      }
+    }
+    
+    /// <summary>
+    /// Gets all the component present on a scene, depth first.
+    /// </summary>
+    public static T GetComponentInHierarchyOrder<T>(this Scene scene, bool includeInactive = false) where T: class{
+      using (ListPool<GameObject>.Get(out var roots)) {
+        scene.GetRootGameObjectsInHierarchyOrder(roots);
+        foreach (var root in roots) {
+          if (!includeInactive && !root.activeInHierarchy) {
+            continue;
+          }
+          var result = root.GetComponentInChildren<T>(includeInactive: includeInactive);
+          if (result != null) {
+            return result;
+          }
+        }
+
+        return null;
+      }
+    }
+    
+    /// <summary>
+    /// Gets all the component present on a scene, depth first.
+    /// </summary>
+    public static T[] GetComponentsInHierarchyOrder<T>(this Scene scene, bool includeInactive = false) where T : class {
+      using (ListPool<GameObject>.Get(out var roots)) {
+        scene.GetRootGameObjectsInHierarchyOrder(roots);
+        return GetComponentsInHierarchyOrder<T>(roots, includeInactive);
+      }
+    }
+    
+    /// <summary>
+    /// Gets all the component present on a scene, depth first.
+    /// </summary>
+    public static T[] GetComponentsInHierarchyOrder<T>(IList<GameObject> roots, bool includeInactive = false) where T : class {
+      using (ListPool<T>.Get(out var partialResults))
+      using (ListPool<T>.Get(out var fullResults)) {
+        foreach (var root in roots) {
+          if (!includeInactive && !root.activeInHierarchy) {
+            continue;
+          }
+          
+          partialResults.Clear();
+          root.GetComponentsInChildren<T>(includeInactive: includeInactive, partialResults);
+          fullResults.AddRange(partialResults);
+        }
+
+        return fullResults.ToArray();
       }
     }
 
@@ -25790,10 +26515,63 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
+  using System.Collections.Generic;
+  using Task;
+  using UnityEditor;
   using UnityEngine;
 
   partial class QuantumUnityDB {
+
+    partial void OnEnableEditor();
+    
 #if UNITY_EDITOR
+    /// <summary>
+    /// Returns a list of scoped assets known at the time of the DB baking. Only available in edit mode.
+    /// </summary>
+    public IReadOnlyList<Entry> EditorScopedAssets => _editorScopedAssetsList;
+
+    [NonSerialized]
+    readonly Dictionary<AssetGuid, (QuantumUnityDBScope Scope, IQuantumAssetObjectSource Source)> _editorScopedAssetsScopeMapping = new();
+    
+    [NonSerialized]
+    readonly List<Entry> _editorScopedAssetsList = new();
+    
+    partial void OnEnableEditor() {
+      _editorScopedAssetsScopeMapping.Clear();
+      _editorScopedAssetsList.Clear();
+      
+      if (Scopes == null) {
+        return;
+      }
+      
+      foreach (var scopeId in Scopes) {
+        var assetPath = AssetDatabase.GUIDToAssetPath(scopeId);
+      
+        if (string.IsNullOrEmpty(assetPath)) {
+          Log.TraceAssetsWarn($"Failed to find the path of scope: {scopeId}");
+          continue;
+        }
+      
+        var scope = AssetDatabase.LoadAssetAtPath<QuantumUnityDBScope>(assetPath);
+      
+        if (!scope) {
+          Log.TraceAssetsWarn($"Failed to load scope {scopeId} (path: {assetPath})");
+          continue;
+        }
+
+        foreach (var entry in scope.Entries) {
+          if (!_editorScopedAssetsScopeMapping.TryAdd(entry.Guid, (scope, entry.Source))) {
+            continue;
+          }
+          _editorScopedAssetsList.Add(entry);
+        }
+      }
+    }
+    
+
+    /// <inheritdoc cref="QuantumUnityDB.IsAssetScoped"/>
+    public static bool IsGlobalAssetScoped(AssetRef assetRef, out QuantumUnityDBScope scope) => Global.IsAssetScoped(assetRef, out scope);
+    
     /// <inheritdoc cref="QuantumUnityDB.GetAssetEditorInstance(AssetRef)"/>
     public static AssetObject GetGlobalAssetEditorInstance(AssetRef assetRef) => Global.GetAssetEditorInstance(assetRef);
     
@@ -25823,27 +26601,85 @@ namespace Quantum {
     /// <param name="assetRef"></param>
     /// <returns>Asset instance or <c>null</c> if not found or the type does not match.</returns>
     public T GetAssetEditorInstance<T>(AssetRef assetRef) where T : AssetObject => GetAssetEditorInstanceInternal(assetRef.Id) as T;
+
+    /// <inheritdoc cref="GetAssetSourceEditorInstance"/>
+    public static IQuantumAssetObjectSource GetGlobalAssetSourceEditorInstance(AssetGuid guid, out QuantumUnityDBScope scope) => Global.GetAssetSourceEditorInstance(guid, out scope);
     
-    private AssetObject GetAssetEditorInstanceInternal(AssetGuid guid) {
+    /// <summary>
+    /// Returns the editor instance of the asset source wit the given <paramref name="guid"/>. Compared to <see cref="GetAssetSource(Quantum.AssetGuid)"/>,
+    /// this method also takes scopes under consideration, even if they haven't been loaded yet. 
+    /// </summary>
+    /// <param name="guid"></param>
+    /// <param name="scope"></param>
+    /// <returns></returns>
+    public IQuantumAssetObjectSource GetAssetSourceEditorInstance(AssetGuid guid, out QuantumUnityDBScope scope) {
       var assetSource = GetAssetSource(guid);
-      if (assetSource == null) {
-        // not mapped in the resource container
-        return default;
+
+      if (assetSource != null) {
+        scope = default;
+        return assetSource;
+      }
+        
+      if (_editorScopedAssetsScopeMapping.TryGetValue(guid, out var entry)) {
+        scope = entry.Scope;
+        return entry.Source;
       }
 
+      scope = default;
+      return null;
+    }
+    
+    /// <summary>
+    /// Returns true if the asset is scoped and known at edit time.
+    /// </summary>
+    /// <param name="assetRef"></param>
+    /// <param name="scope"></param>
+    /// <returns></returns>
+    public bool IsAssetScoped(AssetRef assetRef, out QuantumUnityDBScope scope) {
+      if (_editorScopedAssetsScopeMapping.TryGetValue(assetRef.Id, out var t)) {
+        scope = t.Scope;
+        return true;
+      }
+
+      scope = default;
+      return false;
+    }
+    
+    private AssetObject GetAssetEditorInstanceInternal(AssetGuid guid) {
+      var assetSource = GetAssetSourceEditorInstance(guid, out _);
+      
+      if (assetSource == null) {
+        return null;
+      }
+      
       return assetSource.EditorInstance;
+    }
+    
+    /// <inheritdoc cref="TryGetGlobalAssetEditorInstance{T}(Quantum.AssetRef,out T)"/>
+    public static bool TryGetGlobalAssetEditorInstance(AssetRef assetRef, out AssetObject result) {
+      return TryGetGlobalAssetEditorInstance<AssetObject>(assetRef, out result);
     }
     
     /// <inheritdoc cref="TryGetGlobalAssetEditorInstance{T}(Quantum.AssetRef,out T)"/>
     public static bool TryGetGlobalAssetEditorInstance<T>(AssetRef assetRef, out T result)
       where T : AssetObject {
-      return Global.TryGetAssetObjectEditorInstance(assetRef, out result);
+      if (TryGetGlobal(out var global)) {
+        return global.TryGetAssetObjectEditorInstance(assetRef, out result);
+      }
+
+      result = null;
+      return false;
     }
     
     /// <inheritdoc cref="TryGetGlobalAssetEditorInstance{T}(Quantum.AssetRef{T},out T)"/>
     public static bool TryGetGlobalAssetEditorInstance<T>(AssetRef<T> assetRef, out T result)
       where T : AssetObject {
-      return Global.TryGetAssetObjectEditorInstance(assetRef, out result);
+      if (TryGetGlobal(out var global)) {
+        return global.TryGetAssetObjectEditorInstance(assetRef, out result);
+      }
+
+      result = null;
+      return false;
     }
     
     /// <inheritdoc cref="TryGetAssetObjectEditorInstance{T}(Quantum.AssetRef,out T)"/>
@@ -25864,7 +26700,7 @@ namespace Quantum {
     public bool TryGetAssetObjectEditorInstance<T>(AssetRef assetRef, out T result)
       where T : AssetObject {
 
-      var assetReference = GetAssetSource(assetRef.Id);
+      var assetReference = GetAssetSourceEditorInstance(assetRef.Id, out _);
       if (assetReference == null) {
         result = null;
         return false;
@@ -25928,6 +26764,32 @@ namespace Quantum {
 #endif
   }
 }
+
+
+#endregion
+
+
+#region Assets/Photon/Quantum/Runtime/Utils/CompressionDotNet.cs
+
+#if (UNITY_2021_1_OR_NEWER || !QUANTUM_UNITY) && !QUANTUM_ENABLE_SHARPZIPLIB
+namespace Quantum {
+  using System.IO;
+  using System.IO.Compression;
+  
+  /// <summary>
+  /// The default compression implementation. Problematic for Web, because it relies on native code internally, and it gets removed when LTO is enabled.
+  /// </summary>
+  class CompressionDotNet : Compression {
+    protected override Stream CreateCompressingStreamInternal(Stream underlyingStream, bool leaveOpen) {
+      return new GZipStream(underlyingStream, CompressionMode.Compress, leaveOpen);
+    }
+
+    protected override Stream CreateDecompressingStreamInternal(Stream underlyingStream, bool leaveOpen) {
+      return new GZipStream(underlyingStream, CompressionMode.Decompress, leaveOpen);
+    }
+  }
+}
+#endif
 
 #endregion
 
@@ -27014,17 +27876,16 @@ namespace Quantum {
   /// </summary>
   public static class FPMathUtils {
     /// <summary>
-    /// Load the lookup tables. By default, loaded from Resources.
+    /// Attempts to the lookup tables. By default, loaded from Resources.
     /// </summary>
     /// <param name="force">Will reload the table if set to true</param>
-    public static void LoadLookupTables(Boolean force = false) {
-      if (FPLut.IsLoaded && force == false) {
-        return;
+    public static bool TryLoadLookupTables(bool force = false) {
+      if (FPLut.IsLoaded && !force) {
+        return true;
       }
       
       if (!QuantumLookupTables.TryGetGlobal(out var global)) {
-        Log.Error($"Failed to load {nameof(QuantumLookupTables)}");
-        return;
+        return false;
       }
       
       FPLut.Init(
@@ -27034,6 +27895,18 @@ namespace Quantum {
         acos: global.TableAcos != null ? global.TableAcos.bytes : null,
         atan: global.TableAtan != null ? global.TableAtan.bytes : null,
         sqrt: global.TableSqrt != null ? global.TableSqrt.bytes : null);
+      
+      return true;
+    }
+    
+    /// <summary>
+    /// Load the lookup tables. By default, loaded from Resources.
+    /// </summary>
+    /// <param name="force">Will reload the table if set to true</param>
+    public static void LoadLookupTables(Boolean force = false) {
+      if (!TryLoadLookupTables(force)) {
+        Log.Error($"Failed to load {nameof(QuantumLookupTables)}");
+      }
     }
 
     /// <summary>
@@ -27461,7 +28334,7 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Will <see cref="GameObject.SetActive(bool)"/> to false if the game object is not null and is active."/>
+    /// Will <see cref="GameObject.SetActive(bool)"/> to false if the game object is not null and is active.
     /// </summary>
     /// <param name="gameObject">Game object to hide</param>
     public static void Hide(this GameObject gameObject) {
@@ -27586,7 +28459,7 @@ namespace Quantum {
 
 namespace Quantum {
   using System;
-  using System.Linq;
+  using System.Reflection;
   using Photon.Deterministic;
   using UnityEditor;
   using UnityEngine;
@@ -27621,11 +28494,74 @@ namespace Quantum {
     /// The default arrow head length.
     /// </summary>
     public const float DefaultArrowHeadLength = 0.25f;
-    
+
     /// <summary>
     /// The default arrow head angle.
     /// </summary>
-    public const float DefaultArrowHeadAngle  = 25.0f;
+    public const float DefaultArrowHeadAngle = 25.0f;
+
+    private static Vector3[] _polygonsBuffer = new Vector3[64];
+    private static int _polygonsBufferCount = 0;
+
+    private delegate void DoDrawAAConvexPolygon(Vector3[] points, int actualNumberOfPoints, float alpha);
+    private static readonly DoDrawAAConvexPolygon _drawPolygonCall;
+    private static bool _drawingPolygons = false;
+
+    static GizmoUtils() {
+#if UNITY_EDITOR
+      _drawPolygonCall = ReflectionUtils.CreateMethodDelegate<DoDrawAAConvexPolygon>(typeof(Handles), "DoDrawAAConvexPolygon", BindingFlags.Static | BindingFlags.NonPublic);
+#endif
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    private static void BeginPolygonDraw() {
+      if (_drawingPolygons) {
+        Debug.LogError($"{nameof(BeginPolygonDraw)}: Polygon Gizmo Drawing Begin called without ending the previous call");
+        return;
+      }
+
+      _polygonsBufferCount = 0;
+      _drawingPolygons = true;
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    private static void DrawPolygonVertex(Vector3 v) {
+      if (_drawingPolygons == false) {
+        Debug.LogError($"{nameof(DrawPolygonVertex)}: Polygon Gizmo Drawing called without calling {nameof(BeginPolygonDraw)}()");
+        return;
+      }
+      
+      if (_polygonsBufferCount + 1 > _polygonsBuffer.Length) {
+        var newArr = new Vector3[_polygonsBuffer.Length * 2];
+        Array.Copy(_polygonsBuffer, newArr, _polygonsBufferCount);
+        _polygonsBuffer = newArr;
+      }
+
+      _polygonsBuffer[_polygonsBufferCount] = v;
+      _polygonsBufferCount++;
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    private static void EndPolygonDraw() {
+      if (_drawingPolygons == false) {
+        Debug.LogError($"{nameof(EndPolygonDraw)}: Polygon Gizmo Drawing End called without calling {nameof(BeginPolygonDraw)}()");
+        return;
+      }
+
+      if (_drawPolygonCall == null) {
+        // Delegate initialization failed.
+        return;
+      }
+
+      if (_polygonsBufferCount <= 0) {
+        _drawingPolygons = false;
+        return;
+      }
+
+      _drawPolygonCall(_polygonsBuffer, _polygonsBufferCount, 1f);
+      _polygonsBufferCount = 0;
+      _drawingPolygons = false;
+    }
 
     /// <summary>
     /// Draws a gizmo box in the scene using the specified parameters.
@@ -27721,25 +28657,7 @@ namespace Quantum {
       var numberOfLines = 8;
       var distance = numberOfLines / Mathf.PI;
       var cycleOffset = Mathf.PI / 2;
-      var vertices = new Vector3[(int)numberOfLines * 2 + 2];
-
-      // the points of the top
-      for (int i = 0; i < numberOfLines + 1; i++) {
-        var sin = Mathf.Sin(i / distance + cycleOffset) * radius;
-        var cos = Mathf.Cos(i / distance + cycleOffset) * radius;
-        vertices[i] = new Vector3(capsuleTop.x + sin, capsuleTop.y - cos * yAxis, capsuleTop.z - cos * zAxis);
-      }
-
-      // the points of the bottom
-      for (int i = (int)numberOfLines + 1; i < numberOfLines * 2 + 2; i++) {
-        var sin = Mathf.Sin((i - 1) / distance + cycleOffset) * radius;
-        var cos = Mathf.Cos((i - 1) / distance + cycleOffset) * radius;
-        vertices[i] = new Vector3(capsuleBottom.x + sin, capsuleBottom.y - cos * yAxis, capsuleBottom.z - cos * zAxis);
-      }
-
-      // draw the capsule shape with the points
-      Handles.DrawAAConvexPolygon(vertices.ToArray());
-
+      DrawGizmosCapsuleInternal(radius, numberOfLines, distance, cycleOffset, capsuleTop, yAxis, zAxis, capsuleBottom, Vector3.zero);
 
       // draw the capsule vertical transform height
       tHeight = Mathf.Abs(tHeight);
@@ -27759,7 +28677,7 @@ namespace Quantum {
           var sin = Mathf.Sin(i / distance + cycleOffset) * radius;
           var cos = Mathf.Cos(i / distance + cycleOffset) * radius;
           Handles.DrawLine(
-            new Vector3(capsuleTop.x  + sin, capsuleTop.y  - cos * yAxis, capsuleTop.z  - cos * zAxis), 
+            new Vector3(capsuleTop.x + sin, capsuleTop.y - cos * yAxis, capsuleTop.z - cos * zAxis),
             new Vector3(capsuleTopH.x + sin, capsuleTopH.y - cos * yAxis, capsuleTopH.z - cos * zAxis)
           );
         }
@@ -27769,29 +28687,32 @@ namespace Quantum {
         for (float i = 0; i < numberOfLines; i++) {
           var sin = Mathf.Sin(i / distance - cycleOffset) * radius;
           var cos = Mathf.Cos(i / distance - cycleOffset) * radius;
-          Handles.DrawAAConvexPolygon(
-            new Vector3(capsuleBottom.x  + sin, capsuleBottom.y  - cos * yAxis, capsuleBottom.z  - cos * zAxis), 
-            new Vector3(capsuleBottomH.x + sin, capsuleBottomH.y - cos * yAxis, capsuleBottomH.z - cos * zAxis)
-          );
+          BeginPolygonDraw();
+          DrawPolygonVertex(new Vector3(capsuleBottom.x + sin, capsuleBottom.y - cos * yAxis, capsuleBottom.z - cos * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleBottomH.x + sin, capsuleBottomH.y - cos * yAxis, capsuleBottomH.z - cos * zAxis));
+          EndPolygonDraw();
         }
 
         // draw a second capsule shape at transform height
-        for (int i = 0; i < vertices.Length; i++) {
-          vertices[i] = vertices[i] + th;
-        }
-        Handles.DrawAAConvexPolygon(vertices.ToArray());
+        DrawGizmosCapsuleInternal(radius, numberOfLines, distance, cycleOffset, capsuleTop, yAxis, zAxis, capsuleBottom, th);
 
         // draw side planes for the capsule at transform height
         Handles.color = Gizmos.color / 2;
-        Handles.DrawAAConvexPolygon(new Vector3[] {
-          v1, v1 + th,
-          v2 + th, v2
-        });
-        Handles.DrawAAConvexPolygon(new Vector3[] {
-          v3, v3 + th,
-          v4 + th, v4
-        });
 
+        BeginPolygonDraw();
+        DrawPolygonVertex(v1);
+        DrawPolygonVertex(v1 + th);
+        DrawPolygonVertex(v2 + th);
+        DrawPolygonVertex(v2);
+        EndPolygonDraw();
+        
+        BeginPolygonDraw();
+        DrawPolygonVertex(v3);
+        DrawPolygonVertex(v3 + th);
+        DrawPolygonVertex(v4 + th);
+        DrawPolygonVertex(v4);
+        EndPolygonDraw();
+        
         // draw the planes between the arcs of the capsule
         // the arc up planes
         capsuleTopH = capsuleTop + th;
@@ -27800,12 +28721,12 @@ namespace Quantum {
           var cos = Mathf.Cos(i / distance + cycleOffset) * radius;
           var sin2 = Mathf.Sin((i + 1) / distance + cycleOffset) * radius;
           var cos2 = Mathf.Cos((i + 1) / distance + cycleOffset) * radius;
-          Handles.DrawAAConvexPolygon(new Vector3[] {
-            new Vector3(capsuleTop.x  + sin,  capsuleTop.y  - cos  * yAxis, capsuleTop.z  - cos * zAxis), 
-            new Vector3(capsuleTopH.x + sin,  capsuleTopH.y - cos  * yAxis, capsuleTopH.z - cos * zAxis),
-            new Vector3(capsuleTopH.x + sin2, capsuleTopH.y - cos2 * yAxis, capsuleTopH.z - cos2 * zAxis), 
-            new Vector3(capsuleTop.x  + sin2, capsuleTop.y  - cos2 * yAxis, capsuleTop.z  - cos2 * zAxis)
-          });
+          BeginPolygonDraw();
+          DrawPolygonVertex(new Vector3(capsuleTop.x + sin, capsuleTop.y - cos * yAxis, capsuleTop.z - cos * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleTopH.x + sin, capsuleTopH.y - cos * yAxis, capsuleTopH.z - cos * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleTopH.x + sin2, capsuleTopH.y - cos2 * yAxis, capsuleTopH.z - cos2 * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleTop.x + sin2, capsuleTop.y - cos2 * yAxis, capsuleTop.z - cos2 * zAxis));
+          EndPolygonDraw();
         }
 
         // the arc down planes
@@ -27815,12 +28736,12 @@ namespace Quantum {
           var cos = Mathf.Cos(i / distance - cycleOffset) * radius;
           var sin2 = Mathf.Sin((i + 1) / distance - cycleOffset) * radius;
           var cos2 = Mathf.Cos((i + 1) / distance - cycleOffset) * radius;
-          Handles.DrawAAConvexPolygon(new Vector3[] {
-            new Vector3(capsuleBottom.x  + sin,  capsuleBottom.y  - cos  * yAxis, capsuleBottom.z  - cos  * zAxis), 
-            new Vector3(capsuleBottomH.x + sin,  capsuleBottomH.y - cos  * yAxis, capsuleBottomH.z - cos  * zAxis),
-            new Vector3(capsuleBottomH.x + sin2, capsuleBottomH.y - cos2 * yAxis, capsuleBottomH.z - cos2 * zAxis), 
-            new Vector3(capsuleBottom.x  + sin2, capsuleBottom.y  - cos2 * yAxis, capsuleBottom.z  - cos2 * zAxis)
-          });
+          BeginPolygonDraw();
+          DrawPolygonVertex(new Vector3(capsuleBottom.x + sin, capsuleBottom.y - cos * yAxis, capsuleBottom.z - cos * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleBottomH.x + sin, capsuleBottomH.y - cos * yAxis, capsuleBottomH.z - cos * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleBottomH.x + sin2, capsuleBottomH.y - cos2 * yAxis, capsuleBottomH.z - cos2 * zAxis));
+          DrawPolygonVertex(new Vector3(capsuleBottom.x + sin2, capsuleBottom.y - cos2 * yAxis, capsuleBottom.z - cos2 * zAxis));
+          EndPolygonDraw();
         }
       }
 
@@ -27828,7 +28749,26 @@ namespace Quantum {
       Handles.color = Gizmos.color = Color.white;
       Handles.matrix = matrix;
 #endif
+    }
 
+    private static void DrawGizmosCapsuleInternal(float radius, int numberOfLines, float distance, float cycleOffset, Vector3 capsuleTop, int yAxis, int zAxis, Vector3 capsuleBottom, Vector3 th) {
+      BeginPolygonDraw();
+
+      // the points of the top
+      for (int i = 0; i < numberOfLines + 1; i++) {
+        var sin = Mathf.Sin(i / distance + cycleOffset) * radius;
+        var cos = Mathf.Cos(i / distance + cycleOffset) * radius;
+        DrawPolygonVertex(new Vector3(capsuleTop.x + sin, capsuleTop.y - cos * yAxis, capsuleTop.z - cos * zAxis) + th);
+      }
+
+      // the points of the bottom
+      for (int i = numberOfLines + 1; i < numberOfLines * 2 + 2; i++) {
+        var sin = Mathf.Sin((i - 1) / distance + cycleOffset) * radius;
+        var cos = Mathf.Cos((i - 1) / distance + cycleOffset) * radius;
+        DrawPolygonVertex(new Vector3(capsuleBottom.x + sin, capsuleBottom.y - cos * yAxis, capsuleBottom.z - cos * zAxis) + th);
+      }
+
+      EndPolygonDraw();
     }
 
     /// <summary>
@@ -27852,7 +28792,7 @@ namespace Quantum {
       }
 
       Gizmos.matrix = Matrix4x4.identity;
-      Gizmos.color  = Color.white;
+      Gizmos.color = Color.white;
     }
 
     /// <summary>
@@ -27875,8 +28815,8 @@ namespace Quantum {
       up = Vector3.forward;
 #else
       rot = Quaternion.Euler(-90, 0, 0);
-      s   = new Vector3(radius + radius, radius + radius, 1.0f);
-      up  = Vector3.up;
+      s = new Vector3(radius + radius, radius + radius, 1.0f);
+      up = Vector3.up;
 #endif
 
       // TODO: Use non-XY circle as default
@@ -27884,8 +28824,8 @@ namespace Quantum {
       if (height != 0.0f) {
         s.z = height;
       }
-      
-      Gizmos.color  = color;
+
+      Gizmos.color = color;
       Handles.color = Gizmos.color;
 
       if (style.IsWireframeEnabled) {
@@ -27924,6 +28864,50 @@ namespace Quantum {
       }
 
       Gizmos.color = Color.white;
+    }
+
+    /// <summary>
+    /// Draws a cylinder gizmo in the scene.
+    /// </summary>
+    /// <param name="position">The center position of the cylinder base.</param>
+    /// <param name="radius">The radius of the cylinder.</param>
+    /// <param name="height">The height of the cylinder.</param>
+    /// <param name="color">The color of the cylinder.</param>
+    /// <param name="style">The style of the gizmo.</param>
+    public static void DrawCylinder(Vector3 center, float radius, float height, Color color, QuantumGizmoStyle style = default) {
+#if UNITY_EDITOR
+      Gizmos.color = color;
+      Handles.color = color;
+
+      var top = center + Vector3.up * height;
+      var rot = Quaternion.Euler(-90, 0, 0);
+      var s = new Vector3(radius + radius, radius + radius, height);
+
+      if (style.IsFillEnabled) {
+        Gizmos.DrawMesh(QuantumMeshCollection.Global.CylinderXY, 0, center, rot, s);
+      }
+
+      if (style.IsWireframeEnabled) {
+        if (!style.IsFillEnabled) {
+          Gizmos.color = default;
+          Gizmos.DrawMesh(QuantumMeshCollection.Global.CylinderXY, 0, center, rot, s);
+          Gizmos.color = color;
+        }
+
+        Handles.DrawWireDisc(center, Vector3.up, radius);
+        Handles.DrawWireDisc(top, Vector3.up, radius);
+
+        var segments = Mathf.Clamp(Mathf.CeilToInt(radius * 16), 8, 64);
+        var angleStep = 360f / segments;
+        for (int i = 0; i < segments; i++) {
+          var angle = Mathf.Deg2Rad * (angleStep * i);
+          var offset = new Vector3(Mathf.Cos(angle) * radius, 0, Mathf.Sin(angle) * radius);
+          Gizmos.DrawLine(center + offset, top + offset);
+        }
+      }
+
+      Handles.color = Gizmos.color = Color.white;
+#endif
     }
 
     /// <summary>
@@ -28043,49 +29027,58 @@ namespace Quantum {
 
     /// <inheritdoc cref="DrawGizmoPolygon2D(Vector3, Quaternion, FPVector2[], float, bool, Color, QuantumGizmoStyle)"/>
     public static void DrawGizmoPolygon2D(Matrix4x4 matrix, FPVector2[] vertices, Single height, bool drawNormals, Color color, QuantumGizmoStyle style = default) {
-
       if (vertices.Length < 3) return;
 
       FPMathUtils.LoadLookupTables();
 
       color = FPVector2.IsPolygonConvex(vertices) && FPVector2.PolygonNormalsAreValid(vertices) ? color : Color.red;
 
-      var transformedVertices = vertices.Select(x => matrix.MultiplyPoint(x.ToUnityVector3())).ToArray();
-      DrawGizmoPolygon2DInternal(transformedVertices, height, drawNormals, color, style: style);
+      DrawGizmoPolygon2DInternal(vertices, matrix, height, drawNormals, color, style: style);
     }
 
     /// <summary>
     /// Draws a 2D polygon gizmo.
     /// </summary>
     /// <param name="vertices">The vertices of the polygon in world space.</param>
+    /// <param name="matrix"></param>
     /// <param name="height">The height of the polygon.</param>
     /// <param name="drawNormals">Determines whether to draw normal.</param>
     /// <param name="color">The color of the polygon.</param>
     /// <param name="style">The gizmo style.</param>
-    private static void DrawGizmoPolygon2DInternal(Vector3[] vertices, Single height, Boolean drawNormals, Color color, QuantumGizmoStyle style = default) {
+    private static void DrawGizmoPolygon2DInternal(FPVector2[] vertices, Matrix4x4 matrix, Single height, Boolean drawNormals, Color color, QuantumGizmoStyle style = default) {
 #if UNITY_EDITOR
 #if QUANTUM_XY
       var upVector = Vector3.forward;
 #else
       var upVector = Vector3.up;
 #endif
-      Gizmos.color  = color;
+      Gizmos.color = color;
       Handles.color = color;
 
       if (style.IsFillEnabled) {
-        Handles.DrawAAConvexPolygon(vertices);
+        BeginPolygonDraw();
+        foreach (var v in vertices) {
+          DrawPolygonVertex(matrix.MultiplyPoint(v.ToUnityVector3()));
+        }
+
+        EndPolygonDraw();
 
         if (height != 0.0f) {
           Handles.matrix = Matrix4x4.Translate(upVector * height);
-          Handles.DrawAAConvexPolygon(vertices);
+          BeginPolygonDraw();
+          foreach (var v in vertices) {
+            DrawPolygonVertex(matrix.MultiplyPoint(v.ToUnityVector3()));
+          }
+
+          EndPolygonDraw();
           Handles.matrix = Matrix4x4.identity;
         }
       }
 
       if (style.IsWireframeEnabled) {
         for (Int32 i = 0; i < vertices.Length; ++i) {
-          var v1 = vertices[i];
-          var v2 = vertices[(i + 1) % vertices.Length];
+          var v1 = matrix.MultiplyPoint(vertices[i].ToUnityVector3());
+          var v2 = matrix.MultiplyPoint(vertices[(i + 1) % vertices.Length].ToUnityVector3());
 
           Gizmos.DrawLine(v1, v2);
 
@@ -28096,7 +29089,7 @@ namespace Quantum {
 
           if (drawNormals) {
 #if QUANTUM_XY
-          var normal = Vector3.Cross(v2 - v1, upVector).normalized;
+            var normal = Vector3.Cross(v2 - v1, upVector).normalized;
 #else
             var normal = Vector3.Cross(v1 - v2, upVector).normalized;
 #endif
@@ -28144,7 +29137,7 @@ namespace Quantum {
       Gizmos.DrawLine(start, end);
       var d = (end - start).normalized;
       Vector3 right = Quaternion.LookRotation(d) * Quaternion.Euler(0f, 180f + arrowHeadAngle, 0f) * new Vector3(0f, 0f, 1f);
-      Vector3 left  = Quaternion.LookRotation(d) * Quaternion.Euler(0f, 180f - arrowHeadAngle, 0f) * new Vector3(0f, 0f, 1f);
+      Vector3 left = Quaternion.LookRotation(d) * Quaternion.Euler(0f, 180f - arrowHeadAngle, 0f) * new Vector3(0f, 0f, 1f);
       Gizmos.DrawLine(end, end + right * arrowHeadLength);
       Gizmos.DrawLine(end, end + left * arrowHeadLength);
     }
@@ -28283,14 +29276,14 @@ namespace Quantum {
 
       if (height > float.Epsilon) {
         var startToEnd = end - start;
-        var edgeSize   = startToEnd.magnitude;
-        var size       = new Vector3(edgeSize, 0);
-        var center     = start + startToEnd / 2;
+        var edgeSize = startToEnd.magnitude;
+        var size = new Vector3(edgeSize, 0);
+        var center = start + startToEnd / 2;
 #if QUANTUM_XY
         size.z = -height;
         center.z -= height / 2;
 #else
-        size.y   =  height;
+        size.y = height;
         center.y += height / 2;
 #endif
         DrawGizmosBox(center, size, color, rotation: Quaternion.FromToRotation(Vector3.right, startToEnd), style: style);
@@ -28329,7 +29322,7 @@ namespace Quantum {
       Handles.color = color;
 
       // TODO: handle QuantumGizmoStyle.IsFillEnabled (see Box gizmos for reference)
-      
+
       var cylinderTop = Vector3.up * extent;
       var cylinderBottom = Vector3.down * extent;
       var radiusRight = Vector3.right * radius;
@@ -28337,12 +29330,12 @@ namespace Quantum {
 
       Handles.DrawWireArc(cylinderTop, Vector3.up, Vector3.left, 360.0f, radius);
       Handles.DrawWireArc(cylinderBottom, Vector3.down, Vector3.left, 360.0f, radius);
-      
+
       Handles.DrawWireArc(cylinderTop, Vector3.right, Vector3.back, 180.0f, radius);
       Handles.DrawWireArc(cylinderTop, Vector3.forward, Vector3.right, 180.0f, radius);
       Handles.DrawWireArc(cylinderBottom, Vector3.left, Vector3.back, 180.0f, radius);
       Handles.DrawWireArc(cylinderBottom, Vector3.back, Vector3.right, 180.0f, radius);
-      
+
       Handles.DrawLine(cylinderTop + radiusRight, cylinderBottom + radiusRight);
       Handles.DrawLine(cylinderTop - radiusRight, cylinderBottom - radiusRight);
       Handles.DrawLine(cylinderTop + radiusForward, cylinderBottom + radiusForward);
@@ -28373,7 +29366,7 @@ namespace Quantum {
     /// Returns true if the gizmo fill is enabled.
     /// </summary>
     public bool IsFillEnabled => !DisableFill;
-    
+
     /// <summary>
     /// Returns true if the gizmo wireframe is enabled.
     /// </summary>
@@ -28580,7 +29573,7 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Uses <see cref="Progress"/> property."/>
+    /// Uses <see cref="Progress"/> property.
     /// </summary>
     /// <param name="value">Progress value between 0..1</param>
     public void SetProgress(float value) {
@@ -29560,6 +30553,7 @@ namespace Quantum {
   /// <summary>
   /// Quantum utilities to work with Unity serialized objects.
   /// </summary>
+  [Obsolete("This type will be removed in future releases")]
   public static class SerializedObjectExtensions {
     [StaticField(StaticFieldResetMode.None)]
     private static readonly Regex _arrayElementRegex = new Regex(@"\.Array\.data\[\d+\]$", RegexOptions.Compiled);
@@ -29750,7 +30744,7 @@ namespace Quantum {
         default:
           switch (sp.propertyType) {
             case SerializedPropertyType.ObjectReference:
-              return sp.objectReferenceInstanceIDValue;
+              return sp.GetObjectReferenceValueAsLong();
           }
 
           return 0;
@@ -29832,6 +30826,26 @@ namespace Quantum {
 
       return copy;
     }
+    
+#if UNITY_6000_4_OR_NEWER
+    public static UnityEngine.EntityId GetObjectReferenceValue(this SerializedProperty sp) {
+      return sp.objectReferenceEntityIdValue;
+    }
+#else
+    public static int GetObjectReferenceValue(this SerializedProperty sp) {
+      return sp.objectReferenceInstanceIDValue;
+    }
+#endif
+
+#if UNITY_6000_4_OR_NEWER
+    public static long GetObjectReferenceValueAsLong(this SerializedProperty sp) {
+      return unchecked((long)UnityEngine.EntityId.ToULong(sp.objectReferenceEntityIdValue));
+    }
+#else
+    public static long GetObjectReferenceValueAsLong(this SerializedProperty sp) {
+      return sp.objectReferenceInstanceIDValue;
+    }
+#endif
 
     public struct SerializedPropertyEnumerable : IEnumerable<SerializedProperty> {
       private SerializedProperty property;
@@ -29898,12 +30912,14 @@ namespace Quantum {
     }
   }
 
+  [Obsolete("This type will be removed in future releases")]
   public class SerializedPropertyPathBuilder<T> {
     public static string GetPropertyPath<U>(Expression<Func<T, U>> expression) {
       return SerializedObjectExtensions.GetPropertyPath(expression);
     }
   }
 
+  [Obsolete("This type will be removed in future releases")]
   public class SerializedPropertyEqualityComparer : IEqualityComparer<SerializedProperty> {
     [StaticField(StaticFieldResetMode.None)]
     public static SerializedPropertyEqualityComparer Instance = new SerializedPropertyEqualityComparer();
@@ -29938,7 +30954,7 @@ namespace Quantum {
             hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.colorValue.GetHashCode());
             break;
           case SerializedPropertyType.ObjectReference:
-            hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.objectReferenceInstanceIDValue);
+            hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.GetObjectReferenceValue());
             break;
           case SerializedPropertyType.LayerMask:
             hashCode = HashCodeUtils.CombineHashCodes(hashCode, p.intValue);

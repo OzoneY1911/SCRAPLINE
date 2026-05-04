@@ -10,12 +10,12 @@ namespace Quantum
 
         public override void Update(Frame frame, ref Filter filter)
         {
-            if (frame.TryGetPlayerCommand<CommandSetEmote>(filter.Player->PlayerRef, out var emoteCommand))
+            foreach (var emoteCommand in frame.GetPlayerCommands<CommandSetEmote>(filter.Player->PlayerRef))
             {
                 frame.Events.PlayerEmoteChanged(filter.Entity, emoteCommand.EmoteConfig);
             }
 
-            if (frame.TryGetPlayerCommand<CommandSetPlayerColor>(filter.Player->PlayerRef, out var colorCommand))
+            foreach (var colorCommand in frame.GetPlayerCommands<CommandSetPlayerColor>(filter.Player->PlayerRef))
             {
                 frame.Events.PlayerColorChanged(filter.Entity, colorCommand.ColorRGB);
             }

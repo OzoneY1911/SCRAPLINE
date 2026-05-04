@@ -37,13 +37,145 @@ MonoBehaviour:
   GridSizeX: 64
   GridSizeY: 64
   GridNodeSize: 4
-  NavMeshLinks:
+  NavMeshAssets:
   - Id:
       Value: 412538103374303960
   Regions:
   - MainArea
   StaticColliders2D: []
   StaticColliders3D:
+  - Rotation:
+      X:
+        RawValue: 20
+      Y:
+        RawValue: -52074
+      Z:
+        RawValue: 26
+      W:
+        RawValue: 39787
+    Position:
+      X:
+        RawValue: -406324
+      Y:
+        RawValue: 35258
+      Z:
+        RawValue: -345841
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 32
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 9800
+    CapsuleHeight:
+      RawValue: 44200
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: FIRESAVER
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 0
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -32767
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+      W:
+        RawValue: 32767
+    Position:
+      X:
+        RawValue: -73075
+      Y:
+        RawValue: 85107
+      Z:
+        RawValue: -323289
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 26200
+      Y:
+        RawValue: 45850
+      Z:
+        RawValue: 72050
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: Vending Machine
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 1
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 6029
+      Y:
+        RawValue: 46261
+      Z:
+        RawValue: -325255
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 20054
+      Y:
+        RawValue: 33155
+      Z:
+        RawValue: 20054
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: BARREL
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 2
+      MutableMode: 0
   - Rotation:
       X:
         RawValue: -46340
@@ -86,7 +218,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 0
+      ColliderIndex: 3
       MutableMode: 0
   - Rotation:
       X:
@@ -130,7 +262,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 1
+      ColliderIndex: 4
       MutableMode: 0
   - Rotation:
       X:
@@ -174,7 +306,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 2
+      ColliderIndex: 5
       MutableMode: 0
   - Rotation:
       X:
@@ -218,7 +350,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 3
+      ColliderIndex: 6
       MutableMode: 0
   - Rotation:
       X:
@@ -262,7 +394,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 4
+      ColliderIndex: 7
       MutableMode: 0
   - Rotation:
       X:
@@ -306,7 +438,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 5
+      ColliderIndex: 8
       MutableMode: 0
   - Rotation:
       X:
@@ -350,7 +482,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 6
+      ColliderIndex: 9
       MutableMode: 0
   - Rotation:
       X:
@@ -394,7 +526,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 7
+      ColliderIndex: 10
       MutableMode: 0
   - Rotation:
       X:
@@ -438,7 +570,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 8
+      ColliderIndex: 11
       MutableMode: 0
   - Rotation:
       X:
@@ -482,7 +614,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 9
+      ColliderIndex: 12
       MutableMode: 0
   - Rotation:
       X:
@@ -526,95 +658,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 10
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -28122
-      Y:
-        RawValue: -36832
-      Z:
-        RawValue: -36832
-      W:
-        RawValue: 28122
-    Position:
-      X:
-        RawValue: -408289
-      Y:
-        RawValue: 35258
-      Z:
-        RawValue: -344719
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: FIRESAVER
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 11
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -32767
-      Y:
-        RawValue: 32768
-      Z:
-        RawValue: 32768
-      W:
-        RawValue: 32767
-    Position:
-      X:
-        RawValue: -105775
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: -323289
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: Vending Machine
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 12
+      ColliderIndex: 13
       MutableMode: 0
   - Rotation:
       X:
@@ -658,7 +702,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 14
       MutableMode: 0
   - Rotation:
       X:
@@ -702,7 +746,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -740,50 +784,6 @@ MonoBehaviour:
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: SHOPRACKSPECIAL
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 15
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: 6029
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: -325255
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: BARREL
       Tag: Untagged
       Layer: 0
       Asset:
@@ -1103,7 +1103,7 @@ MonoBehaviour:
     - rid: 8100184270863073284
     - rid: 8100184270863073285
     - rid: 8100184270863073286
-  SerializedTriangleDataUncompressedSize: 212240
+  SerializedTriangleDataUncompressedSize: 147428
   references:
     version: 2
     RefIds:
@@ -1173,7 +1173,7 @@ MonoBehaviour:
       type: {class: TeleporterPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         ExitEntity:
-          SceneIndexPlusOne: 2
+          RawValue: 2
     - rid: 709534015400443904
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1240,7 +1240,7 @@ MonoBehaviour:
       type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Entity:
-          SceneIndexPlusOne: 0
+          RawValue: 0
         Type:
           Value: 4
         CooldownTimer:
@@ -1459,7 +1459,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            SceneIndexPlusOne: 12
+            RawValue: 12
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
       type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Entity:
-          SceneIndexPlusOne: 0
+          RawValue: 0
         Type:
           Value: 0
         CooldownTimer:
@@ -1696,7 +1696,7 @@ MonoBehaviour:
         IsActive:
           Value: 0
         HatchEntity:
-          SceneIndexPlusOne: 13
+          RawValue: 13
         HatchInitialRotation:
           X:
             RawValue: 0
@@ -1706,6 +1706,141 @@ MonoBehaviour:
             RawValue: 0
         HatchIsOpen:
           Value: 0
+        SourceMapAsset:
+          Id:
+            Value: 280343834485268604
+        BranchDepth: 10
+        BranchWidth: 10
+        ProceduralRooms:
+        - MapAsset:
+            Id:
+              Value: 315341983573600614
+          Prototype:
+            Id:
+              Value: 1488607268961354015
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 327680
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 327680
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 5898240
+              Z:
+                RawValue: 0
+          - Position:
+              X:
+                RawValue: -458752
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 458752
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5898240
+              Z:
+                RawValue: 0
+        StartRoom:
+          MapAsset:
+            Id:
+              Value: 483261264687421678
+          Prototype:
+            Id:
+              Value: 1514344673671545695
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 65536
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 275251
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+        DeadEndRoom:
+          MapAsset:
+            Id:
+              Value: 315341983573600614
+          Prototype:
+            Id:
+              Value: 1488607268961354015
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 327680
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 327680
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 5898240
+              Z:
+                RawValue: 0
+          - Position:
+              X:
+                RawValue: -458752
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 458752
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5898240
+              Z:
+                RawValue: 0
+        QuotaZoneRoom:
+          MapAsset:
+            Id:
+              Value: 315341983573600614
+          Prototype:
+            Id:
+              Value: 1488607268961354015
+          ExitPoints:
+          - Position:
+              X:
+                RawValue: 327680
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 327680
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 5898240
+              Z:
+                RawValue: 0
+          - Position:
+              X:
+                RawValue: -458752
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 458752
+            RotationEuler:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 5898240
+              Z:
+                RawValue: 0
     - rid: 3072651487248121856
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1772,7 +1907,7 @@ MonoBehaviour:
       type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Entity:
-          SceneIndexPlusOne: 0
+          RawValue: 0
         Type:
           Value: 4
         CooldownTimer:
@@ -1923,7 +2058,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            SceneIndexPlusOne: 8
+            RawValue: 8
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -2077,7 +2212,7 @@ MonoBehaviour:
       type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Entity:
-          SceneIndexPlusOne: 0
+          RawValue: 0
         Type:
           Value: 2
         CooldownTimer:
@@ -2093,7 +2228,7 @@ MonoBehaviour:
       type: {class: InteractableShopZonePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         TargetShopZone:
-          SceneIndexPlusOne: 4
+          RawValue: 4
     - rid: 5762633266154700800
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2227,7 +2362,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            SceneIndexPlusOne: 11
+            RawValue: 11
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -2414,7 +2549,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            SceneIndexPlusOne: 6
+            RawValue: 6
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -2534,7 +2669,7 @@ MonoBehaviour:
       type: {class: InteractablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Entity:
-          SceneIndexPlusOne: 0
+          RawValue: 0
         Type:
           Value: 4
         CooldownTimer:
@@ -2675,4 +2810,4 @@ MonoBehaviour:
         State:
           Value: 0
         ChaseTarget:
-          SceneIndexPlusOne: 0
+          RawValue: 0

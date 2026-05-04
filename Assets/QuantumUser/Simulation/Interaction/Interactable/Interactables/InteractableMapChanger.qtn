@@ -9,4 +9,13 @@ component InteractableMapChanger
     FPQuaternion HatchInitialRotation;
     [HideInInspector]
     Boolean HatchIsOpen;
+
+    [Header("Procedural Settings")]
+    asset_ref<Map> SourceMapAsset;
+    UInt16 BranchDepth;
+    UInt16 BranchWidth;
+    list<ProceduralRoom> ProceduralRooms;
+    ProceduralRoom StartRoom;
+    ProceduralRoom DeadEndRoom;
+    ProceduralRoom QuotaZoneRoom;
 }

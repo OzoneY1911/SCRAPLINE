@@ -155,7 +155,6 @@ public unsafe static class ProceduralGenerator
 
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
-            /*
             Map = DynamicMap.FromStaticMap<DynamicMap>(
                 frame.FindAsset(config->SourceMapAsset)
                 );
@@ -166,7 +165,6 @@ public unsafe static class ProceduralGenerator
             StartRoom = config->StartRoom;
             DeadEndRoom = config->DeadEndRoom;
             QuotaZoneRoom = config->QuotaZoneRoom;
-            */
         }
     }
 }

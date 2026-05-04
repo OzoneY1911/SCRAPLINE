@@ -178,6 +178,15 @@ namespace Quantum {
     }
 
     /// <summary>
+    /// Checks if the gameobject was created by the pool.
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <returns><see langword="true"/> when the gameobject was created over the pool.</returns>
+    public bool IsBorrowed(GameObject gameObject) {
+      return _borrowed.ContainsKey(gameObject);
+    }
+
+    /// <summary>
     /// Create pre cached pooled game objects during Awake().
     /// </summary>
     public void Awake() {

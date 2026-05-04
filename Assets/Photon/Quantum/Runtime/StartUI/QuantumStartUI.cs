@@ -1,3 +1,4 @@
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Quantum {
   using UnityEngine;
 #if QUANTUM_ENABLE_TEXTMESHPRO
@@ -14,6 +15,7 @@ namespace Quantum {
   using UnityEngine.SceneManagement;
   using UnityEngine.Serialization;
   using System.Linq;
+  using System.Collections;
 
   /// <summary>
   /// A simple menu to utilize the most common Photon connection and game start modes.
@@ -321,6 +323,10 @@ namespace Quantum {
     /// <param name="normalizedAnimationTime">The time offset between zero and one forwarded to the show animation.</param>
     public virtual void SetPanelVisibility(bool isShowing, float normalizedAnimationTime = 0.0f) {
       if (Animator != null) {
+        if (isShowing) {
+          // A workaround to a Unity bug, that throws errors when disabling TMP Input fields inside an animation.
+          UI.PanelGroup.gameObject.SetActive(true);
+        }
         Animator.Play(isShowing ? AnimationHashShow : AnimationHashHide, 0, normalizedAnimationTime);
       } else {
         UI.PanelGroup.gameObject.SetActive(isShowing);
@@ -333,9 +339,28 @@ namespace Quantum {
     }
 
     /// <summary>
+    /// A workaround to a Unity bug, that throws errors when disabling TMP Input fields inside an animation.
+    /// This is triggered from the Hide panel animation.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DisablePanelNextFrame() {
+      yield return null;
+      UI.PanelGroup.gameObject.SetActive(false);
+    }
+
+    /// <summary>
     /// Unity Awake() method to register button listeners and get components.
     /// </summary>
     protected virtual void Awake() {
+#if QUANTUM_UNITY
+      var eventSystem = FindAnyObjectByType<UnityEngine.EventSystems.EventSystem>();
+      if (eventSystem == null) {
+        // UI does not work without a UI input module, create it lazily because EventSystem quickly complains about multiple instance.
+        gameObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
+        gameObject.AddComponent<QuantumUnityInputSystemWithLegacyFallback>();
+      }
+#endif
+
       Connection = Connection != null ? Connection : GetComponent<QuantumStartUIConnectionBase>();
       Animator = Animator != null ? Animator : GetComponent<Animator>();
 
@@ -347,7 +372,7 @@ namespace Quantum {
         UI.PrivateRoomInput,
       };
       ToggleInputGroup.AddRange(UI.TabInput.Where(t => t != null));
-      
+
       UI.MenuButton.onClick.AddListener(OnTogglePressed);
       UI.StartButton.onClick.AddListener(() => OnPlayPressed());
       UI.QuitButton.onClick.AddListener(OnQuitPressed);
@@ -358,10 +383,21 @@ namespace Quantum {
       UI.RegionDropdown.OnFetchingStart += () => UI.PanelGroup.interactable = false;
       UI.RegionDropdown.OnFetchingEnd += () => UI.PanelGroup.interactable = true;
 
-      if (UI.TabInput[(int)Tab.Online]) UI.TabInput[(int)Tab.Online].onValueChanged.AddListener(isOn => { if (isOn) OnTabSelected(Tab.Online); });
-      if (UI.TabInput[(int)Tab.Local]) UI.TabInput[(int)Tab.Local].onValueChanged.AddListener(isOn => { if (isOn) OnTabSelected(Tab.Local); });
-      if (UI.TabInput[(int)Tab.Settings]) UI.TabInput[(int)Tab.Settings].onValueChanged.AddListener(isOn => { if (isOn) OnTabSelected(Tab.Settings); });
-      if (UI.TabInput[(int)Tab.Custom]) UI.TabInput[(int)Tab.Custom].onValueChanged.AddListener(isOn => { if (isOn) OnTabSelected(Tab.Custom); });
+      if (UI.TabInput[(int)Tab.Online]) {
+        UI.TabInput[(int)Tab.Online].onValueChanged.AddListener(isOn => { if (isOn) { OnTabSelected(Tab.Online); } });
+      }
+
+      if (UI.TabInput[(int)Tab.Local]) {
+        UI.TabInput[(int)Tab.Local].onValueChanged.AddListener(isOn => { if (isOn) { OnTabSelected(Tab.Local); } });
+      }
+
+      if (UI.TabInput[(int)Tab.Settings]) {
+        UI.TabInput[(int)Tab.Settings].onValueChanged.AddListener(isOn => { if (isOn) { OnTabSelected(Tab.Settings); } });
+      }
+
+      if (UI.TabInput[(int)Tab.Custom]) {
+        UI.TabInput[(int)Tab.Custom].onValueChanged.AddListener(isOn => { if (isOn) { OnTabSelected(Tab.Custom); } });
+      }
 
       OnMuteValueChanged(IsMuted);
 
@@ -376,17 +412,41 @@ namespace Quantum {
     protected virtual void OnEnable() {
       UI.PlayerNameInput.text = PlayerName;
       UI.StatusText.text = null;
-      if (UI.StatusGroup) UI.StatusGroup.SetActive(false);
+      UI.PanelGroup.interactable = true;
 
-      if (UI.TabInput[(int)Tab.Online]) UI.TabInput[(int)Tab.Online].isOn = true;
-      if (UI.TabInput[(int)Tab.Local]) UI.TabInput[(int)Tab.Local].isOn = false;
-      if (UI.TabInput[(int)Tab.Settings]) UI.TabInput[(int)Tab.Settings].isOn = false;
-      if (UI.TabInput[(int)Tab.Custom]) UI.TabInput[(int)Tab.Custom].isOn = false;
+      if (UI.StatusGroup) {
+        UI.StatusGroup.SetActive(false);
+      }
+
+      if (UI.TabInput[(int)Tab.Online]) {
+        UI.TabInput[(int)Tab.Online].isOn = true;
+      }
+
+      if (UI.TabInput[(int)Tab.Local]) {
+        UI.TabInput[(int)Tab.Local].isOn = false;
+      }
+
+      if (UI.TabInput[(int)Tab.Settings]) {
+        UI.TabInput[(int)Tab.Settings].isOn = false;
+      }
+
+      if (UI.TabInput[(int)Tab.Custom]) {
+        UI.TabInput[(int)Tab.Custom].isOn = false;
+      }
 
       UI.DisconnectButtonGroup.SetActive(false);
-      if (UI.SignalGroup != null) UI.SignalGroup.SetActive(false);
-      if (UI.FpsGroup != null) UI.FpsGroup.SetActive(false);
-      if (UI.MenuButtonGroup != null) UI.MenuButtonGroup.SetActive(false);
+      if (UI.SignalGroup != null) {
+        UI.SignalGroup.SetActive(false);
+      }
+
+      if (UI.FpsGroup != null) {
+        UI.FpsGroup.SetActive(false);
+      }
+
+      if (UI.MenuButtonGroup != null) {
+        UI.MenuButtonGroup.SetActive(false);
+      }
+
       UI.CopyRoomButton.gameObject.SetActive(false);
 
       if (string.IsNullOrEmpty(Region)) {
@@ -401,8 +461,8 @@ namespace Quantum {
         Application.runInBackground = true;
       }
 
-#if UNITY_EDITOR
-      if (UI.QuitButtonGroup) UI.QuitButtonGroup.SetActive(false);
+#if !UNITY_EDITOR && UNITY_STANDALONE
+      if (UI.QuitButtonGroup) UI.QuitButtonGroup.SetActive(true);
 #endif
     }
 
@@ -438,7 +498,7 @@ namespace Quantum {
             // Update connection "signal strength" and ping
             if (UI.SignalGroup != null && UI.SignalGroup.activeSelf) {
               var activeIndex = 0;
-              if (Connection.Ping > 0) { 
+              if (Connection.Ping > 0) {
                 activeIndex = Math.Min((Connection.Ping / PingDelta) + 1, UI.SignalIcons.Count - 1);
               }
               for (int i = 0; i < UI.SignalIcons.Count; i++) {
@@ -481,12 +541,16 @@ namespace Quantum {
 
       CurrentState = State.Starting;
 
-      if (UI.StatusGroup) UI.StatusGroup.SetActive(true);
+      if (UI.StatusGroup) {
+        UI.StatusGroup.SetActive(true);
+      }
+
       UI.StatusText.text = isOnline ? "Connecting.." : "Starting..";
       UI.StartButtonGroup.SetActive(false);
       UI.DisconnectButtonGroup.SetActive(true);
       foreach (var s in ToggleInputGroup) {
-        s.interactable = false;}
+        s.interactable = false;
+      }
 
       var isVisible = (UI.PrivateRoomInput.interactable && UI.PrivateRoomInput.isOn) == false;
 
@@ -505,8 +569,10 @@ namespace Quantum {
         // Only process and show errors if the menu is still connecting.
         if (CurrentState == State.Starting) {
           Debug.LogException(e);
-#if UNITY_EDITOR
-          if (UnityEditor.EditorApplication.isPlaying == false) {
+#if QUANTUM_UNITY
+          if (Photon.Realtime.AsyncConfig.Global.IsCancellationRequested) {
+            // Any code after await will never run when the tasks are cancelled.
+            // Don't proceed here when the global cancellation is already triggered to avoid UI issues and error logs.
             return;
           }
 #endif
@@ -521,14 +587,37 @@ namespace Quantum {
       UI.AppVersionInput.text = Connection.AppVersion;
       UI.RegionDropdown.SelectValue(Connection.Region, addIfNotFound: false);
       UI.CopyRoomButton.gameObject.SetActive(true);
-      if (UI.StatusGroup) UI.StatusGroup.SetActive(false);
-      if (UI.MenuButtonGroup) UI.MenuButtonGroup.SetActive(true);
-      if (UI.RegionDropdownGroup) UI.RegionDropdownGroup.SetActive(isOnline);
-      if (UI.RoomInputGroup) UI.RoomInputGroup.SetActive(isOnline);
-      if (UI.RoomPrivateToggleGroup) UI.RoomPrivateToggleGroup.SetActive(false);
-      if (UI.AppVersionGroup) UI.AppVersionGroup.SetActive(string.IsNullOrEmpty(Connection.AppVersion) == false);
-      if (UI.SignalGroup) UI.SignalGroup.SetActive(isOnline);
-      if (UI.TabGroup) UI.TabGroup.SetActive(false);
+      if (UI.StatusGroup) {
+        UI.StatusGroup.SetActive(false);
+      }
+
+      if (UI.MenuButtonGroup) {
+        UI.MenuButtonGroup.SetActive(true);
+      }
+
+      if (UI.RegionDropdownGroup) {
+        UI.RegionDropdownGroup.SetActive(isOnline);
+      }
+
+      if (UI.RoomInputGroup) {
+        UI.RoomInputGroup.SetActive(isOnline);
+      }
+
+      if (UI.RoomPrivateToggleGroup) {
+        UI.RoomPrivateToggleGroup.SetActive(false);
+      }
+
+      if (UI.AppVersionGroup) {
+        UI.AppVersionGroup.SetActive(string.IsNullOrEmpty(Connection.AppVersion) == false);
+      }
+
+      if (UI.SignalGroup) {
+        UI.SignalGroup.SetActive(isOnline);
+      }
+
+      if (UI.TabGroup) {
+        UI.TabGroup.SetActive(false);
+      }
 
       CurrentState = State.Running;
 
@@ -548,7 +637,9 @@ namespace Quantum {
       CurrentState = State.ShuttingDown;
       UI.DisconnectButton.interactable = false;
       UI.StatusText.text = "Disconnecting...";
-      if (UI.StatusGroup) UI.StatusGroup.SetActive(true);
+      if (UI.StatusGroup) {
+        UI.StatusGroup.SetActive(true);
+      }
 
       try {
         await Connection.DisconnectAsync();
@@ -573,15 +664,37 @@ namespace Quantum {
         UI.CopyRoomButton.gameObject.SetActive(false);
         UI.DisconnectButtonGroup.SetActive(false);
         UI.StartButtonGroup.SetActive(true);
-        if (UI.MenuButtonGroup) UI.MenuButtonGroup.SetActive(false);
-        if (UI.AppVersionGroup) UI.AppVersionGroup.SetActive(false);
-        if (UI.RoomInputGroup) UI.RoomInputGroup.SetActive(true);
-        if (UI.RegionDropdownGroup) UI.RegionDropdownGroup.SetActive(true);
-        if (UI.SignalGroup) UI.SignalGroup.SetActive(false);
-        if (UI.TabGroup) UI.TabGroup.SetActive(true);
-        if (UI.StatusGroup) UI.StatusGroup.SetActive(false);
+        if (UI.MenuButtonGroup) {
+          UI.MenuButtonGroup.SetActive(false);
+        }
 
-        if (UI.TabInput[(int)Tab.Online]) UI.TabInput[(int)Tab.Online].isOn = true;
+        if (UI.AppVersionGroup) {
+          UI.AppVersionGroup.SetActive(false);
+        }
+
+        if (UI.RoomInputGroup) {
+          UI.RoomInputGroup.SetActive(true);
+        }
+
+        if (UI.RegionDropdownGroup) {
+          UI.RegionDropdownGroup.SetActive(true);
+        }
+
+        if (UI.SignalGroup) {
+          UI.SignalGroup.SetActive(false);
+        }
+
+        if (UI.TabGroup) {
+          UI.TabGroup.SetActive(true);
+        }
+
+        if (UI.StatusGroup) {
+          UI.StatusGroup.SetActive(false);
+        }
+
+        if (UI.TabInput[(int)Tab.Online]) {
+          UI.TabInput[(int)Tab.Online].isOn = true;
+        }
 
         SetPanelVisibility(true);
       }
@@ -679,13 +792,30 @@ namespace Quantum {
     protected virtual void OnTabSelected(Tab tab) {
       CurrentTab = tab;
 
-      if (UI.TabInput[(int)Tab.Online]) UI.TabInput[(int)Tab.Online].transform.Find("On").gameObject.SetActive(tab == Tab.Online);
-      if (UI.TabInput[(int)Tab.Local]) UI.TabInput[(int)Tab.Local].transform.Find("On").gameObject.SetActive(tab == Tab.Local);
-      if (UI.TabInput[(int)Tab.Settings]) UI.TabInput[(int)Tab.Settings].transform.Find("On").gameObject.SetActive(tab == Tab.Settings);
-      if (UI.TabInput[(int)Tab.Custom]) UI.TabInput[(int)Tab.Custom].transform.Find("On").gameObject.SetActive(tab == Tab.Custom);
+      if (UI.TabInput[(int)Tab.Online]) {
+        UI.TabInput[(int)Tab.Online].transform.Find("On").gameObject.SetActive(tab == Tab.Online);
+      }
 
-      if (UI.RoomInputGroup != null) UI.RoomInputGroup.SetActive(tab == Tab.Online);
-      if (UI.RegionDropdownGroup != null) UI.RegionDropdownGroup.SetActive(tab == Tab.Online);
+      if (UI.TabInput[(int)Tab.Local]) {
+        UI.TabInput[(int)Tab.Local].transform.Find("On").gameObject.SetActive(tab == Tab.Local);
+      }
+
+      if (UI.TabInput[(int)Tab.Settings]) {
+        UI.TabInput[(int)Tab.Settings].transform.Find("On").gameObject.SetActive(tab == Tab.Settings);
+      }
+
+      if (UI.TabInput[(int)Tab.Custom]) {
+        UI.TabInput[(int)Tab.Custom].transform.Find("On").gameObject.SetActive(tab == Tab.Custom);
+      }
+
+      if (UI.RoomInputGroup != null) {
+        UI.RoomInputGroup.SetActive(tab == Tab.Online);
+      }
+
+      if (UI.RegionDropdownGroup != null) {
+        UI.RegionDropdownGroup.SetActive(tab == Tab.Online);
+      }
     }
   }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

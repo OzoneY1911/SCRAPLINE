@@ -29,7 +29,8 @@ MonoBehaviour:
         RawValue: -655360
       Z:
         RawValue: 0
-    SolverType: 1
+    SolverType: 2
+    WarmStart: 1
     SolverIterations: 6
     PositionSolverIterations: 2
     UseJoints: 1
@@ -60,7 +61,10 @@ MonoBehaviour:
       RawValue: 1311
     AngularSleepToleranceInRad:
       RawValue: 2288
+    WakeUpDistance:
+      RawValue: 655
     AllowCCD: 1
+    InvokeSpeculativeCallbacks: 1
     CCDLinearVelocityThreshold:
       RawValue: 196608
     CCDAngularVelocityThreshold:
@@ -120,6 +124,8 @@ MonoBehaviour:
     - 
     - 
     - 
+    ImportMode: 1
+    MatrixImportSource: 1
     LayerMatrix: ffdfffffffdfffffffdfffffffffffffffdfffffffdfffffffdfffffffffffffffffffffffddffffffdfffffffdfffffffffffff88f1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   Navigation:
     DefaultNavMeshAgent:
@@ -138,13 +144,23 @@ MonoBehaviour:
     MaxAvoidanceCandidates: 64
     VelocityObstacleTruncationFactor:
       RawValue: 72090
+  Heap:
+    TrackingMode: 1
+    Management: 1
+    PageSize: 5
+    SegmentSize: 4
+    SegmentCapacity: 32
+    PageShift: 15
+    PageCount: 256
+    ExtraHeapCount: 0
+  HeapTrackingMode: 1
+  HeapPageShift: 15
+  HeapPageCount: 256
+  HeapExtraCount: 0
+  HeapSettingsMigrated: 1
   AutoLoadSceneFromMap: 2
   DeltaTimeType: 0
   ThreadCount: 2
   ChecksumSnapshotHistoryLengthSeconds:
     RawValue: 196608
   ChecksumErrorDumpOptions: 0
-  HeapTrackingMode: 1
-  HeapPageShift: 15
-  HeapPageCount: 256
-  HeapExtraCount: 0

@@ -322,7 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 1902708944}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &34038907
 Transform:
   m_ObjectHideFlags: 19
@@ -448,13 +447,41 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 162182537}
+      addedObject: {fileID: 44912862}
   m_SourcePrefab: {fileID: 100100000, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
 --- !u!4 &44912860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
   m_PrefabInstance: {fileID: 44912859}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &44912861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
+  m_PrefabInstance: {fileID: 44912859}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &44912862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44912861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+  Mesh: {fileID: 1613963382995324208, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+  SmoothSphereMeshCollisions: 0
 --- !u!1 &61352207
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -1357,34 +1383,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapPoint
   Type: 2
---- !u!1 &162182534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
-  m_PrefabInstance: {fileID: 44912859}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &162182537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162182534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
-  Mesh: {fileID: 1613963382995324208, guid: a9ffa019c0e24cf4b808bce6a2dcec41, type: 3}
-  Settings:
-    MutableMode: 0
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    Asset:
-      Id:
-        Value: 0
-    Trigger: 0
-  SmoothSphereMeshCollisions: 0
 --- !u!1 &179033202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,7 +1742,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f30e9d9dac1b3041a3a6591ce7d52c7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1916977776}
+      addedObject: {fileID: 1916977775}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f30e9d9dac1b3041a3a6591ce7d52c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1916977774}
   m_SourcePrefab: {fileID: 100100000, guid: 3f30e9d9dac1b3041a3a6591ce7d52c7, type: 3}
 --- !u!4 &215264863 stripped
 Transform:
@@ -2715,11 +2716,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1382638799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &463518351 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
-  m_PrefabInstance: {fileID: 1358407692}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &472121514 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1472167899338295935, guid: da7b2c291f1b30e4b990adb234605483, type: 3}
@@ -6021,8 +6017,6 @@ MonoBehaviour:
     TimeDilationPercentage: 2
     SnapshotReferenceLatencyTicks: 4
     ElasticWindowTicks: 0.5
-    CurrentFrom: 0
-    Alpha: 0
 --- !u!4 &1028571735
 Transform:
   m_ObjectHideFlags: 0
@@ -7460,28 +7454,28 @@ MonoBehaviour:
   NavMeshSerializeType: 0
   StaticCollider2DReferences: []
   StaticCollider3DReferences:
+  - {fileID: 1916977775}
+  - {fileID: 1606864953}
+  - {fileID: 2097795556}
   - {fileID: 2082749547}
   - {fileID: 1904333018}
   - {fileID: 1584618587}
   - {fileID: 2040570021}
-  - {fileID: 1358407696}
+  - {fileID: 1358407695}
   - {fileID: 1961581532}
   - {fileID: 1778045655}
   - {fileID: 1860831893}
   - {fileID: 634556598}
   - {fileID: 147826975}
   - {fileID: 5812161}
-  - {fileID: 1916977776}
-  - {fileID: 1606864954}
   - {fileID: 1552428693}
   - {fileID: 380881991}
   - {fileID: 1838489305}
-  - {fileID: 2097795558}
   - {fileID: 1916036159}
   - {fileID: 63313277}
   - {fileID: 152068421}
   - {fileID: 212338745}
-  - {fileID: 162182537}
+  - {fileID: 44912862}
   MapEntityReferences:
   - {fileID: 0}
   - {fileID: 0}
@@ -7588,25 +7582,30 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1358407696}
+      addedObject: {fileID: 1358407695}
   m_SourcePrefab: {fileID: 100100000, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
 --- !u!4 &1358407693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
   m_PrefabInstance: {fileID: 1358407692}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1358407696
+--- !u!1 &1358407694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
+  m_PrefabInstance: {fileID: 1358407692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1358407695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463518351}
+  m_GameObject: {fileID: 1358407694}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
   Mesh: {fileID: 4220987542084636895, guid: 7a97a667fee18db44bdb8421005bd76b, type: 3}
   Settings:
     MutableMode: 0
@@ -7902,7 +7901,6 @@ MonoBehaviour:
   m_Script: {fileID: 2048546098}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1523763533
 Transform:
   m_ObjectHideFlags: 19
@@ -8065,7 +8063,6 @@ MonoBehaviour:
   m_Script: {fileID: 1800156794}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1565275882
 Transform:
   m_ObjectHideFlags: 19
@@ -8299,14 +8296,38 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1606864954}
+      addedObject: {fileID: 1606864953}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1606864952}
   m_SourcePrefab: {fileID: 100100000, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
 --- !u!4 &1606864951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
   m_PrefabInstance: {fileID: 1606864950}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1606864954
+--- !u!65 &1606864952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026141192}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008, y: 0.013999997, z: 0.022000002}
+  m_Center: {x: 0.0000000025071207, y: -0.0050000045, z: 0.010999999}
+--- !u!114 &1606864953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8315,10 +8336,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1026141192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  Mesh: {fileID: -595886124337963683, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticBoxCollider3D
+  SourceCollider: {fileID: 1606864952}
+  Size:
+    X:
+      RawValue: 524
+    Y:
+      RawValue: 917
+    Z:
+      RawValue: 1441
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: -327
+    Z:
+      RawValue: 720
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -8328,7 +8370,6 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
 --- !u!1 &1628783980 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5967451773149344912, guid: 3e06689d6674091429434050a92c2de3, type: 3}
@@ -10186,7 +10227,30 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f30e9d9dac1b3041a3a6591ce7d52c7, type: 3}
   m_PrefabInstance: {fileID: 215264862}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1916977776
+--- !u!136 &1916977774
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916977773}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.0015
+  m_Height: 0.00675
+  m_Direction: 2
+  m_Center: {x: -0.00025000004, y: 0.00025319055, z: 5.6191822e-18}
+--- !u!114 &1916977775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10195,10 +10259,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1916977773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c178362d080c2d48be899a620a36fed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
-  Mesh: {fileID: -682977755312924517, guid: 3f30e9d9dac1b3041a3a6591ce7d52c7, type: 3}
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticCapsuleCollider3D
+  SourceCollider: {fileID: 1916977774}
+  Radius:
+    RawValue: 98
+  Height:
+    RawValue: 442
+  PositionOffset:
+    X:
+      RawValue: -16
+    Y:
+      RawValue: 16
+    Z:
+      RawValue: 0
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -10208,7 +10290,6 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
 --- !u!1001 &1929325564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10761,7 +10842,6 @@ MonoBehaviour:
     SystemsConfig:
       Id:
         Value: 504486853805744320
-  UseRandomSeed: 0
   SessionConfig: {fileID: 11400000, guid: 7fa158861025ed249b610dc462ddc14a, type: 2}
   LocalPlayers:
   - PlayerAvatar:
@@ -10770,16 +10850,16 @@ MonoBehaviour:
     PlayerNickname: 
   MaxPlayerCount: 6
   SimulationSpeedMultiplier: 1
-  DisplaySaveAndReloadButton: 0
+  UseRandomSeed: 0
   PreloadAddressables: 0
   DynamicAssetDB:
     OnInitialDynamicAssetsRequested:
       m_PersistentCalls:
         m_Calls: []
     IsLegacyModeEnabled: 0
-  OnBeforeStart:
-    m_PersistentCalls:
-      m_Calls: []
+  SnapshotFile: {fileID: 0}
+  DatabaseFile: {fileID: 0}
+  DBScopes: []
 --- !u!4 &2028371635
 Transform:
   m_ObjectHideFlags: 0
@@ -11056,6 +11136,7 @@ MonoBehaviour:
     MinAgentRadius:
       RawValue: 32768
     ImportRegionMode: 2
+    ImportAutoGeneratedLinks: 1
     RegionDetectionMargin: 0.4
     RegionAreaIds: 
 --- !u!1001 &2097795554
@@ -11124,14 +11205,17 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4427177360792342263, guid: aed256f7321eb164d87d5c188e0faff1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2097795558}
+      addedObject: {fileID: 2097795557}
+    - targetCorrespondingSourceObject: {fileID: 4427177360792342263, guid: aed256f7321eb164d87d5c188e0faff1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2097795556}
   m_SourcePrefab: {fileID: 100100000, guid: aed256f7321eb164d87d5c188e0faff1, type: 3}
 --- !u!4 &2097795555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3907909477036037197, guid: aed256f7321eb164d87d5c188e0faff1, type: 3}
   m_PrefabInstance: {fileID: 2097795554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2097795558
+--- !u!114 &2097795556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11140,10 +11224,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410496995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
-  Mesh: {fileID: -6310891550343035600, guid: d1eacbb5181ae9f4993422d4eff63744, type: 3}
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticBoxCollider3D
+  SourceCollider: {fileID: 2097795557}
+  Size:
+    X:
+      RawValue: 40108
+    Y:
+      RawValue: 66309
+    Z:
+      RawValue: 40108
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 33154
+    Z:
+      RawValue: 0
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -11153,7 +11258,27 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
+--- !u!65 &2097795557
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410496995}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6119999, y: 1.0117998, z: 0.6119999}
+  m_Center: {x: 0, y: 0.5058998, z: 0}
 --- !u!1 &2116563151
 GameObject:
   m_ObjectHideFlags: 0
@@ -12976,9 +13101,153 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1437051205557502814, guid: 4d5df0b95b7036a4f8e956d9da63aa9f, type: 2}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.BranchDepth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.BranchWidth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.HatchEntity
       value: 
       objectReference: {fileID: 821848290}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.SourceMapAsset.Id.Value
+      value: 280343834485268604
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.MapAsset.Id.Value
+      value: 483261264687421678
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.Prototype.Id.Value
+      value: 1514344673671545695
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.MapAsset.Id.Value
+      value: 315341983573600614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.Prototype.Id.Value
+      value: 1488607268961354015
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.MapAsset.Id.Value
+      value: 315341983573600614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.Prototype.Id.Value
+      value: 1488607268961354015
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].MapAsset.Id.Value
+      value: 315341983573600614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].Prototype.Id.Value
+      value: 1488607268961354015
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[0].Position.X.RawValue
+      value: 65536
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.StartRoom.ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 275251
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[0].Position.X.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[1].Position.X.RawValue
+      value: -458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[1].Position.Z.RawValue
+      value: 458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[0].Position.X.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[1].Position.X.RawValue
+      value: -458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[1].Position.Z.RawValue
+      value: 458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[0].RotationEuler.Y.RawValue
+      value: 5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.data[1].RotationEuler.Y.RawValue
+      value: -5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[0].RotationEuler.Y.RawValue
+      value: 5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.QuotaZoneRoom.ExitPoints.Array.data[1].RotationEuler.Y.RawValue
+      value: 5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Position.X.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].Position.Z.RawValue
+      value: 327680
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Position.X.RawValue
+      value: -458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].Position.Z.RawValue
+      value: 458752
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[0].RotationEuler.Y.RawValue
+      value: 5898240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.ProceduralRooms.Array.data[0].ExitPoints.Array.data[1].RotationEuler.Y.RawValue
+      value: -5898240
+      objectReference: {fileID: 0}
     - target: {fileID: 9211306891577696265, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: m_Name
       value: Map Changer

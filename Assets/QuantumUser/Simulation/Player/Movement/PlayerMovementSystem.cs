@@ -10,7 +10,7 @@ namespace Quantum
         {
             public EntityRef Entity;
             public Transform3D* Transform;
-            public PhysicsBody3D* Body;
+            public KCC* KCC;
             public PhysicsCollider3D* Collider;
             public Player* Player;
             public PlayerMovement* Movement;
@@ -37,67 +37,54 @@ namespace Quantum
 
             player->LookPitch = FPMath.Clamp(player->LookPitch, -FP.FromFloat_UNSAFE(89f), FP.FromFloat_UNSAFE(89f));
 
-            filter.Transform->Rotation = FPQuaternion.Euler(0, player->LookYaw, 0);
+            filter.KCC->SetLookRotation(0, player->LookYaw);
         }
 
         private void HandleMovement(Frame frame, ref Filter filter)
         {
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
-            var body = filter.Body;
             var movement = filter.Movement;
             var stamina = filter.Stamina;
 
-            // Movement on XZ plane
             FPVector3 localMove = new FPVector3(input->MoveDirection.X, 0, input->MoveDirection.Y);
 
-            // Rotate movement direction by the player's current rotation
             FPQuaternion rotation = filter.Transform->Rotation;
             FPVector3 worldMove = rotation * localMove;
 
             if (worldMove.SqrMagnitude > FP._0)
                 worldMove = worldMove.Normalized;
-            FPVector3 desiredVelocity;
 
             movement->IsRunning =
-                input->Run.IsDown
-                && localMove != FPVector3.Zero
-                && !movement->IsCrouching
-                && !stamina->IsExhausted;
+                input->Run.IsDown &&
+                localMove != FPVector3.Zero &&
+                !movement->IsCrouching &&
+                !stamina->IsExhausted;
 
+            FP speed;
             if (movement->IsRunning)
-            {
-                desiredVelocity = worldMove * movement->RunSpeed;
-            }
+                speed = movement->RunSpeed;
             else if (movement->IsCrouching)
-            {
-                desiredVelocity = worldMove * movement->CrouchSpeed;
-            }
+                speed = movement->CrouchSpeed;
             else
-            {
-                desiredVelocity = worldMove * movement->WalkSpeed;
-            }
+                speed = movement->WalkSpeed;
 
-            // Current velocity
-            FPVector3 currentVel = body->Velocity;
+            // ---- KCC ADD-ON INPUT ----
+            var kcc = filter.KCC;
 
-            // Only control horizontal movement (ignore Y velocity)
-            FPVector3 horizontalVel = new FPVector3(currentVel.X, 0, currentVel.Z);
-            FPVector3 deltaVel = desiredVelocity - horizontalVel;
-
-            // Apply impulse to achieve desired horizontal velocity
-            body->AddLinearImpulse(deltaVel * body->Mass);
+            kcc->SetKinematicVelocity(worldMove * speed);
         }
 
         private void HandleJumping(Frame frame, ref Filter filter)
         {
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
-            var body = filter.Body;
-            var movement = filter.Movement;
             var stamina = filter.Stamina;
+            var kcc = filter.KCC;
 
-            if (input->Jump.WasPressed && PlayerPhysicsUtils.IsGrounded(frame, in filter) && stamina->Current >= stamina->CostPerJump)
+            if (input->Jump.WasPressed &&
+                kcc->IsGrounded &&
+                stamina->Current >= stamina->CostPerJump)
             {
-                body->AddLinearImpulse(FPVector3.Up * filter.Movement->JumpForce * body->Mass);
+                kcc->AddExternalImpulse(new FPVector3(0, filter.Movement->JumpForce, 0));
 
                 frame.Signals.OnPlayerJump(filter.Entity);
             }

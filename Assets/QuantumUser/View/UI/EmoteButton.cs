@@ -15,6 +15,6 @@ public class EmoteButton : MonoBehaviour
         {
             EmoteConfig = _emoteConfig
         };
-        QuantumRunner.Default.Game.SendCommand(command);
+        QuantumRunner.Default.Game.AddCommand(command);
     }
 }

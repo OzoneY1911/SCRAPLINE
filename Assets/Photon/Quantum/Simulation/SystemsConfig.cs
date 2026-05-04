@@ -48,6 +48,7 @@ namespace Quantum {
     /// To prevent indefinite recursion in Unity serialization system hierarchies are limited to 3 levels.
     /// </summary>
     /// <typeparam name="T">Type of the children</typeparam>
+    [Serializable]
     public abstract class SystemEntryBase<T> : SystemEntryBase where T : SystemEntryBase, new() {
       /// <summary>
       /// Child systems.
@@ -104,7 +105,7 @@ namespace Quantum {
     /// <summary>
     /// System entries to be instantiated on simulation start.
     /// </summary>
-    public List<SystemEntry> Entries = new();
+    [InlineHelp] public List<SystemEntry> Entries = new();
 
     /// <summary>
     /// Converts the systems configuration into a list of system objects while calling the matching (Name, Children) constructors.
@@ -148,7 +149,7 @@ namespace Quantum {
       var childrenEntries = entry.GetChildren();
       var children = new List<SystemBase>(childrenEntries.Count);
       for (int i = 0; i < childrenEntries.Count; i++) {
-        children.Add(CreateSystems<SystemBase>(childrenEntries[i]) as SystemBase);
+        children.Add(CreateSystems<SystemBase>(childrenEntries[i]));
       }
 
       var result = Create(type, children.ToArray());

@@ -18,6 +18,8 @@ MonoBehaviour:
       Value: 3827368486510760943
   UpdateInterval: 1
   PathQuality: 1
+  HeuristicWeight:
+    RawValue: 65536
   CachedWaypointCount: 6
   MaxRepathTimeout:
     RawValue: 327680
@@ -25,7 +27,6 @@ MonoBehaviour:
   DynamicLineOfSight: 0
   DynamicLineOfSightWaypointRange:
     RawValue: 0
-  AutomaticTargetCorrection: 1
   AutomaticTargetCorrectionRadius:
     RawValue: 65536
   EnableWaypointDetectionAxis: 0
@@ -189,6 +190,7 @@ MonoBehaviour:
   CharacterController3DConfig: {fileID: -65710541002280960}
   NavMeshAgentConfig: {fileID: -4719624961752941612}
   SystemsConfig: {fileID: 5351691344532718114}
+  InputActionAsset: {fileID: -944628639613478452, guid: 8a2679cf1c581ca41a337897e3dc5a06, type: 3}
 --- !u!114 &3060828943554090106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +304,7 @@ MonoBehaviour:
       Z:
         RawValue: 0
     SolverType: 1
+    WarmStart: 1
     SolverIterations: 4
     PositionSolverIterations: 2
     UseJoints: 1
@@ -332,7 +335,10 @@ MonoBehaviour:
       RawValue: 1311
     AngularSleepToleranceInRad:
       RawValue: 2288
+    WakeUpDistance:
+      RawValue: 655
     AllowCCD: 0
+    InvokeSpeculativeCallbacks: 1
     CCDLinearVelocityThreshold:
       RawValue: 196608
     CCDAngularVelocityThreshold:
@@ -392,6 +398,8 @@ MonoBehaviour:
     - 
     - 
     - 
+    ImportMode: 1
+    MatrixImportSource: 1
     LayerMatrix: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   Navigation:
     DefaultNavMeshAgent:
@@ -410,13 +418,23 @@ MonoBehaviour:
     MaxAvoidanceCandidates: 64
     VelocityObstacleTruncationFactor:
       RawValue: 72090
+  Heap:
+    TrackingMode: 1
+    Management: 1
+    PageSize: 5
+    SegmentSize: 4
+    SegmentCapacity: 32
+    PageShift: 15
+    PageCount: 256
+    ExtraHeapCount: 0
+  HeapTrackingMode: 1
+  HeapPageShift: 15
+  HeapPageCount: 256
+  HeapExtraCount: 0
+  HeapSettingsMigrated: 1
   AutoLoadSceneFromMap: 2
   DeltaTimeType: 0
   ThreadCount: 2
   ChecksumSnapshotHistoryLengthSeconds:
     RawValue: 196608
   ChecksumErrorDumpOptions: 0
-  HeapTrackingMode: 1
-  HeapPageShift: 15
-  HeapPageCount: 256
-  HeapExtraCount: 0

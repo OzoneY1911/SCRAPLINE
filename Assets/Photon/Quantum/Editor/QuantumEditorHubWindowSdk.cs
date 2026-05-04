@@ -5,7 +5,6 @@ namespace Quantum.Editor {
   using System.Linq;
   using System.Reflection;
   using UnityEditor;
-  using UnityEditor.PackageManager.Requests;
   using UnityEditor.SceneManagement;
   using UnityEngine;
   using UnityEngine.SceneManagement;
@@ -34,7 +33,7 @@ namespace Quantum.Editor {
       }
 
       // Upgrade 3.0.3
-      if (HubUtils.HasGlobalScriptableObjectCached(typeof(QuantumLookupTables)) == false) {
+      if (QuantumLookupTables.TryGetGlobal(out _) == false) {
         page = Pages.FindIndex(p => p.Title.Equals("Installation"));
         shouldPopup = page != -1;
       }
@@ -77,6 +76,11 @@ namespace Quantum.Editor {
       if (SceneView.lastActiveSceneView != null) {
         AssetDatabaseExt.UpdateScriptingDefineSymbol("QUANTUM_XY", SceneView.lastActiveSceneView.in2DMode);
       }
+
+#if !QUANTUM_LOGLEVEL_DEBUG && !QUANTUM_LOGLEVEL_INFO && !QUANTUM_LOGLEVEL_WARN && !QUANTUM_LOGLEVEL_ERROR && !QUANTUM_LOGLEVEL_NONE
+      // Enabled at least one log level define
+      AssetDatabaseUtils.UpdateScriptingDefineSymbol("QUANTUM_LOGLEVEL_INFO", true);
+#endif
 
       // Add qtn extension to the VS project generation
       if (EditorSettings.projectGenerationUserExtensions.Contains("qtn") == false) {
@@ -132,7 +136,7 @@ namespace Quantum.Editor {
 
     public override string AppId {
       get {
-        if (HubUtils.TryGetGlobalScriptableObjectCached<PhotonServerSettings>(out var global)) {
+        if (PhotonServerSettings.TryGetGlobal(out var global)) {
           return global.AppSettings.AppIdQuantum;
         } else {
           return string.Empty;
@@ -148,17 +152,17 @@ namespace Quantum.Editor {
 
     public override Object SdkAppSettingsAsset {
       get {
-        HubUtils.TryGetGlobalScriptableObjectCached(out PhotonServerSettings global);
+        PhotonServerSettings.TryGetGlobal(out var global);
         return global;
       }
     }
 
     internal static bool AreImportantUserFilesInstalled {
       get {
-        return HubUtils.HasGlobalScriptableObjectCached(typeof(PhotonServerSettings))
-          && HubUtils.HasGlobalScriptableObjectCached(typeof(QuantumDeterministicSessionConfigAsset))
-          && HubUtils.HasGlobalScriptableObjectCached(typeof(QuantumEditorSettings))
-          && HubUtils.HasGlobalScriptableObjectCached(typeof(QuantumUnityDB));
+        return PhotonServerSettings.TryGetGlobal(out _)
+               && QuantumDeterministicSessionConfigAsset.TryGetGlobal(out _)
+               && QuantumEditorSettings.TryGetGlobal(out _)
+               && QuantumUnityDB.TryGetGlobal(out _);
       }
     }
 
@@ -225,7 +229,7 @@ namespace Quantum.Editor {
     }
     
     void DrawGlobalObjectStatus<T>() where T : QuantumGlobalScriptableObject<T> {
-      var hasDefaultInstance = HubUtils.TryGetGlobalScriptableObjectCached<T>(out var defaultInstance);
+      var hasDefaultInstance = QuantumGlobalScriptableObject<T>.TryGetGlobal(out var defaultInstance);
 
       var attribute = typeof(T).GetCustomAttribute<QuantumGlobalScriptableObjectAttribute>();
       Debug.Assert(attribute != null);
@@ -280,22 +284,16 @@ namespace Quantum.Editor {
             OnGuiHeartbeat();
             HubUtils.GlobalInstanceMissing.Clear();
           });
-
-
-        QuantumGlobalScriptableObjectUtils.CreateFindDefaultAssetPathCache();
-        try {
-          DrawGlobalObjectStatus<PhotonServerSettings>();
-          DrawGlobalObjectStatus<QuantumDeterministicSessionConfigAsset>();
-          DrawGlobalObjectStatus<QuantumUnityDB>();
-          DrawGlobalObjectStatus<QuantumLookupTables>();
-          DrawGlobalObjectStatus<QuantumEditorSettings>();
-          DrawGlobalObjectStatus<QuantumGameGizmosSettingsScriptableObject>();
-          DrawGlobalObjectStatus<QuantumDefaultConfigs>();
-          DrawGlobalObjectStatus<QuantumDotnetBuildSettings>();
-          DrawGlobalObjectStatus<QuantumDotnetProjectSettings>();
-        } finally {
-          QuantumGlobalScriptableObjectUtils.ClearFindDefaultAssetPathCache();
-        }
+        
+        DrawGlobalObjectStatus<PhotonServerSettings>();
+        DrawGlobalObjectStatus<QuantumDeterministicSessionConfigAsset>();
+        DrawGlobalObjectStatus<QuantumUnityDB>();
+        DrawGlobalObjectStatus<QuantumLookupTables>();
+        DrawGlobalObjectStatus<QuantumEditorSettings>();
+        DrawGlobalObjectStatus<QuantumGameGizmosSettingsScriptableObject>();
+        DrawGlobalObjectStatus<QuantumDefaultConfigs>();
+        DrawGlobalObjectStatus<QuantumDotnetBuildSettings>();
+        DrawGlobalObjectStatus<QuantumDotnetProjectSettings>();
 
         using (new EditorGUILayout.HorizontalScope()) {
           if (GUILayout.Button(QuantumEditorUserScriptGeneration.FolderPath.Replace("Assets/", "") + " User Workspace", HubSkin.label)) {

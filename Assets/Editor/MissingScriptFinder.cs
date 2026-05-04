@@ -6,7 +6,7 @@ public class MissingScriptFinder
     [MenuItem("Tools/Find Missing Scripts In Scene")]
     public static void FindMissing()
     {
-        GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+        GameObject[] objects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
 
         int count = 0;
 

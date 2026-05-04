@@ -26,7 +26,7 @@ namespace Quantum {
   [LastSupportedVersion("3.0")]
   public abstract class EntityPrototype
 #endif
-    : QuantumMonoBehaviour, IQuantumPrototypeConvertible<MapEntityId> {
+    : QuantumMonoBehaviour, IQuantumPrototypeConvertible<MapEntityId>, ILogSource {
 
     /// <summary>
     /// Prototype settings for the <see cref="Transform2DVertical"/> component.
@@ -796,6 +796,13 @@ namespace Quantum {
     /// <param name="assetObject">Entity prototype asset object</param>
     /// <param name="selfViewAsset">Associated view asset</param>
     public void InitializeAssetObject(Quantum.EntityPrototype assetObject, Quantum.EntityView selfViewAsset) {
+      assetObject.Container = CreateComponentPrototypeSet(selfViewAsset);
+    }
+    
+    /// <summary>
+    /// Initialize the prototype after being loaded.
+    /// </summary>
+    public Quantum.ComponentPrototypeSet CreateComponentPrototypeSet(Quantum.EntityView selfViewAsset, bool addViewPrototypeForSelfView = true, QuantumEntityPrototypeConverter converter = null) {
       try {
         // get built-ins first
         PreSerialize();
@@ -803,13 +810,16 @@ namespace Quantum {
 
         if (selfView) {
           if (selfViewAsset != null) {
-            prototypeBuffer.Add(new Quantum.Prototypes.ViewPrototype() { Current = new() { Id = selfViewAsset.Guid } });
+            if (addViewPrototypeForSelfView) {
+              prototypeBuffer.Add(new Quantum.Prototypes.ViewPrototype() { Current = new() { Id = selfViewAsset.Guid } });
+            }
           } else {
-            Debug.LogError($"Self-view detected, but the no {nameof(Quantum.EntityView)} provided in {name}. Reimport the prefab.", this);
+            Log.Error(this, $"Self-view detected, but the no {nameof(Quantum.EntityView)} provided in {name}. Reimport the prefab.");
           }
         }
 
-        var converter = new QuantumEntityPrototypeConverter((QuantumEntityPrototype)this);
+        // ReSharper disable once RedundantCast
+        converter ??= new QuantumEntityPrototypeConverter((QuantumEntityPrototype)this);
 
         // now get custom ones
         GetComponents(behaviourBuffer);
@@ -821,7 +831,7 @@ namespace Quantum {
         }
 
         // store
-        assetObject.Container = ComponentPrototypeSet.FromArray(prototypeBuffer.ToArray());
+        return ComponentPrototypeSet.FromArray(prototypeBuffer.ToArray());
 
       } finally {
         behaviourBuffer.Clear();

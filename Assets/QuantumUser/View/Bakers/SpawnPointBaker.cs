@@ -1,4 +1,3 @@
-using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -13,9 +12,7 @@ namespace Quantum
 
         public override void OnBake(QuantumMapData data)
         {
-            var customData = QuantumUnityDB.GetGlobalAssetEditorInstance<MapCustomData>(data.GetAsset(true).UserAsset);
-
-            if (customData == null) return;
+            if (!QuantumUnityDB.TryGetGlobalAsset<MapCustomData>(data.GetAsset(true).UserAsset, out var customData)) return;
 
             var mapPoints = GameObject.FindObjectsByType<MapPoint>(FindObjectsSortMode.None);
             var valuableSpawnPoints = GameObject.FindObjectsByType<ValuableSpawnPoint>(FindObjectsSortMode.None);

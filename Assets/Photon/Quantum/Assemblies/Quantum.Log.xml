@@ -282,6 +282,9 @@
         <member name="F:Quantum.TraceChannels.Input">
             <summary>Input</summary>
         </member>
+        <member name="F:Quantum.TraceChannels.NavMesh">
+            <summary>NavMesh</summary>
+        </member>
         <member name="T:Quantum.InternalLogStreams">
             <summary>
             Provides static log streams for different log levels.
@@ -304,6 +307,9 @@
         </member>
         <member name="F:Quantum.InternalLogStreams.LogTraceInput">
             <summary> Input trace stream </summary>
+        </member>
+        <member name="F:Quantum.InternalLogStreams.LogTraceNavMesh">
+            <summary> NavMesh trace stream </summary>
         </member>
         <member name="F:Quantum.InternalLogStreams.LogDebugPhysics2D">
             <summary> Physics2D debug stream </summary>
@@ -1105,6 +1111,65 @@
         </member>
         <member name="M:Quantum.LogStream.Dispose">
             <inheritdoc/>
+        </member>
+        <member name="T:Quantum.LogStream.LogTracker">
+            <summary>
+            Defines a Tracker Type for logs based on an incremental ID and amount of logs
+            </summary>
+        </member>
+        <member name="M:Quantum.LogStream.LogTracker.#ctor(System.UInt64,System.Boolean)">
+            <summary>
+            Defines a Tracker Type for logs based on an incremental ID and amount of logs
+            </summary>
+        </member>
+        <member name="M:Quantum.LogStream.LogTracker.Create(System.UInt64,System.Boolean)">
+            <summary>
+            Sets up a new <see cref="T:Quantum.LogStream.LogTracker"/>.
+            </summary>
+            <param name="threshold">The maximum number of logs allowed (or the frequency if repeating).</param>
+            <param name="repeat">If true, it logs every X times (10th, 20th, etc.). If false, it stops logging after the threshold is hit.</param>
+            <returns>A configured LogTracker instance.</returns>
+        </member>
+        <member name="M:Quantum.LogStream.LogTracker.ResetTracker(System.Int32)">
+            <summary>
+            Reset Log Tracker for a given ID
+            </summary>
+            <param name="dynamicUniqueId">Unique ID to reset Log Tracking</param>
+        </member>
+        <member name="M:Quantum.LogStream.LogTracker.ResetAllTrackers">
+            <summary>
+            Reset all tracked entries
+            </summary>
+        </member>
+        <member name="M:Quantum.LogStream.Limit(Quantum.LogStream.LogTracker,System.Int32,System.UInt64@,System.Boolean@)">
+            <summary>
+            Controls how often logs are written for a specific source to prevent spam.
+            It checks if the source (identified by ID) has reached its limit based on the rules in the LogTracker.
+            </summary>
+            <param name="tracker">The ruleset that decides how many logs are allowed.</param>
+            <param name="dynamicUniqueId">The ID of the item or area sending the log.</param>
+            <param name="logCount">The updated total number of times this source has tried to log.</param>
+            <param name="allowLogging">True if this specific log is allowed to be written; otherwise, false.</param>
+            <returns>Returns the current LogStream if logging is allowed, or null if it should be blocked.</returns>
+        </member>
+        <member name="M:Quantum.LogStream.Limit(Quantum.LogStream.LogTracker,System.Int32,System.UInt64@)">
+            <summary>
+            Controls how often logs are written for a specific source to prevent spam.
+            It checks if the source (identified by ID) has reached its limit based on the rules in the LogTracker.
+            </summary>
+            <param name="tracker">The ruleset that decides how many logs are allowed.</param>
+            <param name="dynamicUniqueId">The ID of the item or area sending the log.</param>
+            <param name="logCount">The updated total number of times this source has tried to log.</param>
+            <returns>Returns the current LogStream if logging is allowed, or null if it should be blocked.</returns>
+        </member>
+        <member name="M:Quantum.LogStream.Limit(Quantum.LogStream.LogTracker,System.Int32)">
+            <summary>
+            Controls how often logs are written for a specific source to prevent spam.
+            It checks if the source (identified by ID) has reached its limit based on the rules in the LogTracker.
+            </summary>
+            <param name="tracker">The ruleset that decides how many logs are allowed.</param>
+            <param name="dynamicUniqueId">The ID of the item or area sending the log.</param>
+            <returns>Returns the current LogStream if logging is allowed, or null if it should be blocked.</returns>
         </member>
         <member name="T:Quantum.QuantumUnityLoggerBase">
             <summary>

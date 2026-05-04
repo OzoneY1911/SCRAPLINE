@@ -1,7 +1,6 @@
 namespace Quantum {
   using System;
   using System.Collections.Generic;
-  using Profiling;
   using UnityEngine;
   using static QuantumUnityExtensions;
 
@@ -163,6 +162,14 @@ namespace Quantum {
         foreach (var view in _activeViews) {
           view.Value.GameChanged(_observedGame);
         }
+      } else {
+        // For new games reusing the EVU will Activate the scene components again
+        for (int i = _viewComponents.Count - 1; i >= 0; i--) {
+          if (_viewComponents[i].IsActive == false) {
+            _viewComponentsToAdd.Enqueue(_viewComponents[i]);
+            _viewComponents.RemoveAt(i);
+          }
+        }
       }
     }
 
@@ -206,6 +213,30 @@ namespace Quantum {
           _viewContexts.Add(c.GetType(), c);
         }
       }
+    }
+
+    /// <summary>
+    /// Add a view context.
+    /// </summary>
+    /// <typeparam name="T">Context type</typeparam>
+    /// <param name="context">Context instance</param>
+    public void AddViewContext<T>(IQuantumViewContext context) {
+      Assert.Always(context != null, "Context cannot be null");
+
+      LoadViewContexts();
+
+      if (_viewContexts.TryAdd(typeof(T), context) == false) {
+        Log.Error($"The view context type {typeof(T)} already exists. Multiple contexts of the same type are not supported.");
+      }
+    }
+
+    /// <summary>
+    /// Remove a view context.
+    /// It's possible that the removed context still is used inside <see cref="QuantumViewComponent{T}"/> instances.
+    /// </summary>
+    /// <typeparam name="T">Context type to remove</typeparam>
+    public void RemoveViewContext<T>() where T : IQuantumViewContext {
+      _viewContexts?.Remove(typeof(T));
     }
 
     /// <summary>
@@ -280,7 +311,7 @@ namespace Quantum {
         return;
       }
 
-      using var profilerScope = HostProfiler.Start("QuantumEntityView.OnObservedGameUpdated");
+      using var profilerScope = HostProfiler.Markers.EntityViewOnObservedGameUpdated();
       var verifiedFrame = game.Frames.Verified;
       
       if (verifiedFrame != null) {
@@ -314,7 +345,7 @@ namespace Quantum {
         bool checkPossiblyOrphanedMapEntityViews = false;
 
         if (_mapData == null && AutoFindMapData) {
-          _mapData = FindFirstObjectByType<QuantumMapData>();
+          _mapData = FindAnyObjectByType<QuantumMapData>();
           if (_mapData) {
             checkPossiblyOrphanedMapEntityViews = true;
           }
@@ -455,12 +486,12 @@ namespace Quantum {
             DestroyEntityView(game, handle);
           } else {
             if (entityView.Guid == instance.AssetGuid) {
-              _activeEntities.Add(handle);
+              UpdateActiveEntities();
             } else {
               // The Guid changed, recreate the view instance for this entity.
               DestroyEntityView(game, handle);
               if (CreateView(game, frame, handle, entityView, createBehaviour) != null) {
-                _activeEntities.Add(handle);
+                UpdateActiveEntities();
               }
             }
           }
@@ -468,7 +499,14 @@ namespace Quantum {
       } else if (entityView != null) {
         // Create a new view instance for this entity.
         if (CreateView(game, frame, handle, entityView, createBehaviour) != null) {
-          _activeEntities.Add(handle);
+          UpdateActiveEntities();
+        }
+      }
+
+      void UpdateActiveEntities() {
+        _activeEntities.Add(handle);
+        foreach (var (e, _) in frame.GetEntityGroupIterator(handle)) {
+          _activeEntities.Add(e);
         }
       }
     }
@@ -521,17 +559,39 @@ namespace Quantum {
       }
 
       QuantumEntityView instance;
-      if (TryGetTransform(frame, handle, out Vector3 position, out Quaternion rotation)) {
-        instance = CreateEntityViewInstance(view, position, rotation);
-      } else {
-        instance = CreateEntityViewInstance(view);
+      {
+        if (TryGetTransform(frame, handle, out Vector3 position, out Quaternion rotation)) {
+          instance = CreateEntityViewInstance(view, position, rotation);
+        } else {
+          instance = CreateEntityViewInstance(view);
+        }
+
+        if (ViewParentTransform != null) {
+          instance.transform.SetParent(ViewParentTransform);
+        }
+        
+        instance.AssetGuid = view.Guid;
+      }
+      
+      if (instance.TryGetComponent(out QuantumEntityViewNestedSelfViews selfViews)) {
+        foreach (var (nestedHandle, index) in frame.GetEntityGroupIterator(handle)) {
+          var nestedSelfView = selfViews.NestedSelfViews[index];
+          if (!nestedSelfView) {
+            continue;
+          }
+
+          if (TryGetTransform(frame, nestedHandle, out Vector3 position, out Quaternion rotation)) {
+            nestedSelfView.transform.position = position;
+            nestedSelfView.transform.rotation = rotation;
+          }
+
+          var nestedInstance = nestedSelfView.GetComponent<QuantumEntityView>();
+          nestedInstance.AssetGuid = view.Guid;
+          OnEntityViewInstantiated(game, frame, nestedInstance, nestedHandle);
+        }
       }
 
-      if (ViewParentTransform != null) {
-        instance.transform.SetParent(ViewParentTransform);
-      }
 
-      instance.AssetGuid = view.Guid;
       OnEntityViewInstantiated(game, frame, instance, handle);
 
       // return instance
@@ -572,13 +632,17 @@ namespace Quantum {
       if ((instance.ViewFlags & QuantumEntityViewFlags.DisableEntityRefNaming) == 0) {
         instance.gameObject.name = handle.GetName(frame);
       }
-
+      
       instance.EntityRef = handle;
 
       // add to lookup
       _activeViews.Add(handle, instance);
 
-      instance.Activate(game, frame, Context, this);
+      instance.EntityViewUpdater = this;
+      instance.SnapshotInterpolationTimer = SnapshotInterpolation;
+
+      instance.Activate(game, frame, Context);
+
       instance.OnEntityInstantiated.Invoke(game);
     }
 

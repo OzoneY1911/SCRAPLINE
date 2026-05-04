@@ -10,9 +10,9 @@ namespace Quantum {
   /// </summary>
   public class QuantumRunnerBehaviour : QuantumMonoBehaviour {
     /// <summary>
-    /// The runner object set during <see cref="QuantumRunner.StartGame(SessionRunner.Arguments)"/>
+    /// The runner object set during <see cref="QuantumRunnerUnityFactory.CreateRunner(SessionRunner.Arguments, string)"/>
     /// </summary>
-    [InlineHelp] public QuantumRunner Runner;
+    [InlineHelp, NonSerialized] public QuantumRunner Runner;
 
     /// <summary>
     /// Unity OnEnable event is required to register to global camera callbacks for gizmos rendering.  

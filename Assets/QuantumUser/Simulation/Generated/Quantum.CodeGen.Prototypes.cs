@@ -316,6 +316,15 @@ namespace Quantum.Prototypes {
     public FPVector3 HatchInitialRotation;
     [HideInInspector()]
     public QBoolean HatchIsOpen;
+    [Header("Procedural Settings")]
+    public AssetRef<Map> SourceMapAsset;
+    public UInt16 BranchDepth;
+    public UInt16 BranchWidth;
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
+    public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype DeadEndRoom;
+    public Quantum.Prototypes.ProceduralRoomPrototype QuotaZoneRoom;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.InteractableMapChanger component = default;
         Materialize((Frame)f, ref component, in context);
@@ -327,6 +336,22 @@ namespace Quantum.Prototypes {
         PrototypeValidator.FindMapEntity(this.HatchEntity, in context, out result.HatchEntity);
         result.HatchInitialRotation = FPQuaternion.Euler(this.HatchInitialRotation);
         result.HatchIsOpen = this.HatchIsOpen;
+        result.SourceMapAsset = this.SourceMapAsset;
+        result.BranchDepth = this.BranchDepth;
+        result.BranchWidth = this.BranchWidth;
+        if (this.ProceduralRooms.Length == 0) {
+          result.ProceduralRooms = default;
+        } else {
+          var list = frame.AllocateList(out result.ProceduralRooms, this.ProceduralRooms.Length);
+          for (int i = 0; i < this.ProceduralRooms.Length; ++i) {
+            Quantum.ProceduralRoom tmp = default;
+            this.ProceduralRooms[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        this.StartRoom.Materialize(frame, ref result.StartRoom, in context);
+        this.DeadEndRoom.Materialize(frame, ref result.DeadEndRoom, in context);
+        this.QuotaZoneRoom.Materialize(frame, ref result.QuotaZoneRoom, in context);
     }
   }
   [System.SerializableAttribute()]

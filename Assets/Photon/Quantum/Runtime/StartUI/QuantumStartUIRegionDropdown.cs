@@ -60,7 +60,7 @@ namespace Quantum {
     /// </summary>
     /// <returns></returns>
     public string GetValue() {
-       return options[value].text;
+      return options[value].text;
     }
 
     /// <summary>
