@@ -18,31 +18,15 @@ MonoBehaviour:
       Value: 502710277876330812
   MonsterPrototypes:
   - Id:
-      Value: 1300957941566202118
+      Value: 1532796110327486324
   PlayerSpawnPoints:
   - Position:
       X:
-        RawValue: -39321
+        RawValue: -157286
       Y:
         RawValue: 13107
       Z:
-        RawValue: -26214
-    Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-  - Position:
-      X:
-        RawValue: -65536
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: 183500
+        RawValue: 131072
     Rotation:
       X:
         RawValue: 0
@@ -58,7 +42,7 @@ MonoBehaviour:
       Y:
         RawValue: 13107
       Z:
-        RawValue: 131072
+        RawValue: -117964
     Rotation:
       X:
         RawValue: 0
@@ -86,6 +70,22 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
+        RawValue: -65536
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 183500
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
         RawValue: 26214
       Y:
         RawValue: 13107
@@ -102,11 +102,11 @@ MonoBehaviour:
         RawValue: 65536
   - Position:
       X:
-        RawValue: -157286
+        RawValue: -39321
       Y:
         RawValue: 13107
       Z:
-        RawValue: -117964
+        RawValue: -26214
     Rotation:
       X:
         RawValue: 0
@@ -119,11 +119,11 @@ MonoBehaviour:
   MonsterSpawnPoints:
   - Position:
       X:
-        RawValue: -183500
+        RawValue: -8650
       Y:
         RawValue: 13107
       Z:
-        RawValue: -170393
+        RawValue: 378732
     Rotation:
       X:
         RawValue: 0
@@ -140,7 +140,39 @@ MonoBehaviour:
       Y:
         RawValue: 13107
       Z:
-        RawValue: 406323
+        RawValue: 969932
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: 13107
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 550502
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+  - Position:
+      X:
+        RawValue: 91750
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 484966
     Rotation:
       X:
         RawValue: 0

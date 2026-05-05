@@ -9,7 +9,7 @@ namespace Quantum
             playerEntity = EntityRef.None;
             var checkShape = Shape3D.CreateSphere(radius);
 
-            var hits = frame.Physics3D.OverlapShape(originPosition, FPQuaternion.Identity, checkShape, options: QueryOptions.HitDynamics);
+            var hits = frame.Physics3D.OverlapShape(originPosition, FPQuaternion.Identity, checkShape, options: QueryOptions.HitKinematics);
 
             for (int i = 0; i < hits.Count; i++)
             {

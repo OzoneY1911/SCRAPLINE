@@ -1,5 +1,0 @@
-struct NestedChildEntity
-{
-    asset_ref<EntityPrototype> Prototype;
-    FPPoint SpawnPoint;
-}

@@ -28,7 +28,7 @@ namespace Quantum
             switch (monster->State)
             {
                 case MonsterState.Patrol:
-                    SetPatrolTarget(frame, pathfinder);
+                    SetPatrolTarget(frame, entity);
                     break;
             }
         }
@@ -125,7 +125,7 @@ namespace Quantum
             switch (targetState)
             {
                 case MonsterState.Patrol:
-                    SetPatrolTarget(frame, pathfinder);
+                    SetPatrolTarget(frame, entity);
                     break;
                 case MonsterState.Chase:
                     SetChaseTarget(frame, entity);
@@ -136,14 +136,33 @@ namespace Quantum
             }
         }
 
-        private void SetPatrolTarget(Frame frame, NavMeshPathfinder* pathfinder)
+        private void SetPatrolTarget(Frame frame, EntityRef entity)
         {
-            var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
+            if (!frame.Unsafe.TryGetPointer<NavMeshPathfinder>(entity, out var pathfinder)) return;
+            if (!frame.Unsafe.TryGetPointer<Monster>(entity, out var monster)) return;
 
-            var randomPatrolPoint = customData.MonsterPatrolPoints[frame.RNG->Next(0, customData.MonsterPatrolPoints.Length)];
+            var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
+            int count = customData.MonsterPatrolPoints.Length;
+
+            if (count == 0) return;
+
+            int newIndex;
+
+            if (count == 1)
+            {
+                newIndex = 0;
+            }
+            else
+            {
+                newIndex = (monster->LastPatrolIndex + 1 + frame.RNG->Next(0, count - 1)) % count;
+            }
+
+            monster->LastPatrolIndex = newIndex;
+
+            var patrolPoint = customData.MonsterPatrolPoints[newIndex];
 
             var navmesh = frame.FindAsset<NavMesh>(frame.Map.NavMeshAssets[0]);
-            pathfinder->SetTarget(frame, randomPatrolPoint.Position, navmesh);
+            pathfinder->SetTarget(frame, patrolPoint.Position, navmesh);
         }
 
         private void SetChaseTarget(Frame frame, EntityRef entity)

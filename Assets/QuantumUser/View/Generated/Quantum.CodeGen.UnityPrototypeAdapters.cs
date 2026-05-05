@@ -226,12 +226,15 @@ namespace Quantum.Prototypes.Unity {
     public Quantum.QEnum32<MonsterState> State;
     [HideInInspector()]
     public Quantum.QuantumEntityPrototype ChaseTarget;
+    [HideInInspector()]
+    public Int32 LastPatrolIndex;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.MonsterPrototype prototype);
     public override Quantum.Prototypes.MonsterPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.MonsterPrototype();
       converter.Convert(this.Config, out result.Config);
       converter.Convert(this.State, out result.State);
       converter.Convert(this.ChaseTarget, out result.ChaseTarget);
+      converter.Convert(this.LastPatrolIndex, out result.LastPatrolIndex);
       ConvertUser(converter, ref result);
       return result;
     }

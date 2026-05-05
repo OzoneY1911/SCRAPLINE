@@ -589,28 +589,6 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct FPPoint {
-    public const Int32 SIZE = 48;
-    public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
-    public FPVector3 Position;
-    [FieldOffset(24)]
-    public FPVector3 RotationEuler;
-    public override readonly Int32 GetHashCode() {
-      unchecked { 
-        var hash = 1301;
-        hash = hash * 31 + Position.GetHashCode();
-        hash = hash * 31 + RotationEuler.GetHashCode();
-        return hash;
-      }
-    }
-    public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (FPPoint*)ptr;
-        FPVector3.Serialize(&p->Position, serializer);
-        FPVector3.Serialize(&p->RotationEuler, serializer);
-    }
-  }
-  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct GameLocation {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -999,28 +977,6 @@ namespace Quantum {
         var p = (KCCModifier*)ptr;
         AssetRef.Serialize(&p->Processor, serializer);
         EntityRef.Serialize(&p->Entity, serializer);
-    }
-  }
-  [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct NestedChildEntity {
-    public const Int32 SIZE = 56;
-    public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
-    public AssetRef<EntityPrototype> Prototype;
-    [FieldOffset(8)]
-    public FPPoint SpawnPoint;
-    public override readonly Int32 GetHashCode() {
-      unchecked { 
-        var hash = 11257;
-        hash = hash * 31 + Prototype.GetHashCode();
-        hash = hash * 31 + SpawnPoint.GetHashCode();
-        return hash;
-      }
-    }
-    public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (NestedChildEntity*)ptr;
-        AssetRef.Serialize(&p->Prototype, serializer);
-        Quantum.FPPoint.Serialize(&p->SpawnPoint, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1662,51 +1618,31 @@ namespace Quantum {
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public AssetRef<MonsterConfig> Config;
-    [FieldOffset(0)]
+    [FieldOffset(4)]
     [HideInInspector()]
     public MonsterState State;
     [FieldOffset(16)]
     [HideInInspector()]
     public EntityRef ChaseTarget;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public Int32 LastPatrolIndex;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 5297;
         hash = hash * 31 + Config.GetHashCode();
         hash = hash * 31 + (Int32)State;
         hash = hash * 31 + ChaseTarget.GetHashCode();
+        hash = hash * 31 + LastPatrolIndex.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Monster*)ptr;
+        serializer.Stream.Serialize(&p->LastPatrolIndex);
         serializer.Stream.Serialize((Int32*)&p->State);
         AssetRef.Serialize(&p->Config, serializer);
         EntityRef.Serialize(&p->ChaseTarget, serializer);
-    }
-  }
-  [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct NestedParentEntity : Quantum.IComponent {
-    public const Int32 SIZE = 4;
-    public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
-    public QListPtr<NestedChildEntity> NestedEntities;
-    public override readonly Int32 GetHashCode() {
-      unchecked { 
-        var hash = 5147;
-        hash = hash * 31 + NestedEntities.GetHashCode();
-        return hash;
-      }
-    }
-    public void ClearPointers(FrameBase f, EntityRef entity) {
-      NestedEntities = default;
-    }
-    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
-      var p = (Quantum.NestedParentEntity*)ptr;
-      p->ClearPointers((Frame)frame, entity);
-    }
-    public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (NestedParentEntity*)ptr;
-        QList.Serialize(&p->NestedEntities, serializer, Statics.SerializeNestedChildEntity);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2308,8 +2244,6 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<NavMeshPathfinder>();
       BuildSignalsArrayOnComponentAdded<NavMeshSteeringAgent>();
       BuildSignalsArrayOnComponentRemoved<NavMeshSteeringAgent>();
-      BuildSignalsArrayOnComponentAdded<Quantum.NestedParentEntity>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.NestedParentEntity>();
       BuildSignalsArrayOnComponentAdded<PhysicsBody2D>();
       BuildSignalsArrayOnComponentRemoved<PhysicsBody2D>();
       BuildSignalsArrayOnComponentAdded<PhysicsBody3D>();
@@ -2569,7 +2503,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
-    public static FrameSerializer.Delegate SerializeNestedChildEntity;
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
@@ -2580,7 +2513,6 @@ namespace Quantum {
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
-      SerializeNestedChildEntity = Quantum.NestedChildEntity.Serialize;
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
@@ -2622,7 +2554,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPMatrix2x2), FPMatrix2x2.SIZE);
       typeRegistry.Register(typeof(FPMatrix3x3), FPMatrix3x3.SIZE);
       typeRegistry.Register(typeof(FPMatrix4x4), FPMatrix4x4.SIZE);
-      typeRegistry.Register(typeof(Quantum.FPPoint), Quantum.FPPoint.SIZE);
       typeRegistry.Register(typeof(FPQuaternion), FPQuaternion.SIZE);
       typeRegistry.Register(typeof(FPVector2), FPVector2.SIZE);
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
@@ -2672,8 +2603,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(NavMeshPathfinder), NavMeshPathfinder.SIZE);
       typeRegistry.Register(typeof(NavMeshRegionMask), NavMeshRegionMask.SIZE);
       typeRegistry.Register(typeof(NavMeshSteeringAgent), NavMeshSteeringAgent.SIZE);
-      typeRegistry.Register(typeof(Quantum.NestedChildEntity), Quantum.NestedChildEntity.SIZE);
-      typeRegistry.Register(typeof(Quantum.NestedParentEntity), Quantum.NestedParentEntity.SIZE);
       typeRegistry.Register(typeof(NullableFP), NullableFP.SIZE);
       typeRegistry.Register(typeof(NullableFPVector2), NullableFPVector2.SIZE);
       typeRegistry.Register(typeof(NullableFPVector3), NullableFPVector3.SIZE);
@@ -2725,7 +2654,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen(Int32 extraComponentCount) {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 28 + extraComponentCount);
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 27 + extraComponentCount);
       ComponentTypeId.RegisterBuiltInComponents();
       ComponentTypeId.RegisterComponent<Quantum.AnimatedTransform>(21, Quantum.AnimatedTransform.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.AnimationTrigger>(22, Quantum.AnimationTrigger.Serialize, null, Quantum.AnimationTrigger.OnRemoved, ComponentFlags.None);
@@ -2743,18 +2672,17 @@ namespace Quantum {
       ComponentTypeId.RegisterComponent<Quantum.KCCProcessorLink>(34, Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Lever>(35, Quantum.Lever.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Monster>(36, Quantum.Monster.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.NestedParentEntity>(37, Quantum.NestedParentEntity.Serialize, null, Quantum.NestedParentEntity.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Player>(38, Quantum.Player.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerDragging>(39, Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerInventory>(40, Quantum.PlayerInventory.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerLeverDragging>(41, Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerMovement>(42, Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerStamina>(43, Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.QuotaZone>(44, Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.ShopZone>(45, Quantum.ShopZone.Serialize, null, Quantum.ShopZone.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Teleporter>(46, Quantum.Teleporter.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Valuable>(47, Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Weapon>(48, Quantum.Weapon.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Player>(37, Quantum.Player.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerDragging>(38, Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerInventory>(39, Quantum.PlayerInventory.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerLeverDragging>(40, Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerMovement>(41, Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerStamina>(42, Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.QuotaZone>(43, Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.ShopZone>(44, Quantum.ShopZone.Serialize, null, Quantum.ShopZone.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Teleporter>(45, Quantum.Teleporter.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Valuable>(46, Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Weapon>(47, Quantum.Weapon.Serialize, null, null, ComponentFlags.None);
     }
     static partial void EnsureNotStrippedGen() {
       FramePrinter.EnsureNotStripped();

@@ -1,7 +1,6 @@
 ﻿using Photon.Deterministic;
 using Quantum;
 using Quantum.Collections;
-using System.Linq;
 
 public unsafe static class ProceduralGenerator
 {
@@ -24,6 +23,10 @@ public unsafe static class ProceduralGenerator
         }
 
         GenerateBranch(frame, startExitPoints, ref generatedMapData);
+
+        // ===== WELD NAVMESH =====
+        WeldVertices(frame, generatedMapData.NavVertices, generatedMapData.NavTriangles, FP._0_10);
+        RemoveDegenerateTriangles(generatedMapData.NavTriangles);
 
         // ===== BUILD NAVMESH VIA BAKE =====
         var bakeVertices = new NavMeshBakeDataVertex[generatedMapData.NavVertices.Count];
@@ -66,7 +69,6 @@ public unsafe static class ProceduralGenerator
         var navmesh = NavMeshBaker.BakeNavMesh(generatedMapData.Map, bakeData);
 
         frame.AddAsset(navmesh);
-
         generatedMapData.Map.NavMeshAssets = new AssetRef<NavMesh>[] { navmesh };
 
         return generatedMapData.Map;
@@ -169,7 +171,6 @@ public unsafe static class ProceduralGenerator
         var spawnRotation = spawnPoint.Rotation;
         var spawnPosition = spawnPoint.Position;
 
-        // Merge Colliders
         foreach (var collider in mapAsset.StaticColliders3D)
         {
             var offsetCollider = collider;
@@ -178,13 +179,12 @@ public unsafe static class ProceduralGenerator
             mapData.Map.AddCollider3D(frame, offsetCollider);
         }
 
-        // Spawn Prototypes
         var roomEntity = frame.Create(room.Prototype);
         var roomTransform = frame.Unsafe.GetPointer<Transform3D>(roomEntity);
         roomTransform->Position = spawnPosition;
         roomTransform->Rotation = spawnRotation;
 
-        // ===== NAVMESH MERGE =====
+        // NAVMESH MERGE
         if (mapAsset.NavMeshAssets != null && mapAsset.NavMeshAssets.Length > 0)
         {
             var navMesh = frame.FindAsset<NavMesh>(mapAsset.NavMeshAssets[0]);
@@ -219,6 +219,67 @@ public unsafe static class ProceduralGenerator
     {
         int randomIndex = frame.RNG->Next(0, mapData.AllRooms.Count);
         return mapData.AllRooms[randomIndex];
+    }
+
+    // ===== VERTEX WELD =====
+    private static void WeldVertices(Frame frame, QList<FPVector3> vertices, QList<TempTriangle> triangles, FP epsilon)
+    {
+        FP epsilonSqr = epsilon * epsilon;
+
+        QList<FPVector3> newVertices = frame.AllocateList<FPVector3>();
+        QList<int> remap = frame.AllocateList<int>();
+
+        for (int i = 0; i < vertices.Count; i++)
+        {
+            var v = vertices[i];
+            int foundIndex = -1;
+
+            for (int j = 0; j < newVertices.Count; j++)
+            {
+                var diff = newVertices[j] - v;
+                if (FPVector3.Dot(diff, diff) <= epsilonSqr)
+                {
+                    foundIndex = j;
+                    break;
+                }
+            }
+
+            if (foundIndex == -1)
+            {
+                foundIndex = newVertices.Count;
+                newVertices.Add(v);
+            }
+
+            remap.Add(foundIndex);
+        }
+
+        for (int i = 0; i < triangles.Count; i++)
+        {
+            var t = triangles[i];
+            t.V0 = remap[t.V0];
+            t.V1 = remap[t.V1];
+            t.V2 = remap[t.V2];
+            triangles[i] = t;
+        }
+
+        vertices.Clear();
+        foreach (var v in newVertices)
+        {
+            vertices.Add(v);
+        }
+    }
+
+    private static void RemoveDegenerateTriangles(QList<TempTriangle> triangles)
+    {
+        for (int i = triangles.Count - 1; i >= 0; i--)
+        {
+            var t = triangles[i];
+
+            if (t.V0 == t.V1 || t.V0 == t.V2 || t.V1 == t.V2)
+            {
+                triangles.RemoveAt(i);
+            }
+        }
     }
 
     private struct TempTriangle

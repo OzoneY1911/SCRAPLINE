@@ -136,18 +136,6 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.FPPoint))]
-  public unsafe partial class FPPointPrototype : StructPrototype {
-    public FPVector3 Position;
-    public FPVector3 RotationEuler;
-    partial void MaterializeUser(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.FPPoint result, in PrototypeMaterializationContext context = default) {
-        result.Position = this.Position;
-        result.RotationEuler = this.RotationEuler;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Flashlight))]
   public unsafe partial class FlashlightPrototype : ComponentPrototype<Quantum.Flashlight> {
     public AssetRef<FlashlightConfig> Config;
@@ -564,6 +552,8 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum32<MonsterState> State;
     [HideInInspector()]
     public MapEntityId ChaseTarget;
+    [HideInInspector()]
+    public Int32 LastPatrolIndex;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Monster component = default;
         Materialize((Frame)f, ref component, in context);
@@ -573,43 +563,7 @@ namespace Quantum.Prototypes {
         result.Config = this.Config;
         result.State = this.State;
         PrototypeValidator.FindMapEntity(this.ChaseTarget, in context, out result.ChaseTarget);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedChildEntity))]
-  public unsafe partial class NestedChildEntityPrototype : StructPrototype {
-    public AssetRef<EntityPrototype> Prototype;
-    public Quantum.Prototypes.FPPointPrototype SpawnPoint;
-    partial void MaterializeUser(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.NestedChildEntity result, in PrototypeMaterializationContext context = default) {
-        result.Prototype = this.Prototype;
-        this.SpawnPoint.Materialize(frame, ref result.SpawnPoint, in context);
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.NestedParentEntity))]
-  public unsafe partial class NestedParentEntityPrototype : ComponentPrototype<Quantum.NestedParentEntity> {
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.NestedChildEntityPrototype[] NestedEntities = {};
-    partial void MaterializeUser(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.NestedParentEntity component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.NestedParentEntity result, in PrototypeMaterializationContext context = default) {
-        if (this.NestedEntities.Length == 0) {
-          result.NestedEntities = default;
-        } else {
-          var list = frame.AllocateList(out result.NestedEntities, this.NestedEntities.Length);
-          for (int i = 0; i < this.NestedEntities.Length; ++i) {
-            Quantum.NestedChildEntity tmp = default;
-            this.NestedEntities[i].Materialize(frame, ref tmp, in context);
-            list.Add(tmp);
-          }
-        }
-        MaterializeUser(frame, ref result, in context);
+        result.LastPatrolIndex = this.LastPatrolIndex;
     }
   }
   [System.SerializableAttribute()]
