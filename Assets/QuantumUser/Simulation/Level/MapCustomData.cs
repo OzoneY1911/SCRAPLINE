@@ -11,6 +11,7 @@ namespace Quantum
         public MapPointData[] PlayerSpawnPoints;
         public MapPointData[] MonsterSpawnPoints;
         public MapPointData[] MonsterPatrolPoints;
+        public MapPointData[] RoomExitPoints;
         public ValuableSpawnPointData[] ValuableSpawnPoints;
 
         private void SetToMapPoint(Frame frame, EntityRef entity, MapPointData mapPoint)

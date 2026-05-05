@@ -5,13 +5,13 @@ namespace Quantum
 {
     public static class FPBounds3Extensions
     {
-        public static FPBounds3 ToWorldBounds(this MapStaticCollider3D collider, FPPoint offsetPoint)
+        public static FPBounds3 ToWorldBounds(this MapStaticCollider3D collider, MapPointData offsetPoint)
         {
             // Collider local center and half-size
             FPVector3 localCenter = collider.Position;
             FPVector3 localExtents = collider.BoxExtents;
 
-            FPQuaternion offsetRotation = FPQuaternion.Euler(offsetPoint.RotationEuler);
+            FPQuaternion offsetRotation = offsetPoint.Rotation;
 
             // Transform to world
             FPVector3 worldCenter = offsetPoint.Position + offsetRotation * localCenter;
@@ -29,14 +29,14 @@ namespace Quantum
             return new FPBounds3(worldCenter, rotatedExtents);
         }
 
-        public static FPBounds3 GetMapBounds(this Map map, FPPoint offset)
+        public static FPBounds3 GetMapBounds(this Map map, MapPointData offsetPoint)
         {
             bool initialized = false;
             FPBounds3 result = default;
 
             foreach (var collider in map.StaticColliders3D)
             {
-                var bounds = collider.ToWorldBounds(offset);
+                var bounds = collider.ToWorldBounds(offsetPoint);
 
                 if (!initialized)
                 {

@@ -141,7 +141,9 @@ namespace Quantum
             var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
 
             var randomPatrolPoint = customData.MonsterPatrolPoints[frame.RNG->Next(0, customData.MonsterPatrolPoints.Length)];
-            pathfinder->SetTarget(frame, randomPatrolPoint.Position, frame.Map.NavMeshes["Navmesh"]);
+
+            var navmesh = frame.FindAsset<NavMesh>(frame.Map.NavMeshAssets[0]);
+            pathfinder->SetTarget(frame, randomPatrolPoint.Position, navmesh);
         }
 
         private void SetChaseTarget(Frame frame, EntityRef entity)
@@ -149,8 +151,9 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<NavMeshPathfinder>(entity, out var pathfinder)) return;
             if (!frame.Unsafe.TryGetPointer<Monster>(entity, out var monster)) return;
             if (!frame.Unsafe.TryGetPointer<Transform3D>(monster->ChaseTarget, out var targetTransform)) return;
-            
-            pathfinder->SetTarget(frame, targetTransform->Position, frame.Map.NavMeshes["Navmesh"]);
+
+            var navmesh = frame.FindAsset<NavMesh>(frame.Map.NavMeshAssets[0]);
+            pathfinder->SetTarget(frame, targetTransform->Position, navmesh);
         }
     }
 }

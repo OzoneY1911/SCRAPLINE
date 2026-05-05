@@ -1026,29 +1026,22 @@ namespace Quantum {
   [StructLayout(LayoutKind.Explicit)]
   [Serializable()]
   public unsafe partial struct ProceduralRoom {
-    public const Int32 SIZE = 24;
+    public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
-    public AssetRef<Map> MapAsset;
     [FieldOffset(8)]
-    public AssetRef<EntityPrototype> Prototype;
+    public AssetRef<Map> MapAsset;
     [FieldOffset(0)]
-    public QListPtr<FPPoint> ExitPoints;
+    public AssetRef<EntityPrototype> Prototype;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 1459;
         hash = hash * 31 + MapAsset.GetHashCode();
         hash = hash * 31 + Prototype.GetHashCode();
-        hash = hash * 31 + ExitPoints.GetHashCode();
         return hash;
       }
     }
-    public void ClearPointers(FrameBase f, EntityRef entity) {
-      ExitPoints = default;
-    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (ProceduralRoom*)ptr;
-        QList.Serialize(&p->ExitPoints, serializer, Statics.SerializeFPPoint);
         AssetRef.Serialize(&p->Prototype, serializer);
         AssetRef.Serialize(&p->MapAsset, serializer);
     }
@@ -1430,7 +1423,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
-    public const Int32 SIZE = 144;
+    public const Int32 SIZE = 120;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(24)]
     public AssetRef<Map> TargetMap;
@@ -1438,7 +1431,7 @@ namespace Quantum {
     public QBoolean IsActive;
     [FieldOffset(32)]
     public EntityRef HatchEntity;
-    [FieldOffset(112)]
+    [FieldOffset(88)]
     [HideInInspector()]
     public FPQuaternion HatchInitialRotation;
     [FieldOffset(4)]
@@ -1453,11 +1446,11 @@ namespace Quantum {
     public UInt16 BranchWidth;
     [FieldOffset(12)]
     public QListPtr<ProceduralRoom> ProceduralRooms;
-    [FieldOffset(88)]
+    [FieldOffset(72)]
     public ProceduralRoom StartRoom;
     [FieldOffset(40)]
     public ProceduralRoom DeadEndRoom;
-    [FieldOffset(64)]
+    [FieldOffset(56)]
     public ProceduralRoom QuotaZoneRoom;
     public override readonly Int32 GetHashCode() {
       unchecked { 
@@ -1479,9 +1472,6 @@ namespace Quantum {
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
       ProceduralRooms = default;
-      StartRoom.ClearPointers(f, entity);
-      DeadEndRoom.ClearPointers(f, entity);
-      QuotaZoneRoom.ClearPointers(f, entity);
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
       var p = (Quantum.InteractableMapChanger*)ptr;
@@ -2580,7 +2570,6 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
     public static FrameSerializer.Delegate SerializeNestedChildEntity;
-    public static FrameSerializer.Delegate SerializeFPPoint;
     public static FrameSerializer.Delegate SerializeResourceDemand;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
@@ -2592,7 +2581,6 @@ namespace Quantum {
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
       SerializeNestedChildEntity = Quantum.NestedChildEntity.Serialize;
-      SerializeFPPoint = Quantum.FPPoint.Serialize;
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;

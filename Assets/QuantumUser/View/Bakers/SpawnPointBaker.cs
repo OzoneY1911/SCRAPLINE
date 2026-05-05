@@ -20,6 +20,7 @@ namespace Quantum
             List<MapPoint> playerSpawnPoints = new();
             List<MapPoint> monsterSpawnPoints = new();
             List<MapPoint> monsterPatrolPoints = new();
+            List<MapPoint> roomExitPoints = new();
 
             for (int i = 0; i < mapPoints.Length; i++)
             {
@@ -34,18 +35,23 @@ namespace Quantum
                     case MapPointType.MonsterPatrolPoint:
                         monsterPatrolPoints.Add(mapPoints[i]);
                         break;
+                    case MapPointType.RoomExitPoint:
+                        roomExitPoints.Add(mapPoints[i]);
+                        break;
                 }
             }
 
             BakeMapPoints(playerSpawnPoints.ToArray(), ref customData.PlayerSpawnPoints);
             BakeMapPoints(monsterSpawnPoints.ToArray(), ref customData.MonsterSpawnPoints);
             BakeMapPoints(monsterPatrolPoints.ToArray(), ref customData.MonsterPatrolPoints);
+            BakeMapPoints(roomExitPoints.ToArray(), ref customData.RoomExitPoints);
             BakeValuableSpawnPoints(valuableSpawnPoints, ref customData.ValuableSpawnPoints);
 
 #if UNITY_EDITOR
             Debug.Log($"Baked {customData.PlayerSpawnPoints.Length} Player Spawn Points");
             Debug.Log($"Baked {customData.MonsterSpawnPoints.Length} Monster Spawn Points");
             Debug.Log($"Baked {customData.MonsterPatrolPoints.Length} Monster Patrol Points");
+            Debug.Log($"Baked {customData.RoomExitPoints.Length} Room Exit Points");
             Debug.Log($"Baked {customData.ValuableSpawnPoints.Length} Valuable Spawn Points");
             EditorUtility.SetDirty(customData);
 #endif

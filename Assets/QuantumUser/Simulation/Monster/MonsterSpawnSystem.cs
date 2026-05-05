@@ -27,6 +27,13 @@ namespace Quantum
             {
                 frame.Destroy(entity);
             }
+
+            var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
+
+            var monsterIndex = frame.RNG->Next(0, customData.MonsterPrototypes.Length);
+            var monsterEntity = frame.Create(customData.MonsterPrototypes[monsterIndex]);
+
+            customData.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
         }
     }
 }

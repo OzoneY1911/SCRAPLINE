@@ -787,22 +787,10 @@ namespace Quantum.Prototypes {
   public unsafe partial class ProceduralRoomPrototype : StructPrototype {
     public AssetRef<Map> MapAsset;
     public AssetRef<EntityPrototype> Prototype;
-    [DynamicCollectionAttribute()]
-    public Quantum.Prototypes.FPPointPrototype[] ExitPoints = {};
     partial void MaterializeUser(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.ProceduralRoom result, in PrototypeMaterializationContext context = default) {
         result.MapAsset = this.MapAsset;
         result.Prototype = this.Prototype;
-        if (this.ExitPoints.Length == 0) {
-          result.ExitPoints = default;
-        } else {
-          var list = frame.AllocateList(out result.ExitPoints, this.ExitPoints.Length);
-          for (int i = 0; i < this.ExitPoints.Length; ++i) {
-            Quantum.FPPoint tmp = default;
-            this.ExitPoints[i].Materialize(frame, ref tmp, in context);
-            list.Add(tmp);
-          }
-        }
         MaterializeUser(frame, ref result, in context);
     }
   }

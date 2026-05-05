@@ -1,6 +1,7 @@
 ﻿using Photon.Deterministic;
 using Quantum;
 using Quantum.Collections;
+using System.Linq;
 
 public unsafe static class ProceduralGenerator
 {
@@ -9,61 +10,112 @@ public unsafe static class ProceduralGenerator
         var generatedMapData = new GeneratedMapData(
             frame,
             frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity)
-            );
+        );
 
-        var spawnPoint = new FPPoint();
-        var startRoomExitPoints = frame.ResolveList<FPPoint>(generatedMapData.StartRoom.ExitPoints);
+        var startRoomMap = frame.FindAsset<Map>(generatedMapData.StartRoom.MapAsset);
+        var startRoomMapCustomData = frame.FindAsset<MapCustomData>(startRoomMap.UserAsset);
 
-        GenerateRoom(frame, generatedMapData.StartRoom, spawnPoint, ref generatedMapData);
+        GenerateRoom(frame, generatedMapData.StartRoom, MapPointData.Default, ref generatedMapData);
 
-        foreach (var startRoomExitPoint in startRoomExitPoints)
+        QList<MapPointData> startExitPoints = frame.AllocateList<MapPointData>();
+        foreach (var exit in startRoomMapCustomData.RoomExitPoints)
         {
-            GenerateBranch(frame, startRoomExitPoint, ref generatedMapData);
+            startExitPoints.Add(exit);
         }
+
+        GenerateBranch(frame, startExitPoints, ref generatedMapData);
+
+        // ===== BUILD NAVMESH VIA BAKE =====
+        var bakeVertices = new NavMeshBakeDataVertex[generatedMapData.NavVertices.Count];
+
+        for (int i = 0; i < bakeVertices.Length; i++)
+        {
+            bakeVertices[i] = new NavMeshBakeDataVertex
+            {
+                Position = generatedMapData.NavVertices[i]
+            };
+        }
+
+        var bakeTriangles = new NavMeshBakeDataTriangle[generatedMapData.NavTriangles.Count];
+
+        for (int i = 0; i < bakeTriangles.Length; i++)
+        {
+            var t = generatedMapData.NavTriangles[i];
+
+            bakeTriangles[i] = new NavMeshBakeDataTriangle
+            {
+                VertexIds = new int[3] { t.V0, t.V1, t.V2 },
+                Cost = t.Cost,
+                RegionId = "Default"
+            };
+        }
+
+        var bakeData = new NavMeshBakeData
+        {
+            Name = "GeneratedNavMesh",
+            AgentRadius = 0,
+            Position = FPVector3.Zero,
+            ClosestTriangleCalculation = NavMeshBakeDataFindClosestTriangle.SpiralOut,
+            ClosestTriangleCalculationDepth = 2,
+            Vertices = bakeVertices,
+            Triangles = bakeTriangles,
+            Regions = new string[] { "Default" },
+            Links = new NavMeshBakeDataLink[0],
+        };
+
+        var navmesh = NavMeshBaker.BakeNavMesh(generatedMapData.Map, bakeData);
+
+        frame.AddAsset(navmesh);
+
+        generatedMapData.Map.NavMeshAssets = new AssetRef<NavMesh>[] { navmesh };
 
         return generatedMapData.Map;
     }
 
-    private static void GenerateBranch(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData)
+    private static void GenerateBranch(Frame frame, QList<MapPointData> initialExitPoints, ref GeneratedMapData mapData)
     {
-        QList<FPPoint> currentExitPoints = frame.AllocateList<FPPoint>();
-        QList<FPPoint> nextExitPoints = frame.AllocateList<FPPoint>();
+        QList<MapPointData> currentExitPoints = frame.AllocateList<MapPointData>();
+        QList<MapPointData> nextExitPoints = frame.AllocateList<MapPointData>();
 
-        currentExitPoints.Add(spawnPoint);
+        foreach (var p in initialExitPoints)
+            currentExitPoints.Add(p);
 
-        ushort branchDepth = 0;
+        ushort currentBranchDepth = 0;
 
         while (currentExitPoints.Count > 0)
         {
-            if (branchDepth >= mapData.BranchDepth) break;
+            if (currentBranchDepth >= mapData.BranchDepth)
+                break;
 
             foreach (var currentExitPoint in currentExitPoints)
             {
-                ProceduralRoom randomRoom;
-                var generateQuotaZone = frame.RNG->NextInclusive(0, 3);
-                if (generateQuotaZone == 0)
+                ProceduralRoom room;
+                Map mapAsset;
+                bool found = false;
+
+                int attempts = mapData.AllRooms.Count;
+
+                for (int i = 0; i < attempts; i++)
                 {
-                    randomRoom = mapData.QuotaZoneRoom;
-                }
-                else
-                {
-                    randomRoom = GetRandomRoom(frame, ref mapData);
+                    var candidate = GetRandomRoom(frame, ref mapData);
+                    var candidateMap = frame.FindAsset<Map>(candidate.MapAsset);
+                    var candidateBounds = candidateMap.GetMapBounds(currentExitPoint);
+
+                    if (!candidateBounds.OverlapsCollection(mapData.Bounds))
+                    {
+                        room = candidate;
+                        mapAsset = candidateMap;
+                        found = true;
+                        goto ROOM_FOUND;
+                    }
                 }
 
-                var randomRoomMap = frame.FindAsset(randomRoom.MapAsset);
-                var roomBounds = randomRoomMap.GetMapBounds(currentExitPoint);
-                if (roomBounds.OverlapsCollection(mapData.Bounds))
-                {
-                    GenerateDeadRoom(frame, currentExitPoint, ref mapData);
-                    continue;
-                }
+                room = mapData.DeadEndRoom;
+                mapAsset = frame.FindAsset<Map>(room.MapAsset);
 
-                // direction from root to this exit in world space
-                // get branch root rotation as quaternion
-                // right axis in world space (local +X)
-                // signed lateral distance from the branch's center line
-                var delta = currentExitPoint.Position - spawnPoint.Position;
-                var rootRight = FPQuaternion.Euler(spawnPoint.RotationEuler) * FPVector3.Right;
+            ROOM_FOUND:
+                var delta = currentExitPoint.Position - MapPointData.Default.Position;
+                var rootRight = MapPointData.Default.Rotation * FPVector3.Right;
                 var rootRightDistance = FPMath.Abs(FPVector3.Dot(delta, rootRight));
 
                 if (rootRightDistance > mapData.BranchWidth)
@@ -72,17 +124,18 @@ public unsafe static class ProceduralGenerator
                     continue;
                 }
 
-                GenerateRoom(frame, randomRoom, currentExitPoint, ref mapData);
+                GenerateRoom(frame, room, currentExitPoint, ref mapData);
 
-                // Calculate world rotation of this room
-                var spawnRotation = FPQuaternion.Euler(currentExitPoint.RotationEuler);
-                var exitPoints = frame.ResolveList<FPPoint>(randomRoom.ExitPoints);
+                if (!found) continue;
 
-                foreach (var exitPoint in exitPoints)
+                var spawnRotation = currentExitPoint.Rotation;
+                var customData = frame.FindAsset<MapCustomData>(mapAsset.UserAsset);
+
+                foreach (var exitPoint in customData.RoomExitPoints)
                 {
-                    var offsetExitPoint = new FPPoint();
+                    var offsetExitPoint = MapPointData.Default;
                     offsetExitPoint.Position = currentExitPoint.Position + spawnRotation * exitPoint.Position;
-                    offsetExitPoint.RotationEuler = (spawnRotation * FPQuaternion.Euler(exitPoint.RotationEuler)).AsEuler;
+                    offsetExitPoint.Rotation = spawnRotation * exitPoint.Rotation;
 
                     nextExitPoints.Add(offsetExitPoint);
                 }
@@ -93,9 +146,9 @@ public unsafe static class ProceduralGenerator
             currentExitPoints = nextExitPoints;
             nextExitPoints = temp;
 
-            branchDepth++;
+            currentBranchDepth++;
 
-            if (branchDepth >= mapData.BranchDepth)
+            if (currentBranchDepth >= mapData.BranchDepth)
             {
                 foreach (var exitPoint in currentExitPoints)
                 {
@@ -106,59 +159,95 @@ public unsafe static class ProceduralGenerator
         }
     }
 
-    private static void GenerateRoom(Frame frame, ProceduralRoom room, FPPoint spawnPoint, ref GeneratedMapData mapData)
+    private static void GenerateRoom(Frame frame, ProceduralRoom room, MapPointData spawnPoint, ref GeneratedMapData mapData)
     {
-        var mapAsset = frame.FindAsset(room.MapAsset);
+        var mapAsset = frame.FindAsset<Map>(room.MapAsset);
         var bounds = mapAsset.GetMapBounds(spawnPoint);
 
         mapData.Bounds.Add(bounds);
 
-        var spawnRotation = FPQuaternion.Euler(spawnPoint.RotationEuler);
+        var spawnRotation = spawnPoint.Rotation;
+        var spawnPosition = spawnPoint.Position;
 
-        // Add colliders
+        // Merge Colliders
         foreach (var collider in mapAsset.StaticColliders3D)
         {
             var offsetCollider = collider;
-            offsetCollider.Position = spawnPoint.Position + spawnRotation * collider.Position;
+            offsetCollider.Position = spawnPosition + spawnRotation * collider.Position;
             offsetCollider.Rotation = spawnRotation * collider.Rotation;
             mapData.Map.AddCollider3D(frame, offsetCollider);
         }
 
-        // Spawn room entity
+        // Spawn Prototypes
         var roomEntity = frame.Create(room.Prototype);
         var roomTransform = frame.Unsafe.GetPointer<Transform3D>(roomEntity);
-        roomTransform->Teleport(frame, spawnPoint.Position);
-        roomTransform->Teleport(frame, spawnRotation);
+        roomTransform->Position = spawnPosition;
+        roomTransform->Rotation = spawnRotation;
+
+        // ===== NAVMESH MERGE =====
+        if (mapAsset.NavMeshAssets != null && mapAsset.NavMeshAssets.Length > 0)
+        {
+            var navMesh = frame.FindAsset<NavMesh>(mapAsset.NavMeshAssets[0]);
+            int baseIndex = mapData.NavVertices.Count;
+
+            foreach (var v in navMesh.Vertices)
+            {
+                mapData.NavVertices.Add(
+                    spawnPosition + (spawnRotation * v.Point)
+                );
+            }
+
+            foreach (var t in navMesh.Triangles)
+            {
+                mapData.NavTriangles.Add(new TempTriangle
+                {
+                    V0 = t.Vertex0 + baseIndex,
+                    V1 = t.Vertex1 + baseIndex,
+                    V2 = t.Vertex2 + baseIndex,
+                    Cost = t.Cost
+                });
+            }
+        }
     }
 
-    private static void GenerateDeadRoom(Frame frame, FPPoint spawnPoint, ref GeneratedMapData mapData)
+    private static void GenerateDeadRoom(Frame frame, MapPointData spawnPoint, ref GeneratedMapData mapData)
     {
         GenerateRoom(frame, mapData.DeadEndRoom, spawnPoint, ref mapData);
     }
 
     private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
     {
-        var randomIndex = frame.RNG->Next(0, mapData.AllRooms.Count);
-        return mapData.AllRooms[randomIndex]; ;
+        int randomIndex = frame.RNG->Next(0, mapData.AllRooms.Count);
+        return mapData.AllRooms[randomIndex];
+    }
+
+    private struct TempTriangle
+    {
+        public int V0;
+        public int V1;
+        public int V2;
+        public FP Cost;
     }
 
     private struct GeneratedMapData
     {
         public DynamicMap Map;
         public QList<FPBounds3> Bounds;
+        public QList<FPVector3> NavVertices;
+        public QList<TempTriangle> NavTriangles;
         public ushort BranchDepth;
         public ushort BranchWidth;
-        public QList<ProceduralRoom> AllRooms { get; private set; }
-        public ProceduralRoom StartRoom { get; private set; }
-        public ProceduralRoom DeadEndRoom { get; private set; }
-        public ProceduralRoom QuotaZoneRoom { get; private set; }
+        public QList<ProceduralRoom> AllRooms;
+        public ProceduralRoom StartRoom;
+        public ProceduralRoom DeadEndRoom;
+        public ProceduralRoom QuotaZoneRoom;
 
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
-            Map = DynamicMap.FromStaticMap<DynamicMap>(
-                frame.FindAsset(config->SourceMapAsset)
-                );
+            Map = DynamicMap.FromStaticMap<DynamicMap>(frame.FindAsset(config->SourceMapAsset));
             Bounds = frame.AllocateList<FPBounds3>();
+            NavVertices = frame.AllocateList<FPVector3>();
+            NavTriangles = frame.AllocateList<TempTriangle>();
             BranchDepth = config->BranchDepth;
             BranchWidth = config->BranchWidth;
             AllRooms = frame.ResolveList<ProceduralRoom>(config->ProceduralRooms);
