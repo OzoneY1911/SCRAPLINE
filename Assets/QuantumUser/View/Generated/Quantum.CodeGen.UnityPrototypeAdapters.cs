@@ -119,8 +119,7 @@ namespace Quantum.Prototypes.Unity {
     public QBoolean HatchIsOpen;
     [Header("Procedural Settings")]
     public AssetRef<Map> SourceMapAsset;
-    public UInt16 BranchDepth;
-    public UInt16 BranchWidth;
+    public UInt16 RoomCount;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
     public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
@@ -135,8 +134,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.HatchInitialRotation, out result.HatchInitialRotation);
       converter.Convert(this.HatchIsOpen, out result.HatchIsOpen);
       converter.Convert(this.SourceMapAsset, out result.SourceMapAsset);
-      converter.Convert(this.BranchDepth, out result.BranchDepth);
-      converter.Convert(this.BranchWidth, out result.BranchWidth);
+      converter.Convert(this.RoomCount, out result.RoomCount);
       converter.Convert(this.ProceduralRooms, out result.ProceduralRooms);
       converter.Convert(this.StartRoom, out result.StartRoom);
       converter.Convert(this.DeadEndRoom, out result.DeadEndRoom);

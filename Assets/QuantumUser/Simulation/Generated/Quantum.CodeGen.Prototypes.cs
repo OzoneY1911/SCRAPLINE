@@ -121,6 +121,22 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.CustomNavMeshTriangle))]
+  public unsafe partial class CustomNavMeshTrianglePrototype : StructPrototype {
+    public Int32 V0;
+    public Int32 V1;
+    public Int32 V2;
+    public FP Cost;
+    partial void MaterializeUser(Frame frame, ref Quantum.CustomNavMeshTriangle result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.CustomNavMeshTriangle result, in PrototypeMaterializationContext context = default) {
+        result.V0 = this.V0;
+        result.V1 = this.V1;
+        result.V2 = this.V2;
+        result.Cost = this.Cost;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Draggable))]
   public unsafe partial class DraggablePrototype : ComponentPrototype<Quantum.Draggable> {
     [HideInInspector()]
@@ -306,8 +322,7 @@ namespace Quantum.Prototypes {
     public QBoolean HatchIsOpen;
     [Header("Procedural Settings")]
     public AssetRef<Map> SourceMapAsset;
-    public UInt16 BranchDepth;
-    public UInt16 BranchWidth;
+    public UInt16 RoomCount;
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.ProceduralRoomPrototype[] ProceduralRooms = {};
     public Quantum.Prototypes.ProceduralRoomPrototype StartRoom;
@@ -325,8 +340,7 @@ namespace Quantum.Prototypes {
         result.HatchInitialRotation = FPQuaternion.Euler(this.HatchInitialRotation);
         result.HatchIsOpen = this.HatchIsOpen;
         result.SourceMapAsset = this.SourceMapAsset;
-        result.BranchDepth = this.BranchDepth;
-        result.BranchWidth = this.BranchWidth;
+        result.RoomCount = this.RoomCount;
         if (this.ProceduralRooms.Length == 0) {
           result.ProceduralRooms = default;
         } else {

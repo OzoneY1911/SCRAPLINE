@@ -589,6 +589,36 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct CustomNavMeshTriangle {
+    public const Int32 SIZE = 24;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public Int32 V0;
+    [FieldOffset(4)]
+    public Int32 V1;
+    [FieldOffset(8)]
+    public Int32 V2;
+    [FieldOffset(16)]
+    public FP Cost;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 6389;
+        hash = hash * 31 + V0.GetHashCode();
+        hash = hash * 31 + V1.GetHashCode();
+        hash = hash * 31 + V2.GetHashCode();
+        hash = hash * 31 + Cost.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (CustomNavMeshTriangle*)ptr;
+        serializer.Stream.Serialize(&p->V0);
+        serializer.Stream.Serialize(&p->V1);
+        serializer.Stream.Serialize(&p->V2);
+        FP.Serialize(&p->Cost, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct GameLocation {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
@@ -1397,9 +1427,7 @@ namespace Quantum {
     [Header("Procedural Settings")]
     public AssetRef<Map> SourceMapAsset;
     [FieldOffset(0)]
-    public UInt16 BranchDepth;
-    [FieldOffset(2)]
-    public UInt16 BranchWidth;
+    public UInt16 RoomCount;
     [FieldOffset(12)]
     public QListPtr<ProceduralRoom> ProceduralRooms;
     [FieldOffset(72)]
@@ -1417,8 +1445,7 @@ namespace Quantum {
         hash = hash * 31 + HatchInitialRotation.GetHashCode();
         hash = hash * 31 + HatchIsOpen.GetHashCode();
         hash = hash * 31 + SourceMapAsset.GetHashCode();
-        hash = hash * 31 + BranchDepth.GetHashCode();
-        hash = hash * 31 + BranchWidth.GetHashCode();
+        hash = hash * 31 + RoomCount.GetHashCode();
         hash = hash * 31 + ProceduralRooms.GetHashCode();
         hash = hash * 31 + StartRoom.GetHashCode();
         hash = hash * 31 + DeadEndRoom.GetHashCode();
@@ -1435,8 +1462,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (InteractableMapChanger*)ptr;
-        serializer.Stream.Serialize(&p->BranchDepth);
-        serializer.Stream.Serialize(&p->BranchWidth);
+        serializer.Stream.Serialize(&p->RoomCount);
         QBoolean.Serialize(&p->HatchIsOpen, serializer);
         QBoolean.Serialize(&p->IsActive, serializer);
         QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
@@ -2539,6 +2565,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(ComponentPrototypeRef), ComponentPrototypeRef.SIZE);
       typeRegistry.Register(typeof(ComponentTypeRef), ComponentTypeRef.SIZE);
       typeRegistry.Register(typeof(Quantum.Consumable), Quantum.Consumable.SIZE);
+      typeRegistry.Register(typeof(Quantum.CustomNavMeshTriangle), Quantum.CustomNavMeshTriangle.SIZE);
       typeRegistry.Register(typeof(DistanceJoint), DistanceJoint.SIZE);
       typeRegistry.Register(typeof(DistanceJoint3D), DistanceJoint3D.SIZE);
       typeRegistry.Register(typeof(Quantum.Draggable), Quantum.Draggable.SIZE);

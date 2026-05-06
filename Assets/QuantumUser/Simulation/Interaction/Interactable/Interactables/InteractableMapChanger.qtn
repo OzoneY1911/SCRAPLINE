@@ -12,8 +12,7 @@ component InteractableMapChanger
 
     [Header("Procedural Settings")]
     asset_ref<Map> SourceMapAsset;
-    UInt16 BranchDepth;
-    UInt16 BranchWidth;
+    UInt16 RoomCount;
     list<ProceduralRoom> ProceduralRooms;
     ProceduralRoom StartRoom;
     ProceduralRoom DeadEndRoom;

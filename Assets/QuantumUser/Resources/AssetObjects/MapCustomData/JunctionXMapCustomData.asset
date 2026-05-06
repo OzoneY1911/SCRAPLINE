@@ -23,22 +23,6 @@ MonoBehaviour:
   RoomExitPoints:
   - Position:
       X:
-        RawValue: -458752
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 458752
-    Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: -46340
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-  - Position:
-      X:
         RawValue: 0
       Y:
         RawValue: 0
@@ -65,6 +49,22 @@ MonoBehaviour:
         RawValue: 0
       Y:
         RawValue: 46340
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+  - Position:
+      X:
+        RawValue: -458752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 458752
+    Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -46340
       Z:
         RawValue: 0
       W:

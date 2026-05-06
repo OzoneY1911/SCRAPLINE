@@ -54,7 +54,7 @@ namespace Quantum
 
         public static bool Overlaps(this FPBounds3 a, FPBounds3 b)
         {
-            a.Expand(-FP._0_20);
+            a.Expand(-5);
             return (a.Min.X < b.Max.X && a.Max.X > b.Min.X &&
                     a.Min.Y < b.Max.Y && a.Max.Y > b.Min.Y &&
                     a.Min.Z < b.Max.Z && a.Max.Z > b.Min.Z);

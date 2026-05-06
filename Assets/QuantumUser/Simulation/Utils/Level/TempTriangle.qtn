@@ -1,0 +1,7 @@
+struct CustomNavMeshTriangle
+{
+	Int32 V0;
+	Int32 V1;
+	Int32 V2;
+	FP Cost;
+}

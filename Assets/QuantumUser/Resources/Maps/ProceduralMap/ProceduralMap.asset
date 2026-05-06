@@ -35,7 +35,7 @@ MonoBehaviour:
       Value: 506076354144567142
   SerializeTrianglesMetadata: 0
   GridSizeX: 500
-  GridSizeY: 100
+  GridSizeY: 500
   GridNodeSize: 4
   NavMeshAssets: []
   Regions: []

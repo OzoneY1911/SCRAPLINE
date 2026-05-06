@@ -12684,8 +12684,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1437051205557502814, guid: 4d5df0b95b7036a4f8e956d9da63aa9f, type: 2}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
+      propertyPath: Prototype.RoomCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.BranchDepth
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.BranchWidth
@@ -12705,11 +12709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.MapAsset.Id.Value
-      value: 483261264687421678
+      value: 449079063130039079
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.Prototype.Id.Value
-      value: 1514344673671545695
+      value: 1451672310756373550
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.DeadEndRoom.MapAsset.Id.Value
@@ -12741,19 +12745,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].MapAsset.Id.Value
-      value: 491042912372686252
+      value: 520988161974124560
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].MapAsset.Id.Value
-      value: 315341983573600614
+      value: 520988161974124560
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].MapAsset.Id.Value
-      value: 449079063130039079
+      value: 520988161974124560
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[3].MapAsset.Id.Value
-      value: 315341983573600614
+      value: 520988161974124560
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[4].MapAsset.Id.Value
@@ -12761,19 +12765,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[0].Prototype.Id.Value
-      value: 1297714947404690538
+      value: 1434895567703923954
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].Prototype.Id.Value
-      value: 1488607268961354015
+      value: 1434895567703923954
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].Prototype.Id.Value
-      value: 1451672310756373550
+      value: 1434895567703923954
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[3].Prototype.Id.Value
-      value: 1488607268961354015
+      value: 1434895567703923954
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[4].Prototype.Id.Value

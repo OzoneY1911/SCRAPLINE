@@ -1709,22 +1709,21 @@ MonoBehaviour:
         SourceMapAsset:
           Id:
             Value: 280343834485268604
-        BranchDepth: 20
-        BranchWidth: 30
+        RoomCount: 10
         ProceduralRooms:
         - MapAsset:
             Id:
-              Value: 491042912372686252
+              Value: 520988161974124560
           Prototype:
             Id:
-              Value: 1297714947404690538
+              Value: 1434895567703923954
         StartRoom:
           MapAsset:
             Id:
-              Value: 483261264687421678
+              Value: 449079063130039079
           Prototype:
             Id:
-              Value: 1514344673671545695
+              Value: 1451672310756373550
         DeadEndRoom:
           MapAsset:
             Id:
