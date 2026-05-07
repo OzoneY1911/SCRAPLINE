@@ -24,7 +24,6 @@ namespace Quantum
                 if (hit.HasValue)
                 {
                     var hitEntity = hit.Value.Entity;
-
                     if (frame.Has<Interactable>(hitEntity))
                     {
                         frame.Signals.OnInteract(frame.Unsafe.GetPointer<Interactable>(hitEntity));

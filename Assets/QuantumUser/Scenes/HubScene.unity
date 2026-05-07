@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 7799
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -7856,16 +7856,32 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -5930598335544349645, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5930598335544349645, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -4516423978259985942, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4516423978259985942, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -4235295200239920551, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4235295200239920551, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 351601219753257676, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 351601219753257676, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -7876,24 +7892,48 @@ PrefabInstance:
       value: Vending Machine
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1627718399511160941, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1627718399511160941, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4225013933510294870, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4225013933510294870, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5259134241174102971, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5259134241174102971, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8549941585655803167, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549941585655803167, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153975903331145749, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153975903331145749, guid: 5bdf03b79cbec6a46b8426dbb6bc5c68, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -12705,15 +12745,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.MapAsset.Id.Value
-      value: 449079063130039079
+      value: 483261264687421678
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.Prototype.Id.Value
-      value: 1451672310756373550
+      value: 1514344673671545695
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.DeadEndRoom.MapAsset.Id.Value
@@ -12725,7 +12765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.QuotaZoneRoom.MapAsset.Id.Value
-      value: 491042912372686252
+      value: 486703294071937963
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.ExitPoints.Array.size
@@ -12733,7 +12773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.QuotaZoneRoom.Prototype.Id.Value
-      value: 1297714947404690538
+      value: 1454082120991174514
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.DeadEndRoom.ExitPoints.Array.size
@@ -12749,7 +12789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].MapAsset.Id.Value
-      value: 520988161974124560
+      value: 486703294071937963
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].MapAsset.Id.Value
@@ -12769,7 +12809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[1].Prototype.Id.Value
-      value: 1434895567703923954
+      value: 1454082120991174514
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.data[2].Prototype.Id.Value

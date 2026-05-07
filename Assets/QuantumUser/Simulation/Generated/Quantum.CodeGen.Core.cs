@@ -1411,8 +1411,8 @@ namespace Quantum {
   public unsafe partial struct InteractableMapChanger : Quantum.IComponent {
     public const Int32 SIZE = 120;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(24)]
-    public AssetRef<Map> TargetMap;
+    [FieldOffset(16)]
+    public AssetRef<Map> HubMapAsset;
     [FieldOffset(8)]
     public QBoolean IsActive;
     [FieldOffset(32)]
@@ -1423,7 +1423,7 @@ namespace Quantum {
     [FieldOffset(4)]
     [HideInInspector()]
     public QBoolean HatchIsOpen;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     [Header("Procedural Settings")]
     public AssetRef<Map> SourceMapAsset;
     [FieldOffset(0)]
@@ -1439,7 +1439,7 @@ namespace Quantum {
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 2503;
-        hash = hash * 31 + TargetMap.GetHashCode();
+        hash = hash * 31 + HubMapAsset.GetHashCode();
         hash = hash * 31 + IsActive.GetHashCode();
         hash = hash * 31 + HatchEntity.GetHashCode();
         hash = hash * 31 + HatchInitialRotation.GetHashCode();
@@ -1466,8 +1466,8 @@ namespace Quantum {
         QBoolean.Serialize(&p->HatchIsOpen, serializer);
         QBoolean.Serialize(&p->IsActive, serializer);
         QList.Serialize(&p->ProceduralRooms, serializer, Statics.SerializeProceduralRoom);
+        AssetRef.Serialize(&p->HubMapAsset, serializer);
         AssetRef.Serialize(&p->SourceMapAsset, serializer);
-        AssetRef.Serialize(&p->TargetMap, serializer);
         EntityRef.Serialize(&p->HatchEntity, serializer);
         Quantum.ProceduralRoom.Serialize(&p->DeadEndRoom, serializer);
         Quantum.ProceduralRoom.Serialize(&p->QuotaZoneRoom, serializer);

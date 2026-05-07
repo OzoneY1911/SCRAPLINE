@@ -18,4 +18,23 @@ public unsafe static class EntityUtils
             }
         }
     }
+
+    public static bool EntityIsInGroup(Frame frame, EntityRef groupOwner, EntityRef targetEntity)
+    {
+        if (frame.Has<EntityGroup>(groupOwner))
+        {
+            foreach (var nestedEntity in frame.GetEntityGroupIterator(groupOwner))
+            {
+                if (nestedEntity.Item1 == targetEntity)
+                {
+                    return true;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        return false;
+    }
 }

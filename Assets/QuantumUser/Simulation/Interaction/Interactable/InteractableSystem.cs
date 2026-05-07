@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -17,26 +18,24 @@ namespace Quantum
             switch (interactable->Type)
             {
                 case InteractableType.MapChanger:
+
                     var mapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
-                    var generatedMap = ProceduralGenerator.GenerateMap(frame, mapChanger);
+                    var hubMap = frame.FindAsset<Map>(mapChanger->HubMapAsset);
 
-                    frame.AddAsset(generatedMap);
-                    frame.Map = generatedMap;
-
-                    /*
-                    var mapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
-
-                    if (!mapChanger->IsActive) return;
-
-                    var targetMap = frame.FindAsset<Map>(mapChanger->TargetMap);
-                    frame.Map = targetMap;
-                    */
-
+                    if (frame.Map == hubMap)
+                    {
+                        var generatedMap = ProceduralGenerator.GenerateMap(frame, mapChanger);
+                        frame.AddAsset(generatedMap);
+                        frame.Map = generatedMap;
+                    }
+                    else
+                    {
+                        frame.Map = hubMap;
+                    }
                     break;
                 case InteractableType.QuotaZoneInteractor:
                     var interactableQuotaZone = frame.Unsafe.GetPointer<InteractableQuotaZone>(interactable->Entity);
                     var quotaZone = frame.Unsafe.GetPointer<QuotaZone>(interactableQuotaZone->TargetQuotaZone);
-
                     if (!quotaZone->IsActivated)
                     {
                         frame.Signals.OnActivateQuotaZone(interactableQuotaZone->TargetQuotaZone);

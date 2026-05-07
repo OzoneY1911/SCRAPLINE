@@ -1,4 +1,5 @@
 using Photon.Deterministic;
+using System.Security.Principal;
 namespace Quantum
 {
     public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged, ISignalOnInZoneValuableDestroyed, ISignalOnInZoneValuableCollectedByPlayer
@@ -60,6 +61,7 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<QuotaZone>(entity, out var quotaZone)) return;
 
             quotaZone->IsActivated = true;
+
             frame.Events.QuotaZoneActivated(entity);
 
             var inZoneValuables = frame.ResolveHashSet<EntityRef>(quotaZone->InZoneValuables);

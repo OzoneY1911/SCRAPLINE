@@ -21,7 +21,9 @@ public unsafe static class ProceduralGenerator
 
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
+            var sourceMap = frame.FindAsset(config->SourceMapAsset);
             Map = DynamicMap.FromStaticMap<DynamicMap>(frame.FindAsset(config->SourceMapAsset));
+            Map.MapEntities = sourceMap.MapEntities;
 
             Bounds = frame.AllocateList<FPBounds3>();
             NavVertices = frame.AllocateList<FPVector3>();
@@ -68,27 +70,17 @@ public unsafe static class ProceduralGenerator
         {
             foreach (var roomSpawnPoint in roomSpawnPoints)
             {
-                if (currentRoomCount >= mapData.RoomCount)
+                if (currentRoomCount >= mapData.RoomCount || !TryFindSuitableRoom(frame, ref mapData, roomSpawnPoint, out var room, out var roomMap))
                 {
                     GenerateDeadRoom(frame, roomSpawnPoint, ref mapData);
                     continue;
                 }
 
-                if (TryFindSuitableRoom(frame, ref mapData, roomSpawnPoint, out var room, out var roomMap))
-                {
-                    GenerateRoom(frame, room, roomSpawnPoint, ref mapData);
-                    currentRoomCount++;
-                }
-                else
-                {
-                    GenerateDeadRoom(frame, roomSpawnPoint, ref mapData);
-                    continue;
-                }
+                GenerateRoom(frame, room, roomSpawnPoint, ref mapData);
+                currentRoomCount++;
 
                 var spawnRotation = roomSpawnPoint.Rotation;
-
                 var customData = frame.FindAsset<MapCustomData>(roomMap.UserAsset);
-
                 foreach (var roomExitPoint in customData.RoomExitPoints)
                 {
                     var offsetExitPoint = MapPointData.Default;

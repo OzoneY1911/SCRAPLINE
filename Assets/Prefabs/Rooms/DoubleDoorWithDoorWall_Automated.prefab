@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4759069593099596673}
-  m_Layer: 0
+  - component: {fileID: 3472196927334184564}
+  m_Layer: 2
   m_Name: DoubleDoorWithDoorWall_Automated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +34,26 @@ Transform:
   - {fileID: 4515765952279493380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3472196927334184564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4349458431774569509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &3442609778819397706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44,6 +65,10 @@ PrefabInstance:
     - target: {fileID: 2781987214011552735, guid: a59a0e4ff24584e4da384252354ab782, type: 3}
       propertyPath: m_Name
       value: DOORWALL_4x4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781987214011552735, guid: a59a0e4ff24584e4da384252354ab782, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3301219947470260581, guid: a59a0e4ff24584e4da384252354ab782, type: 3}
       propertyPath: m_LocalPosition.x
@@ -103,9 +128,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4759069593099596673}
     m_Modifications:
+    - target: {fileID: 746012251106390999, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300576435536409657, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: PhysicsCollider.Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5988133002753864049, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
       propertyPath: m_Name
       value: DoubleDoor_Automated
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988133002753864049, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6364095973523696587, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
       propertyPath: m_LocalPosition.x
@@ -146,6 +183,18 @@ PrefabInstance:
     - target: {fileID: 6364095973523696587, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6575402271537651563, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: PhysicsCollider.Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829122597110242252, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544602429789142355, guid: eb433ab10f2578d408c563d7df84ab94, type: 3}
+      propertyPath: PhysicsCollider.Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

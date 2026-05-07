@@ -312,7 +312,7 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.InteractableMapChanger))]
   public unsafe class InteractableMapChangerPrototype : ComponentPrototype<Quantum.InteractableMapChanger> {
-    public AssetRef<Map> TargetMap;
+    public AssetRef<Map> HubMapAsset;
     public QBoolean IsActive;
     public MapEntityId HatchEntity;
     [UnitAttribute(Units.Degrees)]
@@ -334,7 +334,7 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.InteractableMapChanger result, in PrototypeMaterializationContext context = default) {
-        result.TargetMap = this.TargetMap;
+        result.HubMapAsset = this.HubMapAsset;
         result.IsActive = this.IsActive;
         PrototypeValidator.FindMapEntity(this.HatchEntity, in context, out result.HatchEntity);
         result.HatchInitialRotation = FPQuaternion.Euler(this.HatchInitialRotation);

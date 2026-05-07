@@ -578,8 +578,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prototype:
-    TargetMap:
+    HubMapAsset:
       Id:
-        Value: 335349104245932771
+        Value: 294401359472373322
     IsActive:
       Value: 0
+    HatchEntity: {fileID: 0}
+    HatchInitialRotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HatchIsOpen:
+      Value: 0
+    SourceMapAsset:
+      Id:
+        Value: 0
+    RoomCount: 0
+    ProceduralRooms: []
+    StartRoom:
+      MapAsset:
+        Id:
+          Value: 0
+      Prototype:
+        Id:
+          Value: 0
+    DeadEndRoom:
+      MapAsset:
+        Id:
+          Value: 0
+      Prototype:
+        Id:
+          Value: 0
+    QuotaZoneRoom:
+      MapAsset:
+        Id:
+          Value: 0
+      Prototype:
+        Id:
+          Value: 0

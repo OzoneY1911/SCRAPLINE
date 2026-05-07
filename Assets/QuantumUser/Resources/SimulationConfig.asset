@@ -99,13 +99,13 @@ MonoBehaviour:
     - Water
     - UI
     - 3D Overlay
-    - 
+    - Ignore NavMesh
     - 
     - World
     - Player
     - LocalPlayer
-    - ShopValuable
-    - ShopItemBlocker
+    - FPV
+    - 
     - 
     - 
     - 

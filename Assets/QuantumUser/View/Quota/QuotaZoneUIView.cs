@@ -28,13 +28,12 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 
     private void OnEventQuotaZoneActivated(EventQuotaZoneActivated e)
     {
-        if (e.Entity != EntityRef) return;
-
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
-
         var frame = game.Frames.Verified;
         if (frame == null) return;
+
+        if (!EntityUtils.EntityIsInGroup(frame, EntityRef, e.Entity)) return;
 
         if (frame.Unsafe.TryGetPointer<QuotaZone>(e.Entity, out var quotaZone))
         {
@@ -64,7 +63,11 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 
     private void OnEventQuotaZoneUpdated(EventQuotaZoneUpdated e)
     {
-        if (e.Entity != EntityRef) return;
+        var game = QuantumRunner.Default.Game;
+        if (game == null) return;
+        var frame = game.Frames.Verified;
+        if (frame == null) return;
+        if (!EntityUtils.EntityIsInGroup(frame, EntityRef, e.Entity)) return;
 
         UpdateProgressBars(e.Entity);
     }
@@ -91,13 +94,11 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
 
     private void OnEventQuotaZoneCompleted(EventQuotaZoneCompleted e)
     {
-        if (e.Entity != EntityRef) return;
-
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
-
         var frame = game.Frames.Verified;
         if (frame == null) return;
+        if (!EntityUtils.EntityIsInGroup(frame, EntityRef, e.Entity)) return;
 
         foreach (var progressBar in _progressBars)
         {

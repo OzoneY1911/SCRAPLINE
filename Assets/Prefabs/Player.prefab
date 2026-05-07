@@ -518,7 +518,7 @@ MonoBehaviour:
     WalkSpeed:
       RawValue: 655360
     RunSpeed:
-      RawValue: 983040
+      RawValue: 1966080
     CrouchSpeed:
       RawValue: 327680
     JumpForce:

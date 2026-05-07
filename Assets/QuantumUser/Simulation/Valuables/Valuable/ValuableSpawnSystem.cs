@@ -6,7 +6,7 @@ namespace Quantum
         {
             var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
 
-            if (frame.Map.name == "HubMap") mapCustomData.SpawnValuables(frame, true);
+            mapCustomData.SpawnValuables(frame, true);
         }
 
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
