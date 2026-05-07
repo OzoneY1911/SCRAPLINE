@@ -3,5 +3,6 @@ enum MapPointType
 	PlayerSpawnPoint,
 	MonsterSpawnPoint,
 	MonsterPatrolPoint,
-	RoomExitPoint
+	RoomExitPoint,
+	ValuableSpawnPoint
 }

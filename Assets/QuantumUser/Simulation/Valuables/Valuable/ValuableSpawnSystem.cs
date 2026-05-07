@@ -4,9 +4,7 @@ namespace Quantum
     {
         public override void OnInit(Frame frame)
         {
-            var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
-
-            mapCustomData.SpawnValuables(frame, true);
+            MapCustomDataUtils.SpawnValuables(frame);
         }
 
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)

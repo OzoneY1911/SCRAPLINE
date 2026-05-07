@@ -9,6 +9,8 @@ global
 
     list<entity_ref> TrackedQuotaZones;
     entity_ref TrackedInteractableMapChanger;
+
+    RuntimeMapCustomData RuntimeCustomData;
 }
 
 signal OnCompleteAllQuotaZones();

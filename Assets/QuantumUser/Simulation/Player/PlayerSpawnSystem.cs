@@ -10,8 +10,6 @@ namespace Quantum
             frame.Global->AlivePlayers = frame.AllocateList<EntityRef>(frame.MaxPlayerCount);
         }
 
-        
-
         public void OnPlayerAdded(Frame frame, PlayerRef playerRef, bool firstTime)
         {
             var playerEntity = SpawnPlayer(frame, playerRef);
@@ -38,8 +36,7 @@ namespace Quantum
 
             foreach (var playerEntity in alivePlayers)
             {
-                var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
-                mapCustomData.SetPlayerToRandomSpawnPoint(frame, playerEntity);
+                MapCustomDataUtils.SetPlayerToRandomSpawnPoint(frame, playerEntity);
             }
         }
 
@@ -50,10 +47,9 @@ namespace Quantum
 
             var playerEntity = frame.Create(entityPrototypeAsset);
 
-            var mapCustomData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
             frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
 
-            mapCustomData.SetPlayerToRandomSpawnPoint(frame, playerEntity);
+            MapCustomDataUtils.SetPlayerToRandomSpawnPoint(frame, playerEntity);
 
             if (frame.IsPlayerVerifiedOrLocal(playerRef))
             {

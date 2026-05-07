@@ -18,7 +18,7 @@ MonoBehaviour:
       Value: 318016992053310382
   UserAsset:
     Id:
-      Value: 458316449374468832
+      Value: 388324310262426864
   Scene: BakingMap
   ScenePath: Assets/QuantumUser/Scenes/BakingMap.unity
   SceneGuid: c8ac6680309404341873dbc18253e2fd
@@ -37,8 +37,11 @@ MonoBehaviour:
   GridSizeX: 64
   GridSizeY: 64
   GridNodeSize: 4
-  NavMeshAssets: []
-  Regions: []
+  NavMeshAssets:
+  - Id:
+      Value: 410604298971657691
+  Regions:
+  - MainArea
   StaticColliders2D: []
   StaticColliders3D:
   - Rotation:
@@ -87,12 +90,12 @@ MonoBehaviour:
       MutableMode: 0
   MapEntities:
   - Components:
-    - rid: 8470107231382142976
+    - rid: 5376605514010460160
   SerializedTriangleDataUncompressedSize: 8
   references:
     version: 2
     RefIds:
-    - rid: 8470107231382142976
+    - rid: 5376605514010460160
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:

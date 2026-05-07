@@ -559,6 +559,19 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.MapPointData))]
+  public unsafe partial class MapPointDataPrototype : StructPrototype {
+    public FPVector3 Position;
+    [UnitAttribute(Units.Degrees)]
+    public FPVector3 Rotation;
+    partial void MaterializeUser(Frame frame, ref Quantum.MapPointData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.MapPointData result, in PrototypeMaterializationContext context = default) {
+        result.Position = this.Position;
+        result.Rotation = FPQuaternion.Euler(this.Rotation);
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Monster))]
   public unsafe class MonsterPrototype : ComponentPrototype<Quantum.Monster> {
     public AssetRef<MonsterConfig> Config;
@@ -833,6 +846,62 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.ResourceFraction result, in PrototypeMaterializationContext context = default) {
         result.Type = this.Type;
         result.Value = this.Value;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.RuntimeMapCustomData))]
+  public unsafe partial class RuntimeMapCustomDataPrototype : StructPrototype {
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] PlayerSpawnPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] MonsterSpawnPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] MonsterPatrolPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] ValuableSpawnPoints = {};
+    partial void MaterializeUser(Frame frame, ref Quantum.RuntimeMapCustomData result, in PrototypeMaterializationContext context);
+    public void Materialize(Frame frame, ref Quantum.RuntimeMapCustomData result, in PrototypeMaterializationContext context = default) {
+        if (this.PlayerSpawnPoints.Length == 0) {
+          result.PlayerSpawnPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.PlayerSpawnPoints, this.PlayerSpawnPoints.Length);
+          for (int i = 0; i < this.PlayerSpawnPoints.Length; ++i) {
+            Quantum.MapPointData tmp = default;
+            this.PlayerSpawnPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        if (this.MonsterSpawnPoints.Length == 0) {
+          result.MonsterSpawnPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.MonsterSpawnPoints, this.MonsterSpawnPoints.Length);
+          for (int i = 0; i < this.MonsterSpawnPoints.Length; ++i) {
+            Quantum.MapPointData tmp = default;
+            this.MonsterSpawnPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        if (this.MonsterPatrolPoints.Length == 0) {
+          result.MonsterPatrolPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.MonsterPatrolPoints, this.MonsterPatrolPoints.Length);
+          for (int i = 0; i < this.MonsterPatrolPoints.Length; ++i) {
+            Quantum.MapPointData tmp = default;
+            this.MonsterPatrolPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
+        if (this.ValuableSpawnPoints.Length == 0) {
+          result.ValuableSpawnPoints = default;
+        } else {
+          var list = frame.AllocateList(out result.ValuableSpawnPoints, this.ValuableSpawnPoints.Length);
+          for (int i = 0; i < this.ValuableSpawnPoints.Length; ++i) {
+            Quantum.MapPointData tmp = default;
+            this.ValuableSpawnPoints[i].Materialize(frame, ref tmp, in context);
+            list.Add(tmp);
+          }
+        }
         MaterializeUser(frame, ref result, in context);
     }
   }

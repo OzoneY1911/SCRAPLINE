@@ -1,0 +1,7 @@
+struct RuntimeMapCustomData
+{
+    list<MapPointData> PlayerSpawnPoints;
+    list<MapPointData> MonsterSpawnPoints;
+    list<MapPointData> MonsterPatrolPoints;
+    list<MapPointData> ValuableSpawnPoints;
+}

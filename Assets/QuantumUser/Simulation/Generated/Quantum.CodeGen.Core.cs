@@ -92,6 +92,7 @@ namespace Quantum {
     MonsterSpawnPoint,
     MonsterPatrolPoint,
     RoomExitPoint,
+    ValuableSpawnPoint,
   }
   public enum MonsterState : int {
     Patrol,
@@ -1011,6 +1012,29 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   [Serializable()]
+  public unsafe partial struct MapPointData {
+    public const Int32 SIZE = 56;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(0)]
+    public FPVector3 Position;
+    [FieldOffset(24)]
+    public FPQuaternion Rotation;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 7789;
+        hash = hash * 31 + Position.GetHashCode();
+        hash = hash * 31 + Rotation.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (MapPointData*)ptr;
+        FPVector3.Serialize(&p->Position, serializer);
+        FPQuaternion.Serialize(&p->Rotation, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  [Serializable()]
   public unsafe partial struct ProceduralRoom {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -1085,8 +1109,44 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct RuntimeMapCustomData {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(8)]
+    public QListPtr<MapPointData> PlayerSpawnPoints;
+    [FieldOffset(4)]
+    public QListPtr<MapPointData> MonsterSpawnPoints;
+    [FieldOffset(0)]
+    public QListPtr<MapPointData> MonsterPatrolPoints;
+    [FieldOffset(12)]
+    public QListPtr<MapPointData> ValuableSpawnPoints;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14009;
+        hash = hash * 31 + PlayerSpawnPoints.GetHashCode();
+        hash = hash * 31 + MonsterSpawnPoints.GetHashCode();
+        hash = hash * 31 + MonsterPatrolPoints.GetHashCode();
+        hash = hash * 31 + ValuableSpawnPoints.GetHashCode();
+        return hash;
+      }
+    }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      PlayerSpawnPoints = default;
+      MonsterSpawnPoints = default;
+      MonsterPatrolPoints = default;
+      ValuableSpawnPoints = default;
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (RuntimeMapCustomData*)ptr;
+        QList.Serialize(&p->MonsterPatrolPoints, serializer, Statics.SerializeMapPointData);
+        QList.Serialize(&p->MonsterSpawnPoints, serializer, Statics.SerializeMapPointData);
+        QList.Serialize(&p->PlayerSpawnPoints, serializer, Statics.SerializeMapPointData);
+        QList.Serialize(&p->ValuableSpawnPoints, serializer, Statics.SerializeMapPointData);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1920;
+    public const Int32 SIZE = 1936;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public Int32 PlayerConnectedCount;
@@ -1125,6 +1185,8 @@ namespace Quantum {
     public QListPtr<EntityRef> TrackedQuotaZones;
     [FieldOffset(1904)]
     public EntityRef TrackedInteractableMapChanger;
+    [FieldOffset(1920)]
+    public RuntimeMapCustomData RuntimeCustomData;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 208, 6); }
@@ -1151,6 +1213,7 @@ namespace Quantum {
         hash = hash * 31 + SelectedLocation.GetHashCode();
         hash = hash * 31 + TrackedQuotaZones.GetHashCode();
         hash = hash * 31 + TrackedInteractableMapChanger.GetHashCode();
+        hash = hash * 31 + RuntimeCustomData.GetHashCode();
         return hash;
       }
     }
@@ -1158,6 +1221,7 @@ namespace Quantum {
       ActivePlayers = default;
       AlivePlayers = default;
       TrackedQuotaZones = default;
+      RuntimeCustomData.ClearPointers(f, entity);
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (_globals_*)ptr;
@@ -1179,6 +1243,7 @@ namespace Quantum {
         QList.Serialize(&p->TrackedQuotaZones, serializer, Statics.SerializeEntityRef);
         EntityRef.Serialize(&p->TrackedInteractableMapChanger, serializer);
         FP.Serialize(&p->PlayerMoney, serializer);
+        Quantum.RuntimeMapCustomData.Serialize(&p->RuntimeCustomData, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2530,6 +2595,7 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeKCCIgnore;
     public static FrameSerializer.Delegate SerializeKCCModifier;
     public static FrameSerializer.Delegate SerializeResourceDemand;
+    public static FrameSerializer.Delegate SerializeMapPointData;
     public static FrameSerializer.Delegate SerializeResourceFraction;
     public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeInput;
@@ -2540,6 +2606,7 @@ namespace Quantum {
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
       SerializeKCCModifier = Quantum.KCCModifier.Serialize;
       SerializeResourceDemand = Quantum.ResourceDemand.Serialize;
+      SerializeMapPointData = Quantum.MapPointData.Serialize;
       SerializeResourceFraction = Quantum.ResourceFraction.Serialize;
       SerializePlayerRef = PlayerRef.Serialize;
       SerializeInput = Quantum.Input.Serialize;
@@ -2622,6 +2689,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Lever), Quantum.Lever.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
+      typeRegistry.Register(typeof(Quantum.MapPointData), Quantum.MapPointData.SIZE);
       typeRegistry.Register(typeof(Quantum.MapPointType), 4);
       typeRegistry.Register(typeof(Quantum.Monster), Quantum.Monster.SIZE);
       typeRegistry.Register(typeof(Quantum.MonsterState), 4);
@@ -2663,6 +2731,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.ResourceDemand), Quantum.ResourceDemand.SIZE);
       typeRegistry.Register(typeof(Quantum.ResourceFraction), Quantum.ResourceFraction.SIZE);
       typeRegistry.Register(typeof(Quantum.ResourceType), 4);
+      typeRegistry.Register(typeof(Quantum.RuntimeMapCustomData), Quantum.RuntimeMapCustomData.SIZE);
       typeRegistry.Register(typeof(Shape2D), Shape2D.SIZE);
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
       typeRegistry.Register(typeof(Quantum.ShopZone), Quantum.ShopZone.SIZE);

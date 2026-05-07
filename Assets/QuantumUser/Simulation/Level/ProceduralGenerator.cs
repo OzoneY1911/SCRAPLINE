@@ -2,7 +2,7 @@
 using Quantum;
 using Quantum.Collections;
 
-public unsafe static class ProceduralGenerator
+public static unsafe class ProceduralGenerator
 {
     private struct GeneratedMapData
     {
@@ -19,10 +19,13 @@ public unsafe static class ProceduralGenerator
         public ProceduralRoom DeadEndRoom;
         public ProceduralRoom QuotaZoneRoom;
 
+        public RuntimeMapCustomData RuntimeCustomData;
+
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
             var sourceMap = frame.FindAsset(config->SourceMapAsset);
-            Map = DynamicMap.FromStaticMap<DynamicMap>(frame.FindAsset(config->SourceMapAsset));
+            Map = DynamicMap.FromStaticMap<DynamicMap>(sourceMap);
+            Map.UserAsset = sourceMap.UserAsset;
             Map.MapEntities = sourceMap.MapEntities;
 
             Bounds = frame.AllocateList<FPBounds3>();
@@ -35,6 +38,14 @@ public unsafe static class ProceduralGenerator
             StartRoom = config->StartRoom;
             DeadEndRoom = config->DeadEndRoom;
             QuotaZoneRoom = config->QuotaZoneRoom;
+
+            RuntimeCustomData = new RuntimeMapCustomData
+            {
+                PlayerSpawnPoints = frame.AllocateList<MapPointData>(),
+                MonsterSpawnPoints = frame.AllocateList<MapPointData>(),
+                MonsterPatrolPoints = frame.AllocateList<MapPointData>(),
+                ValuableSpawnPoints = frame.AllocateList<MapPointData>()
+            };
         }
     }
 
@@ -43,10 +54,10 @@ public unsafe static class ProceduralGenerator
         var generatedMapData = new GeneratedMapData(frame, config);
 
         var startRoomMap = frame.FindAsset<Map>(generatedMapData.StartRoom.MapAsset);
-        var startRoomCustomData = frame.FindAsset<MapCustomData>(startRoomMap.UserAsset);
+        var startRoomData = frame.FindAsset<RoomCustomData>(startRoomMap.UserAsset);
 
         GenerateRoom(frame, generatedMapData.StartRoom, MapPointData.Default, ref generatedMapData);
-        GenerateTree(frame, startRoomCustomData.RoomExitPoints, ref generatedMapData);
+        GenerateTree(frame, startRoomData.RoomExitPoints, ref generatedMapData);
 
         //var newNavMesh = NavMeshUtils.WeldAndBakeNavMesh(frame, generatedMapData.Map, generatedMapData.NavVertices, generatedMapData.NavTriangles, FP._0_30);
         //frame.AddAsset(newNavMesh);
@@ -80,8 +91,8 @@ public unsafe static class ProceduralGenerator
                 currentRoomCount++;
 
                 var spawnRotation = roomSpawnPoint.Rotation;
-                var customData = frame.FindAsset<MapCustomData>(roomMap.UserAsset);
-                foreach (var roomExitPoint in customData.RoomExitPoints)
+                var roomData = frame.FindAsset<RoomCustomData>(roomMap.UserAsset);
+                foreach (var roomExitPoint in roomData.RoomExitPoints)
                 {
                     var offsetExitPoint = MapPointData.Default;
 
@@ -115,6 +126,15 @@ public unsafe static class ProceduralGenerator
         roomTransform->Rotation = spawnPoint.Rotation;
 
         EntityUtils.SyncEntityGroupTransform(frame, roomEntity, spawnPoint);
+
+        var roomData = frame.FindAsset<RoomCustomData>(roomMap.UserAsset);
+
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.PlayerSpawnPoints, spawnPoint, mapData.RuntimeCustomData.PlayerSpawnPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterSpawnPoints, spawnPoint, mapData.RuntimeCustomData.MonsterSpawnPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterPatrolPoints, spawnPoint, mapData.RuntimeCustomData.MonsterPatrolPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.ValuableSpawnPoints, spawnPoint, mapData.RuntimeCustomData.ValuableSpawnPoints);
+
+        frame.Global->RuntimeCustomData = mapData.RuntimeCustomData;
 
         //NavMeshUtils.AddNavMeshData(frame, roomMap, spawnPoint, mapData.NavVertices, mapData.NavTriangles);
     }

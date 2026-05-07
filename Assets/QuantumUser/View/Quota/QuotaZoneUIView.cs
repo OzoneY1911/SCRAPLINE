@@ -76,7 +76,6 @@ public unsafe class QuotaZoneUIView : QuantumEntityViewComponent
     {
         var game = QuantumRunner.Default.Game;
         if (game == null) return;
-
         var frame = game.Frames.Predicted;
         if (frame == null) return;
 

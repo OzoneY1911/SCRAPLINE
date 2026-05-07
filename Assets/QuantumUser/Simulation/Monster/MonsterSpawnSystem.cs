@@ -8,10 +8,11 @@ namespace Quantum
 
             var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
 
+            if (customData.MonsterPrototypes.Length == 0) return;
             var monsterIndex = frame.RNG->Next(0, customData.MonsterPrototypes.Length); 
             var monsterEntity = frame.Create(customData.MonsterPrototypes[monsterIndex]);
 
-            customData.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
+            MapCustomDataUtils.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
         }
 
         public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
@@ -30,10 +31,11 @@ namespace Quantum
 
             var customData = frame.FindAsset<MapCustomData>(frame.Map.UserAsset);
 
+            if (customData.MonsterPrototypes.Length == 0) return;
             var monsterIndex = frame.RNG->Next(0, customData.MonsterPrototypes.Length);
             var monsterEntity = frame.Create(customData.MonsterPrototypes[monsterIndex]);
 
-            customData.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
+            MapCustomDataUtils.SetMonsterToRandomSpawnPoint(frame, monsterEntity);
         }
     }
 }

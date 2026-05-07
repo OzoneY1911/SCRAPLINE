@@ -3,8 +3,8 @@
   <Project Path="Quantum.Unity.csproj" />
   <Project Path="Photon.Realtime.csproj" />
   <Project Path="Quantum.Unity.Editor.csproj" />
-  <Project Path="Quantum.Menu.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Quantum.Menu.csproj" />
   <Project Path="Quantum.Simulation.csproj" />
   <Project Path="PhotonVoice.csproj" />
   <Project Path="FMODUnityResonanceEditor.csproj" />

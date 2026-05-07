@@ -1,7 +1,7 @@
 using Quantum;
 using UnityEngine;
 
-public class ValuableSpawnPoint : MonoBehaviour
+public class ValuableSpawnPool : MonoBehaviour
 {
     public AssetRef<EntityPrototype>[] PossibleValuables;
 }

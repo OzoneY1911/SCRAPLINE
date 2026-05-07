@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706551165eae4ec49b68bc0792ad15ae, type: 3}
-  m_Name: FactoryS1MapCustomData
-  m_EditorClassIdentifier: Quantum.Simulation::Quantum.MapCustomData
+  m_Script: {fileID: 11500000, guid: 1d60fe097b72451449884ad91f5aee82, type: 3}
+  m_Name: DeadEndRoomCustomMapData
+  m_EditorClassIdentifier: Quantum.Simulation::Quantum.RoomCustomData
   Identifier:
-    Path: QuantumUser/Resources/AssetObjects/MapCustomData/FactoryS1MapCustomData
+    Path: QuantumUser/Resources/AssetObjects/MapCustomData/RoomCustomData/DeadEndRoomCustomMapData
     Guid:
-      Value: 334204137712682475
-  MonsterPrototypes: []
+      Value: 388324310262426864
   PlayerSpawnPoints: []
   MonsterSpawnPoints: []
   MonsterPatrolPoints: []
+  RoomExitPoints: []
   ValuableSpawnPoints: []

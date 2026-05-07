@@ -322,7 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 1902708944}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &34038907
 Transform:
   m_ObjectHideFlags: 19
@@ -817,7 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -1840,13 +1838,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265884601}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.69050384, z: 0, w: 0.72332877}
+  m_LocalRotation: {x: -0.51147074, y: -0.48826087, z: -0.48825848, w: 0.5114712}
   m_LocalPosition: {x: -0.00201, y: -0.00553, z: 0.00921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 147826973}
-  m_LocalEulerAnglesHint: {x: 0, y: -87.34, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -87.34}
 --- !u!114 &265884603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6919,13 +6917,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338248316}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.69050384, z: 0, w: 0.72332877}
+  m_LocalRotation: {x: -0.51147074, y: -0.48826087, z: -0.48825848, w: 0.5114712}
   m_LocalPosition: {x: -0.00201, y: -0.00553, z: 0.0039}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 147826973}
-  m_LocalEulerAnglesHint: {x: 0, y: -87.34, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -87.34}
 --- !u!114 &1338248318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7508,7 +7506,6 @@ MonoBehaviour:
   m_Script: {fileID: 2048546098}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1523763533
 Transform:
   m_ObjectHideFlags: 19
@@ -7671,7 +7668,6 @@ MonoBehaviour:
   m_Script: {fileID: 1800156794}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1565275882
 Transform:
   m_ObjectHideFlags: 19
@@ -8335,13 +8331,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679875874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.69050384, z: 0, w: 0.72332877}
+  m_LocalRotation: {x: -0.51147074, y: -0.48826087, z: -0.48825848, w: 0.5114712}
   m_LocalPosition: {x: -0.00201, y: -0.00553, z: 0.01441}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 147826973}
-  m_LocalEulerAnglesHint: {x: 0, y: -87.34, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -87.34}
 --- !u!114 &1679875876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12745,7 +12741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.ProceduralRooms.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832319233018741420, guid: c0a3ff04e10ef37428fa15c0047a250d, type: 3}
       propertyPath: Prototype.StartRoom.MapAsset.Id.Value
