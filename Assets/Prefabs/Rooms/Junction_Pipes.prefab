@@ -952,6 +952,10 @@ PrefabInstance:
       value: 68.58289
       objectReference: {fileID: 0}
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_UseColorTemperature
       value: 0
       objectReference: {fileID: 0}
@@ -1312,6 +1316,10 @@ PrefabInstance:
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_InnerSpotAngle
       value: 68.58289
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_UseColorTemperature
@@ -2000,6 +2008,10 @@ PrefabInstance:
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_InnerSpotAngle
       value: 68.58289
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_UseColorTemperature
@@ -4019,7 +4031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4816129329776858301, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_ColorTemperature

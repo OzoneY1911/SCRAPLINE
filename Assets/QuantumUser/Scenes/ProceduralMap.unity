@@ -167,7 +167,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 6a1433e0973135d40ae5cb6399fde596, type: 2}
+  sharedProfile: {fileID: 11400000, guid: f9881005fa0b9b34fbc16ddaf5f4dcb7, type: 2}
 --- !u!1 &343134945
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &351548545
 MonoBehaviour:
   m_ObjectHideFlags: 0
