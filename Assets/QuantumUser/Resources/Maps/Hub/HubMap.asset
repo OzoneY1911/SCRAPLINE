@@ -706,50 +706,6 @@ MonoBehaviour:
       MutableMode: 0
   - Rotation:
       X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: 230162
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: -219545
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: SHOPTABLE
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 15
-      MutableMode: 0
-  - Rotation:
-      X:
         RawValue: 0
       Y:
         RawValue: -46340
@@ -790,7 +746,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -834,7 +790,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 17
+      ColliderIndex: 16
       MutableMode: 0
   - Rotation:
       X:
@@ -878,7 +834,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 18
+      ColliderIndex: 17
       MutableMode: 0
   - Rotation:
       X:
@@ -922,7 +878,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 19
+      ColliderIndex: 18
       MutableMode: 0
   - Rotation:
       X:
@@ -966,7 +922,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 20
+      ColliderIndex: 19
       MutableMode: 0
   - Rotation:
       X:
@@ -1004,6 +960,50 @@ MonoBehaviour:
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: LOBBYBASE
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 20
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 235929
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: -359530
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOPTABLE
       Tag: Untagged
       Layer: 0
       Asset:
@@ -1103,7 +1103,7 @@ MonoBehaviour:
     - rid: 4320542179127721988
     - rid: 4320542179127721989
     - rid: 4320542179127721990
-  SerializedTriangleDataUncompressedSize: 147428
+  SerializedTriangleDataUncompressedSize: 148136
   references:
     version: 2
     RefIds:
