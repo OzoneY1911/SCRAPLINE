@@ -19,8 +19,6 @@ public static unsafe class ProceduralGenerator
         public ProceduralRoom DeadEndRoom;
         public ProceduralRoom QuotaZoneRoom;
 
-        public RuntimeMapCustomData RuntimeCustomData;
-
         public GeneratedMapData(Frame frame, InteractableMapChanger* config)
         {
             var sourceMap = frame.FindAsset(config->SourceMapAsset);
@@ -38,14 +36,6 @@ public static unsafe class ProceduralGenerator
             StartRoom = config->StartRoom;
             DeadEndRoom = config->DeadEndRoom;
             QuotaZoneRoom = config->QuotaZoneRoom;
-
-            RuntimeCustomData = new RuntimeMapCustomData
-            {
-                PlayerSpawnPoints = frame.AllocateList<MapPointData>(),
-                MonsterSpawnPoints = frame.AllocateList<MapPointData>(),
-                MonsterPatrolPoints = frame.AllocateList<MapPointData>(),
-                ValuableSpawnPoints = frame.AllocateList<MapPointData>()
-            };
         }
     }
 
@@ -62,6 +52,7 @@ public static unsafe class ProceduralGenerator
         //var newNavMesh = NavMeshUtils.WeldAndBakeNavMesh(frame, generatedMapData.Map, generatedMapData.NavVertices, generatedMapData.NavTriangles, FP._0_30);
         //frame.AddAsset(newNavMesh);
         //generatedMapData.Map.NavMeshAssets = new AssetRef<NavMesh>[] { newNavMesh };
+
         return generatedMapData.Map;
     }
 
@@ -129,12 +120,14 @@ public static unsafe class ProceduralGenerator
 
         var roomData = frame.FindAsset<RoomCustomData>(roomMap.UserAsset);
 
-        RuntimeMapCustomData.AddMapPoints(frame, roomData.PlayerSpawnPoints, spawnPoint, mapData.RuntimeCustomData.PlayerSpawnPoints);
-        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterSpawnPoints, spawnPoint, mapData.RuntimeCustomData.MonsterSpawnPoints);
-        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterPatrolPoints, spawnPoint, mapData.RuntimeCustomData.MonsterPatrolPoints);
-        RuntimeMapCustomData.AddMapPoints(frame, roomData.ValuableSpawnPoints, spawnPoint, mapData.RuntimeCustomData.ValuableSpawnPoints);
+        var runtimeData = frame.Global->RuntimeCustomData;
 
-        frame.Global->RuntimeCustomData = mapData.RuntimeCustomData;
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.PlayerSpawnPoints, spawnPoint, runtimeData.PlayerSpawnPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterSpawnPoints, spawnPoint, runtimeData.MonsterSpawnPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.MonsterPatrolPoints, spawnPoint, runtimeData.MonsterPatrolPoints);
+        RuntimeMapCustomData.AddMapPoints(frame, roomData.ValuableSpawnPoints, spawnPoint, runtimeData.ValuableSpawnPoints);
+
+        EntityUtils.AddEntityToList(frame, roomEntity, runtimeData.ProceduralRoomEntities);
 
         //NavMeshUtils.AddNavMeshData(frame, roomMap, spawnPoint, mapData.NavVertices, mapData.NavTriangles);
     }

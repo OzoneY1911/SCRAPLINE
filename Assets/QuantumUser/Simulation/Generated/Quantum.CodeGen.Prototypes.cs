@@ -851,7 +851,7 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.RuntimeMapCustomData))]
-  public unsafe partial class RuntimeMapCustomDataPrototype : StructPrototype {
+  public unsafe class RuntimeMapCustomDataPrototype : StructPrototype {
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.MapPointDataPrototype[] PlayerSpawnPoints = {};
     [DynamicCollectionAttribute()]
@@ -860,7 +860,10 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.MapPointDataPrototype[] MonsterPatrolPoints = {};
     [DynamicCollectionAttribute()]
     public Quantum.Prototypes.MapPointDataPrototype[] ValuableSpawnPoints = {};
-    partial void MaterializeUser(Frame frame, ref Quantum.RuntimeMapCustomData result, in PrototypeMaterializationContext context);
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] ProceduralRoomEntities = {};
+    [DynamicCollectionAttribute()]
+    public MapEntityId[] ProceduralValuableEntities = {};
     public void Materialize(Frame frame, ref Quantum.RuntimeMapCustomData result, in PrototypeMaterializationContext context = default) {
         if (this.PlayerSpawnPoints.Length == 0) {
           result.PlayerSpawnPoints = default;
@@ -902,7 +905,26 @@ namespace Quantum.Prototypes {
             list.Add(tmp);
           }
         }
-        MaterializeUser(frame, ref result, in context);
+        if (this.ProceduralRoomEntities.Length == 0) {
+          result.ProceduralRoomEntities = default;
+        } else {
+          var list = frame.AllocateList(out result.ProceduralRoomEntities, this.ProceduralRoomEntities.Length);
+          for (int i = 0; i < this.ProceduralRoomEntities.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.ProceduralRoomEntities[i], in context, out tmp);
+            list.Add(tmp);
+          }
+        }
+        if (this.ProceduralValuableEntities.Length == 0) {
+          result.ProceduralValuableEntities = default;
+        } else {
+          var list = frame.AllocateList(out result.ProceduralValuableEntities, this.ProceduralValuableEntities.Length);
+          for (int i = 0; i < this.ProceduralValuableEntities.Length; ++i) {
+            EntityRef tmp = default;
+            PrototypeValidator.FindMapEntity(this.ProceduralValuableEntities[i], in context, out tmp);
+            list.Add(tmp);
+          }
+        }
     }
   }
   [System.SerializableAttribute()]

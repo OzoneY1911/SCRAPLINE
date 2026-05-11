@@ -1,4 +1,5 @@
 using Quantum;
+using Quantum.Collections;
 
 public unsafe static class EntityUtils
 {
@@ -36,5 +37,21 @@ public unsafe static class EntityUtils
             }
         }
         return false;
+    }
+
+    public static void AddEntityToList(Frame frame, EntityRef entity, QListPtr<EntityRef> listPtr)
+    {
+        var list = frame.ResolveList(listPtr);
+        list.Add(entity);
+    }
+
+    public static void ClearEntityList(Frame frame, QListPtr<EntityRef> listPtr)
+    {
+        var list = frame.ResolveList(listPtr);
+
+        foreach (var entity in list)
+        {
+            frame.Destroy(entity);
+        }
     }
 }

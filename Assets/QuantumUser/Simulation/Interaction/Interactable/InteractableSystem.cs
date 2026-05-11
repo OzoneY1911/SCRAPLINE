@@ -30,6 +30,7 @@ namespace Quantum
                     }
                     else
                     {
+                        RuntimeMapCustomData.ClearRuntimeData(frame);
                         frame.Map = hubMap;
                     }
                     break;

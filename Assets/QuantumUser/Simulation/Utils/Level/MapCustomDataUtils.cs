@@ -102,6 +102,10 @@ public static unsafe class MapCustomDataUtils
 
             var valuableEntity = frame.Create(possibleValuables[index]);
             SetToMapPoint(frame, valuableEntity, mapPoints[i]);
+
+            var runtimeData = frame.Global->RuntimeCustomData;
+
+            EntityUtils.AddEntityToList(frame, valuableEntity, runtimeData.ProceduralValuableEntities);
         }
     }
 }

@@ -1110,16 +1110,20 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct RuntimeMapCustomData {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 24;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
     public QListPtr<MapPointData> PlayerSpawnPoints;
-    [FieldOffset(4)]
-    public QListPtr<MapPointData> MonsterSpawnPoints;
-    [FieldOffset(0)]
-    public QListPtr<MapPointData> MonsterPatrolPoints;
     [FieldOffset(12)]
+    public QListPtr<MapPointData> MonsterSpawnPoints;
+    [FieldOffset(8)]
+    public QListPtr<MapPointData> MonsterPatrolPoints;
+    [FieldOffset(20)]
     public QListPtr<MapPointData> ValuableSpawnPoints;
+    [FieldOffset(0)]
+    public QListPtr<EntityRef> ProceduralRoomEntities;
+    [FieldOffset(4)]
+    public QListPtr<EntityRef> ProceduralValuableEntities;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 14009;
@@ -1127,6 +1131,8 @@ namespace Quantum {
         hash = hash * 31 + MonsterSpawnPoints.GetHashCode();
         hash = hash * 31 + MonsterPatrolPoints.GetHashCode();
         hash = hash * 31 + ValuableSpawnPoints.GetHashCode();
+        hash = hash * 31 + ProceduralRoomEntities.GetHashCode();
+        hash = hash * 31 + ProceduralValuableEntities.GetHashCode();
         return hash;
       }
     }
@@ -1135,9 +1141,13 @@ namespace Quantum {
       MonsterSpawnPoints = default;
       MonsterPatrolPoints = default;
       ValuableSpawnPoints = default;
+      ProceduralRoomEntities = default;
+      ProceduralValuableEntities = default;
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (RuntimeMapCustomData*)ptr;
+        QList.Serialize(&p->ProceduralRoomEntities, serializer, Statics.SerializeEntityRef);
+        QList.Serialize(&p->ProceduralValuableEntities, serializer, Statics.SerializeEntityRef);
         QList.Serialize(&p->MonsterPatrolPoints, serializer, Statics.SerializeMapPointData);
         QList.Serialize(&p->MonsterSpawnPoints, serializer, Statics.SerializeMapPointData);
         QList.Serialize(&p->PlayerSpawnPoints, serializer, Statics.SerializeMapPointData);
@@ -1146,7 +1156,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1936;
+    public const Int32 SIZE = 1944;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public Int32 PlayerConnectedCount;

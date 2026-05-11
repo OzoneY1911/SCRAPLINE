@@ -332,6 +332,33 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class RuntimeMapCustomDataPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.RuntimeMapCustomDataPrototype> {
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] PlayerSpawnPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] MonsterSpawnPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] MonsterPatrolPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.MapPointDataPrototype[] ValuableSpawnPoints = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] ProceduralRoomEntities = {};
+    [DynamicCollectionAttribute()]
+    public Quantum.QuantumEntityPrototype[] ProceduralValuableEntities = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.RuntimeMapCustomDataPrototype prototype);
+    public override Quantum.Prototypes.RuntimeMapCustomDataPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.RuntimeMapCustomDataPrototype();
+      converter.Convert(this.PlayerSpawnPoints, out result.PlayerSpawnPoints);
+      converter.Convert(this.MonsterSpawnPoints, out result.MonsterSpawnPoints);
+      converter.Convert(this.MonsterPatrolPoints, out result.MonsterPatrolPoints);
+      converter.Convert(this.ValuableSpawnPoints, out result.ValuableSpawnPoints);
+      converter.Convert(this.ProceduralRoomEntities, out result.ProceduralRoomEntities);
+      converter.Convert(this.ProceduralValuableEntities, out result.ProceduralValuableEntities);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class ShopZonePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.ShopZonePrototype> {
     [HideInInspector()]
     [DynamicCollectionAttribute()]

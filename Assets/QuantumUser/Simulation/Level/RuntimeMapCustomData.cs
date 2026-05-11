@@ -1,8 +1,9 @@
 using Quantum.Collections;
+using System.Drawing;
 
 namespace Quantum
 {
-    public partial struct RuntimeMapCustomData
+    public unsafe partial struct RuntimeMapCustomData
     {
         public static void AddMapPoints(Frame frame, MapPointData[] mapPoints, MapPointData spawnPoint, QListPtr<MapPointData> outputPtr)
         {
@@ -20,8 +21,25 @@ namespace Quantum
             point.Rotation = spawnPoint.Rotation * point.Rotation;
 
             var output = frame.ResolveList(outputPtr);
-
             output.Add(point);
+        }
+
+        public static void ClearRuntimeData(Frame frame)
+        {
+            var runtimeData = frame.Global->RuntimeCustomData;
+
+            frame.ResolveList(runtimeData.PlayerSpawnPoints).Clear();
+            frame.ResolveList(runtimeData.MonsterSpawnPoints).Clear();
+            frame.ResolveList(runtimeData.MonsterPatrolPoints).Clear();
+            frame.ResolveList(runtimeData.ValuableSpawnPoints).Clear();
+
+            EntityUtils.ClearEntityList(frame, runtimeData.ProceduralRoomEntities);
+            EntityUtils.ClearEntityList(frame, runtimeData.ProceduralValuableEntities);
+
+            frame.ResolveList(runtimeData.ProceduralRoomEntities).Clear();
+            frame.ResolveList(runtimeData.ProceduralValuableEntities).Clear();
+
+            frame.Global->RuntimeCustomData = runtimeData;
         }
     }
 }

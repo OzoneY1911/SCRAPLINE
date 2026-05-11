@@ -4,4 +4,7 @@ struct RuntimeMapCustomData
     list<MapPointData> MonsterSpawnPoints;
     list<MapPointData> MonsterPatrolPoints;
     list<MapPointData> ValuableSpawnPoints;
+
+    list<entity_ref> ProceduralRoomEntities;
+    list<entity_ref> ProceduralValuableEntities;
 }

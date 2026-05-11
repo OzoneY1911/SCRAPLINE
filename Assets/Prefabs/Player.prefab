@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4320111127280496413}
-  - component: {fileID: 4835001853518789879}
   m_Layer: 0
   m_Name: Slot 2
   m_TagString: Untagged
@@ -25,40 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782279798175489214}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6569501, y: -0.17062026, z: -0.11230614, w: 0.7257359}
-  m_LocalPosition: {x: -0.59371966, y: -0.6458219, z: -0.052206397}
+  m_LocalRotation: {x: 0.6569502, y: -0.17062037, z: -0.11230607, w: 0.7257358}
+  m_LocalPosition: {x: -0.5937197, y: -0.6458218, z: -0.052206457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1480374629999309100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &4835001853518789879
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782279798175489214}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 584501005847774556}
-    weight: 1
 --- !u!1 &2580838342601553880
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,15 +759,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3595415551305420334}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.6569501, y: 0.17062052, z: 0.11230619, w: 0.7257359}
+  m_LocalPosition: {x: 0.2993461, y: 0.08754343, z: -0.82160974}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5628003573639084336}
   - {fileID: 4320111127280496413}
   - {fileID: 1596711537373754584}
-  m_Father: {fileID: 808740679351696482}
+  m_Father: {fileID: 584501005847774556}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3919320873626982366
 GameObject:
@@ -837,7 +809,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5628003573639084336}
-  - component: {fileID: 4992338820685550735}
   m_Layer: 0
   m_Name: Slot 1
   m_TagString: Untagged
@@ -853,40 +824,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4219761442342047144}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6569501, y: -0.17062026, z: -0.11230614, w: 0.7257359}
-  m_LocalPosition: {x: -0.59371966, y: -0.6458219, z: -0.052206397}
+  m_LocalRotation: {x: 0.6569502, y: -0.17062037, z: -0.11230607, w: 0.7257358}
+  m_LocalPosition: {x: -0.5937197, y: -0.6458218, z: -0.052206457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1480374629999309100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &4992338820685550735
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4219761442342047144}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 584501005847774556}
-    weight: 1
 --- !u!1 &6002364062561797404
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +861,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2582611702821086180}
-  - {fileID: 1480374629999309100}
   - {fileID: 2988626803672658209}
   m_Father: {fileID: 37745439995145652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -949,7 +892,8 @@ Transform:
   m_LocalPosition: {x: -0.0095, y: 0.1194, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1480374629999309100}
   m_Father: {fileID: 8535077844881626161}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1 &7795659125335065449
@@ -961,7 +905,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1596711537373754584}
-  - component: {fileID: 1789568770638385769}
   m_Layer: 0
   m_Name: Slot 3
   m_TagString: Untagged
@@ -977,40 +920,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7795659125335065449}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6569501, y: -0.17062026, z: -0.11230614, w: 0.7257359}
-  m_LocalPosition: {x: -0.59371966, y: -0.6458219, z: -0.052206397}
+  m_LocalRotation: {x: 0.6569502, y: -0.17062037, z: -0.11230607, w: 0.7257358}
+  m_LocalPosition: {x: -0.5937197, y: -0.6458218, z: -0.052206457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1480374629999309100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &1789568770638385769
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7795659125335065449}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 584501005847774556}
-    weight: 1
 --- !u!1001 &507957030706760287
 PrefabInstance:
   m_ObjectHideFlags: 0
