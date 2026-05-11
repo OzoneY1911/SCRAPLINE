@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: SHOPGUY
     second: {fileID: 2100000, guid: c29dbcf7d46e8f540b9a18648efd1597, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SHOP_SELLSCREEN
+    second: {fileID: 2100000, guid: c6f68c758f518224e9b02ad14c74e3c1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
