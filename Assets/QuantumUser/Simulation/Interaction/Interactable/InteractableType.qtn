@@ -2,7 +2,7 @@ enum InteractableType
 {
     MapChanger,
     QuotaZoneInteractor,
-    ShopZoneInteactor,
+    ShopZoneInteractor,
     InteractableAnimator,
     GameLocationSelector
 }

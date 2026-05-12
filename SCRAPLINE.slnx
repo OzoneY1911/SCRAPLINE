@@ -6,6 +6,7 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Quantum.Menu.csproj" />
   <Project Path="Quantum.Simulation.csproj" />
+  <Project Path="Unity.RenderPipelines.Core.Samples.Runtime.csproj" />
   <Project Path="PhotonVoice.csproj" />
   <Project Path="FMODUnityResonanceEditor.csproj" />
   <Project Path="FMODUnityEditor.csproj" />
@@ -16,10 +17,13 @@
   <Project Path="PhotonVoice.FMOD.csproj" />
   <Project Path="Photon.Chat.csproj" />
   <Project Path="Quantum.Unity.Editor.CodeGen.csproj" />
+  <Project Path="Unity.RenderPipelines.Core.Samples.Editor.csproj" />
   <Project Path="FMODUnityResonance.csproj" />
+  <Project Path="Unity.RenderPipelines.HighDefinition.Samples.Common.Runtime.csproj" />
   <Project Path="MicAmplifierEditor.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />
+  <Project Path="Unity.RenderPipelines.HighDefinition.Samples.Common.Editor.csproj" />
   <Project Path="PhotonVoiceApi.FMOD.csproj" />
   <Project Path="PhotonVoice.Utilities.Editor.csproj" />
 </Solution>

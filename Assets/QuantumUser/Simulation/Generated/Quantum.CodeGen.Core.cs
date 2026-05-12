@@ -83,7 +83,7 @@ namespace Quantum {
   public enum InteractableType : int {
     MapChanger,
     QuotaZoneInteractor,
-    ShopZoneInteactor,
+    ShopZoneInteractor,
     InteractableAnimator,
     GameLocationSelector,
   }
@@ -1396,6 +1396,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct GravityVolume : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 21319;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (GravityVolume*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Health : Quantum.IComponent {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 8;
@@ -2313,6 +2329,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<EntityGroup>();
       BuildSignalsArrayOnComponentAdded<Quantum.Flashlight>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Flashlight>();
+      BuildSignalsArrayOnComponentAdded<Quantum.GravityVolume>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.GravityVolume>();
       BuildSignalsArrayOnComponentAdded<Quantum.Health>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Health>();
       BuildSignalsArrayOnComponentAdded<Quantum.Interactable>();
@@ -2668,6 +2686,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.GameLocationType), 4);
       typeRegistry.Register(typeof(Quantum.GameplayTimer), Quantum.GameplayTimer.SIZE);
       typeRegistry.Register(typeof(Quantum.GameplayTimerType), 4);
+      typeRegistry.Register(typeof(Quantum.GravityVolume), Quantum.GravityVolume.SIZE);
       typeRegistry.Register(typeof(Quantum.Health), Quantum.Health.SIZE);
       typeRegistry.Register(typeof(HingeJoint), HingeJoint.SIZE);
       typeRegistry.Register(typeof(HingeJoint3D), HingeJoint3D.SIZE);
@@ -2760,35 +2779,36 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen(Int32 extraComponentCount) {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 27 + extraComponentCount);
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 28 + extraComponentCount);
       ComponentTypeId.RegisterBuiltInComponents();
       ComponentTypeId.RegisterComponent<Quantum.AnimatedTransform>(21, Quantum.AnimatedTransform.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.AnimationTrigger>(22, Quantum.AnimationTrigger.Serialize, null, Quantum.AnimationTrigger.OnRemoved, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Consumable>(23, Quantum.Consumable.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Draggable>(24, Quantum.Draggable.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Flashlight>(25, Quantum.Flashlight.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Health>(26, Quantum.Health.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Interactable>(27, Quantum.Interactable.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.InteractableAnimator>(28, Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.InteractableGameLocationSelector>(29, Quantum.InteractableGameLocationSelector.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.InteractableMapChanger>(30, Quantum.InteractableMapChanger.Serialize, null, Quantum.InteractableMapChanger.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.InteractableQuotaZone>(31, Quantum.InteractableQuotaZone.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.InteractableShopZone>(32, Quantum.InteractableShopZone.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.KCC>(33, Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.KCCProcessorLink>(34, Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Lever>(35, Quantum.Lever.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Monster>(36, Quantum.Monster.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Player>(37, Quantum.Player.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerDragging>(38, Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerInventory>(39, Quantum.PlayerInventory.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerLeverDragging>(40, Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerMovement>(41, Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.PlayerStamina>(42, Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.QuotaZone>(43, Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.ShopZone>(44, Quantum.ShopZone.Serialize, null, Quantum.ShopZone.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Teleporter>(45, Quantum.Teleporter.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Valuable>(46, Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.Weapon>(47, Quantum.Weapon.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.GravityVolume>(26, Quantum.GravityVolume.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Health>(27, Quantum.Health.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Interactable>(28, Quantum.Interactable.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.InteractableAnimator>(29, Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.InteractableGameLocationSelector>(30, Quantum.InteractableGameLocationSelector.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.InteractableMapChanger>(31, Quantum.InteractableMapChanger.Serialize, null, Quantum.InteractableMapChanger.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.InteractableQuotaZone>(32, Quantum.InteractableQuotaZone.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.InteractableShopZone>(33, Quantum.InteractableShopZone.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.KCC>(34, Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.KCCProcessorLink>(35, Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Lever>(36, Quantum.Lever.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Monster>(37, Quantum.Monster.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Player>(38, Quantum.Player.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerDragging>(39, Quantum.PlayerDragging.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerInventory>(40, Quantum.PlayerInventory.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerLeverDragging>(41, Quantum.PlayerLeverDragging.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerMovement>(42, Quantum.PlayerMovement.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.PlayerStamina>(43, Quantum.PlayerStamina.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.QuotaZone>(44, Quantum.QuotaZone.Serialize, null, Quantum.QuotaZone.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.ShopZone>(45, Quantum.ShopZone.Serialize, null, Quantum.ShopZone.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Teleporter>(46, Quantum.Teleporter.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Valuable>(47, Quantum.Valuable.Serialize, null, Quantum.Valuable.OnRemoved, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.Weapon>(48, Quantum.Weapon.Serialize, null, null, ComponentFlags.None);
     }
     static partial void EnsureNotStrippedGen() {
       FramePrinter.EnsureNotStripped();

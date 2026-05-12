@@ -1,4 +1,3 @@
-using System.Security.Principal;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -49,7 +48,7 @@ namespace Quantum
                         }
                     }
                     break;
-                case InteractableType.ShopZoneInteactor:
+                case InteractableType.ShopZoneInteractor:
                     var interactableShopZone = frame.Unsafe.GetPointer<InteractableShopZone>(interactable->Entity);
                     frame.Signals.OnShopPurchaseAttempted(interactableShopZone->TargetShopZone);
                     break;
