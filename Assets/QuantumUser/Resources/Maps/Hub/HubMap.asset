@@ -134,20 +134,64 @@ MonoBehaviour:
       MutableMode: 0
   - Rotation:
       X:
+        RawValue: -32767
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+      W:
+        RawValue: 32767
+    Position:
+      X:
+        RawValue: 31782
+      Y:
+        RawValue: 85107
+      Z:
+        RawValue: -323289
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 26200
+      Y:
+        RawValue: 45850
+      Z:
+        RawValue: 72050
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: Vending Machine (1)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 2
+      MutableMode: 0
+  - Rotation:
+      X:
         RawValue: 0
       Y:
-        RawValue: 0
+        RawValue: -16961
       Z:
         RawValue: 0
       W:
-        RawValue: 65536
+        RawValue: 63302
     Position:
       X:
-        RawValue: 6029
+        RawValue: 190251
       Y:
         RawValue: 46261
       Z:
-        RawValue: -325255
+        RawValue: 59768
     PhysicsMaterial:
       Id:
         Value: 0
@@ -174,7 +218,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 2
+      ColliderIndex: 3
       MutableMode: 0
   - Rotation:
       X:
@@ -218,7 +262,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 3
+      ColliderIndex: 4
       MutableMode: 0
   - Rotation:
       X:
@@ -262,7 +306,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 4
+      ColliderIndex: 5
       MutableMode: 0
   - Rotation:
       X:
@@ -306,7 +350,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 5
+      ColliderIndex: 6
       MutableMode: 0
   - Rotation:
       X:
@@ -344,50 +388,6 @@ MonoBehaviour:
     SmoothSphereMeshCollisions: 0
     StaticData:
       Name: HATCH
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 6
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: 211288
-      Y:
-        RawValue: 78643
-      Z:
-        RawValue: -102957
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: HOLO_BANNER
       Tag: Untagged
       Layer: 0
       Asset:
@@ -486,24 +486,24 @@ MonoBehaviour:
       MutableMode: 0
   - Rotation:
       X:
-        RawValue: -46340
+        RawValue: 0
       Y:
         RawValue: 0
       Z:
         RawValue: 0
       W:
-        RawValue: 46340
+        RawValue: 65536
     Position:
       X:
-        RawValue: 0
+        RawValue: 211288
       Y:
-        RawValue: 13107
+        RawValue: 78643
       Z:
-        RawValue: 0
+        RawValue: -102957
     PhysicsMaterial:
       Id:
         Value: 0
-    ShapeType: 4
+    ShapeType: 2
     SphereRadius:
       RawValue: 0
     CapsuleRadius:
@@ -519,7 +519,7 @@ MonoBehaviour:
         RawValue: 0
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: SHOPWALLS
+      Name: HOLO_BANNER
       Tag: Untagged
       Layer: 0
       Asset:
@@ -563,7 +563,7 @@ MonoBehaviour:
         RawValue: 0
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: SHOPWALLS2
+      Name: SHOPWALLS
       Tag: Untagged
       Layer: 0
       Asset:
@@ -607,7 +607,7 @@ MonoBehaviour:
         RawValue: 0
     SmoothSphereMeshCollisions: 0
     StaticData:
-      Name: SHOPPIPES
+      Name: SHOPWALLS2
       Tag: Untagged
       Layer: 0
       Asset:
@@ -615,6 +615,50 @@ MonoBehaviour:
           Value: 0
       IsTrigger: 0
       ColliderIndex: 12
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 4
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOPPIPES
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 13
       MutableMode: 0
   - Rotation:
       X:
@@ -658,7 +702,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 14
       MutableMode: 0
   - Rotation:
       X:
@@ -702,7 +746,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -746,7 +790,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 15
+      ColliderIndex: 16
       MutableMode: 0
   - Rotation:
       X:
@@ -790,7 +834,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 17
       MutableMode: 0
   - Rotation:
       X:
@@ -834,7 +878,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 17
+      ColliderIndex: 18
       MutableMode: 0
   - Rotation:
       X:
@@ -878,7 +922,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 18
+      ColliderIndex: 19
       MutableMode: 0
   - Rotation:
       X:
@@ -922,7 +966,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 19
+      ColliderIndex: 20
       MutableMode: 0
   - Rotation:
       X:
@@ -966,7 +1010,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 20
+      ColliderIndex: 21
       MutableMode: 0
   - Rotation:
       X:
@@ -1010,7 +1054,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 21
+      ColliderIndex: 22
       MutableMode: 0
   - Rotation:
       X:
@@ -1054,7 +1098,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 22
+      ColliderIndex: 23
       MutableMode: 0
   - Rotation:
       X:
@@ -1098,7 +1142,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 23
+      ColliderIndex: 24
       MutableMode: 0
   - Rotation:
       X:
@@ -1142,7 +1186,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 24
+      ColliderIndex: 25
       MutableMode: 0
   MapEntities:
   - Components:

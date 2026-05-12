@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 19;
+        eventCount = 20;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -77,6 +77,7 @@ namespace Quantum {
           case EventQuotaZoneUpdated.ID: result = typeof(EventQuotaZoneUpdated); return;
           case EventQuotaZoneCompleted.ID: result = typeof(EventQuotaZoneCompleted); return;
           case EventShopZoneUpdated.ID: result = typeof(EventShopZoneUpdated); return;
+          case EventShopPurchaseFailed.ID: result = typeof(EventShopPurchaseFailed); return;
           case EventShopPurchaseSucceeded.ID: result = typeof(EventShopPurchaseSucceeded); return;
           case EventValuableHit.ID: result = typeof(EventValuableHit); return;
           default: break;
@@ -180,6 +181,12 @@ namespace Quantum {
       }
       public EventShopZoneUpdated ShopZoneUpdated(EntityRef Entity) {
         var ev = _f.Context.AcquireEvent<EventShopZoneUpdated>(EventShopZoneUpdated.ID);
+        ev.Entity = Entity;
+        _f.AddEvent(ev);
+        return ev;
+      }
+      public EventShopPurchaseFailed ShopPurchaseFailed(EntityRef Entity) {
+        var ev = _f.Context.AcquireEvent<EventShopPurchaseFailed>(EventShopPurchaseFailed.ID);
         ev.Entity = Entity;
         _f.AddEvent(ev);
         return ev;
@@ -612,13 +619,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventShopPurchaseSucceeded : EventBase {
+  public unsafe partial class EventShopPurchaseFailed : EventBase {
     public new const Int32 ID = 17;
     public EntityRef Entity;
-    protected EventShopPurchaseSucceeded(Int32 id, EventFlags flags) : 
+    protected EventShopPurchaseFailed(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventShopPurchaseSucceeded() : 
+    public EventShopPurchaseFailed() : 
         base(17, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -637,15 +644,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventValuableHit : EventBase {
+  public unsafe partial class EventShopPurchaseSucceeded : EventBase {
     public new const Int32 ID = 18;
     public EntityRef Entity;
-    public FPVector3 Position;
-    public FP HitDamage;
-    protected EventValuableHit(Int32 id, EventFlags flags) : 
+    protected EventShopPurchaseSucceeded(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventValuableHit() : 
+    public EventShopPurchaseSucceeded() : 
         base(18, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -659,6 +664,33 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 113;
+        hash = hash * 31 + Entity.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventValuableHit : EventBase {
+    public new const Int32 ID = 19;
+    public EntityRef Entity;
+    public FPVector3 Position;
+    public FP HitDamage;
+    protected EventValuableHit(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventValuableHit() : 
+        base(19, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 127;
         hash = hash * 31 + Entity.GetHashCode();
         hash = hash * 31 + Position.GetHashCode();
         hash = hash * 31 + HitDamage.GetHashCode();

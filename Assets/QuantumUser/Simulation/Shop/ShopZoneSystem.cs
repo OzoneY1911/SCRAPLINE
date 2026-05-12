@@ -53,13 +53,10 @@ namespace Quantum
         {
             if (!frame.Unsafe.TryGetPointer<ShopZone>(shopZoneEntity, out var shopZone)) return;
 
-            if (shopZone->InZoneValue == FP._0)
-            {
-                // Nothing to purchase
-            }
+            if (shopZone->InZoneValue <= FP._0) return;
             else if (shopZone->InZoneValue > frame.Global->PlayerMoney)
             {
-                // Insufficient money
+                frame.Events.ShopPurchaseFailed(shopZoneEntity);
             }
             else
             {
@@ -78,9 +75,8 @@ namespace Quantum
 
                 inZoneValuables.Clear();
                 shopZone->InZoneValue = FP._0;
-                
+
                 frame.Events.PlayerMoneyUpdated();
-                frame.Events.ShopZoneUpdated(shopZoneEntity);
                 frame.Events.ShopPurchaseSucceeded(shopZoneEntity);
             }
         }

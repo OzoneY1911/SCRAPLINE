@@ -13,6 +13,9 @@ namespace Quantum
                 ProceduralRoomEntities = frame.AllocateList<EntityRef>(),
                 ProceduralValuableEntities = frame.AllocateList<EntityRef>(),
             };
+
+            frame.Global->PlayerMoney = 700;
+            frame.Events.PlayerMoneyUpdated();
         }
     }
 }
