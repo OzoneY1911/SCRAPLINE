@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 639098670604584043
+  lastModified: 639143754025893670
   FileSizes:
   - Name: Desktop
     Value: 1942
@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639098676544301980
+  lastModified: 639143634015376498
   FileSizes:
   - Name: Desktop
     Value: 2539808
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639098670600256878
+  lastModified: 639143763530082005
   FileSizes:
   - Name: Desktop
-    Value: 1060
+    Value: 1134
   Exists: 1
 --- !u!114 &-2828510378666334032
 MonoBehaviour:
@@ -129,10 +129,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639098670600246851
+  lastModified: 639143763530068343
   FileSizes:
   - Name: Desktop
-    Value: 1074
+    Value: 1524
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -154,7 +154,6 @@ MonoBehaviour:
   - {fileID: 6610284593357871652}
   EditorEvents:
   - {fileID: -1666722376422374163}
-  - {fileID: 5291992651843766433}
   - {fileID: -2828510378666334032}
   - {fileID: 3567440053842918902}
   EditorParameters: []
@@ -163,16 +162,14 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -2973706128835611095}
   cacheVersion: 131858
-  cacheTime: 639098676544301980
+  cacheTime: 639143763530152407
   SerializableEventsDict:
   - key: event:/Voice/VoiceChat
     index: 0
-  - key: event:/SFX/TestEvent
-    index: 1
   - key: event:/Music/MainMenuMusic
-    index: 2
+    index: 1
   - key: event:/Music/Radio
-    index: 3
+    index: 2
 --- !u!114 &3567440053842918902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,33 +197,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 7.6
   Length: 43656
---- !u!114 &5291992651843766433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/TestEvent
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/SFX/TestEvent
-  Guid:
-    Data1: -1994134422
-    Data2: 1174334424
-    Data3: 650044841
-    Data4: 1956383812
-  Banks:
-  - {fileID: 6610284593357871652}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1301
 --- !u!114 &6610284593357871652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,8 +212,8 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639068529452088280
+  lastModified: 639143763530152407
   FileSizes:
   - Name: Desktop
-    Value: 16928
+    Value: 506
   Exists: 1

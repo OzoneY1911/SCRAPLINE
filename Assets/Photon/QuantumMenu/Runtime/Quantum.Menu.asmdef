@@ -5,7 +5,9 @@
         "Quantum.Simulation",
         "Quantum.Unity",
         "Photon.Realtime",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Game.Audio",
+        "Game.Utils"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
