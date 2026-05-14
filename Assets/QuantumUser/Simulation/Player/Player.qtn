@@ -7,6 +7,12 @@ component Player
     LayerMask LocalMask;
 
     [HideInInspector]
+    FPVector3 ColorRGB;
+
+    [HideInInspector]
+    asset_ref<EmoteConfig> EmoteConfig;
+
+    [HideInInspector]
     player_ref PlayerRef;
 
     [HideInInspector]
@@ -21,11 +27,9 @@ event PlayerSpawned { }
 event PlayerEmoteChanged
 {
     entity_ref PlayerEntity;
-    asset_ref<EmoteConfig> EmoteConfig;
 }
 
 event PlayerColorChanged
 {
     entity_ref PlayerEntity;
-    FPVector3 ColorRGB;
 }

@@ -124,17 +124,15 @@ namespace Quantum {
         _f.AddEvent(ev);
         return ev;
       }
-      public EventPlayerEmoteChanged PlayerEmoteChanged(EntityRef PlayerEntity, AssetRef<EmoteConfig> EmoteConfig) {
+      public EventPlayerEmoteChanged PlayerEmoteChanged(EntityRef PlayerEntity) {
         var ev = _f.Context.AcquireEvent<EventPlayerEmoteChanged>(EventPlayerEmoteChanged.ID);
         ev.PlayerEntity = PlayerEntity;
-        ev.EmoteConfig = EmoteConfig;
         _f.AddEvent(ev);
         return ev;
       }
-      public EventPlayerColorChanged PlayerColorChanged(EntityRef PlayerEntity, FPVector3 ColorRGB) {
+      public EventPlayerColorChanged PlayerColorChanged(EntityRef PlayerEntity) {
         var ev = _f.Context.AcquireEvent<EventPlayerColorChanged>(EventPlayerColorChanged.ID);
         ev.PlayerEntity = PlayerEntity;
-        ev.ColorRGB = ColorRGB;
         _f.AddEvent(ev);
         return ev;
       }
@@ -383,7 +381,6 @@ namespace Quantum {
   public unsafe partial class EventPlayerEmoteChanged : EventBase {
     public new const Int32 ID = 8;
     public EntityRef PlayerEntity;
-    public AssetRef<EmoteConfig> EmoteConfig;
     protected EventPlayerEmoteChanged(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
@@ -402,7 +399,6 @@ namespace Quantum {
       unchecked {
         var hash = 71;
         hash = hash * 31 + PlayerEntity.GetHashCode();
-        hash = hash * 31 + EmoteConfig.GetHashCode();
         return hash;
       }
     }
@@ -410,7 +406,6 @@ namespace Quantum {
   public unsafe partial class EventPlayerColorChanged : EventBase {
     public new const Int32 ID = 9;
     public EntityRef PlayerEntity;
-    public FPVector3 ColorRGB;
     protected EventPlayerColorChanged(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
@@ -429,7 +424,6 @@ namespace Quantum {
       unchecked {
         var hash = 73;
         hash = hash * 31 + PlayerEntity.GetHashCode();
-        hash = hash * 31 + ColorRGB.GetHashCode();
         return hash;
       }
     }

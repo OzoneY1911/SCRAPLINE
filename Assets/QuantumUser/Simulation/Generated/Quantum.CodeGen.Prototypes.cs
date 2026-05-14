@@ -615,6 +615,10 @@ namespace Quantum.Prototypes {
     public FP InteractionDistance;
     public LayerMask LocalMask;
     [HideInInspector()]
+    public FPVector3 ColorRGB;
+    [HideInInspector()]
+    public AssetRef<EmoteConfig> EmoteConfig;
+    [HideInInspector()]
     public PlayerRef PlayerRef;
     [HideInInspector()]
     public FP LookYaw;
@@ -630,6 +634,8 @@ namespace Quantum.Prototypes {
         result.Strength = this.Strength;
         result.InteractionDistance = this.InteractionDistance;
         result.LocalMask = this.LocalMask;
+        result.ColorRGB = this.ColorRGB;
+        result.EmoteConfig = this.EmoteConfig;
         result.PlayerRef = this.PlayerRef;
         result.LookYaw = this.LookYaw;
         result.LookPitch = this.LookPitch;

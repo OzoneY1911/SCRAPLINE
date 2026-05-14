@@ -1,8 +1,9 @@
+using Photon.Deterministic;
 using Quantum;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCustomizationView : QuantumEntityViewComponent
+public unsafe class PlayerCustomizationView : QuantumEntityViewComponent
 {
     [SerializeField] private Transform _playerObject;
     [SerializeField] private Transform _playerFPVObject;
@@ -21,6 +22,9 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
     {
         base.OnActivate(frame);
 
+        _playerColorableRenderers.Clear();
+        _playerFPVRenderers.Clear();
+
         for (int i = 0; i < _playerObject.childCount; i++)
         {
             var renderer = _playerObject.GetChild(i).GetComponent<Renderer>();
@@ -38,6 +42,14 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
 
             _playerFPVRenderers.Add(renderer);
         }
+
+        if (!frame.Unsafe.TryGetPointer<Player>(EntityRef, out var player)) return;
+
+        if (player->EmoteConfig.IsValid)
+        {
+            ApplyEmote(frame.FindAsset<EmoteConfig>(player->EmoteConfig));
+        }
+        ApplyColor(player->ColorRGB);
     }
 
     private void OnEventPlayerEmoteChanged(EventPlayerEmoteChanged e)
@@ -45,8 +57,8 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
         if (e.PlayerEntity != EntityRef) return;
         var frame = e.Game.Frames.Verified;
 
-        var emoteConfig = frame.FindAsset<EmoteConfig>(e.EmoteConfig);
-        _visorRenderer.material.SetTexture("_Emote_Texture", emoteConfig.Texture);
+        if (!frame.Unsafe.TryGetPointer<Player>(e.PlayerEntity, out var player)) return;
+        ApplyEmote(frame.FindAsset<EmoteConfig>(player->EmoteConfig));
     }
 
     private void OnEventPlayerColorChanged(EventPlayerColorChanged e)
@@ -54,10 +66,16 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
         if (e.PlayerEntity != EntityRef) return;
         var frame = e.Game.Frames.Verified;
 
+        if (!frame.Unsafe.TryGetPointer<Player>(e.PlayerEntity, out var player)) return;
+        ApplyColor(player->ColorRGB);
+    }
+
+    private void ApplyColor(FPVector3 colorRGB)
+    {
         var newColor = new Color(
-            e.ColorRGB.X.AsFloat, 
-            e.ColorRGB.Y.AsFloat, 
-            e.ColorRGB.Z.AsFloat
+            colorRGB.X.AsFloat,
+            colorRGB.Y.AsFloat,
+            colorRGB.Z.AsFloat
             );
 
         foreach (var renderer in _playerColorableRenderers)
@@ -69,5 +87,10 @@ public class PlayerCustomizationView : QuantumEntityViewComponent
         {
             renderer.materials[0].SetColor("_BaseColor", newColor);
         }
+    }
+
+    private void ApplyEmote(EmoteConfig config)
+    {
+        _visorRenderer.material.SetTexture("_Emote_Texture", config.Texture);
     }
 }

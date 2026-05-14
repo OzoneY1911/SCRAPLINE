@@ -12,12 +12,14 @@ namespace Quantum
         {
             foreach (var emoteCommand in frame.GetPlayerCommands<CommandSetEmote>(filter.Player->PlayerRef))
             {
-                frame.Events.PlayerEmoteChanged(filter.Entity, emoteCommand.EmoteConfig);
+                filter.Player->EmoteConfig = emoteCommand.EmoteConfig;
+                frame.Events.PlayerEmoteChanged(filter.Entity);
             }
 
             foreach (var colorCommand in frame.GetPlayerCommands<CommandSetPlayerColor>(filter.Player->PlayerRef))
             {
-                frame.Events.PlayerColorChanged(filter.Entity, colorCommand.ColorRGB);
+                filter.Player->ColorRGB = colorCommand.ColorRGB;
+                frame.Events.PlayerColorChanged(filter.Entity);
             }
         }
     }
