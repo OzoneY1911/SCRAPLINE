@@ -27,9 +27,11 @@ event PlayerSpawned { }
 event PlayerEmoteChanged
 {
     entity_ref PlayerEntity;
+    asset_ref<EmoteConfig> EmoteConfig;
 }
 
 event PlayerColorChanged
 {
     entity_ref PlayerEntity;
+    FPVector3 ColorRGB;
 }

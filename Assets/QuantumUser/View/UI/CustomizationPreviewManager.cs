@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class CustomizationPreviewManager : PersistentSingletonMono<CustomizationPreviewManager>
 {
+    [Header("Renderers")]
     [SerializeField] private Transform _playerObject;
     [SerializeField] private Renderer _visorRenderer;
+
+    [Header("Emote Configs")]
+    [SerializeField] private List<EmoteConfig> _emoteConfigs;
 
     private List<Renderer> _playerColorableRenderers = new();
 
@@ -24,6 +28,12 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
             if (renderer == null || !renderer.gameObject.CompareTag("Colorable")) continue;
 
             _playerColorableRenderers.Add(renderer);
+        }
+
+        SetColor(PlayerCustomizationUtils.GetPlayerColor());
+        if (PlayerCustomizationUtils.TryGetPlayerEmoteConfigGuid(out var emoteConfigGuid))
+        {
+            SetEmote(emoteConfigGuid);
         }
     }
 
@@ -59,6 +69,18 @@ public class CustomizationPreviewManager : PersistentSingletonMono<Customization
     {
         _currentEmoteConfig = config;
         _visorRenderer.material.SetTexture("_Emote_Texture", config.Texture);
+    }
+
+    public void SetEmote(AssetGuid guid)
+    {
+        foreach (EmoteConfig config in _emoteConfigs)
+        {
+            if (config.Guid == guid)
+            {
+                SetEmote(config);
+                return;
+            }
+        }
     }
 
     public void SetColor(Color color)

@@ -468,6 +468,16 @@ MonoBehaviour:
       RawValue: 131072
     LocalMask:
       BitMask: 2048
+    ColorRGB:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    EmoteConfig:
+      Id:
+        Value: 0
     PlayerRef:
       _index: 0
     LookYaw:

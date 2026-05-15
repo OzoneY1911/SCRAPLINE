@@ -49,6 +49,7 @@ public unsafe class PlayerCustomizationView : QuantumEntityViewComponent
         {
             ApplyEmote(frame.FindAsset<EmoteConfig>(player->EmoteConfig));
         }
+
         ApplyColor(player->ColorRGB);
     }
 
@@ -57,17 +58,14 @@ public unsafe class PlayerCustomizationView : QuantumEntityViewComponent
         if (e.PlayerEntity != EntityRef) return;
         var frame = e.Game.Frames.Verified;
 
-        if (!frame.Unsafe.TryGetPointer<Player>(e.PlayerEntity, out var player)) return;
-        ApplyEmote(frame.FindAsset<EmoteConfig>(player->EmoteConfig));
+        ApplyEmote(frame.FindAsset<EmoteConfig>(e.EmoteConfig));
     }
 
     private void OnEventPlayerColorChanged(EventPlayerColorChanged e)
     {
         if (e.PlayerEntity != EntityRef) return;
-        var frame = e.Game.Frames.Verified;
 
-        if (!frame.Unsafe.TryGetPointer<Player>(e.PlayerEntity, out var player)) return;
-        ApplyColor(player->ColorRGB);
+        ApplyColor(e.ColorRGB);
     }
 
     private void ApplyColor(FPVector3 colorRGB)

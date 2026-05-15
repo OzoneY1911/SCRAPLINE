@@ -1,6 +1,7 @@
 using Photon.Deterministic;
 using Quantum;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerColorButton : MonoBehaviour
 {
@@ -17,9 +18,18 @@ public class PlayerColorButton : MonoBehaviour
             );
     }
 
+    private void Start()
+    {
+        if (_colorRGB == PlayerCustomizationUtils.GetPlayerColorRGB())
+        {
+            GetComponent<Toggle>().isOn = true;
+        }
+    }
+
     public void SetColor()
     {
         CustomizationPreviewManager.Instance.SetColor(_color);
+        PlayerCustomizationUtils.SavePlayerColor(_color);
 
         if (QuantumRunner.Default == null) return;
 
