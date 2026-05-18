@@ -47,7 +47,9 @@ namespace Quantum
 
             var playerEntity = frame.Create(entityPrototypeAsset);
 
-            frame.Unsafe.GetPointer<Player>(playerEntity)->PlayerRef = playerRef;
+            var player = frame.Unsafe.GetPointer<Player>(playerEntity);
+            player->PlayerRef = playerRef;
+            player->Nickname = playerData.PlayerNickname;
 
             MapCustomDataUtils.SetPlayerToRandomSpawnPoint(frame, playerEntity);
 
@@ -64,7 +66,6 @@ namespace Quantum
 
         private void SetLocalLayer(Frame frame, PlayerRef playerRef, EntityRef playerEntity)
         {
-            var player = frame.Unsafe.GetPointer<Player>(playerEntity);
             var collider = frame.Unsafe.GetPointer<PhysicsCollider3D>(playerEntity);
 
             collider->Layer = 11;

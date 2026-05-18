@@ -144,7 +144,7 @@ namespace Quantum.Menu {
       }
 
       if (string.IsNullOrEmpty(Username)) {
-        Username = $"Player{config.CodeGenerator.Create(3)}";
+        Username = Steamworks.SteamClient.Name;
       }
 
       if (config.AvailableSceneAssets.Count > 0) {

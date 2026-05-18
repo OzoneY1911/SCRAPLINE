@@ -7,6 +7,9 @@ component Player
     LayerMask LocalMask;
 
     [HideInInspector]
+    QString<32> Nickname;
+
+    [HideInInspector]
     FPVector3 ColorRGB;
 
     [HideInInspector]

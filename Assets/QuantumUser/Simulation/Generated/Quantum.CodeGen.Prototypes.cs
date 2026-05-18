@@ -614,6 +614,9 @@ namespace Quantum.Prototypes {
     public SByte Strength;
     public FP InteractionDistance;
     public LayerMask LocalMask;
+    [MaxStringByteCount(30, "Unicode")]
+    [HideInInspector()]
+    public string Nickname;
     [HideInInspector()]
     public FPVector3 ColorRGB;
     [HideInInspector()]
@@ -634,6 +637,7 @@ namespace Quantum.Prototypes {
         result.Strength = this.Strength;
         result.InteractionDistance = this.InteractionDistance;
         result.LocalMask = this.LocalMask;
+        PrototypeValidator.AssignQString(this.Nickname, 32, in context, out result.Nickname);
         result.ColorRGB = this.ColorRGB;
         result.EmoteConfig = this.EmoteConfig;
         result.PlayerRef = this.PlayerRef;

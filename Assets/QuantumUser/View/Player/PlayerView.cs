@@ -2,11 +2,15 @@ using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using TMPro;
 
 namespace Quantum
 {
     public unsafe class PlayerView : QuantumEntityViewComponent<SceneContext>
     {
+        [Header("Player Nickname")]
+        [SerializeField] private TextMeshPro _nicknameTMP;
+
         [Header("Camera Handle")]
         public Transform CameraHandle;
 
@@ -63,6 +67,8 @@ namespace Quantum
                     renderer.enabled = false;
                 }
             }
+
+            _nicknameTMP.text = player->Nickname;
         }
 
         public override void OnDeactivate()
