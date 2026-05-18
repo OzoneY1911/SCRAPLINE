@@ -13,7 +13,7 @@ public class SteamManager : PersistentSingletonMono<SteamManager>
         }
         catch (System.Exception e)
         {
-            Debug.Log(e.Message);
+            Debug.LogException(e);
         }
     }
 
