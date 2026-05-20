@@ -30,37 +30,5 @@ namespace Quantum
 
             _animator.SetBool("IsDragging", dragging.IsDragging);
         }
-
-        private void OnEventInventorySlotSelected(EventInventorySlotSelected e)
-        {
-            if (EntityRef != e.PlayerEntity) return;
-
-            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
-
-            _animator.SetBool(
-                "IsHolding", 
-                PlayerInventoryUtils.IsSlotSelected(playerInventory) 
-                && !PlayerInventoryUtils.IsSelectedSlotEmpty(playerInventory));
-        }
-
-        private void OnEventValuableCollected(EventValuableCollected e)
-        {
-            if (EntityRef != e.PlayerEntity) return;
-
-            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
-
-            if (playerInventory->SelectedSlotIndex != e.SlotIndex) return;
-
-            _animator.SetBool("IsHolding", true);
-        }
-
-        private void OnEventValuableDropped(EventValuableDropped e)
-        {
-            if (EntityRef != e.PlayerEntity) return;
-
-            if (!VerifiedFrame.Unsafe.TryGetPointer(EntityRef, out PlayerInventory* playerInventory)) return;
-
-            _animator.SetBool("IsHolding", false);
-        }
     }
 }

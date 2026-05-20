@@ -1,0 +1,4 @@
+component BackDevice
+{
+	entity_ref CurrentOwner;
+}

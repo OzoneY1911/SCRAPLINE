@@ -6,12 +6,22 @@ namespace Quantum
     public unsafe class ValuableView : QuantumEntityViewComponent
     {
         [SerializeField] private GameObject _damagePrefab;
+        [SerializeField] private bool _isBackDevice;
 
         public override void OnActivate(Frame frame)
         {
             QuantumEvent.Subscribe<EventValuableHit>(this, OnEventValuableHit);
-            QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
-            QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
+
+            if (!_isBackDevice)
+            {
+                QuantumEvent.Subscribe<EventValuableCollected>(this, OnEventValuableCollected);
+                QuantumEvent.Subscribe<EventValuableDropped>(this, OnEventValuableDropped);
+            }
+            else
+            {
+                QuantumEvent.Subscribe<EventBackDeviceCollected>(this, OnEventBackDeviceCollected);
+                QuantumEvent.Subscribe<EventBackDeviceDropped>(this, OnEventBackDeviceDropped);
+            }
             
             if (!VerifiedFrame.Unsafe.TryGetPointer<PhysicsBody3D>(EntityRef, out var physicsBody)) return;
 
@@ -42,6 +52,20 @@ namespace Quantum
         private void OnEventValuableDropped(EventValuableDropped e)
         {
             if (EntityRef != e.ValuableEntity) return;
+
+            gameObject.SetActive(true);
+        }
+
+        private void OnEventBackDeviceCollected(EventBackDeviceCollected e)
+        {
+            if (EntityRef != e.BackDeviceEntity) return;
+
+            gameObject.SetActive(false);
+        }
+
+        private void OnEventBackDeviceDropped(EventBackDeviceDropped e)
+        {
+            if (EntityRef != e.BackDeviceEntity) return;
 
             gameObject.SetActive(true);
         }

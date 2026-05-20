@@ -81,6 +81,7 @@ namespace Quantum
 
             _accumulatedInput.CollectValuable = _playerControls.Main.CollectValuable.IsPressed();
             _accumulatedInput.DropValuable = _playerControls.Main.DropValuable.IsPressed();
+            _accumulatedInput.DropBackDevice = _playerControls.Main.DropBackDevice.IsPressed();
 
             // Process mouse input
 

@@ -19,6 +19,11 @@ namespace Quantum
             return playerInventory->Slots[(int)playerInventory->SelectedSlotIndex] == EntityRef.None;
         }
 
+        public static bool IsBackDeviceSlotEmpty(PlayerInventory* playerInventory)
+        {
+            return playerInventory->BackDeviceSlot == EntityRef.None;
+        }
+
         public static bool IsSlotSelected(PlayerInventory* playerInventory)
         {
             return playerInventory->SelectedSlotIndex != SlotIndex.None;

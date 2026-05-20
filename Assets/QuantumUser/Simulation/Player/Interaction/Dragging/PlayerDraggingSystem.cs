@@ -52,11 +52,13 @@ namespace Quantum
 
                 if (input->CollectValuable.WasPressed)
                 {
-                    if (!frame.Unsafe.TryGetPointer<Valuable>(playerDragging->DraggedEntity, out var valuable)) return;
-
-                    if (frame.FindAsset<ValuableConfig>(valuable->Config).IsPocketValuable)
+                    if (frame.Unsafe.TryGetPointer<Valuable>(playerDragging->DraggedEntity, out var valuable))
                     {
-                        frame.Signals.OnValuableCollectAttempted(filter.Entity, playerDragging->DraggedEntity);
+                        var valuableConfig = frame.FindAsset<ValuableConfig>(valuable->Config);
+                        if (valuableConfig.IsPocketValuable || valuableConfig.IsBackDevice)
+                        {
+                            frame.Signals.OnValuableCollectAttempted(filter.Entity, playerDragging->DraggedEntity, valuableConfig);
+                        }
                     }
                 }
 

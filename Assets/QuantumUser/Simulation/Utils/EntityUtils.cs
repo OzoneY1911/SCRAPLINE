@@ -54,4 +54,22 @@ public unsafe static class EntityUtils
             frame.Destroy(entity);
         }
     }
+
+    public static void DisableEntityPhysics(Frame frame, EntityRef entity)
+    {
+        var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(entity);
+        var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(entity);
+        valuableBody->Enabled = false;
+        valuableCollider->Enabled = false;
+    }
+
+    public static void RestoryEntityPhysicsAndVelocity(Frame frame, EntityRef entity, KCC* parentKCC)
+    {
+        var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(entity);
+        var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(entity);
+
+        valuableBody->Velocity = parentKCC->RealVelocity;
+        valuableBody->Enabled = true;
+        valuableCollider->Enabled = true;
+    }
 }

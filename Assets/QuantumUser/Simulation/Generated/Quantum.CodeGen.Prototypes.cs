@@ -105,6 +105,19 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.BackDevice))]
+  public unsafe class BackDevicePrototype : ComponentPrototype<Quantum.BackDevice> {
+    public MapEntityId CurrentOwner;
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.BackDevice component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.BackDevice result, in PrototypeMaterializationContext context = default) {
+        PrototypeValidator.FindMapEntity(this.CurrentOwner, in context, out result.CurrentOwner);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Consumable))]
   public unsafe partial class ConsumablePrototype : ComponentPrototype<Quantum.Consumable> {
     [HideInInspector()]
@@ -251,6 +264,7 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum8<SlotIndex> SelectedInventorySlotIndex;
     public Button CollectValuable;
     public Button DropValuable;
+    public Button DropBackDevice;
     public FPVector3 CameraPosition;
     public FPVector3 CameraForward;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
@@ -270,6 +284,7 @@ namespace Quantum.Prototypes {
         result.SelectedInventorySlotIndex = this.SelectedInventorySlotIndex;
         result.CollectValuable = this.CollectValuable;
         result.DropValuable = this.DropValuable;
+        result.DropBackDevice = this.DropBackDevice;
         result.CameraPosition = this.CameraPosition;
         result.CameraForward = this.CameraForward;
         MaterializeUser(frame, ref result, in context);
@@ -693,6 +708,7 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum8<SlotIndex> SelectedSlotIndex;
     [ArrayLengthAttribute(3)]
     public MapEntityId[] Slots = new MapEntityId[3];
+    public MapEntityId BackDeviceSlot;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.PlayerInventory component = default;
         Materialize((Frame)f, ref component, in context);
@@ -703,6 +719,7 @@ namespace Quantum.Prototypes {
         for (int i = 0, count = PrototypeValidator.CheckLength(Slots, 3, in context); i < count; ++i) {
           PrototypeValidator.FindMapEntity(this.Slots[i], in context, out *result.Slots.GetPointer(i));
         }
+        PrototypeValidator.FindMapEntity(this.BackDeviceSlot, in context, out result.BackDeviceSlot);
     }
   }
   [System.SerializableAttribute()]

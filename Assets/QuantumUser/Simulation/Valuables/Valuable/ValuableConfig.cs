@@ -8,6 +8,7 @@ namespace Quantum
         public string DisplayName;
 
         public bool IsPocketValuable;
+        public bool IsBackDevice;
 
         public UseMode UseMode;
 

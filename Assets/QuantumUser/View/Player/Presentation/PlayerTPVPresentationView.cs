@@ -5,9 +5,18 @@ namespace Quantum
     public unsafe class PlayerTPVPresentationView : QuantumEntityViewComponent
     {
         [SerializeField] private Transform _handSocket;
+        [SerializeField] private Transform _backDeviceSocket;
+
+        private GameObject _backDeviceVisual;
 
         private EntityRef _currentEntity;
         private GameObject _currentVisual;
+
+        public override void OnActivate(Frame frame)
+        {
+            QuantumEvent.Subscribe<EventBackDeviceCollected>(this, OnEventBackDeviceCollected);
+            QuantumEvent.Subscribe<EventBackDeviceDropped>(this, OnEventBackDeviceDropped);
+        }
 
         public override void OnUpdateView()
         {
@@ -91,6 +100,24 @@ namespace Quantum
                     }
                 }
             }
+        }
+
+        private void OnEventBackDeviceCollected(EventBackDeviceCollected e)
+        {
+            if (EntityRef != e.PlayerEntity) return;
+
+            if (!VerifiedFrame.Unsafe.TryGetPointer<Valuable>(e.BackDeviceEntity, out var valuable)) return;
+            var prefab = VerifiedFrame.FindAsset<ValuableConfig>(valuable->Config).TPVPrefab;
+
+            _backDeviceVisual = Instantiate(prefab, _backDeviceSocket);
+        }
+
+        private void OnEventBackDeviceDropped(EventBackDeviceDropped e)
+        {
+            if (EntityRef != e.PlayerEntity) return;
+
+            Destroy(_backDeviceVisual);
+            _backDeviceVisual = null;
         }
     }
 }
