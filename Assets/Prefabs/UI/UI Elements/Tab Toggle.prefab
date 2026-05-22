@@ -153,13 +153,13 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1639243321
-      Data2: 1304835894
-      Data3: 826992028
-      Data4: -533407156
-    Path: event:/SFX/Hover
+      Data1: 1760120550
+      Data2: 1250471805
+      Data3: 446303163
+      Data4: -1840820150
+    Path: event:/SFX/TabClick
   Event: 
-  EventPlayTrigger: 17
+  EventPlayTrigger: 19
   EventStopTrigger: 0
   AllowFadeout: 1
   TriggerOnce: 0

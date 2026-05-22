@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 102266650724182244}
   - component: {fileID: 4138895161009062075}
   - component: {fileID: 117152499419718347}
-  - component: {fileID: 6365638461992064792}
   - component: {fileID: 8259532709830185294}
   m_Layer: 5
   m_Name: Button Primary
@@ -147,37 +146,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6365638461992064792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282254748071357671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 1639243321
-      Data2: 1304835894
-      Data3: 826992028
-      Data4: -533407156
-    Path: event:/SFX/Hover
-  Event: 
-  EventPlayTrigger: 17
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!114 &8259532709830185294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +165,7 @@ MonoBehaviour:
       Data2: 1113115392
       Data3: -793315709
       Data4: 342575998
-    Path: event:/SFX/Click
+    Path: event:/SFX/ButtonClick
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
