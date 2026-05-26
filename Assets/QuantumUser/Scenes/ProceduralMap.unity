@@ -178,9 +178,9 @@ GameObject:
   m_Component:
   - component: {fileID: 343134950}
   - component: {fileID: 343134949}
-  - component: {fileID: 343134948}
   - component: {fileID: 343134947}
   - component: {fileID: 343134946}
+  - component: {fileID: 343134951}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -359,14 +359,6 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
---- !u!81 &343134948
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343134945}
-  m_Enabled: 1
 --- !u!20 &343134949
 Camera:
   m_ObjectHideFlags: 0
@@ -433,6 +425,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &343134951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343134945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &351548544
 GameObject:
   m_ObjectHideFlags: 0

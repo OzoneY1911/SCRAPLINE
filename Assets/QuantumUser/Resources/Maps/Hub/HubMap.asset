@@ -495,11 +495,11 @@ MonoBehaviour:
         RawValue: 65536
     Position:
       X:
-        RawValue: 211288
+        RawValue: 220659
       Y:
         RawValue: 78643
       Z:
-        RawValue: -102957
+        RawValue: -99221
     PhysicsMaterial:
       Id:
         Value: 0

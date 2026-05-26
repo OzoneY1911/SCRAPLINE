@@ -272,7 +272,7 @@ MonoBehaviour:
     IsEnabled: 1
     Config2D: 116
     Config3D: 63
-    RotationFreeze: 255
+    RotationFreeze: 0
     InertiaMode: 0
     Mass:
       RawValue: 65536
@@ -1276,6 +1276,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 618323a65353d9441b6af30647a928a9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3981550591613749900}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 618323a65353d9441b6af30647a928a9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2620651312060578503}
   m_SourcePrefab: {fileID: 100100000, guid: 618323a65353d9441b6af30647a928a9, type: 3}
 --- !u!4 &37745439995145652 stripped
 Transform:
@@ -1314,6 +1317,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2620651312060578503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850557918154422030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd709048ab4410241bbd2587e4d3db4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::FootstepAudio
+  _footstepEvent:
+    Guid:
+      Data1: -190332922
+      Data2: 1191737408
+      Data3: -2136500833
+      Data4: 964485206
+    Path: event:/SFX/Footstep
+  _rayDistance: 2
 --- !u!4 &1929441453402778824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2146634812483184279, guid: 618323a65353d9441b6af30647a928a9, type: 3}

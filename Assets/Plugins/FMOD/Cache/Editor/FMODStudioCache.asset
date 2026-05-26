@@ -35,11 +35,39 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639143634015376498
+  lastModified: 639153194487764849
   FileSizes:
   - Name: Desktop
     Value: 2539808
   Exists: 1
+--- !u!114 &-6683709138623033960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Footstep
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/SFX/Footstep
+  Guid:
+    Data1: -190332922
+    Data2: 1191737408
+    Data3: -2136500833
+    Data4: 964485206
+  Banks:
+  - {fileID: 6610284593357871652}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -302029855825502216}
+  MinDistance: 2
+  MaxDistance: 20
+  Length: 574
 --- !u!114 &-4709561966503074180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,10 +110,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639150609509704720
+  lastModified: 639153189940557564
   FileSizes:
   - Name: Desktop
-    Value: 1272
+    Value: 1360
   Exists: 1
 --- !u!114 &-2828510378666334032
 MonoBehaviour:
@@ -141,6 +169,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &-302029855825502216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footstep/Surface
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Surface
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2412435662
+    data2: 2330271095
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Metal
+  - Tile
+  Exists: 1
 --- !u!114 &-68164164631974384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,10 +210,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639150609509693851
+  lastModified: 639153189940532519
   FileSizes:
   - Name: Desktop
-    Value: 1524
+    Value: 1824
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -186,13 +240,14 @@ MonoBehaviour:
   - {fileID: 6264528903808543048}
   - {fileID: -4709561966503074180}
   - {fileID: 6674245712703530235}
+  - {fileID: -6683709138623033960}
   EditorParameters: []
   MasterBanks:
   - {fileID: -68164164631974384}
   StringsBanks:
   - {fileID: -2973706128835611095}
   cacheVersion: 131858
-  cacheTime: 639150609510023317
+  cacheTime: 639153194488096197
   SerializableEventsDict:
   - key: event:/Voice/VoiceChat
     index: 0
@@ -206,6 +261,8 @@ MonoBehaviour:
     index: 4
   - key: event:/SFX/TabClick
     index: 5
+  - key: event:/SFX/Footstep
+    index: 6
 --- !u!114 &3567440053842918902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +287,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters: []
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 7.6
   Length: 43656
 --- !u!114 &6264528903808543048
@@ -275,10 +332,10 @@ MonoBehaviour:
   Path: ../../FMOD Projects/SCRAPLINE_FMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639150609510023317
+  lastModified: 639153194488096197
   FileSizes:
   - Name: Desktop
-    Value: 12064
+    Value: 23744
   Exists: 1
 --- !u!114 &6674245712703530235
 MonoBehaviour:

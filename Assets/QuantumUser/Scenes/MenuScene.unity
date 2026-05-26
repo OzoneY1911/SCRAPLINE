@@ -2240,6 +2240,7 @@ GameObject:
   - component: {fileID: 676738161}
   - component: {fileID: 676738163}
   - component: {fileID: 676738164}
+  - component: {fileID: 676738165}
   m_Layer: 0
   m_Name: Menu Camera
   m_TagString: Untagged
@@ -2466,6 +2467,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 1
   attenuationObject: {fileID: 0}
+--- !u!114 &676738165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676738159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2855cface6e5746bc616278cf28813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::MenuCameraController
 --- !u!224 &676876887 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1701368489277379167, guid: d997c2348fe3ad94cb47cec74392cdc3, type: 3}
