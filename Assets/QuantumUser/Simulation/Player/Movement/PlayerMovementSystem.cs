@@ -10,7 +10,7 @@ namespace Quantum
         {
             public EntityRef Entity;
             public Transform3D* Transform;
-            public KCC* KCC;
+            public PhysicsBody3D* Body;
             public PhysicsCollider3D* Collider;
             public Player* Player;
             public PlayerMovement* Movement;
@@ -37,7 +37,7 @@ namespace Quantum
 
             player->LookPitch = FPMath.Clamp(player->LookPitch, -FP.FromFloat_UNSAFE(89f), FP.FromFloat_UNSAFE(89f));
 
-            filter.KCC->SetLookRotation(0, player->LookYaw);
+            filter.Transform->Rotation = FPQuaternion.Euler(0, player->LookYaw, 0);
         }
 
         private void HandleMovement(Frame frame, ref Filter filter)
@@ -68,23 +68,21 @@ namespace Quantum
             else
                 speed = movement->WalkSpeed;
 
-            // ---- KCC ADD-ON INPUT ----
-            var kcc = filter.KCC;
-
-            kcc->SetKinematicVelocity(worldMove * speed);
+            if (worldMove == FPVector3.Zero) return;
+            filter.Body->AddLinearImpulse(worldMove * speed);
         }
 
         private void HandleJumping(Frame frame, ref Filter filter)
         {
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var stamina = filter.Stamina;
-            var kcc = filter.KCC;
 
             if (input->Jump.WasPressed &&
-                kcc->IsGrounded &&
+                PlayerPhysicsUtils.IsGrounded(frame, filter) &&
                 stamina->Current >= stamina->CostPerJump)
             {
-                kcc->AddExternalImpulse(new FPVector3(0, filter.Movement->JumpForce, 0));
+                filter.Body->AddLinearImpulse(new FPVector3(0, filter.Movement->JumpForce, 0)
+);
 
                 frame.Signals.OnPlayerJump(filter.Entity);
             }

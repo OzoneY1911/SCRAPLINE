@@ -94,7 +94,7 @@ namespace Quantum
         private void HandleMovementAnimation(Frame frame)
         {
             var movement = frame.Get<PlayerMovement>(EntityRef);
-            var velocity = frame.Get<KCC>(EntityRef).RealVelocity;
+            var velocity = frame.Get<PhysicsBody3D>(EntityRef).Velocity;
 
             var horizontalVelocity = new Vector3(velocity.X.AsFloat, 0f, velocity.Z.AsFloat);
 

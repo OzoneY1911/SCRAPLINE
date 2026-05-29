@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 1902708944}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &34038907
 Transform:
   m_ObjectHideFlags: 19
@@ -750,7 +751,7 @@ MonoBehaviour:
     MutableMode: 0
     PhysicsMaterial:
       Id:
-        Value: 0
+        Value: 1450256864954719521
     Asset:
       Id:
         Value: 0
@@ -1129,6 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -4498,7 +4500,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1552428693}
+      addedObject: {fileID: 1552428697}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1552428696}
   m_SourcePrefab: {fileID: 100100000, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
 --- !u!4 &615557642 stripped
 Transform:
@@ -9845,6 +9850,162 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1469021, y: 0.57687163, z: 0.7733691}
   m_Center: {x: -0.55460954, y: 1.2884358, z: 0.7458565}
+--- !u!1 &1291130828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1291130833}
+  - component: {fileID: 1291130832}
+  - component: {fileID: 1291130831}
+  - component: {fileID: 1291130830}
+  - component: {fileID: 1291130829}
+  m_Layer: 0
+  m_Name: BoxEntity
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1291130829
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291130828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.7581177, y: 1, z: 2.0544872}
+  m_Center: {x: -0.08602667, y: 0, z: -0.4210186}
+--- !u!114 &1291130830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291130828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticBoxCollider3D
+  SourceCollider: {fileID: 1291130829}
+  Size:
+    X:
+      RawValue: 115220
+    Y:
+      RawValue: 65536
+    Z:
+      RawValue: 134642
+  PositionOffset:
+    X:
+      RawValue: -5637
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -27591
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+--- !u!23 &1291130831
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291130828}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1291130832
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291130828}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1291130833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291130828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.626, y: -0.206, z: -6.085}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1338248316
 GameObject:
   m_ObjectHideFlags: 0
@@ -10015,6 +10176,7 @@ MonoBehaviour:
   - {fileID: 1916977775}
   - {fileID: 1606864953}
   - {fileID: 1807641961}
+  - {fileID: 1552428696}
   - {fileID: 2097795556}
   - {fileID: 2082749547}
   - {fileID: 1904333018}
@@ -10023,6 +10185,7 @@ MonoBehaviour:
   - {fileID: 1290980765}
   - {fileID: 2049571046}
   - {fileID: 476354494}
+  - {fileID: 1291130830}
   - {fileID: 1358407695}
   - {fileID: 1961581532}
   - {fileID: 1778045655}
@@ -10030,7 +10193,6 @@ MonoBehaviour:
   - {fileID: 634556598}
   - {fileID: 147826975}
   - {fileID: 5812161}
-  - {fileID: 1552428693}
   - {fileID: 1838489305}
   - {fileID: 1916036159}
   - {fileID: 63313277}
@@ -10503,6 +10665,7 @@ MonoBehaviour:
   m_Script: {fileID: 2048546098}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &1523763533
 Transform:
   m_ObjectHideFlags: 19
@@ -10585,7 +10748,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
   m_PrefabInstance: {fileID: 615557641}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1552428693
+--- !u!114 &1552428696
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10594,10 +10757,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1552428690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
-  Mesh: {fileID: 2853112507537187173, guid: f0345aad876a8ef42878297b8d1042d9, type: 3}
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticBoxCollider3D
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
   Settings:
     MutableMode: 0
     PhysicsMaterial:
@@ -10607,7 +10791,27 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
-  SmoothSphereMeshCollisions: 0
+--- !u!65 &1552428697
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552428690}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.010598187, y: 0.0070764786, z: 0.0002800013}
+  m_Center: {x: 0, y: 0, z: 2.3283064e-10}
 --- !u!1 &1553934518 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2225768832293439305, guid: da7b2c291f1b30e4b990adb234605483, type: 3}
@@ -15501,6 +15705,7 @@ MonoBehaviour:
   m_Script: {fileID: 1800156794}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
+  m_Entries: []
 --- !u!4 &1565275882
 Transform:
   m_ObjectHideFlags: 19
@@ -19164,7 +19369,7 @@ MonoBehaviour:
     MutableMode: 0
     PhysicsMaterial:
       Id:
-        Value: 0
+        Value: 1450256864954719521
     Asset:
       Id:
         Value: 0
@@ -22752,3 +22957,4 @@ SceneRoots:
   - {fileID: 33192759}
   - {fileID: 910807622}
   - {fileID: 1013241571}
+  - {fileID: 1291130833}
