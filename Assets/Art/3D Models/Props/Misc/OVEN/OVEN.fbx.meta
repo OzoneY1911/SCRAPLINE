@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7161fcf9d1fe3a148a39ab920c63b8e3
+guid: 37040b62d4381cd4d807011809293a70
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: LOBBYMONITORS
-    second: {fileID: 2100000, guid: c6f68c758f518224e9b02ad14c74e3c1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LOBBY_MONITORS_BASE
-    second: {fileID: 2100000, guid: dfa3aab37505e484bb9a549fbc683ccf, type: 2}
+      name: OVEN
+    second: {fileID: 2100000, guid: 2cf5fb59d92008742b9d6703abf0452a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -63,12 +63,13 @@ public unsafe static class EntityUtils
         valuableCollider->Enabled = false;
     }
 
-    public static void RestoryEntityPhysicsAndVelocity(Frame frame, EntityRef entity, KCC* parentKCC)
+    public static void RestoryEntityPhysicsAndVelocity(Frame frame, EntityRef entity, PhysicsBody3D* parentBody)
     {
         var valuableBody = frame.Unsafe.GetPointer<PhysicsBody3D>(entity);
         var valuableCollider = frame.Unsafe.GetPointer<PhysicsCollider3D>(entity);
 
-        valuableBody->Velocity = parentKCC->RealVelocity;
+        valuableBody->Velocity = parentBody->Velocity;
+        valuableBody->AngularVelocity = parentBody->AngularVelocity;
         valuableBody->Enabled = true;
         valuableCollider->Enabled = true;
     }

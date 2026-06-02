@@ -130,6 +130,11 @@ public static unsafe class ProceduralGenerator
         EntityUtils.AddEntityToList(frame, roomEntity, runtimeData.ProceduralRoomEntities);
 
         //NavMeshUtils.AddNavMeshData(frame, roomMap, spawnPoint, mapData.NavVertices, mapData.NavTriangles);
+
+        if (roomMap == frame.FindAsset(mapData.QuotaZoneRoom.MapAsset))
+        {
+            frame.Events.QuotaZoneSpawned(roomEntity);
+        }
     }
 
     private static void GenerateDeadRoom(Frame frame, MapPointData spawnPoint, ref GeneratedMapData mapData)
@@ -139,7 +144,16 @@ public static unsafe class ProceduralGenerator
 
     private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
     {
-        return mapData.AllRooms[frame.RNG->Next(0, mapData.AllRooms.Count)];
+        var spawnQuotaZone = frame.RNG->Next(0, 3) == 0;
+
+        if (spawnQuotaZone)
+        {
+            return mapData.QuotaZoneRoom;
+        }
+        else
+        {
+            return mapData.AllRooms[frame.RNG->Next(0, mapData.AllRooms.Count)];
+        }
     }
 
     private static bool TryFindSuitableRoom(Frame frame, ref GeneratedMapData mapData, MapPointData spawnPoint, out ProceduralRoom room, out Map roomMap)

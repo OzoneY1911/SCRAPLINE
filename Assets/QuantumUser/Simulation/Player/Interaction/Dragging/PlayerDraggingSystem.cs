@@ -124,7 +124,6 @@ namespace Quantum
             // World-space anchor of the grab point
             FPVector3 anchor = draggedTransform->Position + (draggedTransform->Rotation * playerDragging->GrabLocalPoint);
 
-            // We'll keep a fixed stiffness (kp) and scale damping by your DampingRatio.
             FP kp = 12;                         // base stiffness (feel)
             FP kd = FPMath.Max(FP._0, playerDragging->DampingRatio) * 2; // more = less oscillation
 
@@ -143,62 +142,72 @@ namespace Quantum
             var input = frame.GetPlayerInput(filter.Player->PlayerRef);
             var playerDragging = filter.PlayerDragging;
 
-            if (!frame.Unsafe.TryGetPointer<PhysicsBody3D>(playerDragging->DraggedEntity, out var draggedBody)) return;
+            if (!frame.Unsafe.TryGetPointer<PhysicsBody3D>(playerDragging->DraggedEntity, out var body))
+                return;
 
-            if (!frame.Unsafe.TryGetPointer<Transform3D>(playerDragging->DraggedEntity, out var draggedTransform)) return;
+            if (!frame.Unsafe.TryGetPointer<Transform3D>(playerDragging->DraggedEntity, out var transform))
+                return;
 
-            // Use camera rotation instead of player body rotation
-            FPQuaternion targetRotation = FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up) * playerDragging->DraggedRelativeRotation;
+            FPQuaternion targetRotation =
+                FPQuaternion.LookRotation(input->CameraForward, FPVector3.Up) *
+                playerDragging->DraggedRelativeRotation;
 
-            // Get rotation difference (from current to target)
-            FPQuaternion currentRotation = draggedTransform->Rotation;
+            FPQuaternion currentRotation = transform->Rotation;
 
-            FPQuaternion deltaRotation = (targetRotation * FPQuaternion.Inverse(currentRotation)).Normalized;
+            FPQuaternion error =
+                targetRotation * FPQuaternion.Inverse(currentRotation);
 
-            // Clamp W into [-1, 1] to avoid sqrt/acos domain errors
-            FP w = FPMath.Clamp(deltaRotation.W, -FP._1, FP._1);
+            error = error.Normalized;
 
-            // Compute angle
+            // Shortest path
+            if (error.W < FP._0)
+            {
+                error.X = -error.X;
+                error.Y = -error.Y;
+                error.Z = -error.Z;
+                error.W = -error.W;
+            }
+
+            FP w = FPMath.Clamp(error.W, -FP._1, FP._1);
+
             FP angle = FP._2 * FPMath.Acos(w);
 
-            // Safe sqrt
-            FP sinHalfAngle = FPMath.Sqrt(FPMath.Max(FP._0, FP._1 - w * w));
-
-            FPVector3 axis;
-            if (FPMath.Abs(sinHalfAngle) > FP.Epsilon)
+            if (angle < FP.EN3)
             {
-                axis = new FPVector3(
-                    deltaRotation.X / sinHalfAngle,
-                    deltaRotation.Y / sinHalfAngle,
-                    deltaRotation.Z / sinHalfAngle
-                );
-            }
-            else
-            {
-                // If angle is very small, use any normalized axis
-                axis = FPVector3.Right;
+                return;
             }
 
-            // Ensure shortest path
-            if (angle > FP.Pi)
+            FP sinHalf =
+                FPMath.Sqrt(FPMath.Max(FP._0, FP._1 - w * w));
+
+            if (sinHalf < FP.EN3)
             {
-                angle -= FP.Pi * FP._2;
+                return;
             }
 
-            FPVector3 desiredAngularVelocity = axis * angle * filter.PlayerDragging->AngularStiffness;
+            FPVector3 axis = new FPVector3(
+                error.X / sinHalf,
+                error.Y / sinHalf,
+                error.Z / sinHalf
+            );
 
-            FPVector3 deltaAngularVelocity = desiredAngularVelocity - draggedBody->AngularVelocity;
-            FP deltaMagnitude = deltaAngularVelocity.Magnitude;
+            // PD gains
+            FP stiffness = 5;
+            FP damping = 1;
 
-            if (deltaMagnitude > 3)
+            FPVector3 angularImpulse =
+                axis * angle * stiffness
+                - body->AngularVelocity * damping;
+
+            // Clamp maximum impulse
+            FP magnitude = angularImpulse.Magnitude;
+
+            if (magnitude > 1)
             {
-                deltaAngularVelocity = deltaAngularVelocity / deltaMagnitude * 3;
+                angularImpulse = angularImpulse / magnitude;
             }
 
-            // Impulse = I * Δω * dt
-            FPVector3 angularImpulse = deltaAngularVelocity * frame.DeltaTime;
-
-            draggedBody->AddAngularImpulse(angularImpulse);
+            body->AddAngularImpulse(angularImpulse * frame.DeltaTime);
         }
 
         private void ClampDragDistance(Frame frame, ref Filter filter)

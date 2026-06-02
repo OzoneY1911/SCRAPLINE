@@ -1,0 +1,13 @@
+component LinearConstraint
+{
+    [HideInInspector]
+    FPVector3 AnchorPosition;
+    
+    [HideInInspector]
+    FPVector3 Axis;
+
+    FPVector3 LocalAxis;
+
+    FP MinOffset;
+    FP MaxOffset;
+}

@@ -1,6 +1,6 @@
 namespace Quantum
 {
-    public unsafe class GameStateSystem : SystemSignalsOnly
+    public unsafe class GameStateSystem : SystemSignalsOnly, ISignalOnMapChanged
     {
         public override void OnInit(Frame frame)
         {
@@ -14,8 +14,22 @@ namespace Quantum
                 ProceduralValuableEntities = frame.AllocateList<EntityRef>(),
             };
 
+            frame.Global->QuotaZoneCount = 1;
+
             frame.Global->PlayerMoney = 700;
             frame.Events.PlayerMoneyUpdated();
+        }
+
+        public void OnMapChanged(Frame frame, AssetRef<Map> previousMap)
+        {
+            if (frame.FindAsset<Map>(previousMap).name == "HubMap")
+            {
+                frame.Events.MapChangedToProcedural();
+            }
+            else
+            {
+                frame.Events.MapChangedToHub();
+            }
         }
     }
 }

@@ -5,8 +5,13 @@ namespace Quantum
 {
     public unsafe class GameLocationSelectorView : QuantumEntityViewComponent
     {
-        [SerializeField] private TextMeshProUGUI _selectionTMP;
         [SerializeField] private Material _selectionMaterial;
+
+        [SerializeField] private GameObject _selectDestinationObject;
+        [SerializeField] private GameObject _launchTextObject;
+        [SerializeField] private Renderer _mapChangerRenderer;
+
+        [SerializeField] private GameObject[] _locationPanelObjects;
 
         private Renderer _renderer;
         private Material _originalMaterial;
@@ -15,7 +20,6 @@ namespace Quantum
         {
             _renderer = GetComponent<Renderer>();
             _originalMaterial = _renderer.sharedMaterial;
-            _selectionTMP.text = "";
         }
 
         public override void OnActivate(Frame frame)
@@ -35,7 +39,15 @@ namespace Quantum
             if (frame == null) return;
 
             _renderer.sharedMaterial = _selectionMaterial;
-            _selectionTMP.text = $"Selected Location: {frame.Global->SelectedLocation.Type.ToString()}";
+
+            _selectDestinationObject.SetActive(false);
+            _launchTextObject.SetActive(true);
+            _mapChangerRenderer.enabled = true;
+
+            for (int i = 0; i < _locationPanelObjects.Length; i++)
+            {
+                _locationPanelObjects[i].SetActive((int) frame.Global->SelectedLocation.Type == i + 1);
+            }
         }
     }
 }

@@ -589,6 +589,31 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.LinearConstraint))]
+  public unsafe partial class LinearConstraintPrototype : ComponentPrototype<Quantum.LinearConstraint> {
+    [HideInInspector()]
+    public FPVector3 AnchorPosition;
+    [HideInInspector()]
+    public FPVector3 Axis;
+    public FPVector3 LocalAxis;
+    public FP MinOffset;
+    public FP MaxOffset;
+    partial void MaterializeUser(Frame frame, ref Quantum.LinearConstraint result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.LinearConstraint component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.LinearConstraint result, in PrototypeMaterializationContext context = default) {
+        result.AnchorPosition = this.AnchorPosition;
+        result.Axis = this.Axis;
+        result.LocalAxis = this.LocalAxis;
+        result.MinOffset = this.MinOffset;
+        result.MaxOffset = this.MaxOffset;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.MapPointData))]
   public unsafe partial class MapPointDataPrototype : StructPrototype {
     public FPVector3 Position;

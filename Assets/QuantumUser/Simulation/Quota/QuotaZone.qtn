@@ -21,6 +21,11 @@ signal OnCompleteQuotaZone(entity_ref entity);
 signal OnInZoneValuableDamaged(entity_ref entity, FP damage);
 signal OnInZoneValuableDestroyed(entity_ref entity);
 
+event QuotaZoneSpawned
+{
+    entity_ref Entity;
+}
+
 event QuotaZoneActivated
 {
     entity_ref Entity;

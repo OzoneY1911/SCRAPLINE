@@ -11,9 +11,14 @@ global
     entity_ref TrackedInteractableMapChanger;
 
     RuntimeMapCustomData RuntimeCustomData;
+
+    FP QuotaZoneCount;
 }
 
 signal OnCompleteAllQuotaZones();
 signal OnMapChangeAvailable();
 
 event PlayerMoneyUpdated { }
+
+event MapChangedToHub { }
+event MapChangedToProcedural { }

@@ -19,6 +19,8 @@ namespace Quantum
                 case InteractableType.MapChanger:
 
                     var mapChanger = frame.Unsafe.GetPointer<InteractableMapChanger>(interactable->Entity);
+                    if (!mapChanger->IsActive) return;
+
                     var hubMap = frame.FindAsset<Map>(mapChanger->HubMapAsset);
 
                     if (frame.Map == hubMap)

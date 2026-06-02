@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damagePrefab: {fileID: 2519525783720581877, guid: 979e034356ed9f247afb855759bef4e3, type: 3}
+  _isBackDevice: 0
 --- !u!114 &7689070349352889643
 MonoBehaviour:
   m_ObjectHideFlags: 0

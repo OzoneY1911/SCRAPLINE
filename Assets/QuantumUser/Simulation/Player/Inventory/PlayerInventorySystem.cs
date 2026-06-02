@@ -117,7 +117,7 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<Player>(playerEntity, out var player)) return;
             if (!frame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
 
-            var playerKCC = frame.Unsafe.GetPointer<KCC>(playerEntity);
+            var playerBody = frame.Unsafe.GetPointer<PhysicsBody3D>(playerEntity);
 
             var selectedSlotIndex = playerInventory->SelectedSlotIndex;
             var selectedValuableEntity = playerInventory->Slots[(int)selectedSlotIndex];
@@ -134,7 +134,7 @@ namespace Quantum
 
             valuableTransform->Teleport(frame, dropPosition);
 
-            EntityUtils.RestoryEntityPhysicsAndVelocity(frame, selectedValuableEntity, playerKCC);
+            EntityUtils.RestoryEntityPhysicsAndVelocity(frame, selectedValuableEntity, playerBody);
 
             playerInventory->Slots[(int)selectedSlotIndex] = EntityRef.None;
             frame.Events.ValuableDropped(playerEntity, selectedValuableEntity, selectedSlotIndex);
@@ -146,7 +146,7 @@ namespace Quantum
             if (!frame.Unsafe.TryGetPointer<Player>(playerEntity, out var player)) return;
             if (!frame.Unsafe.TryGetPointer<PlayerInventory>(playerEntity, out var playerInventory)) return;
 
-            var playerKCC = frame.Unsafe.GetPointer<KCC>(playerEntity);
+            var body = frame.Unsafe.GetPointer<PhysicsBody3D>(playerEntity);
 
             var backDeviceEntity = playerInventory->BackDeviceSlot;
             var backDeviceTransform = frame.Unsafe.GetPointer<Transform3D>(backDeviceEntity);
@@ -162,7 +162,7 @@ namespace Quantum
 
             backDeviceTransform->Teleport(frame, dropPosition);
 
-            EntityUtils.RestoryEntityPhysicsAndVelocity(frame, backDeviceEntity, playerKCC);
+            EntityUtils.RestoryEntityPhysicsAndVelocity(frame, backDeviceEntity, body);
 
             playerInventory->BackDeviceSlot = EntityRef.None;
             frame.Events.BackDeviceDropped(playerEntity, backDeviceEntity);
