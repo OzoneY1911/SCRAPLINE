@@ -8,9 +8,12 @@ using System.Linq;
 using Photon.Analyzer;
 using Photon.Deterministic;
 using UnityEngine;
+using UnityEngine.Pool;
+
 using Debug = UnityEngine.Debug;
 
 namespace Quantum {
+  
   /// <summary>
   /// Entity Prototypes are similar to blueprints or prefabs, they carry information
   /// to create a Quantum Entity with its components and initialized them with pre-configured data.
@@ -26,7 +29,7 @@ namespace Quantum {
   [LastSupportedVersion("3.0")]
   public abstract class EntityPrototype
 #endif
-    : QuantumMonoBehaviour, IQuantumPrototypeConvertible<MapEntityId>, ILogSource {
+    : QuantumEntityPrototypeSource, IQuantumPrototypeConvertible<MapEntityId>, ILogSource {
 
     /// <summary>
     /// Prototype settings for the <see cref="Transform2DVertical"/> component.
@@ -46,28 +49,6 @@ namespace Quantum {
       /// The current vertical position of offset of the component.
       /// </summary>
       public FP PositionOffset;
-    }
-
-    /// <summary>
-    /// Extra settings for shapes
-    /// </summary>
-    [Serializable]
-    public struct SourceShapeGenericSettings {
-      /// <summary>
-      /// If the settings baked from a source collider are already scaled by the source GameObject.
-      /// This can be used to avoid scaling the settings multiple times when the source is a child of the prototype.
-      /// </summary>
-      public bool IsScaledBySource;
-#if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
-      /// <summary>
-      /// The world axis that define the direction of the capsule in 2D.
-      /// </summary>
-      public UnityEngine.CapsuleDirection2D CapsuleDirection2D;
-#endif
-      /// <summary>
-      /// The world axis that define the direction of the capsule in 3D.
-      /// </summary>
-      public Quantum.CapsuleDirection3D CapsuleDirection3D;
     }
 
     /// <summary>
@@ -95,10 +76,18 @@ namespace Quantum {
       /// </summary>
       public Component SourceCollider;
       /// <summary>
-      /// Specific settings for the any type of shape
+      /// The source colliders used to bake a Compound shape.
+      /// Only consumed when the active Shape Type is Compound.
       /// </summary>
-      [HideInInspector]
-      public SourceShapeGenericSettings SourceShapeSettings;
+      [MultiTypeReference(new Type [] {
+#if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
+        typeof(BoxCollider2D), typeof(CircleCollider2D), typeof(CapsuleCollider2D),
+#endif
+#if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
+        typeof(BoxCollider), typeof(SphereCollider), typeof(CapsuleCollider),
+#endif
+      })]
+      public Component[] SourceColliders;
       /// <summary>
       /// The 2D shape.
       /// </summary>
@@ -378,13 +367,19 @@ namespace Quantum {
     /// The entity view asset reference.
     /// </summary>
     public AssetRef<Quantum.EntityView> View;
-
+    
     /// <summary>
     /// Post process the prototype based on configuration settings.
     /// </summary>
     public void PreSerialize() {
       if (TransformMode == QuantumEntityPrototypeTransformMode.Transform2D) {
-        if (QPrototypePhysicsCollider2D.TrySetShapeConfigFromSourceCollider(PhysicsCollider.Shape2D, ref PhysicsCollider.SourceShapeSettings, transform, PhysicsCollider.SourceCollider, out var isTrigger)) {
+        if (QPrototypePhysicsCollider2D.TrySetCompoundShapeConfigFromSourceColliders(PhysicsCollider.Shape2D, transform, PhysicsCollider.SourceColliders, out var compoundIsTrigger, out var compoundLayer)) {
+          PhysicsCollider.IsTrigger = compoundIsTrigger;
+
+          if (PhysicsCollider.LayerSource != QuantumEntityPrototypeColliderLayerSource.Explicit) {
+            PhysicsCollider.Layer = compoundLayer;
+          }
+        } else if (QPrototypePhysicsCollider2D.TrySetShapeConfigFromSourceCollider(PhysicsCollider.Shape2D, transform, PhysicsCollider.SourceCollider, out var isTrigger)) {
           PhysicsCollider.IsTrigger = isTrigger;
 
           if (PhysicsCollider.LayerSource != QuantumEntityPrototypeColliderLayerSource.Explicit) {
@@ -404,7 +399,13 @@ namespace Quantum {
         Transform2DVertical.Height = FPMath.Clamp(Transform2DVertical.Height, 0, Transform2DVertical.Height);
 
       } else if (TransformMode == QuantumEntityPrototypeTransformMode.Transform3D) {
-        if (QPrototypePhysicsCollider3D.TrySetShapeConfigFromSourceCollider(PhysicsCollider.Shape3D, ref PhysicsCollider.SourceShapeSettings, transform, PhysicsCollider.SourceCollider, out var isTrigger)) {
+        if (QPrototypePhysicsCollider3D.TrySetCompoundShapeConfigFromSourceColliders(PhysicsCollider.Shape3D, transform, PhysicsCollider.SourceColliders, out var compoundIsTrigger, out var compoundLayer)) {
+          PhysicsCollider.IsTrigger = compoundIsTrigger;
+
+          if (PhysicsCollider.LayerSource != QuantumEntityPrototypeColliderLayerSource.Explicit) {
+            PhysicsCollider.Layer = compoundLayer;
+          }
+        } else if (QPrototypePhysicsCollider3D.TrySetShapeConfigFromSourceCollider(PhysicsCollider.Shape3D, transform, PhysicsCollider.SourceCollider, out var isTrigger)) {
           PhysicsCollider.IsTrigger = isTrigger;
 
           if (PhysicsCollider.LayerSource != QuantumEntityPrototypeColliderLayerSource.Explicit) {
@@ -452,36 +453,22 @@ namespace Quantum {
 
     internal Shape2DConfig GetScaledShape2DConfig(Shape2DConfig from) {
       var result = new Shape2DConfig();
-      var settings = default(SourceShapeGenericSettings);
-      ScaleShapeConfig2D(transform, from, ref settings, result);
+      ScaleShapeConfig2D(transform, from, result);
       return result;
     }
     
     internal Shape3DConfig GetScaledShape3DConfig(Shape3DConfig from) {
       var result = new Shape3DConfig();
-      var settings = default(SourceShapeGenericSettings);
-      ScaleShapeConfig3D(transform, from, ref settings, result);
+      ScaleShapeConfig3D(transform, from, result);
       return result;
     }
 
-    internal Shape2DConfig GetScaledShape2DConfig(ref PhysicsColliderGeneric colliderGeneric) {
-      var result = new Shape2DConfig();
-      ScaleShapeConfig2D(transform, colliderGeneric.Shape2D, ref colliderGeneric.SourceShapeSettings, result);
-      return result;
-    }
-    
-    internal Shape3DConfig GetScaledShape3DConfig(ref PhysicsColliderGeneric colliderGeneric) {
-      var result = new Shape3DConfig();
-      ScaleShapeConfig3D(transform, colliderGeneric.Shape3D, ref colliderGeneric.SourceShapeSettings, result);
-      return result;
-    }
-    
-    private static void ScaleShapeConfig2D(Transform t, Shape2DConfig from, ref SourceShapeGenericSettings settings, Shape2DConfig scaledTo) {
+    private static void ScaleShapeConfig2D(Transform t, Shape2DConfig from, Shape2DConfig scaledTo) {
       if (Shape2DConfig.Copy(from, scaledTo) == false) {
         return;
       }
 
-      var scale = settings.IsScaledBySource ? FPVector2.One : t.lossyScale.ToRoundedFPVector2();
+      var scale = from.IsScaledBySourceCollider ? FPVector2.One : t.lossyScale.ToRoundedFPVector2();
 
       var absScale = scale;
       absScale.X = FPMath.Abs(absScale.X);
@@ -491,17 +478,8 @@ namespace Quantum {
       scaledTo.BoxExtents.Y *= absScale.Y;
       scaledTo.CircleRadius *= FPMath.Max(absScale.X, absScale.Y);
       scaledTo.EdgeExtent *= absScale.X;
-
-#if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
-      if(settings.CapsuleDirection2D == CapsuleDirection2D.Horizontal) {
-        scaledTo.CapsuleSize.X *= absScale.Y;
-        scaledTo.CapsuleSize.Y *= absScale.X;
-      } else {
-        scaledTo.CapsuleSize.X *= absScale.X;
-        scaledTo.CapsuleSize.Y *= absScale.Y;
-      }
-#endif
-
+      scaledTo.CapsuleSize.X *= absScale.X;
+      scaledTo.CapsuleSize.Y *= absScale.Y;
       scaledTo.PositionOffset.X *= scale.X;
       scaledTo.PositionOffset.Y *= scale.Y;
 
@@ -519,28 +497,19 @@ namespace Quantum {
         scaledCompoundTo.BoxExtents.Y *= absScale.Y;
         scaledCompoundTo.CircleRadius *= FPMath.Max(absScale.X, absScale.Y);
         scaledCompoundTo.EdgeExtent *= absScale.X;
-
-#if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
-        if (settings.CapsuleDirection2D == CapsuleDirection2D.Horizontal) {
-          scaledCompoundTo.CapsuleSize.X *= absScale.Y;
-          scaledCompoundTo.CapsuleSize.Y *= absScale.X;
-        } else {
-          scaledCompoundTo.CapsuleSize.X *= absScale.X;
-          scaledCompoundTo.CapsuleSize.Y *= absScale.Y;
-        }
-
+        scaledCompoundTo.CapsuleSize.X *= absScale.X;
+        scaledCompoundTo.CapsuleSize.Y *= absScale.Y;
         scaledCompoundTo.PositionOffset.X *= absScale.X;
         scaledCompoundTo.PositionOffset.Y *= absScale.Y;
-#endif
       }
     }
 
-    private static void ScaleShapeConfig3D(Transform t, Shape3DConfig from, ref SourceShapeGenericSettings settings, Shape3DConfig scaledTo) {
+    private static void ScaleShapeConfig3D(Transform t, Shape3DConfig from, Shape3DConfig scaledTo) {
       if (Shape3DConfig.Copy(from, scaledTo) == false) {
         return;
       }
 
-      var scale = settings.IsScaledBySource ? FPVector3.One : t.lossyScale.ToRoundedFPVector3();
+      var scale = from.IsScaledBySourceCollider ? FPVector3.One : t.lossyScale.ToRoundedFPVector3();
 
       var absScale = scale;
       absScale.X = FPMath.Abs(absScale.X);
@@ -555,16 +524,16 @@ namespace Quantum {
 
       scaledTo.SphereRadius *= sphereRadius;
 
-      switch (settings.CapsuleDirection3D) {
-        case CapsuleDirection3D.X:
+      switch (from.CapsuleDirection) {
+        case Quantum.CapsuleDirection3D.X:
           scaledTo.CapsuleRadius *= FPMath.Max(absScale.Y, absScale.Z);
           scaledTo.CapsuleHeight *= absScale.X;
           break;
-        case CapsuleDirection3D.Y:
+        case Quantum.CapsuleDirection3D.Y:
           scaledTo.CapsuleRadius *= FPMath.Max(absScale.X, absScale.Z);
           scaledTo.CapsuleHeight *= absScale.Y;
           break;
-        case CapsuleDirection3D.Z:
+        case Quantum.CapsuleDirection3D.Z:
           scaledTo.CapsuleRadius *= FPMath.Max(absScale.X, absScale.Y);
           scaledTo.CapsuleHeight *= absScale.Z;
           break;
@@ -590,16 +559,16 @@ namespace Quantum {
 
         scaledCompoundTo.SphereRadius *= sphereRadius;
 
-        switch (settings.CapsuleDirection3D) {
-          case CapsuleDirection3D.X:
+        switch (from.CapsuleDirection) {
+          case Quantum.CapsuleDirection3D.X:
             scaledCompoundTo.CapsuleRadius *= FPMath.Max(absScale.Y, absScale.Z);
             scaledCompoundTo.CapsuleHeight *= absScale.X;
             break;
-          case CapsuleDirection3D.Y:
+          case Quantum.CapsuleDirection3D.Y:
             scaledCompoundTo.CapsuleRadius *= FPMath.Max(absScale.X, absScale.Z);
             scaledCompoundTo.CapsuleHeight *= absScale.Y;
             break;
-          case CapsuleDirection3D.Z:
+          case Quantum.CapsuleDirection3D.Z:
             scaledCompoundTo.CapsuleRadius *= FPMath.Max(absScale.X, absScale.Y);
             scaledCompoundTo.CapsuleHeight *= absScale.Z;
             break;
@@ -642,7 +611,7 @@ namespace Quantum {
             IsTrigger = PhysicsCollider.IsTrigger,
             Layer = PhysicsCollider.Layer,
             PhysicsMaterial = PhysicsCollider.Material,
-            ShapeConfig = GetScaledShape2DConfig(ref PhysicsCollider),
+            ShapeConfig = GetScaledShape2DConfig(PhysicsCollider.Shape2D),
           });
 
           result.Add(new Quantum.Prototypes.PhysicsCallbacks2DPrototype() {
@@ -675,7 +644,7 @@ namespace Quantum {
             IsTrigger = PhysicsCollider.IsTrigger,
             Layer = PhysicsCollider.Layer,
             PhysicsMaterial = PhysicsCollider.Material,
-            ShapeConfig = GetScaledShape3DConfig(ref PhysicsCollider),
+            ShapeConfig = GetScaledShape3DConfig(PhysicsCollider.Shape3D),
           });
 
           result.Add(new Quantum.Prototypes.PhysicsCallbacks3DPrototype() {
@@ -725,10 +694,8 @@ namespace Quantum {
         }
       }
 
-      selfView = GetComponent<QuantumEntityView>();
-
-      if (selfView) {
-        // self, don't emit view
+      if (TryGetComponent(out selfView)) {
+        // ignore the view property
       } else if (View.Id.IsValid) {
         result.Add(new Quantum.Prototypes.ViewPrototype() {
           Current = View,
@@ -757,7 +724,7 @@ namespace Quantum {
 
 
       var implicitPrototypes = new List<ComponentPrototype>();
-      SerializeImplicitComponents(implicitPrototypes, out var dummy);
+      SerializeImplicitComponents(implicitPrototypes, out _);
 
       foreach (var prototype in implicitPrototypes) {
         if (!typeToSource.TryGetValue(prototype.GetType(), out var sources)) {
@@ -783,60 +750,15 @@ namespace Quantum {
         }
       }
     }
-
-    [StaticField(StaticFieldResetMode.None)]
-    private static readonly List<QuantumUnityComponentPrototype> behaviourBuffer = new List<QuantumUnityComponentPrototype>();
-
-    [StaticField(StaticFieldResetMode.None)]
-    private static readonly List<ComponentPrototype> prototypeBuffer = new List<ComponentPrototype>();
-
+    
     /// <summary>
     /// Initialize the prototype after being loaded.
     /// </summary>
     /// <param name="assetObject">Entity prototype asset object</param>
     /// <param name="selfViewAsset">Associated view asset</param>
+    [Obsolete("Use " + nameof(GetPrototypes) + " instead")]
     public void InitializeAssetObject(Quantum.EntityPrototype assetObject, Quantum.EntityView selfViewAsset) {
-      assetObject.Container = CreateComponentPrototypeSet(selfViewAsset);
-    }
-    
-    /// <summary>
-    /// Initialize the prototype after being loaded.
-    /// </summary>
-    public Quantum.ComponentPrototypeSet CreateComponentPrototypeSet(Quantum.EntityView selfViewAsset, bool addViewPrototypeForSelfView = true, QuantumEntityPrototypeConverter converter = null) {
-      try {
-        // get built-ins first
-        PreSerialize();
-        SerializeImplicitComponents(prototypeBuffer, out var selfView);
-
-        if (selfView) {
-          if (selfViewAsset != null) {
-            if (addViewPrototypeForSelfView) {
-              prototypeBuffer.Add(new Quantum.Prototypes.ViewPrototype() { Current = new() { Id = selfViewAsset.Guid } });
-            }
-          } else {
-            Log.Error(this, $"Self-view detected, but the no {nameof(Quantum.EntityView)} provided in {name}. Reimport the prefab.");
-          }
-        }
-
-        // ReSharper disable once RedundantCast
-        converter ??= new QuantumEntityPrototypeConverter((QuantumEntityPrototype)this);
-
-        // now get custom ones
-        GetComponents(behaviourBuffer);
-        {
-          foreach (var component in behaviourBuffer) {
-            component.Refresh();
-            prototypeBuffer.Add(component.CreatePrototype(converter));
-          }
-        }
-
-        // store
-        return ComponentPrototypeSet.FromArray(prototypeBuffer.ToArray());
-
-      } finally {
-        behaviourBuffer.Clear();
-        prototypeBuffer.Clear();
-      }
+      throw new NotSupportedException();
     }
 
     MapEntityId IQuantumPrototypeConvertible<MapEntityId>.Convert(QuantumEntityPrototypeConverter converter) {
@@ -855,6 +777,26 @@ namespace Quantum {
       CheckComponentDuplicates(msg => Debug.LogWarning(msg, gameObject));
     }
 #endif
+
+    public override void GetPrototypes(QuantumEntityPrototypeBakeContext context) {
+      using (ListPool<QuantumUnityComponentPrototype>.Get(out var componentScripts)) {
+        GetComponents(componentScripts);
+        PreSerialize();
+        
+        SerializeImplicitComponents(context.Prototypes, out var selfView);
+        
+        if (selfView && context.SelfViewAsset.IsValid) {
+          context.Add(new Quantum.Prototypes.ViewPrototype() {
+            Current =  context.SelfViewAsset
+          });
+        }
+
+        foreach (var component in componentScripts) {
+          component.Refresh();
+          context.Add(component.CreatePrototype(context.Converter));
+        }
+      }
+    }
   }
 
 #if !QUANTUM_ENABLE_MIGRATION

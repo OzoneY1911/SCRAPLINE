@@ -570,7 +570,7 @@ namespace Photon.Realtime
 
         /// <summary>(220) Used with some first party plugins (e.g. Matchmaking Tickets and Voice Interest Management).</summary>
         /// <remarks>The content of a CommandEvent is of type object[] and the first entry in it a byte naming the use. Refer to CommandEventSubcode.</remarks>
-        public static byte CommandEvent = 220;
+        public const byte CommandEvent = 220;
     }
 
 

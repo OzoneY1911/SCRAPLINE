@@ -1,5 +1,11 @@
 #if UNITY_WEBGL || WEBSOCKET || WEBSOCKET_PROXYCONFIG
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+#define PHOTON_WEBSOCKET_JS
+#else
+#define PHOTON_WEBSOCKET_CS
+#endif
+
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SocketWebTcp.cs" company="Exit Games GmbH">
 //   Copyright (c) Exit Games GmbH.  All rights reserved.
@@ -133,8 +139,21 @@ namespace Photon.Client
             // passing-on errors only if this socket is still used / expected to be connected
             if (this.State != PhotonSocketState.Disconnecting && this.State != PhotonSocketState.Disconnected)
             {
-                this.Listener.DebugReturn(LogLevel.Error, "SocketWebTcp.ErrorCallback(). Going to disconnect. Server: " + this.ServerAddress + " Error: " + code + " Message: " + message);
-                this.HandleException(this.State != PhotonSocketState.Connected ? StatusCode.ExceptionOnConnect : StatusCode.ExceptionOnReceive); // sets state to Disconnecting
+                this.Listener.DebugReturn(LogLevel.Error, "SocketWebTcp.ErrorCallback(). Server: " + this.ServerAddress + " Error: " + code + " Message: " + message);
+                
+                #if PHOTON_WEBSOCKET_CS
+                // websocket-sharp: only act during Connect — covers connect failures that don't produce an OnClose
+                // after Connected, OnError is non-fatal
+                if (this.State == PhotonSocketState.Connecting)
+                {
+                    this.HandleException(StatusCode.ExceptionOnConnect);
+                }
+                #else
+                // JS: errors are always terminal in the browser
+                this.HandleException(this.State != PhotonSocketState.Connected
+                    ? StatusCode.ExceptionOnConnect
+                    : StatusCode.ExceptionOnReceive);
+                #endif
             }
         }
 

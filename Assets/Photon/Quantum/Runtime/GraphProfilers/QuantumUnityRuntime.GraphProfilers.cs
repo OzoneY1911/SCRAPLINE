@@ -227,6 +227,7 @@ namespace Quantum.Profiling {
 namespace Quantum.Profiling {
 #if !QUANTUM_DISABLE_GRAPHPROFILER
   using System.Collections.Generic;
+  using System.Diagnostics.CodeAnalysis;
   using System.Runtime.CompilerServices;
 
   /// <summary>
@@ -235,6 +236,7 @@ namespace Quantum.Profiling {
   /// <typeparam name="T">Type </typeparam>
   public static class QuantumGraphPool<T> where T : new() {
     private const int POOL_CAPACITY = 4;
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Pool may persist")]
     private static List<T> _pool = new List<T>(POOL_CAPACITY);
 
     /// <summary>

@@ -2481,6 +2481,9 @@
         <member name="T:Photon.Client.SocketUdp">
             <summary>Encapsulates the network i/o functionality for the realtime library.</summary>
         </member>
+        <member name="M:Photon.Client.SocketUdp.CloseSocketSafely">
+            <summary>Closes and clears the current socket, swallowing any exception. Used to avoid leaking a socket that failed to connect.</summary>
+        </member>
         <member name="M:Photon.Client.SocketUdp.Send(System.Byte[],System.Int32)">
             <summary>used by PhotonPeer*</summary>
         </member>
@@ -2490,8 +2493,20 @@
         <member name="T:Photon.Client.SocketUdpAsync">
             <summary>Internal class to encapsulate the network i/o functionality for the realtime libary.</summary>
         </member>
+        <member name="M:Photon.Client.SocketUdpAsync.CloseSocketSafely">
+            <summary>Closes and clears the current socket, swallowing any exception. Used to avoid leaking a socket that failed to connect.</summary>
+        </member>
         <member name="M:Photon.Client.SocketUdpAsync.Send(System.Byte[],System.Int32)">
             <summary>used by PhotonPeer*</summary>
+        </member>
+        <member name="M:Photon.Client.SocketUdpAsync.ReceiveAsyncLoop">
+            <summary>
+            Issues receives in a loop so that synchronously-completing receives are drained iteratively instead of recursing on the stack.
+            When a receive goes pending, the loop returns and the Completed event resumes it on a thread-pool thread.
+            </summary>
+        </member>
+        <member name="M:Photon.Client.SocketUdpAsync.ProcessReceive(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>Handles one completed receive. Returns true if receiving should continue.</summary>
         </member>
         <member name="M:Photon.Client.StreamBuffer.ToArray">
             <summary>

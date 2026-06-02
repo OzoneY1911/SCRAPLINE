@@ -1,5 +1,6 @@
 namespace Quantum {
   using System;
+  using System.Collections.Generic;
   using UnityEngine;
   using UnityEngine.Rendering;
 
@@ -19,7 +20,7 @@ namespace Quantum {
     /// </summary>
     public void OnEnable() {
       Camera.onPostRender += OnPostRenderInternal;
-      RenderPipelineManager.endCameraRendering += OnPostRenderInternal;
+      RenderPipelineManager.endContextRendering += OnPostRenderInternal;
     }
 
     /// <summary>
@@ -27,14 +28,22 @@ namespace Quantum {
     /// </summary>
     public void OnDisable() {
       Camera.onPostRender -= OnPostRenderInternal;
-      RenderPipelineManager.endCameraRendering -= OnPostRenderInternal;
+      RenderPipelineManager.endContextRendering -= OnPostRenderInternal;
     }
 
     /// <summary>
     /// Unity Update event triggers the runner updates and ticks the Quantum simulation.
     /// </summary>
     public void Update() {
-      if (Runner) Runner.Update();
+      if (Runner != null) {
+        Runner.Update();
+      }
+    }
+
+    void OnPostRenderInternal(ScriptableRenderContext context, List<Camera> camera) {
+      for (int i = 0; i < camera.Count; ++i) {
+        OnPostRenderInternal(context, camera[i]);
+      }
     }
 
     void OnPostRenderInternal(ScriptableRenderContext context, Camera camera) {

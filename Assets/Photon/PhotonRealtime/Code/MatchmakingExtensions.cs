@@ -394,7 +394,7 @@ namespace Photon.Realtime
         public string RoomName;
         /// <summary>
         /// Max clients for the Photon room. 0 = unlimited.
-        /// Set on <see cref="JoinRandomRoomArgs.ExpectedMaxPlayers"/> and <see cref="EnterRoomArgs.RoomOptions"/>.MaxPlayers.
+        /// Set on <see cref="JoinRandomRoomArgs.ExpectedMaxPlayers"/> and <see cref="EnterRoomArgs.RoomOptions"/>.MaxPlayers."/>
         /// </summary>
         public int MaxPlayers;
         /// <summary>
@@ -433,7 +433,7 @@ namespace Photon.Realtime
         public string[] ExpectedUsers;
         /// <summary>
         /// Optional Photon Realtime lobby to use for matchmaking.
-        /// Used for <see cref="JoinRandomRoomArgs.Lobby"/> and <see cref="EnterRoomArgs.Lobby"/>.
+        /// Used for <see cref="JoinRandomRoomArgs.Lobby"/> and <see cref="EnterRoomArgs.Lobby"/>."
         /// </summary>
         public TypedLobby Lobby;
         /// <summary>
@@ -447,7 +447,7 @@ namespace Photon.Realtime
         public string SqlLobbyFilter;
         /// <summary>
         /// Optional Photon matchmaking ticket.
-        /// Used for <see cref="JoinRandomRoomArgs.Ticket"/> and <see cref="EnterRoomArgs.Ticket"/>.
+        /// Used for <see cref="JoinRandomRoomArgs.Ticket"/> and <see cref="EnterRoomArgs.Ticket"/>."/>
         /// </summary>
         public object Ticket;
         /// <summary>
@@ -592,7 +592,7 @@ namespace Photon.Realtime
         /// <summary>
         /// The default timeout that is used when <see cref="Set(RealtimeClient)"/> is called.
         /// </summary>
-        public TimeSpan DefaultTimeout = TimeSpan.FromSeconds(20);
+        public int DefaultTimeout = 20;
 
         /// <summary>
         /// Set and get <see cref="TimeoutInTicks"/>.
@@ -619,7 +619,7 @@ namespace Photon.Realtime
         /// </summary>
         /// <param name="client">Photon client object.</param>
         public virtual void Set(RealtimeClient client) {
-            Set(client, DefaultTimeout);
+            Set(client, TimeSpan.FromSeconds(DefaultTimeout));
         }
 
         /// <summary>

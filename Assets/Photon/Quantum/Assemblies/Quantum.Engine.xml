@@ -8161,6 +8161,23 @@
             Applies the prototype's fields to the actual component.
             </summary>
         </member>
+        <member name="M:Quantum.Prototypes.EntityGroupPrototype.AddToEntity(Quantum.Core.FrameBase,Quantum.EntityRef,Quantum.PrototypeMaterializationContext@)">
+            <summary>
+            Creates an instance of the <see cref="T:Quantum.EntityGroup"/> component, materializes and adds it to the entity.
+            </summary>
+            <param name="f"></param>
+            <param name="entity"></param>
+            <param name="context"></param>
+            <returns>Returns <see langword="true"/> if adding the component to the entity succeeds.</returns>
+        </member>
+        <member name="M:Quantum.Prototypes.EntityGroupPrototype.Materialize(Quantum.Core.FrameBase,Quantum.EntityGroup@)">
+            <inheritdoc cref="M:Quantum.Prototypes.EntityGroupPrototype.Materialize(Quantum.Core.FrameBase,Quantum.EntityGroup@,Quantum.PrototypeMaterializationContext@)"/>
+        </member>
+        <member name="F:Quantum.Prototypes.EntityGroupPrototype.Entities">
+            <summary>
+            The array of nested entities in this group.
+            </summary>
+        </member>
         <member name="T:Quantum.Prototypes.Joint2DConfig">
             <summary>
             Defines a prototype of a <see cref="T:Quantum.Physics2D.Joint"/> struct of any type.
@@ -13391,7 +13408,7 @@
             The NavMeshBaker turns the intermediate navmesh format <see cref="T:Quantum.NavMeshBakeData"/> into a Quantum <see cref="T:Quantum.NavMesh"/>.
             </summary>
         </member>
-        <member name="M:Quantum.NavMeshBaker.BakeIntoExistingNavMesh(Quantum.NavMeshBakeData,Quantum.NavMesh,Quantum.IProgressBar)">
+        <member name="M:Quantum.NavMeshBaker.BakeIntoExistingNavMesh(Quantum.NavMeshBakeData,Quantum.NavMesh,Quantum.IProgressBar,System.Collections.Generic.Dictionary{System.String,System.Int32})">
             <summary>
             Bake navmesh intermediate date (bake data) into an existing Quantum navmesh asset without passing a map.
             Used for example to update a navmesh that uses serialization type <see cref="F:Quantum.NavMeshSerializeType.BakeDataOnly"/>.
@@ -13399,6 +13416,7 @@
             <param name="bakeData">Bake data</param>
             <param name="progressBar">Progress bar instance, can be <see langword="null"/></param>
             <param name="existingNavmesh">Existing navmesh asset to update, can be <see langword="null"/></param>
+            <param name="regions"></param>
         </member>
         <member name="M:Quantum.NavMeshBaker.BakeNavMesh(Quantum.Map,Quantum.NavMeshBakeData,Quantum.IProgressBar,Quantum.NavMesh)">
             <summary>
@@ -14431,6 +14449,31 @@
             </summary>
             <param name="entity">Agent entity</param>
             <param name="desiredDirection">Desired movement direction</param>
+        </member>
+        <member name="P:Quantum.INavMeshSettings.GridSizeX">
+            <summary>
+            The navmesh triangles are partitioned by simple 2D grid. This is the number of all cells on the x-axis. 
+            </summary>
+        </member>
+        <member name="P:Quantum.INavMeshSettings.GridSizeY">
+            <summary>
+            The number of all grid cells on the y-axis.
+            </summary>
+        </member>
+        <member name="P:Quantum.INavMeshSettings.GridNodeSize">
+            <summary>
+            The number of units one grid cell has in both dimensions. Minimum 2. Must be an even number.
+            </summary>
+        </member>
+        <member name="P:Quantum.INavMeshSettings.WorldOffset">
+            <summary>
+            The center of the map is the origin. The world offset represents the lower left corner.
+            </summary>
+        </member>
+        <member name="P:Quantum.INavMeshSettings.WorldSize">
+            <summary>
+            The world size.
+            </summary>
         </member>
         <member name="T:Quantum.NavMeshPortal">
             <summary>
@@ -18626,6 +18669,11 @@
             </summary>
             <returns>A hash code of the current state of this instance.</returns>
         </member>
+        <member name="T:Quantum.CapsuleDirection2D">
+            <summary>
+            The direction that the capsule sides extend.
+            </summary>
+        </member>
         <member name="T:Quantum.Shape2DConfig">
             <summary>
             The base settings for building a <see cref="T:Quantum.Shape2D"/>.
@@ -18650,6 +18698,11 @@
         <member name="F:Quantum.Shape2DConfig.CapsuleSize">
             <summary>
             The capsule size is a vector two. The x-axis is the diameter of the capsule and the y-axis is the size of the capsule from the top end to the bottom end. 
+            </summary>
+        </member>
+        <member name="F:Quantum.Shape2DConfig.CapsuleDirection">
+            <summary>
+            The direction that the capsule sides extend
             </summary>
         </member>
         <member name="F:Quantum.Shape2DConfig.EdgeExtent">
@@ -18698,6 +18751,12 @@
             The capsule extent is the distance from the center of the capsule to some of the spheres' centers.
             </summary>
         </member>
+        <member name="F:Quantum.Shape2DConfig.IsScaledBySourceCollider">
+            <summary>
+            If the settings baked from a source collider are already scaled by the source GameObject.
+            This can be used to avoid scaling the settings multiple times when the source is a child of the prototype.
+            </summary>
+        </member>
         <member name="M:Quantum.Shape2DConfig.CreateShape(Quantum.Core.FrameBase)">
             <summary>
             Creates a <see cref="T:Quantum.Shape2D"/> using the all the data set in the <see cref="T:Quantum.Shape2DConfig"/>.
@@ -18726,6 +18785,9 @@
         <member name="F:Quantum.Shape2DConfig.CompoundShapeData2D.CapsuleSize">
             <inheritdoc cref="F:Quantum.Shape2DConfig.CapsuleSize"/>
         </member>
+        <member name="F:Quantum.Shape2DConfig.CompoundShapeData2D.CapsuleDirection">
+            <inheritdoc cref="F:Quantum.Shape2DConfig.CapsuleDirection"/>
+        </member>
         <member name="F:Quantum.Shape2DConfig.CompoundShapeData2D.EdgeExtent">
             <inheritdoc cref="F:Quantum.Shape2DConfig.EdgeExtent"/>
         </member>
@@ -18747,10 +18809,8 @@
         <member name="P:Quantum.Shape2DConfig.CompoundShapeData2D.CapsuleExtent">
             <inheritdoc cref="P:Quantum.Shape2DConfig.CapsuleExtent"/>
         </member>
-        <member name="F:Quantum.Shape2DConfig.CompoundShapeData2D.IsSetFromSourceCollider">
-            <summary>
-            This means an external collider component from this engine sets this component.
-            </summary>
+        <member name="F:Quantum.Shape2DConfig.CompoundShapeData2D.IsScaledBySourceCollider">
+            <inheritdoc cref="F:Quantum.Shape2DConfig.IsScaledBySourceCollider"/>
         </member>
         <member name="M:Quantum.Shape2DConfig.CompoundShapeData2D.#ctor(Quantum.Shape2DConfig)">
             <summary>
@@ -21921,6 +21981,14 @@
             The maximum bounds of the cell in the Z component.
             </summary>
         </member>
+        <member name="P:Quantum.TriangleMesh.SerializeMutableData">
+            <summary>
+            If the mutable data-structure state should be serialized.
+            Disabling can be useful to reduce snapshot size if either:
+            1. the mutable data is known to not have been modified
+            2. the modifications can be replicated on de-serialization exactly as they happened on the provider
+            </summary>
+        </member>
         <member name="P:Quantum.TriangleMesh.CellCount">
             <summary>
             Get the number of cells in the triangle mesh.
@@ -22783,6 +22851,15 @@
             </summary>
             <returns>A hash code of the current state of this instance.</returns>
         </member>
+        <member name="T:Quantum.CapsuleDirection3D">
+            <summary>
+            The Quantum's representation for the capsule shape 3D world axis direction. 
+            </summary>
+            <remarks>
+            Unity represents the capsule axis in 3D as an integer, where the X-axis is assigned the number 0.
+            In Quantum, the Y-axis is assigned the value 0 to ensure it is the default axis in serialization process.
+            </remarks>
+        </member>
         <member name="T:Quantum.Shape3DConfig">
             <summary>
             The base settings for building a <see cref="T:Quantum.Shape3D"/>.
@@ -22807,6 +22884,11 @@
         <member name="F:Quantum.Shape3DConfig.CapsuleHeight">
             <summary>
             The size of the capsule from the top end to the bottom end. 
+            </summary>
+        </member>
+        <member name="F:Quantum.Shape3DConfig.CapsuleDirection">
+            <summary>
+            The direction that the capsule height extends
             </summary>
         </member>
         <member name="P:Quantum.Shape3DConfig.CapsuleExtent">
@@ -22845,6 +22927,12 @@
             The configuration array of each shape in the compound that will be allocated. 
             </summary>
         </member>
+        <member name="F:Quantum.Shape3DConfig.IsScaledBySourceCollider">
+            <summary>
+            If the settings baked from a source collider are already scaled by the source GameObject.
+            This can be used to avoid scaling the settings multiple times when the source is a child of the prototype.
+            </summary>
+        </member>
         <member name="M:Quantum.Shape3DConfig.CreateShape(Quantum.Core.FrameBase)">
             <summary>
             Creates a <see cref="T:Quantum.Shape3D"/> using the all the data set in the <see cref="T:Quantum.Shape3DConfig"/>.
@@ -22873,6 +22961,9 @@
         <member name="F:Quantum.Shape3DConfig.CompoundShapeData3D.CapsuleHeight">
             <inheritdoc cref="F:Quantum.Shape3DConfig.CapsuleHeight"/>
         </member>
+        <member name="F:Quantum.Shape3DConfig.CompoundShapeData3D.CapsuleDirection">
+            <inheritdoc cref="F:Quantum.Shape3DConfig.CapsuleDirection"/>
+        </member>
         <member name="P:Quantum.Shape3DConfig.CompoundShapeData3D.CapsuleExtent">
             <summary>
             The capsule extent is the distance from the center of the capsule to some of the spheres' centers.
@@ -22890,10 +22981,8 @@
         <member name="F:Quantum.Shape3DConfig.CompoundShapeData3D.UserTag">
             <inheritdoc cref="F:Quantum.Shape3DConfig.UserTag"/>
         </member>
-        <member name="F:Quantum.Shape3DConfig.CompoundShapeData3D.IsSetFromSourceCollider">
-            <summary>
-            This means an external collider component from this engine sets this component.
-            </summary>
+        <member name="F:Quantum.Shape3DConfig.CompoundShapeData3D.IsScaledBySourceCollider">
+            <inheritdoc cref="F:Quantum.Shape3DConfig.IsScaledBySourceCollider"/>
         </member>
         <member name="M:Quantum.Shape3DConfig.CompoundShapeData3D.#ctor(Quantum.Shape3DConfig)">
             <summary>
@@ -25687,6 +25776,9 @@
             <summary>
             Memory allocation info result.
             </summary>
+        </member>
+        <member name="F:Quantum.QuantumUnsafeAllocResult.Info">
+            <summary/>
         </member>
         <member name="T:Quantum.QuantumUnsafeTrackingMode">
             <summary>
@@ -33954,6 +34046,13 @@
             </summary>
             <param name="a"></param>
             <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Photon.Deterministic.FPVector2.Abs(Photon.Deterministic.FPVector2)">
+            <summary>
+            Returns a vector where each component is the absolute value of same component in <paramref name="value"/>.
+            </summary>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Photon.Deterministic.FPVector2.Angle(Photon.Deterministic.FPVector2,Photon.Deterministic.FPVector2)">

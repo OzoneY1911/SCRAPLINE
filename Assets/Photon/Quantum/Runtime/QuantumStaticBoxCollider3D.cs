@@ -5,7 +5,7 @@ namespace Quantum {
   /// <summary>
   /// The script will create a static 3D Quantum box collider during map baking.
   /// </summary>
-  public class QuantumStaticBoxCollider3D : QuantumMonoBehaviour {
+  public class QuantumStaticBoxCollider3D : QuantumStaticCollider3DSource {
 #if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
     /// <summary>
     /// The Unity box collider to copy the size and position of during Quantum map baking.
@@ -61,10 +61,48 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Callback before baking the collider.
+    /// Calculates and outputs the shape settings converted to FP format.
     /// </summary>
-    public virtual void BeforeBake() {
+    /// <param name="position">World-space position of the shape.</param>
+    /// <param name="rotation">World-space rotation of the shape.</param>
+    /// <param name="extents">Box extents.</param>
+    public void GetShapeSettings(out FPVector3 position, out FPQuaternion rotation, out FPVector3 extents) {
       UpdateFromSourceCollider();
+
+      var absScale = FPVector3.Abs(transform.lossyScale.ToFPVector3());
+      var toExtents = absScale * FP._0_50;
+
+      extents = new FPVector3(
+        x: Size.X * toExtents.X,
+        y: Size.Y * toExtents.Y,
+        z: Size.Z * toExtents.Z
+      );
+
+      FPVector3 scaledPosOffset;
+      scaledPosOffset.X = PositionOffset.X * absScale.X;
+      scaledPosOffset.Y = PositionOffset.Y * absScale.Y;
+      scaledPosOffset.Z = PositionOffset.Z * absScale.Z;
+
+      var fpTransform = Transform3D.Create(transform.position.ToFPVector3(), transform.rotation.ToFPQuaternion());
+      position = fpTransform.TransformPoint(scaledPosOffset);
+      rotation = fpTransform.Rotation * FPQuaternion.Euler(RotationOffset);
+    }
+
+    /// <inheritdoc cref="QuantumStaticCollider3DSource.GetColliders"/>
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) {
+      GetShapeSettings(out var pos, out var rot, out var extents);
+
+      context.Add(new MapStaticCollider3D {
+        Position = pos,
+        Rotation = rot,
+        PhysicsMaterial = Settings.PhysicsMaterial,
+        StaticData = context.MakeStaticData(gameObject, Settings),
+        ShapeType = Shape3DType.Box,
+        BoxExtents = extents
+      });
+    }
+#else 
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) { 
     }
 #endif
   }

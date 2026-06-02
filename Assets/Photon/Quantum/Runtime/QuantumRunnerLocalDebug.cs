@@ -74,6 +74,11 @@ namespace Quantum {
     [InlineHelp]
     public bool PreloadAddressables = false;
     /// <summary>
+    /// Set the <see cref="QuantumGameFlags.DisableInterpolatableStates"/> flag when starting Quantum.
+    /// </summary>
+    [InlineHelp]
+    public bool DisableInterpolatableStates = false;
+    /// <summary>
     /// Set a dynamic asset db.
     /// </summary>
     [InlineHelp]
@@ -187,6 +192,8 @@ namespace Quantum {
 
         assets = snapshotFile.AssetDatabaseData?.Decode();
       }
+
+      arguments.DisableInterpolatableStates = DisableInterpolatableStates;
 
       _runner = await SessionRunner.StartAsync(arguments) as QuantumRunner;
 

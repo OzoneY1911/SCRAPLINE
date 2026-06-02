@@ -46,578 +46,6 @@ MonoBehaviour:
   StaticColliders3D:
   - Rotation:
       X:
-        RawValue: 20
-      Y:
-        RawValue: -52074
-      Z:
-        RawValue: 26
-      W:
-        RawValue: 39787
-    Position:
-      X:
-        RawValue: -406324
-      Y:
-        RawValue: 35258
-      Z:
-        RawValue: -345841
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 32
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 9800
-    CapsuleHeight:
-      RawValue: 44200
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: FIRESAVER
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 0
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -32767
-      Y:
-        RawValue: 32768
-      Z:
-        RawValue: 32768
-      W:
-        RawValue: 32767
-    Position:
-      X:
-        RawValue: -73075
-      Y:
-        RawValue: 85107
-      Z:
-        RawValue: -323289
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 26200
-      Y:
-        RawValue: 45850
-      Z:
-        RawValue: 72050
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: Vending Machine
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 1
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -32767
-      Y:
-        RawValue: 32768
-      Z:
-        RawValue: 32768
-      W:
-        RawValue: 32767
-    Position:
-      X:
-        RawValue: 31782
-      Y:
-        RawValue: 85107
-      Z:
-        RawValue: -323289
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 26200
-      Y:
-        RawValue: 45850
-      Z:
-        RawValue: 72050
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: Vending Machine (1)
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 2
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 46349
-      Z:
-        RawValue: 46332
-      W:
-        RawValue: 0
-    Position:
-      X:
-        RawValue: -240386
-      Y:
-        RawValue: 14090
-      Z:
-        RawValue: -334233
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: RUG
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 3
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: -16961
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 63302
-    Position:
-      X:
-        RawValue: 190251
-      Y:
-        RawValue: 46261
-      Z:
-        RawValue: 59768
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 20054
-      Y:
-        RawValue: 33155
-      Z:
-        RawValue: 20054
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: BARREL
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 4
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: -334250
-      Y:
-        RawValue: 85107
-      Z:
-        RawValue: -458835
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 50000
-      Y:
-        RawValue: 10900
-      Z:
-        RawValue: 68150
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: LOBBY_DOORS
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 5
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: -120600
-      Y:
-        RawValue: 118707
-      Z:
-        RawValue: -448235
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 24200
-      Y:
-        RawValue: 10400
-      Z:
-        RawValue: 33150
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: LOBBY_ELECTROPANEL
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 6
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: -340700
-      Y:
-        RawValue: 143507
-      Z:
-        RawValue: -688135
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 19650
-      Y:
-        RawValue: 194600
-      Z:
-        RawValue: 130400
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: LOBBY_SERVER
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 7
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: -46340
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 46340
-    Position:
-      X:
-        RawValue: -58900
-      Y:
-        RawValue: 15807
-      Z:
-        RawValue: -804519
-    PhysicsMaterial:
-      Id:
-        Value: 1450256864954719521
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 65500
-      Y:
-        RawValue: 65500
-      Z:
-        RawValue: 3350
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: HATCH
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 8
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: 235929
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: -359530
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: COMPUTER_SHOP
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 9
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: 260423
-      Y:
-        RawValue: 71339
-      Z:
-        RawValue: -249434
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 20944
-      Y:
-        RawValue: 58329
-      Z:
-        RawValue: 32430
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: SHOP_GUY
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 10
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: 220659
-      Y:
-        RawValue: 78643
-      Z:
-        RawValue: -99221
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: HOLO_BANNER
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 11
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-      W:
-        RawValue: 65536
-    Position:
-      X:
-        RawValue: -243270
-      Y:
-        RawValue: -13500
-      Z:
-        RawValue: -426377
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 2
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 57610
-      Y:
-        RawValue: 32768
-      Z:
-        RawValue: 67321
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: BoxEntity
-      Tag: Untagged
-      Layer: 0
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 12
-      MutableMode: 0
-  - Rotation:
-      X:
         RawValue: -46340
       Y:
         RawValue: 0
@@ -658,7 +86,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 13
+      ColliderIndex: 0
       MutableMode: 0
   - Rotation:
       X:
@@ -702,7 +130,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 14
+      ColliderIndex: 1
       MutableMode: 0
   - Rotation:
       X:
@@ -746,7 +174,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 15
+      ColliderIndex: 2
       MutableMode: 0
   - Rotation:
       X:
@@ -790,7 +218,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 16
+      ColliderIndex: 3
       MutableMode: 0
   - Rotation:
       X:
@@ -834,7 +262,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 17
+      ColliderIndex: 4
       MutableMode: 0
   - Rotation:
       X:
@@ -878,7 +306,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 18
+      ColliderIndex: 5
       MutableMode: 0
   - Rotation:
       X:
@@ -922,7 +350,183 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 19
+      ColliderIndex: 6
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 5
+      Y:
+        RawValue: -52088
+      Z:
+        RawValue: 6
+      W:
+        RawValue: 39770
+    Position:
+      X:
+        RawValue: -406324
+      Y:
+        RawValue: 35258
+      Z:
+        RawValue: -345841
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 32
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 9800
+    CapsuleHeight:
+      RawValue: 44200
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: FIRESAVER
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 7
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -32767
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+      W:
+        RawValue: 32767
+    Position:
+      X:
+        RawValue: -73076
+      Y:
+        RawValue: 85104
+      Z:
+        RawValue: -323288
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 26200
+      Y:
+        RawValue: 45850
+      Z:
+        RawValue: 72050
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: Vending Machine
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 8
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -32767
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+      W:
+        RawValue: 32767
+    Position:
+      X:
+        RawValue: 31782
+      Y:
+        RawValue: 85104
+      Z:
+        RawValue: -323288
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 26200
+      Y:
+        RawValue: 45850
+      Z:
+        RawValue: 72050
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: Vending Machine (1)
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 9
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 46349
+      Z:
+        RawValue: 46332
+      W:
+        RawValue: 0
+    Position:
+      X:
+        RawValue: -240386
+      Y:
+        RawValue: 14090
+      Z:
+        RawValue: -334233
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: RUG
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 10
       MutableMode: 0
   - Rotation:
       X:
@@ -966,7 +570,51 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 20
+      ColliderIndex: 11
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -16961
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 63302
+    Position:
+      X:
+        RawValue: 190251
+      Y:
+        RawValue: 46261
+      Z:
+        RawValue: 59768
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 20054
+      Y:
+        RawValue: 33155
+      Z:
+        RawValue: 20054
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: BARREL
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 12
       MutableMode: 0
   - Rotation:
       X:
@@ -1010,51 +658,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 21
-      MutableMode: 0
-  - Rotation:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 46340
-      Z:
-        RawValue: 0
-      W:
-        RawValue: -46340
-    Position:
-      X:
-        RawValue: -275251
-      Y:
-        RawValue: 13107
-      Z:
-        RawValue: 275251
-    PhysicsMaterial:
-      Id:
-        Value: 0
-    ShapeType: 4
-    SphereRadius:
-      RawValue: 0
-    CapsuleRadius:
-      RawValue: 0
-    CapsuleHeight:
-      RawValue: 0
-    BoxExtents:
-      X:
-        RawValue: 0
-      Y:
-        RawValue: 0
-      Z:
-        RawValue: 0
-    SmoothSphereMeshCollisions: 0
-    StaticData:
-      Name: LOCKERMAIN
-      Tag: Untagged
-      Layer: 9
-      Asset:
-        Id:
-          Value: 0
-      IsTrigger: 0
-      ColliderIndex: 22
+      ColliderIndex: 13
       MutableMode: 0
   - Rotation:
       X:
@@ -1071,7 +675,7 @@ MonoBehaviour:
       Y:
         RawValue: 13107
       Z:
-        RawValue: 222822
+        RawValue: 131072
     PhysicsMaterial:
       Id:
         Value: 0
@@ -1098,24 +702,24 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 23
+      ColliderIndex: 14
       MutableMode: 0
   - Rotation:
       X:
         RawValue: 0
       Y:
-        RawValue: 46340
+        RawValue: 65536
       Z:
         RawValue: 0
       W:
-        RawValue: -46340
+        RawValue: 0
     Position:
       X:
-        RawValue: -196608
+        RawValue: -406323
       Y:
         RawValue: 13107
       Z:
-        RawValue: 275251
+        RawValue: 183501
     PhysicsMaterial:
       Id:
         Value: 0
@@ -1142,7 +746,7 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 24
+      ColliderIndex: 15
       MutableMode: 0
   - Rotation:
       X:
@@ -1186,7 +790,183 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 25
+      ColliderIndex: 16
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: -334250
+      Y:
+        RawValue: 85093
+      Z:
+        RawValue: -458843
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 50000
+      Y:
+        RawValue: 10900
+      Z:
+        RawValue: 68150
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: LOBBY_DOORS
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 17
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: -120600
+      Y:
+        RawValue: 118691
+      Z:
+        RawValue: -448242
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 24200
+      Y:
+        RawValue: 10400
+      Z:
+        RawValue: 33150
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: LOBBY_ELECTROPANEL
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 18
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: -340700
+      Y:
+        RawValue: 143500
+      Z:
+        RawValue: -688130
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 19650
+      Y:
+        RawValue: 194600
+      Z:
+        RawValue: 130400
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: LOBBY_SERVER
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 19
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: -46340
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 46340
+    Position:
+      X:
+        RawValue: -58900
+      Y:
+        RawValue: 15807
+      Z:
+        RawValue: -804519
+    PhysicsMaterial:
+      Id:
+        Value: 1450256864954719521
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 65500
+      Y:
+        RawValue: 65500
+      Z:
+        RawValue: 3350
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: HATCH
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 20
       MutableMode: 0
   - Rotation:
       X:
@@ -1230,7 +1010,183 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 26
+      ColliderIndex: 21
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 235929
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: -359530
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: COMPUTER_SHOP
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 22
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 260423
+      Y:
+        RawValue: 71339
+      Z:
+        RawValue: -249434
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 20944
+      Y:
+        RawValue: 58329
+      Z:
+        RawValue: 32430
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: SHOP_GUY
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 23
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: 220659
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: -99221
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: HOLO_BANNER
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 24
+      MutableMode: 0
+  - Rotation:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+      W:
+        RawValue: 65536
+    Position:
+      X:
+        RawValue: -243270
+      Y:
+        RawValue: -13500
+      Z:
+        RawValue: -426377
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    ShapeType: 2
+    SphereRadius:
+      RawValue: 0
+    CapsuleRadius:
+      RawValue: 0
+    CapsuleHeight:
+      RawValue: 0
+    BoxExtents:
+      X:
+        RawValue: 57610
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 67321
+    SmoothSphereMeshCollisions: 0
+    StaticData:
+      Name: BoxEntity
+      Tag: Untagged
+      Layer: 0
+      Asset:
+        Id:
+          Value: 0
+      IsTrigger: 0
+      ColliderIndex: 25
       MutableMode: 0
   - Rotation:
       X:
@@ -1243,11 +1199,11 @@ MonoBehaviour:
         RawValue: 46340
     Position:
       X:
-        RawValue: -170393
+        RawValue: -117964
       Y:
         RawValue: 13107
       Z:
-        RawValue: 117964
+        RawValue: 353894
     PhysicsMaterial:
       Id:
         Value: 0
@@ -1274,24 +1230,24 @@ MonoBehaviour:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 27
+      ColliderIndex: 26
       MutableMode: 0
   - Rotation:
       X:
         RawValue: 0
       Y:
-        RawValue: -65536
+        RawValue: -60547
       Z:
         RawValue: 0
       W:
-        RawValue: 0
+        RawValue: -25079
     Position:
       X:
-        RawValue: -39321
+        RawValue: -344625
       Y:
         RawValue: 13107
       Z:
-        RawValue: 117964
+        RawValue: 279090
     PhysicsMaterial:
       Id:
         Value: 0
@@ -1313,12 +1269,12 @@ MonoBehaviour:
     StaticData:
       Name: TABLE_OFFICE
       Tag: Untagged
-      Layer: 9
+      Layer: 0
       Asset:
         Id:
           Value: 0
       IsTrigger: 0
-      ColliderIndex: 28
+      ColliderIndex: 27
       MutableMode: 0
   MapEntities:
   - Components:
@@ -1337,15 +1293,6 @@ MonoBehaviour:
     - rid: 5955020165048434693
   - Components:
     - rid: 4108737041599037440
-  - Components:
-    - rid: 4090557877406662656
-    - rid: 4090557877406662657
-    - rid: 4090557877406662658
-    - rid: 4090557877406662659
-    - rid: 4090557877406662660
-    - rid: 4090557877406662661
-  - Components:
-    - rid: 2244274753957265408
   - Components:
     - rid: 5762633266154700800
     - rid: 5762633266154700801
@@ -1422,27 +1369,24 @@ MonoBehaviour:
   - Components:
     - rid: 2485342598890258432
   - Components:
-    - rid: 1276486740902674432
-    - rid: 1276486740902674433
-    - rid: 1276486740902674434
-    - rid: 1276486740902674435
-    - rid: 1276486740902674436
-    - rid: 1276486740902674437
+    - rid: 910643357217193984
+    - rid: 910643357217193985
+    - rid: 910643357217193986
+    - rid: 910643357217193987
+    - rid: 910643357217193988
   - Components:
-    - rid: 3481793116996894720
-    - rid: 3481793116996894721
-    - rid: 3481793116996894722
-    - rid: 3481793116996894723
-    - rid: 3481793116996894724
-    - rid: 3481793116996894725
+    - rid: 6469463556692639744
+    - rid: 6469463556692639745
+    - rid: 6469463556692639746
+    - rid: 6469463556692639747
+    - rid: 6469463556692639748
   - Components:
-    - rid: 6088283931419869184
-    - rid: 6088283931419869185
-    - rid: 6088283931419869186
-    - rid: 6088283931419869187
-    - rid: 6088283931419869188
-    - rid: 6088283931419869189
-  SerializedTriangleDataUncompressedSize: 163220
+    - rid: 4900354900002603008
+    - rid: 4900354900002603009
+    - rid: 4900354900002603010
+    - rid: 4900354900002603011
+    - rid: 4900354900002603012
+  SerializedTriangleDataUncompressedSize: 159044
   references:
     version: 2
     RefIds:
@@ -1474,6 +1418,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -1498,6 +1443,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
         Layer: 0
         IsTrigger: 1
         PhysicsMaterial:
@@ -1541,6 +1487,7 @@ MonoBehaviour:
             RawValue: 4208
           CapsuleHeight:
             RawValue: 6554
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -1565,6 +1512,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -1597,48 +1545,49 @@ MonoBehaviour:
         TargetLocation:
           Type:
             Value: 2
-    - rid: 1276486740902674432
+    - rid: 910643357217193984
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
           X:
-            RawValue: -39321
+            RawValue: -357370
           Y:
-            RawValue: 13107
+            RawValue: 56033
           Z:
-            RawValue: 117964
+            RawValue: 247348
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 11796480
+            RawValue: 8847363
           Z:
             RawValue: 0
-    - rid: 1276486740902674433
+    - rid: 910643357217193985
       type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         ShapeConfig:
-          ShapeType: 2
+          ShapeType: 16
           SphereRadius:
             RawValue: 32768
           CapsuleRadius:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
-              RawValue: 31457
+              RawValue: 0
             Y:
-              RawValue: 42926
+              RawValue: 0
             Z:
-              RawValue: 12346
+              RawValue: 0
           BoxExtents:
             X:
-              RawValue: 9340
+              RawValue: 32768
             Y:
-              RawValue: 6011
+              RawValue: 32768
             Z:
-              RawValue: 13330
+              RawValue: 32768
           RotationOffset:
             X:
               RawValue: 0
@@ -1648,17 +1597,204 @@ MonoBehaviour:
               RawValue: 0
           UserTag: 0
           IsPersistent: 1
-          CompoundShapes: []
-        Layer: 9
+          CompoundShapes:
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: -8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 11403
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 393
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -13762
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 655
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5138
+              Z:
+                RawValue: -1441
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 873
+              Z:
+                RawValue: 12976
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -2621
+              Z:
+                RawValue: 13107
+            BoxExtents:
+              X:
+                RawValue: 7275
+              Y:
+                RawValue: 383
+              Z:
+                RawValue: 1310
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          IsScaledBySourceCollider: 1
+        Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
           Id:
             Value: 0
-    - rid: 1276486740902674434
+    - rid: 910643357217193986
       type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Config:
-          Value: 58
+          Value: 126
         Mass:
           RawValue: 131072
         Drag:
@@ -1673,7 +1809,7 @@ MonoBehaviour:
           Z:
             RawValue: 0
         RotationFreeze:
-          Value: -1
+          Value: 0
         GravityScale:
           _hasValue: 0
           _value:
@@ -1698,6 +1834,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -1722,58 +1859,31 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
-    - rid: 1276486740902674435
+          IsScaledBySourceCollider: 0
+    - rid: 910643357217193987
       type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         CallbackFlags:
           Value: 0
-    - rid: 1276486740902674436
+    - rid: 910643357217193988
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
-    - rid: 1276486740902674437
-      type: {class: LinearConstraintPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        AnchorPosition:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        Axis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: -65536
-        LocalAxis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 65536
-        MinOffset:
-          RawValue: 0
-        MaxOffset:
-          RawValue: 22938
     - rid: 1295200884073955328
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
           X:
-            RawValue: -175800
+            RawValue: -393216
           Y:
             RawValue: 78643
           Z:
-            RawValue: 262144
+            RawValue: 204308
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 17694720
+            RawValue: 11796483
           Z:
             RawValue: 0
     - rid: 1295200884073955329
@@ -1787,6 +1897,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: -1217
@@ -1811,6 +1922,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 9
         IsTrigger: 0
         PhysicsMaterial:
@@ -1860,6 +1972,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -1884,6 +1997,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
     - rid: 1295200884073955331
       type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -1892,7 +2006,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            RawValue: 10
+            RawValue: 8
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -1974,6 +2088,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: -58982
@@ -1998,6 +2113,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -2013,33 +2129,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -175800
+            RawValue: -393216
           Y:
             RawValue: 78643
           Z:
-            RawValue: 262144
+            RawValue: 204308
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 17694720
-          Z:
-            RawValue: 0
-    - rid: 2244274753957265408
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -391577
-          Y:
-            RawValue: 78643
-          Z:
-            RawValue: 233144
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 11796480
+            RawValue: 11796483
           Z:
             RawValue: 0
     - rid: 2485342598890258432
@@ -2047,11 +2146,11 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -196236
+            RawValue: -143808
           Y:
             RawValue: 72416
           Z:
-            RawValue: 82642
+            RawValue: 318571
         Rotation:
           X:
             RawValue: 0
@@ -2087,6 +2186,7 @@ MonoBehaviour:
             RawValue: 21462
           CapsuleHeight:
             RawValue: 19374
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -2111,6 +2211,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -2146,7 +2247,7 @@ MonoBehaviour:
         IsActive:
           Value: 0
         HatchEntity:
-          RawValue: 15
+          RawValue: 13
         HatchInitialRotation:
           X:
             RawValue: 0
@@ -2216,6 +2317,7 @@ MonoBehaviour:
             RawValue: 4208
           CapsuleHeight:
             RawValue: 6554
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -2240,6 +2342,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -2272,168 +2375,6 @@ MonoBehaviour:
         TargetLocation:
           Type:
             Value: 1
-    - rid: 3481793116996894720
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -39321
-          Y:
-            RawValue: -1638
-          Z:
-            RawValue: 117964
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 11796480
-          Z:
-            RawValue: 0
-    - rid: 3481793116996894721
-      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        ShapeConfig:
-          ShapeType: 2
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 31457
-            Y:
-              RawValue: 42926
-            Z:
-              RawValue: 12346
-          BoxExtents:
-            X:
-              RawValue: 9340
-            Y:
-              RawValue: 6011
-            Z:
-              RawValue: 13330
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-        Layer: 9
-        IsTrigger: 0
-        PhysicsMaterial:
-          Id:
-            Value: 0
-    - rid: 3481793116996894722
-      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Config:
-          Value: 58
-        Mass:
-          RawValue: 131072
-        Drag:
-          RawValue: 32768
-        AngularDrag:
-          RawValue: 32768
-        CenterOfMass:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        RotationFreeze:
-          Value: -1
-        GravityScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaMode: 0
-        ExplicitInertiaTensor:
-          X:
-            RawValue: 65536
-          Y:
-            RawValue: 65536
-          Z:
-            RawValue: 65536
-        ParametricInertiaShape:
-          ShapeType: 0
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          BoxExtents:
-            X:
-              RawValue: 32768
-            Y:
-              RawValue: 32768
-            Z:
-              RawValue: 32768
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-    - rid: 3481793116996894723
-      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        CallbackFlags:
-          Value: 0
-    - rid: 3481793116996894724
-      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        _empty_prototype_dummy_field_: 0
-    - rid: 3481793116996894725
-      type: {class: LinearConstraintPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        AnchorPosition:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        Axis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: -65536
-        LocalAxis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 65536
-        MinOffset:
-          RawValue: 0
-        MaxOffset:
-          RawValue: 22938
     - rid: 3753418097315282944
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2462,6 +2403,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -2486,6 +2428,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -2516,8 +2459,8 @@ MonoBehaviour:
       type: {class: InteractableShopZonePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         TargetShopZone:
-          RawValue: 18
-    - rid: 4090557877406662656
+          RawValue: 16
+    - rid: 4108737041599037440
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
@@ -2526,199 +2469,12 @@ MonoBehaviour:
           Y:
             RawValue: 78643
           Z:
-            RawValue: 233144
+            RawValue: 141394
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 11796480
-          Z:
-            RawValue: 0
-    - rid: 4090557877406662657
-      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        ShapeConfig:
-          ShapeType: 2
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 130
-            Y:
-              RawValue: -2785
-            Z:
-              RawValue: 10321
-          BoxExtents:
-            X:
-              RawValue: 710
-            Y:
-              RawValue: 49152
-            Z:
-              RawValue: 10321
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-        Layer: 9
-        IsTrigger: 0
-        PhysicsMaterial:
-          Id:
-            Value: 0
-    - rid: 4090557877406662658
-      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Config:
-          Value: 58
-        Mass:
-          RawValue: 196608
-        Drag:
-          RawValue: 32768
-        AngularDrag:
-          RawValue: 32768
-        CenterOfMass:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        RotationFreeze:
-          Value: 0
-        GravityScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaMode: 0
-        ExplicitInertiaTensor:
-          X:
-            RawValue: 65536
-          Y:
-            RawValue: 65536
-          Z:
-            RawValue: 65536
-        ParametricInertiaShape:
-          ShapeType: 0
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          BoxExtents:
-            X:
-              RawValue: 32768
-            Y:
-              RawValue: 32768
-            Z:
-              RawValue: 32768
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-    - rid: 4090557877406662659
-      type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        JointConfigs:
-        - StartDisabled: 0
-          JointType: 3
-          UserTag: 0
-          ConnectedEntity:
-            RawValue: 6
-          ConnectedAnchor:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          Anchor:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          Axis:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: -65536
-            Z:
-              RawValue: 0
-          Frequency:
-            RawValue: 0
-          DampingRatio:
-            RawValue: 0
-          AutoConfigureDistance: 0
-          Distance:
-            RawValue: 0
-          MinDistance:
-            RawValue: 0
-          MaxDistance:
-            RawValue: 0
-          UseAngleLimits: 1
-          LowerAngle:
-            RawValue: -7208960
-          UpperAngle:
-            RawValue: 0
-          UseMotor: 0
-          MotorSpeed:
-            RawValue: 0
-          MaxMotorTorque:
-            _hasValue: 0
-            _value:
-              RawValue: 0
-    - rid: 4090557877406662660
-      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        CallbackFlags:
-          Value: 0
-    - rid: 4090557877406662661
-      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        _empty_prototype_dummy_field_: 0
-    - rid: 4108737041599037440
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -264929
-          Y:
-            RawValue: 78643
-          Z:
-            RawValue: 260505
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 17694720
+            RawValue: 11796482
           Z:
             RawValue: 0
     - rid: 4157983301971214336
@@ -2726,16 +2482,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -217415
+            RawValue: -393216
           Y:
             RawValue: 78643
           Z:
-            RawValue: 262144
+            RawValue: 162693
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 17694720
+            RawValue: 11796483
           Z:
             RawValue: 0
     - rid: 4320542179127721984
@@ -2766,6 +2522,7 @@ MonoBehaviour:
             RawValue: 16384
           CapsuleHeight:
             RawValue: 65536
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 4
@@ -2790,6 +2547,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:
@@ -2846,6 +2604,330 @@ MonoBehaviour:
         ChaseTarget:
           RawValue: 0
         LastPatrolIndex: 0
+    - rid: 4900354900002603008
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -357370
+          Y:
+            RawValue: 26542
+          Z:
+            RawValue: 247348
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 8847363
+          Z:
+            RawValue: 0
+    - rid: 4900354900002603009
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 16
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          CapsuleDirection: 0
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes:
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: -8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 11403
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 393
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -13762
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 655
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5138
+              Z:
+                RawValue: -1441
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 873
+              Z:
+                RawValue: 12976
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -2621
+              Z:
+                RawValue: 13107
+            BoxExtents:
+              X:
+                RawValue: 7275
+              Y:
+                RawValue: 383
+              Z:
+                RawValue: 1310
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          IsScaledBySourceCollider: 1
+        Layer: 0
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 4900354900002603010
+      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Config:
+          Value: 126
+        Mass:
+          RawValue: 131072
+        Drag:
+          RawValue: 32768
+        AngularDrag:
+          RawValue: 32768
+        CenterOfMass:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+        RotationFreeze:
+          Value: 0
+        GravityScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaMode: 0
+        ExplicitInertiaTensor:
+          X:
+            RawValue: 65536
+          Y:
+            RawValue: 65536
+          Z:
+            RawValue: 65536
+        ParametricInertiaShape:
+          ShapeType: 0
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          CapsuleDirection: 0
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+          IsScaledBySourceCollider: 0
+    - rid: 4900354900002603011
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 4900354900002603012
+      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
     - rid: 5540769905776787456
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -2874,6 +2956,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: -38269
@@ -2898,6 +2981,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 0
         IsTrigger: 1
         PhysicsMaterial:
@@ -2923,16 +3007,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -217415
+            RawValue: -393216
           Y:
             RawValue: 78643
           Z:
-            RawValue: 262144
+            RawValue: 162693
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 17694720
+            RawValue: 11796483
           Z:
             RawValue: 0
     - rid: 5762633266154700801
@@ -2946,6 +3030,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: -1217
@@ -2970,6 +3055,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 9
         IsTrigger: 0
         PhysicsMaterial:
@@ -3019,6 +3105,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -3043,6 +3130,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
     - rid: 5762633266154700803
       type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -3051,7 +3139,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            RawValue: 9
+            RawValue: 7
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -3110,16 +3198,16 @@ MonoBehaviour:
       data:
         Position:
           X:
-            RawValue: -264929
+            RawValue: -391577
           Y:
             RawValue: 78643
           Z:
-            RawValue: 260505
+            RawValue: 141394
         Rotation:
           X:
             RawValue: 0
           Y:
-            RawValue: 17694720
+            RawValue: 11796482
           Z:
             RawValue: 0
     - rid: 5955020165048434689
@@ -3133,6 +3221,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 130
@@ -3157,6 +3246,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 9
         IsTrigger: 0
         PhysicsMaterial:
@@ -3206,6 +3296,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -3230,6 +3321,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
     - rid: 5955020165048434691
       type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -3292,178 +3384,16 @@ MonoBehaviour:
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
-    - rid: 6088283931419869184
-      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Position:
-          X:
-            RawValue: -39321
-          Y:
-            RawValue: -16973
-          Z:
-            RawValue: 117964
-        Rotation:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 11796480
-          Z:
-            RawValue: 0
-    - rid: 6088283931419869185
-      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        ShapeConfig:
-          ShapeType: 2
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 31457
-            Y:
-              RawValue: 42926
-            Z:
-              RawValue: 12346
-          BoxExtents:
-            X:
-              RawValue: 9340
-            Y:
-              RawValue: 6011
-            Z:
-              RawValue: 13330
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-        Layer: 9
-        IsTrigger: 0
-        PhysicsMaterial:
-          Id:
-            Value: 0
-    - rid: 6088283931419869186
-      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        Config:
-          Value: 58
-        Mass:
-          RawValue: 131072
-        Drag:
-          RawValue: 32768
-        AngularDrag:
-          RawValue: 32768
-        CenterOfMass:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        RotationFreeze:
-          Value: -1
-        GravityScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaScale:
-          _hasValue: 0
-          _value:
-            RawValue: 65536
-        InertiaMode: 0
-        ExplicitInertiaTensor:
-          X:
-            RawValue: 65536
-          Y:
-            RawValue: 65536
-          Z:
-            RawValue: 65536
-        ParametricInertiaShape:
-          ShapeType: 0
-          SphereRadius:
-            RawValue: 32768
-          CapsuleRadius:
-            RawValue: 32768
-          CapsuleHeight:
-            RawValue: 131072
-          PositionOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          BoxExtents:
-            X:
-              RawValue: 32768
-            Y:
-              RawValue: 32768
-            Z:
-              RawValue: 32768
-          RotationOffset:
-            X:
-              RawValue: 0
-            Y:
-              RawValue: 0
-            Z:
-              RawValue: 0
-          UserTag: 0
-          IsPersistent: 1
-          CompoundShapes: []
-    - rid: 6088283931419869187
-      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
-      data:
-        CallbackFlags:
-          Value: 0
-    - rid: 6088283931419869188
-      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        _empty_prototype_dummy_field_: 0
-    - rid: 6088283931419869189
-      type: {class: LinearConstraintPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
-      data:
-        AnchorPosition:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 0
-        Axis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: -65536
-        LocalAxis:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
-          Z:
-            RawValue: 65536
-        MinOffset:
-          RawValue: 0
-        MaxOffset:
-          RawValue: 22938
     - rid: 6251747569207083008
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
         Position:
           X:
-            RawValue: -196236
+            RawValue: -143808
           Y:
             RawValue: 72416
           Z:
-            RawValue: 82642
+            RawValue: 318571
         Rotation:
           X:
             RawValue: 0
@@ -3482,6 +3412,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 2264
@@ -3506,6 +3437,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 1
         Layer: 9
         IsTrigger: 0
         PhysicsMaterial:
@@ -3555,6 +3487,7 @@ MonoBehaviour:
             RawValue: 32768
           CapsuleHeight:
             RawValue: 131072
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -3579,6 +3512,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
     - rid: 6251747569207083011
       type: {class: PhysicsJoints3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -3587,7 +3521,7 @@ MonoBehaviour:
           JointType: 3
           UserTag: 0
           ConnectedEntity:
-            RawValue: 20
+            RawValue: 18
           ConnectedAnchor:
             X:
               RawValue: 0
@@ -3641,6 +3575,330 @@ MonoBehaviour:
       type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         _empty_prototype_dummy_field_: 0
+    - rid: 6469463556692639744
+      type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Position:
+          X:
+            RawValue: -357370
+          Y:
+            RawValue: 41287
+          Z:
+            RawValue: 247348
+        Rotation:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 8847363
+          Z:
+            RawValue: 0
+    - rid: 6469463556692639745
+      type: {class: PhysicsCollider3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        ShapeConfig:
+          ShapeType: 16
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          CapsuleDirection: 0
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes:
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: -8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 8967
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -1310
+            BoxExtents:
+              X:
+                RawValue: 373
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 13107
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 11403
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 393
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: -13762
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 6011
+              Z:
+                RawValue: 655
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -5138
+              Z:
+                RawValue: -1441
+            BoxExtents:
+              X:
+                RawValue: 9340
+              Y:
+                RawValue: 873
+              Z:
+                RawValue: 12976
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          - ShapeType: 2
+            SphereRadius:
+              RawValue: 32768
+            CapsuleRadius:
+              RawValue: 32768
+            CapsuleHeight:
+              RawValue: 131072
+            CapsuleDirection: 0
+            PositionOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: -2621
+              Z:
+                RawValue: 13107
+            BoxExtents:
+              X:
+                RawValue: 7275
+              Y:
+                RawValue: 383
+              Z:
+                RawValue: 1310
+            RotationOffset:
+              X:
+                RawValue: 0
+              Y:
+                RawValue: 0
+              Z:
+                RawValue: 0
+            UserTag: 0
+            IsScaledBySourceCollider: 1
+          IsScaledBySourceCollider: 1
+        Layer: 0
+        IsTrigger: 0
+        PhysicsMaterial:
+          Id:
+            Value: 0
+    - rid: 6469463556692639746
+      type: {class: PhysicsBody3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        Config:
+          Value: 126
+        Mass:
+          RawValue: 131072
+        Drag:
+          RawValue: 32768
+        AngularDrag:
+          RawValue: 32768
+        CenterOfMass:
+          X:
+            RawValue: 0
+          Y:
+            RawValue: 0
+          Z:
+            RawValue: 0
+        RotationFreeze:
+          Value: 0
+        GravityScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaScale:
+          _hasValue: 0
+          _value:
+            RawValue: 65536
+        InertiaMode: 0
+        ExplicitInertiaTensor:
+          X:
+            RawValue: 65536
+          Y:
+            RawValue: 65536
+          Z:
+            RawValue: 65536
+        ParametricInertiaShape:
+          ShapeType: 0
+          SphereRadius:
+            RawValue: 32768
+          CapsuleRadius:
+            RawValue: 32768
+          CapsuleHeight:
+            RawValue: 131072
+          CapsuleDirection: 0
+          PositionOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          BoxExtents:
+            X:
+              RawValue: 32768
+            Y:
+              RawValue: 32768
+            Z:
+              RawValue: 32768
+          RotationOffset:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+          UserTag: 0
+          IsPersistent: 1
+          CompoundShapes: []
+          IsScaledBySourceCollider: 0
+    - rid: 6469463556692639747
+      type: {class: PhysicsCallbacks3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
+      data:
+        CallbackFlags:
+          Value: 0
+    - rid: 6469463556692639748
+      type: {class: DraggablePrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
+      data:
+        _empty_prototype_dummy_field_: 0
     - rid: 7936398678032384000
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -3669,6 +3927,7 @@ MonoBehaviour:
             RawValue: 4208
           CapsuleHeight:
             RawValue: 6554
+          CapsuleDirection: 0
           PositionOffset:
             X:
               RawValue: 0
@@ -3693,6 +3952,7 @@ MonoBehaviour:
           UserTag: 0
           IsPersistent: 1
           CompoundShapes: []
+          IsScaledBySourceCollider: 0
         Layer: 0
         IsTrigger: 0
         PhysicsMaterial:

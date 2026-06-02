@@ -124,10 +124,18 @@ namespace Quantum.Editor {
             for (int i = _pages.Count - 1; i >= 0; i--) {
               if (string.IsNullOrEmpty(_pages[i].OverwritePage) == false) {
                 var index = _pages.FindIndex(p => string.Equals(p.Title, _pages[i].OverwritePage, StringComparison.Ordinal));
-                if (index >= 0) {
+                if (index >= 0 && index != i) {
                   _pages[index] = _pages[i];
                   _pages.RemoveAt(i);
                 }
+              }
+            }
+            
+            // Remove pages with no elements. This allows for overwriting a page to hide it
+            for (int i = _pages.Count - 1; i >= 0; i--) {
+              var page = _pages[i];
+              if (page.Elements.Count == 0) {
+                _pages.RemoveAt(i);
               }
             }
 
@@ -153,10 +161,12 @@ namespace Quantum.Editor {
       AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
     }
 
+#if !QUANTUM_DISABLE_HUB_POPUP
     [UnityEditor.Callbacks.DidReloadScripts]
     static void OnDidReloadScripts() {
       EditorApplication.delayCall += CheckPopupCondition;
     }
+#endif
 
     /// <summary>
     /// The QPrototypes have to be reloaded to properly work.
@@ -267,6 +277,7 @@ namespace Quantum.Editor {
       return true;
     }
 
+#if !QUANTUM_DISABLE_HUB_POPUP
     /// <summary>
     /// Is used to check if important user files are installed and opens the Hub otherwise.
     /// </summary>
@@ -289,15 +300,18 @@ namespace Quantum.Editor {
 
       EditorApplication.delayCall += () => OpenPage(page);
     }
+#endif
 
     protected virtual void OnGuiHeartbeat() {
     }
   }
 
+#if !QUANTUM_DISABLE_HUB_POPUP
   class QuantumEditorHubWindowAssetPostprocessor : AssetPostprocessor {
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
       // Unity handling for post asset processing callback. Checks existence of settings assets every time assets change.
       QuantumEditorHubWindow.CheckPopupCondition();
     }
   }
+#endif
 }

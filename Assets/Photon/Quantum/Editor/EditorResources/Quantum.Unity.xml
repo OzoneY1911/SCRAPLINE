@@ -9,6 +9,12 @@
             Base class for all Quantum MonoBehaviours.
             </summary>
         </member>
+        <member name="T:Quantum.QuantumStaticCollider3DSource">
+            <summary/>
+        </member>
+        <member name="T:Quantum.QuantumStaticCollider3DBakeContext">
+            <summary/>
+        </member>
         <member name="T:Quantum.ReflectionUtils">
             <summary>
             Quantum reflection utilities.
@@ -29,24 +35,6 @@
             An instance to the comparer.
             </summary>
         </member>
-        <member name="T:Quantum.CapsuleDirection3D">
-            <summary>
-            The Quantum's representation for the capsule shape 3D world axis direction. 
-            </summary>
-        </member>
-        <member name="F:Quantum.CapsuleDirection3D.Y">
-            <summary>
-            The Y axis has the 
-            </summary>
-        </member>
-        <member name="F:Quantum.CapsuleDirection3D.X">
-            <summary>
-            </summary>
-        </member>
-        <member name="F:Quantum.CapsuleDirection3D.Z">
-            <summary>
-            </summary>
-        </member>
         <member name="T:Quantum.QuantumMapData">
             <summary>
             Unity component that holds and bakes the map data for a Quantum map from a given scene.
@@ -55,6 +43,11 @@
         <member name="F:Quantum.QuantumMapData.AssetRef">
             <summary>
             The source asset to bake the data into.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumMapData.Settings">
+            <summary>
+            Map settings.
             </summary>
         </member>
         <member name="F:Quantum.QuantumMapData.BakeAllMode">
@@ -83,6 +76,54 @@
             <summary>
             One-to-one mapping of Quantum map entity entries in QAssetMap to their original source scripts.
             </summary>
+        </member>
+        <member name="T:Quantum.QuantumMapDataSettings">
+            <summary/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.UserAsset">
+            <inheritdoc cref="F:Quantum.Map.UserAsset"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.WorldSize">
+            <inheritdoc cref="F:Quantum.Map.WorldSize"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.BucketsCount">
+            <inheritdoc cref="F:Quantum.Map.BucketsCount"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.BucketsSubdivisions">
+            <inheritdoc cref="F:Quantum.Map.BucketsSubdivisions"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.BucketingAxis">
+            <inheritdoc cref="F:Quantum.Map.BucketingAxis"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.SortingAxis">
+            <inheritdoc cref="F:Quantum.Map.SortingAxis"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.SceneMeshCellSize">
+            <inheritdoc cref="F:Quantum.Map.SceneMeshCellSize"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.CompressSceneMesh">
+            <summary>
+            Should the mesh collider data be compressed?
+            Only relevant if <see cref="T:Quantum.QuantumStaticTerrainCollider3D"/> or <see cref="T:Quantum.QuantumStaticMeshCollider3D"/> are used.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.GridSizeX">
+            <inheritdoc cref="F:Quantum.NavMesh.GridSizeX"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.GridSizeY">
+            <inheritdoc cref="F:Quantum.NavMesh.GridSizeY"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.GridNodeSize">
+            <inheritdoc cref="F:Quantum.NavMesh.GridNodeSize"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.NavMeshSerializeType">
+            <inheritdoc cref="F:Quantum.NavMesh.SerializeType"/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.NavMeshSerializationBufferSize">
+            <summary/>
+        </member>
+        <member name="F:Quantum.QuantumMapDataSettings.CompressNavMeshes">
+            <summary/>
         </member>
         <member name="T:Quantum.Profiling.QuantumGraphProfilerSimulationTime">
             <summary>
@@ -1216,11 +1257,6 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticPolygonCollider2D.BeforeBake">
-            <summary>
-            Callback before baking the collider.
-            </summary>
-        </member>
         <member name="T:Quantum.QuantumEntityViewFlags">
             <summary>
             Additional configuration of the entity view that enables of disabled parts of the updating process.
@@ -1229,7 +1265,7 @@
         </member>
         <member name="F:Quantum.QuantumEntityViewFlags.DisableUpdateView">
             <summary>
-            <see cref="M:Quantum.QuantumEntityView.UpdateView(System.Boolean,System.Boolean)"/> and <see cref="M:Quantum.QuantumEntityView.LateUpdateView"/> are not processed and forwarded to entity view components.
+            <see cref="!:QuantumEntityView.UpdateView(bool, bool)"/> and <see cref="M:Quantum.QuantumEntityView.LateUpdateView"/> are not processed and forwarded to entity view components.
             </summary>
         </member>
         <member name="F:Quantum.QuantumEntityViewFlags.DisableUpdatePosition">
@@ -1298,6 +1334,15 @@
             Dynamically interpolates between two past verified frames. Timing is computed by EntityViewUpdater.
             Views using this mode are always seen "in the past", but are smooth and accurate, given mis-predictions are not possible.
             REQUIRES: QuantumEntityViewFlags must include EnableSnapshotInterpolation
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityViewInterpolationMode.ExponentialDecay">
+            <summary>
+            (Experimental)
+            Lightweight and extremely effective game object interpolation mode.
+            External writes to Unity transforms interact with smoothing, and mid-frame warps without simuldation teleport flags will slide rather than snap.
+            When only using this interpolation disable internal interpolation buffer copies by toggling on 
+            <see cref="P:Quantum.SessionRunner.Arguments.DisableInterpolatableStates"/>.
             </summary>
         </member>
         <member name="F:Quantum.QuantumEntityViewInterpolationMode.Auto">
@@ -1932,7 +1977,8 @@
             <summary>
             Set the <see cref="T:Quantum.QuantumEntityViewInterpolationMode"/> allowing the view timing to be switched between prediction and snapshot-interpolation.
             Requires the QuantumEntityViewFlags.SnapshotInterpolationEnabled flag to be set to have an effect.
-            AUTO selects the mode dynamically based on the prediction-culled state of the entity. 
+            AUTO selects the mode dynamically based on the prediction-culled state of the entity.
+            The mode should not be changed at runtime.
             </summary>
         </member>
         <member name="P:Quantum.QuantumEntityView.GameObjectNameIsEntityRef">
@@ -2131,6 +2177,28 @@
               </para>
             </summary>
         </member>
+        <member name="F:Quantum.QuantumEntityView.TeleportWhenScreenChanged">
+            <summary>
+            Entities parented to a RectTransform require this to be enabled.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.OverrideSmoothTime">
+            <summary>
+            Overwrite the smooth time constant for the exponential decay interpolation. 
+            By default uses the simulation delta time.
+            This represents the time to correct ~63% of the error, so smaller values will correct faster but might cause more jitter, while bigger values will be smoother but might cause more error.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.SmoothTime">
+            <summary>
+            The smooth time constant for the exponential decay interpolation.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.ExponentialAlpha">
+            <summary>
+            The exponential decay interpolation alpha value for this entity view, read-only.
+            </summary>
+        </member>
         <member name="F:Quantum.QuantumEntityView.OnEntityInstantiated">
             <summary>
             Is called after the entity view has been instantiated.
@@ -2243,6 +2311,47 @@
             Is this a rotation teleport.
             </summary>
         </member>
+        <member name="T:Quantum.QuantumEntityView.UpdateViewParameter">
+            <summary>
+            Parameter for <see cref="M:Quantum.QuantumEntityView.UpdateFromTransform3D(Quantum.QuantumEntityView.UpdateViewParameter@)"/> and <see cref="M:Quantum.QuantumEntityView.UpdateFromTransform2D(Quantum.QuantumEntityView.UpdateViewParameter@)"/>.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.Game">
+            <summary>
+            The referenced Quantum Game.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.UseClockAliasingInterpolation">
+            <summary>
+            Use clock aliasing interpolation. 
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.UseErrorCorrectionInterpolation">
+            <summary>
+            Use error correction interpolation
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.IsSpawning">
+            <summary>
+            Is the entity just spawning.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.DefaultExponentialDecayAlpha">
+            <summary>
+            Default exponential decay value.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.DefaultExponentialDecayAlphaCulled">
+            <summary>
+            Default exponential decay value for culled entities.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumEntityView.UpdateViewParameter.ScreenDimensionChanged">
+            <summary>
+            <see cref="F:Quantum.QuantumEntityViewInterpolationMode.ExponentialDecay"/> is based on Unity transforms, which can be 
+            affected by parent RectTransforms during screen changes. This will try to cause a position teleport instead.
+            </summary>
+        </member>
         <member name="M:Quantum.QuantumEntityView.OnInitialize">
             <summary>
             A callback to override to add custom logic to the initialization of this entity view.
@@ -2286,14 +2395,11 @@
             <param name="isSpawning">Is the entity spawning</param>
             <returns>True if data could be retrieved</returns>
         </member>
-        <member name="M:Quantum.QuantumEntityView.UpdateFromTransform3D(Quantum.QuantumGame,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:Quantum.QuantumEntityView.UpdateFromTransform3D(Quantum.QuantumEntityView.UpdateViewParameter@)">
             <summary>
             Apply new transform 3D data and interpolation.
             </summary>
-            <param name="game">Game</param>
-            <param name="useClockAliasingInterpolation">Use clock aliasing interpolation</param>
-            <param name="useErrorCorrectionInterpolation">Use error correction interpolation</param>
-            <param name="isSpawning">Is the entity just spawning</param>
+            <param name="parameter">Parameter</param>
         </member>
         <member name="M:Quantum.QuantumEntityView.TryGetTransform2DData(Quantum.QuantumEntityViewTimeReference,Quantum.QuantumEntityView.UpdatePositionParameter@,System.Int32@,Quantum.Transform2D@,Quantum.Transform2DVertical@,System.Boolean@,System.Boolean)">
             <summary>
@@ -2310,20 +2416,27 @@
             <returns>True if data could be retrieved</returns>
             <returns></returns>
         </member>
-        <member name="M:Quantum.QuantumEntityView.UpdateFromTransform2D(Quantum.QuantumGame,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:Quantum.QuantumEntityView.UpdateFromTransform2D(Quantum.QuantumEntityView.UpdateViewParameter@)">
             <summary>
             Apply new transform 2D data and interpolation.
             </summary>
-            <param name="game">Game</param>
-            <param name="useClockAliasingInterpolation">Use clock aliasing interpolation</param>
-            <param name="useErrorCorrectionInterpolation">Use error correction interpolation</param>
-            <param name="isSpawning">Is the entity just spawning</param>
+            <param name="parameter">Parameter</param>
         </member>
         <member name="M:Quantum.QuantumEntityView.ApplyTransform(Quantum.QuantumEntityView.UpdatePositionParameter@)">
             <summary>
             The method to override to apply the final position and rotation interpolation to the view transform.
             </summary>
             <param name="param"></param>
+        </member>
+        <member name="T:Quantum.TerrainBakeResolutionDivisor">
+            <summary>
+            Factor by which to reduce the source Unity terrain heightmap resolution when baking the Quantum terrain collider.
+            </summary>
+        </member>
+        <member name="F:Quantum.TerrainBakeResolutionDivisor.MatchSource">
+            <summary>
+            Use the source Unity terrain heightmap resolution (no downsampling).
+            </summary>
         </member>
         <member name="T:Quantum.QuantumStaticTerrainCollider3D">
             <summary>
@@ -2334,6 +2447,9 @@
             <summary>
             The Quantum terrain collider asset.
             </summary>
+        </member>
+        <member name="F:Quantum.QuantumStaticTerrainCollider3D.BakeResolutionDivisor">
+            <inheritdoc cref="T:Quantum.TerrainBakeResolutionDivisor"/>
         </member>
         <member name="F:Quantum.QuantumStaticTerrainCollider3D.Settings">
             <summary>
@@ -3010,6 +3126,12 @@
             The text field set when <see cref="F:Quantum.QuantumStats.ShowCompactStats"/> is <see langword="true"/>.
             </summary>
         </member>
+        <member name="F:Quantum.QuantumStats.UiRefreshIntervalSec">
+            <summary>
+            Interval in seconds between text-field refreshes. Sampling into the smoothed buffers continues every
+            frame; only the UI assignments are throttled to keep allocations and uGUI mesh rebuilds down.
+            </summary>
+        </member>
         <member name="M:Quantum.QuantumStats.ResetNetworkStats">
             <summary>
             Resets the bandwidth stats measurement.
@@ -3128,6 +3250,11 @@
             <summary>
             Unloads <see cref="P:Quantum.QuantumUnityDB.Global" />, if already loaded and unloads any asset that has been loaded.
             Next call to <see cref="P:Quantum.QuantumUnityDB.Global"/> will load the DB again.
+            </summary>
+        </member>
+        <member name="M:Quantum.QuantumUnityDB.ResetStatics">
+            <summary>
+            Unload global during play mode changes
             </summary>
         </member>
         <member name="M:Quantum.QuantumUnityDB.OnUnloadedAsGlobal(System.Boolean)">
@@ -3867,6 +3994,21 @@
             Complete, dispose the progress bar and logs a result.
             </summary>
         </member>
+        <member name="T:Quantum.Prototypes.Unity.EntityGroupPrototypeMode">
+            <summary>
+            How entities are filled in an EntityGroup Prototype.
+            </summary>
+        </member>
+        <member name="F:Quantum.Prototypes.Unity.EntityGroupPrototypeMode.Manual">
+            <summary>
+            Entities must be enumerated manually.
+            </summary>
+        </member>
+        <member name="F:Quantum.Prototypes.Unity.EntityGroupPrototypeMode.Children">
+            <summary>
+            Entities children to the group owner are automatically added to the group, except the owner.
+            </summary>
+        </member>
         <member name="T:Quantum.QuantumCallback">
             <summary>
             Quantum callbacks are special types of events that are triggered internally by the Quantum simulation.
@@ -3972,10 +4114,18 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticCapsuleCollider2D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticCapsuleCollider2D.GetShapeSettings(Photon.Deterministic.FPVector2@,Photon.Deterministic.FP@,Photon.Deterministic.FPVector2@,Photon.Deterministic.FP@,Photon.Deterministic.FP@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="size">Capsule size.</param>
+            <param name="verticalOffset">Offset in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+            <param name="height">Height of in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticCapsuleCollider2D.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider2DSource.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)"/>
         </member>
         <member name="T:Quantum.QuantumStartUIConnectionBase">
             <summary>
@@ -4268,6 +4418,20 @@
         </member>
         <member name="M:Quantum.QuantumUnityStaticDispatcherAdapter`2.UnsubscribeListener``1(System.Object)">
             <inheritdoc cref="M:Quantum.DispatcherBase.UnsubscribeListener``1(System.Object)"/>
+        </member>
+        <member name="T:Quantum.QuantumEntityPrototypeSource">
+            <summary>
+            Implement this in a MonoBehaviour to turn a script into entity prototype source.
+            </summary>
+        </member>
+        <member name="M:Quantum.QuantumEntityPrototypeSource.GetPrototypes(Quantum.QuantumEntityPrototypeBakeContext)">
+            <summary>
+            Creates <see cref="T:Quantum.ComponentPrototype"/> sequence. 
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Quantum.QuantumEntityPrototypeBakeContext">
+            <summary/>
         </member>
         <member name="T:Quantum.QuantumInspectorAttribute">
             <summary>
@@ -5225,6 +5389,11 @@
         <member name="F:Quantum.QuantumRunnerLocalDebug.PreloadAddressables">
             <summary>
             Enabled loading Addressables before simulation start.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumRunnerLocalDebug.DisableInterpolatableStates">
+            <summary>
+            Set the <see cref="F:Quantum.QuantumGameFlags.DisableInterpolatableStates"/> flag when starting Quantum.
             </summary>
         </member>
         <member name="F:Quantum.QuantumRunnerLocalDebug.DynamicAssetDB">
@@ -6381,10 +6550,16 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticBoxCollider3D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticBoxCollider3D.GetShapeSettings(Photon.Deterministic.FPVector3@,Photon.Deterministic.FPQuaternion@,Photon.Deterministic.FPVector3@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="extents">Box extents.</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticBoxCollider3D.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider3DSource.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)"/>
         </member>
         <member name="T:Quantum.QuantumStaticEdgeCollider2D">
             <summary>
@@ -6429,11 +6604,6 @@
         <member name="M:Quantum.QuantumStaticEdgeCollider2D.UpdateFromSourceCollider">
             <summary>
             Copy collider configuration from source collider if exist. 
-            </summary>
-        </member>
-        <member name="M:Quantum.QuantumStaticEdgeCollider2D.BeforeBake">
-            <summary>
-            Callback before baking the collider.
             </summary>
         </member>
         <member name="M:Quantum.QuantumStaticEdgeCollider2D.GetEdgeGizmosSettings(UnityEngine.Transform,Photon.Deterministic.FPVector2,Photon.Deterministic.FP,Photon.Deterministic.FPVector2,Photon.Deterministic.FPVector2,Photon.Deterministic.FP,UnityEngine.Vector3@,UnityEngine.Vector3@,System.Single@)">
@@ -6698,7 +6868,7 @@
         </member>
         <member name="M:Quantum.QuantumUnitySceneManagerUtils.GetSingleComponentOrThrow``1(UnityEngine.SceneManagement.Scene,System.Boolean)">
             <summary>
-            Gets all the component present on a scene, depth first.
+            Gets a component on a scene. If there are none or more than one, throws an exception.
             </summary>
         </member>
         <member name="M:Quantum.QuantumUnitySceneManagerUtils.GetComponentInHierarchyOrder``1(UnityEngine.SceneManagement.Scene,System.Boolean)">
@@ -6732,6 +6902,12 @@
             <summary>
             The entity view is created during a verified frame.
             </summary>
+        </member>
+        <member name="T:Quantum.QuantumStaticCollider2DSource">
+            <summary/>
+        </member>
+        <member name="T:Quantum.QuantumStaticCollider2DBakeContext">
+            <summary/>
         </member>
         <member name="T:Quantum.QuantumEntityPrototypeColliderLayerSource">
             <summary>
@@ -7332,10 +7508,17 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticCapsuleCollider3D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticCapsuleCollider3D.GetShapeSettings(Photon.Deterministic.FPVector3@,Photon.Deterministic.FPQuaternion@,Photon.Deterministic.FP@,Photon.Deterministic.FP@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="capsuleRadius">Capsule radius.</param>
+            <param name="capsuleHeight">Capsule Height.</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticCapsuleCollider3D.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider3DSource.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)"/>
         </member>
         <member name="T:Quantum.QuantumSnapshotInterpolationTimer">
             <summary>
@@ -7461,10 +7644,18 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticBoxCollider2D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticBoxCollider2D.GetShapeSettings(Photon.Deterministic.FPVector2@,Photon.Deterministic.FP@,Photon.Deterministic.FPVector2@,Photon.Deterministic.FP@,Photon.Deterministic.FP@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="extents">Box extents.</param>
+            <param name="verticalOffset">Offset in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+            <param name="height">Height of in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticBoxCollider2D.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider2DSource.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)"/>
         </member>
         <member name="T:Quantum.QuantumAddRuntimePlayers">
             <summary>
@@ -7726,10 +7917,16 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticSphereCollider3D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticSphereCollider3D.GetShapeSettings(Photon.Deterministic.FPVector3@,Photon.Deterministic.FPQuaternion@,Photon.Deterministic.FP@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="radius">Sphere radius.</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticSphereCollider3D.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider3DSource.GetColliders(Quantum.QuantumStaticCollider3DBakeContext)"/>
         </member>
         <member name="T:Quantum.MapDataBakerCallbackAttribute">
             <summary>
@@ -8156,27 +8353,6 @@
             The current vertical position of offset of the component.
             </summary>
         </member>
-        <member name="T:Quantum.QuantumEntityPrototype.SourceShapeGenericSettings">
-            <summary>
-            Extra settings for shapes
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumEntityPrototype.SourceShapeGenericSettings.IsScaledBySource">
-            <summary>
-            If the settings baked from a source collider are already scaled by the source GameObject.
-            This can be used to avoid scaling the settings multiple times when the source is a child of the prototype.
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumEntityPrototype.SourceShapeGenericSettings.CapsuleDirection2D">
-            <summary>
-            The world axis that define the direction of the capsule in 2D.
-            </summary>
-        </member>
-        <member name="F:Quantum.QuantumEntityPrototype.SourceShapeGenericSettings.CapsuleDirection3D">
-            <summary>
-            The world axis that define the direction of the capsule in 3D.
-            </summary>
-        </member>
         <member name="T:Quantum.QuantumEntityPrototype.PhysicsColliderGeneric">
             <summary>
             A all-purpose physics collider info.
@@ -8202,9 +8378,10 @@
             The source collider to be used for the shape.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumEntityPrototype.PhysicsColliderGeneric.SourceShapeSettings">
+        <member name="F:Quantum.QuantumEntityPrototype.PhysicsColliderGeneric.SourceColliders">
             <summary>
-            Specific settings for the any type of shape
+            The source colliders used to bake a Compound shape.
+            Only consumed when the active Shape Type is Compound.
             </summary>
         </member>
         <member name="F:Quantum.QuantumEntityPrototype.PhysicsColliderGeneric.Shape2D">
@@ -8498,11 +8675,6 @@
             <param name="assetObject">Entity prototype asset object</param>
             <param name="selfViewAsset">Associated view asset</param>
         </member>
-        <member name="M:Quantum.QuantumEntityPrototype.CreateComponentPrototypeSet(Quantum.EntityView,System.Boolean,Quantum.QuantumEntityPrototypeConverter)">
-            <summary>
-            Initialize the prototype after being loaded.
-            </summary>
-        </member>
         <member name="T:Quantum.QuantumMapBakeAssemblyAttribute">
             <summary>
             This assembly attribute needs to be set inside custom assemblies that required 
@@ -8566,6 +8738,18 @@
             </summary>
             <param name="data">The MapData object that is currently baked.</param>
             <param name="navmeshes">Current list of baked navmeshes to be saved to assets.</param>
+        </member>
+        <member name="M:Quantum.MapDataBakerCallback.OnCollectColliders2D(Quantum.QuantumMapData,System.Collections.Generic.List{Quantum.QuantumStaticCollider2DSource})">
+            <summary>
+            Is called during colliders baking with the current list of colliders found on a scene. Colliders can be added to the list
+            or removed from it (e.g. playable area pruning).
+            </summary>
+        </member>
+        <member name="M:Quantum.MapDataBakerCallback.OnCollectColliders3D(Quantum.QuantumMapData,System.Collections.Generic.List{Quantum.QuantumStaticCollider3DSource})">
+            <summary>
+            Is called during colliders baking with the current list of colliders found on a scene. Colliders can be added to the list
+            or removed from it (e.g. playable area pruning).
+            </summary>
         </member>
         <member name="M:Quantum.MapDataBakerCallback.OnBakeNavMesh(Quantum.QuantumMapData)">
             <summary>
@@ -9097,10 +9281,18 @@
             Copy collider configuration from source collider if exist. 
             </summary>
         </member>
-        <member name="M:Quantum.QuantumStaticCircleCollider2D.BeforeBake">
+        <member name="M:Quantum.QuantumStaticCircleCollider2D.GetShapeSettings(Photon.Deterministic.FPVector2@,Photon.Deterministic.FP@,Photon.Deterministic.FP@,Photon.Deterministic.FP@,Photon.Deterministic.FP@)">
             <summary>
-            Callback before baking the collider.
+            Calculates and outputs the shape settings converted to FP format.
             </summary>
+            <param name="position">World-space position of the shape.</param>
+            <param name="rotation">World-space rotation of the shape.</param>
+            <param name="radius">Circle radius.</param>
+            <param name="verticalOffset">Offset in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+            <param name="height">Height of in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+        </member>
+        <member name="M:Quantum.QuantumStaticCircleCollider2D.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)">
+            <inheritdoc cref="M:Quantum.QuantumStaticCollider2DSource.GetColliders(Quantum.QuantumStaticCollider2DBakeContext)"/>
         </member>
         <member name="T:Quantum.QuantumEntityViewUpdater">
             <summary>
@@ -9465,9 +9657,30 @@
             Individual entry for a specific section of Quantum.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoEntry.Enabled">
+        <member name="F:Quantum.QuantumGizmoEntry._enabled">
             <summary>
-            Is this gizmo enabled.
+            This entry's own enabled state, independent of its category gate.
+            </summary>
+        </member>
+        <member name="F:Quantum.QuantumGizmoEntry._categoryEnabled">
+            <summary>
+            The category can toggle off all entries.
+            </summary>
+        </member>
+        <member name="P:Quantum.QuantumGizmoEntry.Enabled">
+            <summary>
+            Returns <see langword="true"/> if the gizmo is enabled (by self and category).
+            Setting this property will only set its <see cref="P:Quantum.QuantumGizmoEntry.EnabledSelf"/> state.
+            </summary>
+        </member>
+        <member name="P:Quantum.QuantumGizmoEntry.EnabledSelf">
+            <summary>
+            This entry's own enabled state.
+            </summary>
+        </member>
+        <member name="P:Quantum.QuantumGizmoEntry.CategoryEnabled">
+            <summary>
+            Whether this entry's category is enabled.
             </summary>
         </member>
         <member name="F:Quantum.QuantumGizmoEntry.Color">
@@ -9644,142 +9857,142 @@
             The default Quantum Gizmo colors.
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Black">
+        <member name="P:Quantum.QuantumGizmoColors.Black">
             <summary>
             Black Gizmo color. RGBA: (0, 0, 0, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Yellow">
+        <member name="P:Quantum.QuantumGizmoColors.Yellow">
             <summary>
             Yellow Gizmo color. RGBA: (1, 0.92, 0.016, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Magenta">
+        <member name="P:Quantum.QuantumGizmoColors.Magenta">
             <summary>
             Magenta Gizmo color. RGBA: (1, 0, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Blue">
+        <member name="P:Quantum.QuantumGizmoColors.Blue">
             <summary>
             Blue Gizmo color. RGBA: (0, 0, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Green">
+        <member name="P:Quantum.QuantumGizmoColors.Green">
             <summary>
             Green Gizmo color. RGBA: (0, 1, 0, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.White">
+        <member name="P:Quantum.QuantumGizmoColors.White">
             <summary>
             White Gizmo color. RGBA: (1, 1, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Red">
+        <member name="P:Quantum.QuantumGizmoColors.Red">
             <summary>
             Red Gizmo color. RGBA: (1, 0, 0, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Cyan">
+        <member name="P:Quantum.QuantumGizmoColors.Cyan">
             <summary>
             Cyan Gizmo color. RGBA: (0, 1, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Gray">
+        <member name="P:Quantum.QuantumGizmoColors.Gray">
             <summary>
             Gray Gizmo color. RGBA: (0.5, 0.5, 0.5, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.LightGreen">
+        <member name="P:Quantum.QuantumGizmoColors.LightGreen">
             <summary>
             Light Green Gizmo color. RGBA: (0.4, 1, 0.7, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.LimeGreen">
+        <member name="P:Quantum.QuantumGizmoColors.LimeGreen">
             <summary>
             Lime Green Gizmo color. RGBA: (0.4925605, 0.9176471, 0.5050631, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.LightBlue">
+        <member name="P:Quantum.QuantumGizmoColors.LightBlue">
             <summary>
             Light Blue Gizmo color. RGBA: (0, 0.75, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.SkyBlue">
+        <member name="P:Quantum.QuantumGizmoColors.SkyBlue">
             <summary>
             Sky Blue Gizmo color. RGBA: (0.4705882, 0.7371198, 1, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.Maroon">
+        <member name="P:Quantum.QuantumGizmoColors.Maroon">
             <summary>
             Maroon Gizmo color. RGBA: (1, 0, 0.5, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.LightPurple">
+        <member name="P:Quantum.QuantumGizmoColors.LightPurple">
             <summary>
             Light Purple Gizmo color. RGBA: (0.5192922, 0.4622621, 0.6985294, 1)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentMagenta">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentMagenta">
             <summary>
             Transparent Magenta Gizmo color. RGBA: (1, 0, 1, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentGray">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentGray">
             <summary>
             Transparent Gray Gizmo color. RGBA: (0.5, 0.5, 0.5, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentLightPurple">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentLightPurple">
             <summary>
             Transparent Light Purple Gizmo color. RGBA: (0.5192922, 0.4622621, 0.6985294, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentYellow">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentYellow">
             <summary>
             Transparent Yellow Gizmo color. RGBA: (1, 0.92, 0.016, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentWhite">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentWhite">
             <summary>
             Transparent White Gizmo color. RGBA: (1, 1, 1, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentLimeGreen">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentLimeGreen">
             <summary>
             Transparent Lime Green Gizmo color. RGBA: (0.4925605, 0.9176471, 0.5050631, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentGreen">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentGreen">
             <summary>
             Transparent Green Gizmo color. RGBA: (0, 1, 0, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentSkyBlue">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentSkyBlue">
             <summary>
             Transparent Sky Blue Gizmo color. RGBA: (0.4705882, 0.7371198, 1, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentLightBlue">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentLightBlue">
             <summary>
             Transparent Light Blue Gizmo color. RGBA: (0, 0.75, 1, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentLightGreen">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentLightGreen">
             <summary>
             Transparent Black Gizmo color. RGBA: (0, 0, 0, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentBlue">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentBlue">
             <summary>
             Transparent Blue Gizmo color. RGBA: (0, 0, 1, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentMaroon">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentMaroon">
             <summary>
             Transparent Maroon Gizmo color. RGBA: (1, 0, 0.5, 0.5)
             </summary>
         </member>
-        <member name="F:Quantum.QuantumGizmoColors.TransparentRed">
+        <member name="P:Quantum.QuantumGizmoColors.TransparentRed">
             <summary>
             Transparent Red Gizmo color. RGBA: (1, 0, 0, 0.5)
             </summary>

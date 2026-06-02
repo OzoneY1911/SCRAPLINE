@@ -16,6 +16,7 @@
 #define PING_VIA_COROUTINE
 #endif
 
+
 namespace Photon.Realtime
 {
     using System;
@@ -234,6 +235,13 @@ namespace Photon.Realtime
 
         #if SUPPORTED_UNITY
         private MonoBehaviourEmpty emptyMonoBehavior;
+
+        [RuntimeInitializeOnLoadMethod]
+        private static void Init()
+        {
+            PingImplementation = null;
+            UdpPortToPing = 0;
+        }
         #endif
 
         /// <summary>Creates a new RegionHandler.</summary>
@@ -465,6 +473,15 @@ namespace Photon.Realtime
         private Region region;
         private string regionAddress;
 
+        #if SUPPORTED_UNITY
+        [RuntimeInitializeOnLoadMethod]
+        public static void InitStatic()
+        {
+            Attempts = 5;
+            MaxMillisecondsPerPing = 800;
+            PingWhenFailed = Attempts * MaxMillisecondsPerPing;
+        }
+        #endif
 
         /// <summary>Initializes a RegionPinger for the given region.</summary>
         public RegionPinger(Region region, Action<Region> onDoneCallback)

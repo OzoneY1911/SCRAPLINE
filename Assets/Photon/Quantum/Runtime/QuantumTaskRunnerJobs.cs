@@ -42,7 +42,13 @@ namespace Quantum {
     }
 
     [StaticField(StaticFieldResetMode.None)]
+    // should be properly disposed when stopping Quantum, they are also reset before being used
     static Action[] _delegates;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void Reset() {
+      _delegates = null;
+    }
 
     private void Awake() {
       if (dontDestroyOnLoad) {

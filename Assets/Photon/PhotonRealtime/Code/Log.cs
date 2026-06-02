@@ -19,6 +19,8 @@ namespace Photon.Realtime
     using System.Text;
     using Stopwatch = System.Diagnostics.Stopwatch;
     using Conditional = System.Diagnostics.ConditionalAttribute;
+    using System.Diagnostics.CodeAnalysis;
+
     using Photon.Client;
 
     #if SUPPORTED_UNITY
@@ -67,21 +69,43 @@ namespace Photon.Realtime
         private static Stopwatch sw;
 
 
+        #if SUPPORTED_UNITY
+        /// <summary>Initialize the logging also without Domain Reload.</summary>
+        [RuntimeInitializeOnLoadMethod]
+        private static void Init()
+        {
+            LogPrefix = PrefixOptions.None;
+
+            sw = new Stopwatch();
+            sw.Restart();
+
+            onError = UnityEngine.Debug.LogError;
+            onWarn = UnityEngine.Debug.LogWarning;
+            onInfo = UnityEngine.Debug.Log;
+            onDebug = UnityEngine.Debug.Log;
+            onException = null;
+        }
+        #else
         /// <summary>Static constructor will initialize the logging actions.</summary>
         static Log()
         {
             Init(LogOutputOption.Auto);
         }
+        #endif
 
+        
         /// <summary>Initializes the logging to selected output stream.</summary>
         /// <remarks>Auto becomes UnityDebug if this is a Unity build. Defaults to: Console.</remarks>
         /// <param name="logOutput"></param>
         public static void Init(LogOutputOption logOutput)
         {
+            LogPrefix = PrefixOptions.None;
+
             onError = null;
             onWarn = null;
             onInfo = null;
             onDebug = null;
+            onException = null;
             
             sw = new Stopwatch();
             sw.Restart();
@@ -142,10 +166,12 @@ namespace Photon.Realtime
         }
 
 
+        [SuppressMessage("Domain reload", "UDR0001:Domain Reload Analyzer", Justification = "Exists to be re-used. Domain reload not needed.")]
         private static readonly StringBuilder prefixesBuilder = new StringBuilder();
 
+
         /// <summary>Prefixes the message with timestamp, log level and prefix.</summary>
-        static string ApplyPrefixes(string msg, LogLevel lvl = LogLevel.Error, string prefix = null)
+        private static string ApplyPrefixes(string msg, LogLevel lvl = LogLevel.Error, string prefix = null)
         {
             lock (prefixesBuilder)
             {

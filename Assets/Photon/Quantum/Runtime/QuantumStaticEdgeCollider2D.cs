@@ -5,7 +5,7 @@ namespace Quantum {
   /// <summary>
   /// The script will create a static 2D edge collider during Quantum map baking.
   /// </summary>
-  public class QuantumStaticEdgeCollider2D : QuantumMonoBehaviour {
+  public class QuantumStaticEdgeCollider2D : QuantumStaticCollider2DSource {
 #if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
     /// <summary>
     /// Link a Unity edge collider to copy its size and position of during Quantum map baking.
@@ -63,13 +63,6 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Callback before baking the collider.
-    /// </summary>
-    public virtual void BeforeBake() {
-      UpdateFromSourceCollider();
-    }
-
-    /// <summary>
     /// Edge transformation to bake.
     /// </summary>
     public static void GetEdgeGizmosSettings(Transform t, FPVector2 posOffset, FP rotOffset, FPVector2 localStart, FPVector2 localEnd, FP localHeight, out Vector3 start, out Vector3 end, out float height) {
@@ -85,7 +78,39 @@ namespace Quantum {
       height = localHeight.AsFloat * Mathf.Abs(scale.y);
 #endif
     }
+    
+    public static MapStaticCollider2D BakeStaticEdge2D(Transform t, FPVector2 positionOffset, FP rotationOffset, FPVector2 vertexA, FPVector2 vertexB, FP height, QuantumStaticColliderSettings settings, QuantumStaticCollider2DBakeContext context) {
+      GetEdgeGizmosSettings(t, positionOffset, rotationOffset, vertexA, vertexB, height, out var start, out var end, out var scaledHeight);
 
+      var startToEnd = end - start;
+      var pos = (start + end) / 2.0f;
+      var rot = Quaternion.FromToRotation(Vector3.right, startToEnd);
+
+      return new MapStaticCollider2D {
+        Position = pos.ToFPVector2(),
+        Rotation = rot.ToFPRotation2D(),
+#if QUANTUM_XY
+        VerticalOffset = -t.position.z.ToFP(),
+        Height         = scaledHeight.ToFP(),
+#else
+        VerticalOffset = t.position.y.ToFP(),
+        Height         = scaledHeight.ToFP(),
+#endif
+        PhysicsMaterial = settings.PhysicsMaterial,
+        StaticData      = context.MakeStaticData(t.gameObject, settings),
+        Layer           = t.gameObject.layer,
+        ShapeType  = Shape2DType.Edge,
+        EdgeExtent = (startToEnd.magnitude / 2.0f).ToFP(),
+      };
+    }
+
+    public override void GetColliders(QuantumStaticCollider2DBakeContext context) {
+      UpdateFromSourceCollider();
+      context.Add(BakeStaticEdge2D(transform, PositionOffset, RotationOffset, VertexA, VertexB, Height, Settings, context));
+    }
+#else
+    public override void GetColliders(QuantumStaticCollider2DBakeContext context) {
+    }
 #endif
   }
 }

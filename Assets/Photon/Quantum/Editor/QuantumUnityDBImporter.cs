@@ -294,7 +294,19 @@ namespace Quantum.Editor {
         }
 
         string GetBundleName() {
-          return bundleName ??= AssetDatabase.GetImplicitAssetBundleName(GetAssetPath());
+          if (!string.IsNullOrEmpty(bundleName)) {
+            return bundleName;
+          }
+
+          var assetPath = GetAssetPath();
+          bundleName = AssetDatabase.GetImplicitAssetBundleName(assetPath);
+          
+          var bundleVariant = AssetDatabase.GetImplicitAssetBundleVariantName(assetPath);
+          if (!string.IsNullOrEmpty(bundleVariant)) {
+            bundleName += $".{bundleVariant}";
+          }
+
+          return bundleName;
         }
       }
       

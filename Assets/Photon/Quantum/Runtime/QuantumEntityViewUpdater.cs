@@ -2,6 +2,7 @@ namespace Quantum {
   using System;
   using System.Collections.Generic;
   using UnityEngine;
+  using static Quantum.QuantumEntityView;
   using static QuantumUnityExtensions;
 
   /// <summary>
@@ -50,7 +51,8 @@ namespace Quantum {
     IQuantumEntityViewPool _entityViewPool;
     // the class that can optionally be used to filter which entity views should be spawned at all
     IQuantumEntityViewCulling _entityViewCulling;
-
+    float _previousScreenWidth;
+    float _previousScreenHeight;
 
     /// <summary>
     /// Provides access to MapData when deriving from this class for example.
@@ -313,7 +315,8 @@ namespace Quantum {
 
       using var profilerScope = HostProfiler.Markers.EntityViewOnObservedGameUpdated();
       var verifiedFrame = game.Frames.Verified;
-      
+      var fixedDeltaTime = 1.0f / game.Session.SessionConfig.UpdateFPS;
+
       if (verifiedFrame != null) {
 
         // Add view components
@@ -331,7 +334,7 @@ namespace Quantum {
           _viewComponents.Add(vc);
         }
         
-        SnapshotInterpolation.Advance(verifiedFrame.Number, 1f / game.Session.SessionConfig.UpdateFPS);
+        SnapshotInterpolation.Advance(verifiedFrame.Number, fixedDeltaTime);
 
         // Update view components
         for (int i = 0; i < _viewComponents.Count; i++) {
@@ -342,7 +345,7 @@ namespace Quantum {
       }
 
       if (game.Frames.Predicted != null) {
-        bool checkPossiblyOrphanedMapEntityViews = false;
+        var checkPossiblyOrphanedMapEntityViews = false;
 
         if (_mapData == null && AutoFindMapData) {
           _mapData = FindAnyObjectByType<QuantumMapData>();
@@ -392,6 +395,17 @@ namespace Quantum {
           }
         }
 
+        // Create update parameter to call each view with.
+        var updateViewParameter = new UpdateViewParameter {
+          Game = game,
+          UseClockAliasingInterpolation = useClockAliasingInterpolation,
+          UseErrorCorrectionInterpolation = useErrorCorrection,
+          IsSpawning = false,
+          ScreenDimensionChanged = _previousScreenWidth != Screen.width || _previousScreenHeight != Screen.height,
+          DefaultExponentialDecayAlpha = QuantumEntityView.CalculateExponentialDecay(fixedDeltaTime),
+          DefaultExponentialDecayAlphaCulled = QuantumEntityView.CalculateExponentialDecay(fixedDeltaTime * 3)
+        };
+
         // Run over all view instances and update components using only entities from current frame.
         foreach (var kvp in _activeViews) {
           // grab instance
@@ -403,12 +417,16 @@ namespace Quantum {
           }
 
           // call update (and internally this would be resolved to either 2D or 3D transform)
-          instance.UpdateView(useClockAliasingInterpolation, useErrorCorrection);
+          instance.UpdateView(ref updateViewParameter);
         }
       }
 
       // reset teleport to false always
       _teleport = false;
+
+      // keep track of screen dimension changes as some interpolation modes in 2D have to use a teleport.
+      _previousScreenWidth = Screen.width;
+      _previousScreenHeight = Screen.height;
     }
 
     private void LateUpdate() {

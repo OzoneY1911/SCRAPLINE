@@ -8,7 +8,7 @@ namespace Quantum {
   /// <summary>
   /// The script will create a static 3D mesh collider during Quantum map baking.
   /// </summary>
-  public class QuantumStaticMeshCollider3D : QuantumMonoBehaviour {
+  public class QuantumStaticMeshCollider3D : QuantumStaticCollider3DSource {
 #if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
     /// <summary>
     /// The Unity mesh to convert into a Quantum static mesh colliders.
@@ -92,6 +92,29 @@ namespace Quantum {
       var matrix = transform.localToWorldMatrix.ToFPMatrix4X4();
       
       return MeshTriangleVerticesCcw.Create(fpVertices, Mesh.triangles, matrix);
+    }
+    
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) {
+      var staticColliderIndex = context.StaticColliderCount;
+
+      if (Bake(staticColliderIndex, out var meshTris)) {
+        Assert.Check(staticColliderIndex == context.StaticColliderCount);
+
+        context.Add(new MapStaticCollider3D {
+          Position                   = transform.position.ToFPVector3(),
+          Rotation                   = transform.rotation.ToFPQuaternion(),
+          PhysicsMaterial            = Settings.PhysicsMaterial,
+          SmoothSphereMeshCollisions = SmoothSphereMeshCollisions,
+          ShapeType  = Shape3DType.Mesh,
+          StaticData = context.MakeStaticData(gameObject, Settings),
+        });
+
+        Assert.Check(meshTris.MeshColliderIndex == staticColliderIndex);
+        context.Add(meshTris);
+      }
+    }
+#else
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) {
     }
 #endif
   }

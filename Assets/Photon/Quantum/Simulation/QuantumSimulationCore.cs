@@ -4767,7 +4767,7 @@ namespace Quantum {
       if (InstantReplayConfig.LengthSeconds <= 0 || InstantReplayConfig.SnapshotsPerSecond <= 0) {
         Assert.Check(_instantReplaySnapshotBuffer == null);
         Assert.Check(_commonSnapshotInterval <= 0);
-        Log.Error($"Can't start recording replay snapshots with these settings: {InstantReplayConfig}");
+        Log.Error($"Can't start recording replay snapshots with these settings: {InstantReplayConfig.ToString()}");
         return;
       }
 
@@ -7559,9 +7559,9 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Simulation/Runner/DotNetRunnerFactory.cs
 
 namespace Quantum {
+  using Photon.Deterministic;
   using System;
   using System.Threading.Tasks;
-  using Photon.Deterministic;
 
   /// <summary>
   /// Platform dependent information and factory methods for the <see cref="SessionRunner"/>.
@@ -7604,9 +7604,10 @@ namespace Quantum {
 #region Assets/Photon/Quantum/Simulation/Runner/DotNetSessionContext.cs
 
 namespace Quantum {
-  using System;
-  using System.IO;
   using Photon.Deterministic;
+  using System;
+  using System.Diagnostics.CodeAnalysis;
+  using System.IO;
 
   /// <summary>
   /// This class implements the <see cref="IDeterministicSessionContext"/> interface inside the simulation project.
@@ -7614,8 +7615,9 @@ namespace Quantum {
   /// A static resource manager is created during Init() that is shared between multiple server simulation instances.
   /// </summary>
   public class DotNetSessionContext : IDeterministicSessionContext {
+    [SuppressMessage("Domain reload", "UDR0001", Justification = "Not used in Unity")]
     static ResourceManagerStatic _sharedResourceManager;
-    static Object _lock = new Object();
+    static readonly Object _lock = new Object();
     DeterministicCommandSerializer _commandSerializer;
 
     /// <summary>
@@ -7698,8 +7700,8 @@ namespace Quantum {
     /// </summary>
     public void Shutdown() {
       _commandSerializer = null;
+      _sharedResourceManager = null;
     }
-
 
     /// <summary>
     /// Implements the start of the Quantum online session. Instantiates a Quantum runner.
@@ -8140,6 +8142,35 @@ namespace Quantum {
       public int GameFlags {
         get { return GameParameters.GameFlags; }
         set { GameParameters.GameFlags = value; }
+      }
+
+      /// <summary>
+      /// Has a specific <see cref="QuantumGameFlags"/>
+      /// </summary>
+      /// <param name="flag">Flag to query.</param>
+      /// <returns>Is the flag set.</returns>
+      public bool HasGameFlag(int flag) => (GameParameters.GameFlags & flag) != 0;
+
+      /// <summary>
+      /// Set a specific <see cref="QuantumGameFlags"/>
+      /// </summary>
+      /// <param name="flag">Flag to set.</param>
+      /// <param name="isSet">Flag value.</param>
+      public void SetGameFlag(int flag, bool isSet) {
+        if (isSet) {
+          GameParameters.GameFlags |= flag;
+        }
+        else {
+          GameParameters.GameFlags &= ~flag;
+        }
+      }
+
+      /// <summary>
+      /// Set and get <see cref="QuantumGameFlags.DisableInterpolatableStates"/>
+      /// </summary>
+      public bool DisableInterpolatableStates {
+        get => HasGameFlag(QuantumGameFlags.DisableInterpolatableStates);
+        set => SetGameFlag(QuantumGameFlags.DisableInterpolatableStates, value);
       }
 
       /// <summary>

@@ -5,6 +5,7 @@ namespace Quantum.Editor {
   using UnityEditor;
   using UnityEditor.AssetImporters;
   using UnityEngine;
+  using UnityEngine.Pool;
 
 
   [ScriptedImporter(17, Extension, 100000)]
@@ -14,13 +15,19 @@ namespace Quantum.Editor {
     public const string Suffix = "EntityPrototype";
 
     const long AssetFileId = 3097001405596171208;
-    readonly List<QuantumEntityPrototype> _buffer = new();
 
     public static string GetPathForPrefab(string prefabPath) {
       var directory = Path.GetDirectoryName(prefabPath) ?? string.Empty;
       var prefabName = Path.GetFileNameWithoutExtension(prefabPath);
       return PathUtils.Normalize(Path.Combine(directory, prefabName + "EntityPrototype" + QuantumEntityPrototypeAssetObjectImporter.ExtensionWithDot));
     }
+
+    /// <summary>
+    /// If disabled, nested prototypes won't be added to <see cref="EntityPrototype.Nested"/> array. Define
+    /// QUANTUM_DISABLE_PROTOTYPE_GROUPS can be also used to disable this across the project.
+    /// </summary>
+    [InlineHelp]
+    public bool EnableNestedPrototypes = true;
     
     public override void OnImportAsset(AssetImportContext ctx) {
       
@@ -63,15 +70,15 @@ namespace Quantum.Editor {
         return;
       }
 
-      using var bufferScope = QuantumEditorUtility.MakeListScope(_buffer);
-      prefab.GetComponentsInChildren<QuantumEntityPrototype>(includeInactive: true, _buffer);
+      using var bufferScope = ListPool<QuantumEntityPrototypeSource>.Get(out var buffer);
+      prefab.GetComponentsInChildren(includeInactive: true, buffer);
       
-      if (_buffer.Count == 0) {
+      if (buffer.Count == 0) {
         QuantumEditorLog.TraceImport(ctx.assetPath, $"Not importing, prefab {prefabGuid} does not have a {nameof(QuantumEntityPrototype)} component");
         return;
       }
       
-      var rootPrototype = _buffer[0];
+      var rootPrototype = buffer[0];
       Assert.Check(ReferenceEquals(rootPrototype.gameObject, prefab));
       
       // create root object
@@ -80,12 +87,10 @@ namespace Quantum.Editor {
       
       var asset = ScriptableObject.CreateInstance<Quantum.EntityPrototype>();
       asset.name = prefab.name + Suffix;
-
-      bool isOverride = false;
+      
       var assetGuid = QuantumUnityDBUtilities.RemoveAssetGuidOverride(new GUID(prefabGuid), -325511733217504505);
       if (assetGuid.IsValid) {
         QuantumEditorLog.LogImport(path, $"Using 3.0 early guid override: {assetGuid}");
-        isOverride = true;
         EditorApplication.delayCall += () => {
           // can only update overrides once the asset is imported
           var asset = AssetDatabase.LoadAssetAtPath<Quantum.EntityPrototype>(path);
@@ -94,33 +99,38 @@ namespace Quantum.Editor {
           }
         };
       } else {
-        assetGuid = QuantumUnityDBUtilities.GetExpectedAssetGuid(new GUID(guid), AssetFileId, out isOverride);
+        assetGuid = QuantumUnityDBUtilities.GetExpectedAssetGuid(new GUID(guid), AssetFileId, out _);
       }
 
       asset.Guid = assetGuid;
       asset.Path = QuantumUnityDBUtilities.GetExpectedAssetPath(path, asset.name, true);
       
       // capture root components
-      var converter = new QuantumEntityPrototypeConverter(rootPrototype, _buffer);
-      asset.Container = rootPrototype.CreateComponentPrototypeSet(selfViewAsset, converter: converter);
+      using var bakeContext = new QuantumEntityPrototypeBakeContext(new QuantumEntityPrototypeConverter(rootPrototype, buffer));
       
-#if !QUANTUM_DISABLE_PROTOTYPE_GROUPS
-      // now work on the nested components
-      asset.Nested = new ComponentPrototypeSet[_buffer.Count - 1];
-
-      for (int i = 1; i < _buffer.Count; ++i) {
-        asset.Nested[i - 1] = _buffer[i].CreateComponentPrototypeSet(selfViewAsset, addViewPrototypeForSelfView: false, converter: converter);
+      if (!selfViewAsset && rootPrototype.TryGetComponent(out QuantumEntityView _)) {
+        ctx.LogImportError($"Self-view detected, but the no {nameof(Quantum.EntityView)} provided in {name}. Reimport the prefab.");
+      } else {
+        bakeContext.SelfViewAsset = selfViewAsset;
       }
       
-      if (!selfViewAsset) {
-        foreach (var prototype in _buffer.Skip(1)) {
-          var viewComponent = prototype.GetComponent<QuantumEntityView>();
-          if (viewComponent) {
-            QuantumEditorLog.ErrorImport(assetPath,
-              $"Nested prototype {prototype.name} uses \"self-view\", but the root GameObject does not have a {nameof(QuantumEntityView)} component. " +
-              $"To use \"self-views\" in nested prototypes, the entire prefab needs to have a root-level view.");
-            return;
+      rootPrototype.GetPrototypes(bakeContext);
+      asset.Container = bakeContext.Flush();
+      
+#if !QUANTUM_DISABLE_PROTOTYPE_GROUPS
+      if (EnableNestedPrototypes) {
+        // now work on the nested components
+        asset.Nested = new ComponentPrototypeSet[buffer.Count - 1];
+        
+        for (int i = 1; i < buffer.Count; ++i) {
+          buffer[i].GetPrototypes(bakeContext);
+          if (!selfViewAsset && buffer[i].TryGetComponent(out QuantumEntityView _)) {
+            Log.Warn(buffer[i], $"Nested prototype {buffer[i].name} uses \"self-view\", but the root GameObject does not have a {nameof(QuantumEntityView)} component. " +
+                                $"To use \"self-views\" in nested prototypes, the entire prefab needs to have a root-level view. " +
+                                $"Alternatively, either disable groups for this prefab with EnableNestedPrototypes (on .qprototype) or use QUANTUM_DISABLE_PROTOTYPE_GROUPS define.");
           }
+
+          asset.Nested[i - 1] = bakeContext.Flush();
         }
       }
 #endif

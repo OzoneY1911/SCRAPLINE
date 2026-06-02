@@ -5,7 +5,7 @@ namespace Quantum {
   /// <summary>
   /// The script will create a static sphere collider during Quantum map baking.
   /// </summary>
-  public class QuantumStaticSphereCollider3D : QuantumMonoBehaviour {
+  public class QuantumStaticSphereCollider3D : QuantumStaticCollider3DSource {
 #if QUANTUM_ENABLE_PHYSICS3D && !QUANTUM_DISABLE_PHYSICS3D
     /// <summary>
     /// Link a Unity sphere collider to copy its size and position of during Quantum map baking.
@@ -47,10 +47,43 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Callback before baking the collider.
+    /// Calculates and outputs the shape settings converted to FP format.
     /// </summary>
-    public virtual void BeforeBake() {
+    /// <param name="position">World-space position of the shape.</param>
+    /// <param name="rotation">World-space rotation of the shape.</param>
+    /// <param name="radius">Sphere radius.</param>
+    public void GetShapeSettings(out FPVector3 position, out FPQuaternion rotation, out FP radius) {
       UpdateFromSourceCollider();
+      
+      var absScale = FPVector3.Abs(transform.lossyScale.ToFPVector3());
+      var radiusScale = FPMath.Max(absScale.X, absScale.Y, absScale.Z);
+      radius = Radius * radiusScale;
+
+      FPVector3 scaledPosOffset;
+      scaledPosOffset.X = PositionOffset.X * absScale.X;
+      scaledPosOffset.Y = PositionOffset.Y * absScale.Y;
+      scaledPosOffset.Z = PositionOffset.Z * absScale.Z;
+
+      var fpTransform = Transform3D.Create(transform.position.ToFPVector3(), transform.rotation.ToFPQuaternion());
+      position = fpTransform.TransformPoint(scaledPosOffset);
+      rotation = fpTransform.Rotation;
+    }
+
+    /// <inheritdoc cref="QuantumStaticCollider3DSource.GetColliders"/>
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) {
+      GetShapeSettings(out var pos, out var rot, out var radius);
+
+      context.Add(new MapStaticCollider3D {
+        Position = pos,
+        Rotation = rot,
+        PhysicsMaterial = Settings.PhysicsMaterial,
+        ShapeType = Shape3DType.Sphere,
+        StaticData = context.MakeStaticData(gameObject, Settings),
+        SphereRadius = radius,
+      });
+    }
+#else 
+    public override void GetColliders(QuantumStaticCollider3DBakeContext context) {
     }
 #endif
   }

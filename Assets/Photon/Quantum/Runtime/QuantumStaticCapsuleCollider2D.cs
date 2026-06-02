@@ -5,7 +5,7 @@ namespace Quantum {
   /// <summary>
   /// The script will create a static 2D capsule collider during Quantum map baking.
   /// </summary>
-  public class QuantumStaticCapsuleCollider2D : QuantumMonoBehaviour {
+  public class QuantumStaticCapsuleCollider2D : QuantumStaticCollider2DSource {
 #if QUANTUM_ENABLE_PHYSICS2D && !QUANTUM_DISABLE_PHYSICS2D
     /// <summary>
     /// Link a Unity capsule collider to copy its size and position of during Quantum map baking.
@@ -25,7 +25,7 @@ namespace Quantum {
     /// The world axis that the capsule will be aligned.
     /// </summary>
     [InlineHelp, DrawIf("SourceCollider", 0)]
-    public CapsuleDirection2D Direction = CapsuleDirection2D.Vertical;
+    public UnityEngine.CapsuleDirection2D Direction = UnityEngine.CapsuleDirection2D.Vertical;
     /// <summary>
     /// Additional static collider settings.
     /// </summary>
@@ -68,16 +68,16 @@ namespace Quantum {
         case CapsuleCollider capsule:
           switch (capsule.direction) {
             case 0: // X-Axs
-              Direction = CapsuleDirection2D.Horizontal;
+              Direction = UnityEngine.CapsuleDirection2D.Horizontal;
               break;
             case 1: // Y-Axs
-              Direction = CapsuleDirection2D.Vertical;
+              Direction = UnityEngine.CapsuleDirection2D.Vertical;
               break;
             case 2: // Z-Axs
 #if QUANTUM_XY
-              Direction = CapsuleDirection2D.Horizontal;
+              Direction = UnityEngine.CapsuleDirection2D.Horizontal;
 #else
-              Direction = CapsuleDirection2D.Vertical;
+              Direction = UnityEngine.CapsuleDirection2D.Vertical;
 #endif
               break;
           }
@@ -85,7 +85,7 @@ namespace Quantum {
           var capsuleRadius = capsule.radius.ToFP();
           var capsuleHeight = capsule.height.ToFP();
 
-          Size = Direction == CapsuleDirection2D.Horizontal
+          Size = Direction == UnityEngine.CapsuleDirection2D.Horizontal
             ? new FPVector2(capsuleHeight, capsuleRadius * 2)
             : new FPVector2(capsuleRadius * 2, capsuleHeight);
 
@@ -109,12 +109,65 @@ namespace Quantum {
     }
 
     /// <summary>
-    /// Callback before baking the collider.
+    /// Calculates and outputs the shape settings converted to FP format.
     /// </summary>
-    public virtual void BeforeBake() {
+    /// <param name="position">World-space position of the shape.</param>
+    /// <param name="rotation">World-space rotation of the shape.</param>
+    /// <param name="size">Capsule size.</param>
+    /// <param name="verticalOffset">Offset in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+    /// <param name="height">Height of in the axis orthogonal to the 2D plane (Z if QUANTUM_XY is defined, Y otherwise).</param>
+    public void GetShapeSettings(out FPVector2 position, out FP rotation, out FPVector2 size, out FP verticalOffset, out FP height) {
       UpdateFromSourceCollider();
-    }
 
+      var absScale2D = FPVector2.Abs(transform.lossyScale.ToFPVector2());
+
+      FP directionRotation;
+      if (Direction == UnityEngine.CapsuleDirection2D.Horizontal) {
+        directionRotation = FP.Rad_90;
+        size = new FPVector2(Size.Y * absScale2D.Y, Size.X * absScale2D.X);
+      } else {
+        directionRotation = FP._0;
+        size = new FPVector2(Size.X * absScale2D.X, Size.Y * absScale2D.Y);
+      }
+
+      FPVector2 scaledPosOffset;
+      scaledPosOffset.X = PositionOffset.X * absScale2D.X;
+      scaledPosOffset.Y = PositionOffset.Y * absScale2D.Y;
+
+      var fpTransform = Transform2D.Create(transform.position.ToFPVector2(), transform.rotation.ToFPRotation2D());
+      position = fpTransform.TransformPoint(scaledPosOffset);
+      rotation = fpTransform.Rotation + directionRotation + RotationOffset.FlipRotation() * FP.Deg2Rad;
+      
+#if QUANTUM_XY
+      verticalOffset = -transform.position.z.ToFP();
+      height = Height * FPMath.Abs(transform.lossyScale.z.ToFP());
+#else
+      verticalOffset = transform.position.y.ToFP();
+      height = Height * FPMath.Abs(transform.lossyScale.y.ToFP());
 #endif
     }
+
+    /// <inheritdoc cref="QuantumStaticCollider2DSource.GetColliders"/>
+    public override void GetColliders(QuantumStaticCollider2DBakeContext context) {
+      UpdateFromSourceCollider();
+
+      GetShapeSettings(out var pos, out var rot, out var size, out var verticalOffset, out var height);
+
+      context.Add(new MapStaticCollider2D {
+        Position = pos,
+        Rotation = rot,
+        VerticalOffset = verticalOffset,
+        Height = height,
+        PhysicsMaterial = Settings.PhysicsMaterial,
+        StaticData = context.MakeStaticData(gameObject, Settings),
+        Layer = gameObject.layer,
+        ShapeType = Shape2DType.Capsule,
+        CapsuleSize = size
+      });
+    }
+#else
+    public override void GetColliders(QuantumStaticCollider2DBakeContext context) {
+    }
+#endif
+  }
 }

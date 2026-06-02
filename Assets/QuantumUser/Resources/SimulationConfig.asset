@@ -31,13 +31,13 @@ MonoBehaviour:
         RawValue: 0
     SolverType: 2
     WarmStart: 1
-    SolverIterations: 6
+    SolverIterations: 8
     PositionSolverIterations: 2
     UseJoints: 1
     UseAngularVelocity: 1
     UseVerticalTransform: 1
     PenetrationAllowance:
-      RawValue: 655
+      RawValue: 66
     PenetrationCorrection:
       RawValue: 32768
     MinLinearIntegration:

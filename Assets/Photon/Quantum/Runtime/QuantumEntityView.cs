@@ -4,6 +4,7 @@ using Quantum;
 #pragma warning disable IDE0065 // Misplaced using directive
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Photon.Deterministic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -82,7 +83,8 @@ namespace Quantum {
     /// <summary>
     /// Set the <see cref="QuantumEntityViewInterpolationMode"/> allowing the view timing to be switched between prediction and snapshot-interpolation.
     /// Requires the QuantumEntityViewFlags.SnapshotInterpolationEnabled flag to be set to have an effect.
-    /// AUTO selects the mode dynamically based on the prediction-culled state of the entity. 
+    /// AUTO selects the mode dynamically based on the prediction-culled state of the entity.
+    /// The mode should not be changed at runtime.
     /// </summary>
     [InlineHelp] public QuantumEntityViewInterpolationMode InterpolationMode;
 
@@ -120,6 +122,7 @@ namespace Quantum {
     /// </summary>
     [Header("Prediction Error Correction")]
     [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
     public Single ErrorCorrectionRateMin = 3.3f;
 
     /// <summary>
@@ -142,7 +145,9 @@ namespace Quantum {
     ///     or above the <see cref="ErrorRotationTeleportDistance">ErrorRotationTeleportDistance</see>, for the rotation error.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorCorrectionRateMax = 10f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorCorrectionRateMax = 10f;
 
     /// <summary>
     ///   <para>
@@ -168,7 +173,9 @@ namespace Quantum {
     ///     which are factors that affect the expected magnitude of prediction errors.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorPositionBlendStart = 0.25f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorPositionBlendStart = 0.25f;
 
     /// <summary>
     ///   <para>
@@ -194,7 +201,9 @@ namespace Quantum {
     ///     which are factors that affect the expected magnitude of prediction errors.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorPositionBlendEnd = 1f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorPositionBlendEnd = 1f;
 
     /// <summary>
     ///   <para>
@@ -214,7 +223,9 @@ namespace Quantum {
     ///     it will be corrected at the <see cref="ErrorCorrectionRateMax">ErrorCorrectionRateMax</see>.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorRotationBlendStart = 0.1f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorRotationBlendStart = 0.1f;
 
     /// <summary>
     ///   <para>
@@ -235,7 +246,9 @@ namespace Quantum {
     ///     it will be corrected at the <see cref="ErrorCorrectionRateMin">ErrorCorrectionRateMin</see>.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorRotationBlendEnd = 0.5f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorRotationBlendEnd = 0.5f;
 
     /// <summary>
     ///   <para>
@@ -255,7 +268,9 @@ namespace Quantum {
     ///     which are factors that affect the expected magnitude of prediction errors.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorPositionMinCorrection = 0.025f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorPositionMinCorrection = 0.025f;
 
     /// <summary>
     ///   <para>
@@ -275,7 +290,9 @@ namespace Quantum {
     ///     which are factors that affect the expected magnitude of prediction errors.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorPositionTeleportDistance = 2f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorPositionTeleportDistance = 2f;
 
     /// <summary>
     ///   <para>
@@ -290,7 +307,42 @@ namespace Quantum {
     ///     the one computed according to the min/max rates and start/end blend values.
     ///   </para>
     /// </summary>
-    [InlineHelp] public Single ErrorRotationTeleportDistance = 0.5f;
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay, compare: CompareOperator.NotEqual)]
+    public Single ErrorRotationTeleportDistance = 0.5f;
+
+    /// <summary>
+    /// Entities parented to a RectTransform require this to be enabled.
+    /// </summary>
+    [Header("Exponential Decay (experimental)")]
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay)]
+    public bool TeleportWhenScreenChanged = false;
+
+    /// <summary>
+    /// Overwrite the smooth time constant for the exponential decay interpolation. 
+    /// By default uses the simulation delta time.
+    /// This represents the time to correct ~63% of the error, so smaller values will correct faster but might cause more jitter, while bigger values will be smoother but might cause more error.
+    /// </summary>
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay)]
+    public bool OverrideSmoothTime;
+
+    /// <summary>
+    /// The smooth time constant for the exponential decay interpolation.
+    /// </summary>
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay)]
+    [DrawIf("OverrideSmoothTime")]
+    public float SmoothTime = 0.016f;
+
+    /// <summary>
+    /// The exponential decay interpolation alpha value for this entity view, read-only.
+    /// </summary>
+    [InlineHelp]
+    [DrawIf("InterpolationMode", (int)QuantumEntityViewInterpolationMode.ExponentialDecay)]
+    [ReadOnly]
+    public float ExponentialAlpha;
 
     /// <summary>
     /// Is called after the entity view has been instantiated.
@@ -432,6 +484,41 @@ namespace Quantum {
     }
 
     /// <summary>
+    /// Parameter for <see cref="UpdateFromTransform3D(ref UpdateViewParameter)"/> and <see cref="UpdateFromTransform2D(ref UpdateViewParameter)"/>.
+    /// </summary>
+    public struct UpdateViewParameter {
+      /// <summary>
+      /// The referenced Quantum Game.
+      /// </summary>
+      public QuantumGame Game;
+      /// <summary>
+      /// Use clock aliasing interpolation. 
+      /// </summary>
+      public Boolean UseClockAliasingInterpolation;
+      /// <summary>
+      /// Use error correction interpolation
+      /// </summary>
+      public Boolean UseErrorCorrectionInterpolation;
+      /// <summary>
+      /// Is the entity just spawning.
+      /// </summary>
+      public Boolean IsSpawning;
+      /// <summary>
+      /// Default exponential decay value.
+      /// </summary>
+      public float DefaultExponentialDecayAlpha;
+      /// <summary>
+      /// Default exponential decay value for culled entities.
+      /// </summary>
+      public float DefaultExponentialDecayAlphaCulled;
+      /// <summary>
+      /// <see cref="QuantumEntityViewInterpolationMode.ExponentialDecay"/> is based on Unity transforms, which can be 
+      /// affected by parent RectTransforms during screen changes. This will try to cause a position teleport instead.
+      /// </summary>
+      public Boolean ScreenDimensionChanged;
+    }
+
+    /// <summary>
     /// A callback to override to add custom logic to the initialization of this entity view.
     /// </summary>
     public virtual void OnInitialize() { }
@@ -497,12 +584,19 @@ namespace Quantum {
       _errorVisualVector = default(Vector3);
       _errorVisualQuaternion = Quaternion.identity;
 
+      var updateViewParameter = new UpdateViewParameter {
+        Game = game,
+        IsSpawning = true,
+        DefaultExponentialDecayAlpha = 1.0f,
+        DefaultExponentialDecayAlphaCulled = 1.0f
+      };
+
       if (frame.Has<Transform2D>(EntityRef)) {
         Game = game;
-        UpdateFromTransform2D(game, false, false, isSpawning: true);
+        UpdateFromTransform2D(ref updateViewParameter);
       } else if (frame.Has<Transform3D>(EntityRef)) {
         Game = game;
-        UpdateFromTransform3D(game, false, false, isSpawning: true);
+        UpdateFromTransform3D(ref updateViewParameter);
       }
 
       ViewContexts = contexts;
@@ -562,22 +656,18 @@ namespace Quantum {
       OnDeactivate();
     }
 
-    internal void UpdateView(bool useClockAliasingInterpolation, bool useErrorCorrection) {
+    internal void UpdateView(ref UpdateViewParameter updateViewParameter) {
       if ((ViewFlags & QuantumEntityViewFlags.DisableUpdatePosition) == 0) {
         if (Game.Frames.Predicted.Has<Transform2D>(EntityRef)) {
           // update 2d transform
-          UpdateFromTransform2D(Game, useClockAliasingInterpolation, useErrorCorrection, isSpawning: false);
-        } else {
+          UpdateFromTransform2D(ref updateViewParameter);
+        } else if (Game.Frames.Predicted.Has<Transform3D>(EntityRef)) {
           // update 3d transform
-          if (Game.Frames.Predicted.Has<Transform3D>(EntityRef)) {
-            UpdateFromTransform3D(Game, useClockAliasingInterpolation, useErrorCorrection, isSpawning: false);
-          }
+          UpdateFromTransform3D(ref updateViewParameter);
         }
       }
 
       if ((ViewFlags & QuantumEntityViewFlags.DisableUpdateView) == 0) {
-        
-
         OnUpdateView();
 
         for (int i = 0; i < _viewComponents.Length; i++) {
@@ -666,21 +756,19 @@ namespace Quantum {
     /// <summary>
     /// Apply new transform 3D data and interpolation.
     /// </summary>
-    /// <param name="game">Game</param>
-    /// <param name="useClockAliasingInterpolation">Use clock aliasing interpolation</param>
-    /// <param name="useErrorCorrectionInterpolation">Use error correction interpolation</param>
-    /// <param name="isSpawning">Is the entity just spawning</param>
-    public void UpdateFromTransform3D(QuantumGame game, Boolean useClockAliasingInterpolation,
-      Boolean useErrorCorrectionInterpolation, bool isSpawning) {
-      if (game == null)
+    /// <param name="parameter">Parameter</param>
+    public void UpdateFromTransform3D(ref UpdateViewParameter parameter) {
+      if (parameter.Game == null)
         return;
 
       UpdateUseSnapshotInterpolation();
 
       var param = new UpdatePositionParameter();
 
-      if (TryGetTransform3DData(QuantumEntityViewTimeReference.To, ref param, out var frameTo, out var transform, isSpawning) ==
-          false) return;
+      if (TryGetTransform3DData(QuantumEntityViewTimeReference.To, ref param, out var frameTo, 
+        out var transform, parameter.IsSpawning) == false) {
+        return;
+      }
 
       param.NewPosition = transform.Position.ToUnityVector3();
       param.NewRotation = transform.Rotation.ToUnityQuaternion();
@@ -690,34 +778,50 @@ namespace Quantum {
       param.UninterpolatedPosition = param.NewPosition;
       param.UninterpolatedRotation = param.NewRotation;
 
-      if (TryGetTransform3DData(QuantumEntityViewTimeReference.From, ref param, out var frameFrom, out var transformPrevious, isSpawning)) {
-        if (useClockAliasingInterpolation) {
-          param.NewPosition = Vector3.Lerp(transformPrevious.Position.ToUnityVector3(), param.NewPosition,
-            InterpolationAlpha);
-          param.NewRotation = Quaternion.Slerp(transformPrevious.Rotation.ToUnityQuaternion(), param.NewRotation,
-            InterpolationAlpha);
-        }
-
-        if (useErrorCorrectionInterpolation) {
-          if (TryGetTransform3DData(QuantumEntityViewTimeReference.ErrorCorrection, ref param, out var frameOld, out var oldTransform, false)) {
-            var errorPosition = _lastPredictedPosition3D - oldTransform.Position;
-            var errorRotation = Quaternion.Inverse(oldTransform.Rotation.ToUnityQuaternion()) *
-                                _lastPredictedRotation3D.ToUnityQuaternion();
-            _errorVisualVector += errorPosition.ToUnityVector3();
-            _errorVisualQuaternion = errorRotation * _errorVisualQuaternion;
-          } else {
-            _errorVisualVector = default;
-            _errorVisualQuaternion = Quaternion.identity;
+      switch (InterpolationMode) {
+        case QuantumEntityViewInterpolationMode.ExponentialDecay:
+          if (TeleportWhenScreenChanged && parameter.ScreenDimensionChanged) {
+            param.PositionTeleport = true;
           }
-        }
+          RunExponentialDecayInterpolation(
+            Game.Frames.Predicted.IsCulled(EntityRef) ? 
+            parameter.DefaultExponentialDecayAlphaCulled :
+            parameter.DefaultExponentialDecayAlpha, ref param);
+
+          break;
+
+        default:
+          if (TryGetTransform3DData(QuantumEntityViewTimeReference.From, ref param, out var frameFrom, out var transformPrevious, parameter.IsSpawning)) {
+            if (parameter.UseClockAliasingInterpolation) {
+              param.NewPosition = Vector3.Lerp(transformPrevious.Position.ToUnityVector3(), param.NewPosition,
+                InterpolationAlpha);
+              param.NewRotation = Quaternion.Slerp(transformPrevious.Rotation.ToUnityQuaternion(), param.NewRotation,
+                InterpolationAlpha);
+            }
+
+            if (parameter.UseErrorCorrectionInterpolation) {
+              if (TryGetTransform3DData(QuantumEntityViewTimeReference.ErrorCorrection, ref param, out var frameOld, out var oldTransform, false)) {
+                var errorPosition = _lastPredictedPosition3D - oldTransform.Position;
+                var errorRotation = Quaternion.Inverse(oldTransform.Rotation.ToUnityQuaternion()) *
+                                    _lastPredictedRotation3D.ToUnityQuaternion();
+                _errorVisualVector += errorPosition.ToUnityVector3();
+                _errorVisualQuaternion = errorRotation * _errorVisualQuaternion;
+              } else {
+                _errorVisualVector = default;
+                _errorVisualQuaternion = Quaternion.identity;
+              }
+            }
+          }
+
+          // update rendered position
+          UpdateRenderPosition(ref param);
+
+          // store current prediction information
+          _lastPredictedPosition3D = transform.Position;
+          _lastPredictedRotation3D = transform.Rotation;
+
+          break;
       }
-
-      // update rendered position
-      UpdateRenderPosition(ref param);
-
-      // store current prediction information
-      _lastPredictedPosition3D = transform.Position;
-      _lastPredictedRotation3D = transform.Rotation;
     }
 
     /// <summary>
@@ -799,27 +903,42 @@ namespace Quantum {
         _useSnapshotInterpolation = InterpolationMode == QuantumEntityViewInterpolationMode.SnapshotInterpolation ||
                                     (culled && InterpolationMode == QuantumEntityViewInterpolationMode.Auto);
       } else {
-#if DEBUG
         // Issue a warning when the EnableSnapshotInterpolation flag is missing and disable the mode
         if (InterpolationMode == QuantumEntityViewInterpolationMode.SnapshotInterpolation ||
             InterpolationMode == QuantumEntityViewInterpolationMode.Auto) {
+#if DEBUG
           Log.Warn($"EntityView {name} InterpolationMode {InterpolationMode} is only supported when the QuantumEntityViewFlags.EnableSnapshotInterpolation is enabled, setting Interpolation mode to Prediction");
+#endif
           InterpolationMode = QuantumEntityViewInterpolationMode.Prediction;
         }
-#endif
+      }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static float CalculateExponentialDecay(float smoothTime) => 1.0f - Mathf.Exp(-Time.unscaledDeltaTime / smoothTime);
+
+    private void RunExponentialDecayInterpolation(float defaultExponentialDecay, ref UpdatePositionParameter param) {
+      if (OverrideSmoothTime) {
+        ExponentialAlpha = CalculateExponentialDecay(SmoothTime);
+      } else {
+        ExponentialAlpha = defaultExponentialDecay;
+      }
+
+      param.NewPosition = Vector3.Lerp(transform.position, param.UninterpolatedPosition, ExponentialAlpha);
+      param.NewRotation = Quaternion.Slerp(transform.rotation, param.UninterpolatedRotation, ExponentialAlpha);
+      param.ErrorVisualQuaternion = Quaternion.identity;
+
+      using (HostProfiler.Markers.EntityViewApplyTransform()) {
+        ApplyTransform(ref param);
       }
     }
 
     /// <summary>
     /// Apply new transform 2D data and interpolation.
     /// </summary>
-    /// <param name="game">Game</param>
-    /// <param name="useClockAliasingInterpolation">Use clock aliasing interpolation</param>
-    /// <param name="useErrorCorrectionInterpolation">Use error correction interpolation</param>
-    /// <param name="isSpawning">Is the entity just spawning</param>
-    public void UpdateFromTransform2D(QuantumGame game, Boolean useClockAliasingInterpolation,
-      Boolean useErrorCorrectionInterpolation, bool isSpawning) {
-      if (game == null)
+    /// <param name="parameter">Parameter</param>
+    public void UpdateFromTransform2D(ref UpdateViewParameter parameter) {
+      if (parameter.Game == null)
         return;
 
       var param = new UpdatePositionParameter();
@@ -827,7 +946,7 @@ namespace Quantum {
       UpdateUseSnapshotInterpolation();
 
       if (TryGetTransform2DData(QuantumEntityViewTimeReference.To, ref param, out var toFrame,
-            out var transform, out var tVertical, out var hasVertical, isSpawning) == false) {
+        out var transform, out var tVertical, out var hasVertical, parameter.IsSpawning) == false) {
         return;
       }
 
@@ -836,6 +955,7 @@ namespace Quantum {
 
       param.PositionTeleport = transform.PositionTeleportFrame == toFrame;
       param.RotationTeleport = transform.RotationTeleportFrame == toFrame;
+
       if (hasVertical) {
 #if QUANTUM_XY
         param.NewPosition.z = -tVertical.Position.AsFloat;
@@ -847,59 +967,76 @@ namespace Quantum {
       param.UninterpolatedPosition = param.NewPosition;
       param.UninterpolatedRotation = param.NewRotation;
 
-      if (TryGetTransform2DData(QuantumEntityViewTimeReference.From, ref param, out var fromFrame,
-            out var transformPrevious, out var tVerticalPrevious, out var hasVerticalPrevious, isSpawning)) {
-        if (useClockAliasingInterpolation) {
-          var previousPos = transformPrevious.Position.ToUnityVector3();
-          if (hasVerticalPrevious) {
-#if QUANTUM_XY
-            previousPos.z = -tVerticalPrevious.Position.AsFloat;
-#else
-            previousPos.y = tVerticalPrevious.Position.AsFloat;
-#endif
+      switch (InterpolationMode) {
+        case QuantumEntityViewInterpolationMode.ExponentialDecay:
+          if (TeleportWhenScreenChanged && parameter.ScreenDimensionChanged) {
+            param.PositionTeleport = true;
           }
+          RunExponentialDecayInterpolation(
+            Game.Frames.Predicted.IsCulled(EntityRef) ? 
+            parameter.DefaultExponentialDecayAlphaCulled :
+            parameter.DefaultExponentialDecayAlpha, ref param);
 
-          param.NewPosition = Vector3.Lerp(previousPos, param.NewPosition, InterpolationAlpha);
-          param.NewRotation = Quaternion.Slerp(transformPrevious.Rotation.ToUnityQuaternion(), param.NewRotation,
-            InterpolationAlpha);
-        }
+          break;
 
-        if (useErrorCorrectionInterpolation) {
-          if (TryGetTransform2DData(QuantumEntityViewTimeReference.ErrorCorrection, ref param, out var errorFrame,
-                out var oldTransform, out var oldTransformVertical, out var hasVerticalOld, false)) {
-            // position error
-            var errorPosition = _lastPredictedPosition2D - oldTransform.Position;
-            var errorVertical = _lastPredictedVerticalPosition2D;
-            if (hasVerticalOld) {
-              errorVertical -= oldTransformVertical.Position;
+        default:
+
+          if (TryGetTransform2DData(QuantumEntityViewTimeReference.From, ref param, out var fromFrame,
+                out var transformPrevious, out var tVerticalPrevious, out var hasVerticalPrevious, parameter.IsSpawning)) {
+            if (parameter.UseClockAliasingInterpolation) {
+              var previousPos = transformPrevious.Position.ToUnityVector3();
+              if (hasVerticalPrevious) {
+#if QUANTUM_XY
+                previousPos.z = -tVerticalPrevious.Position.AsFloat;
+#else
+                previousPos.y = tVerticalPrevious.Position.AsFloat;
+#endif
+              }
+
+              param.NewPosition = Vector3.Lerp(previousPos, param.NewPosition, InterpolationAlpha);
+              param.NewRotation = Quaternion.Slerp(transformPrevious.Rotation.ToUnityQuaternion(), param.NewRotation,
+                InterpolationAlpha);
             }
 
-            var errorVector = errorPosition.ToUnityVector3();
+            if (parameter.UseErrorCorrectionInterpolation) {
+              if (TryGetTransform2DData(QuantumEntityViewTimeReference.ErrorCorrection, ref param, out var errorFrame,
+                    out var oldTransform, out var oldTransformVertical, out var hasVerticalOld, false)) {
+                // position error
+                var errorPosition = _lastPredictedPosition2D - oldTransform.Position;
+                var errorVertical = _lastPredictedVerticalPosition2D;
+                if (hasVerticalOld) {
+                  errorVertical -= oldTransformVertical.Position;
+                }
+
+                var errorVector = errorPosition.ToUnityVector3();
 #if QUANTUM_XY
-            errorVector.z = -errorVertical.AsFloat;
+                errorVector.z = -errorVertical.AsFloat;
 #else
-            errorVector.y = errorVertical.AsFloat;
+                errorVector.y = errorVertical.AsFloat;
 #endif
 
-            _errorVisualVector += errorVector;
+                _errorVisualVector += errorVector;
 
-            // rotation error
-            var errorRotation = _lastPredictedRotation2D - oldTransform.Rotation;
-            _errorVisualQuaternion = errorRotation.ToUnityQuaternion() * _errorVisualQuaternion;
-          } else {
-            _errorVisualVector = default;
-            _errorVisualQuaternion = Quaternion.identity;
+                // rotation error
+                var errorRotation = _lastPredictedRotation2D - oldTransform.Rotation;
+                _errorVisualQuaternion = errorRotation.ToUnityQuaternion() * _errorVisualQuaternion;
+              } else {
+                _errorVisualVector = default;
+                _errorVisualQuaternion = Quaternion.identity;
+              }
+            }
           }
-        }
+
+          // update rendered position
+          UpdateRenderPosition(ref param);
+
+          // store current prediction information
+          _lastPredictedPosition2D = transform.Position;
+          _lastPredictedVerticalPosition2D = hasVertical ? tVertical.Position : default;
+          _lastPredictedRotation2D = transform.Rotation;
+
+          break;
       }
-
-      // update rendered position
-      UpdateRenderPosition(ref param);
-
-      // store current prediction information
-      _lastPredictedPosition2D = transform.Position;
-      _lastPredictedVerticalPosition2D = hasVertical ? tVertical.Position : default;
-      _lastPredictedRotation2D = transform.Rotation;
     }
 
     void UpdateRenderPosition(ref UpdatePositionParameter param) {
@@ -1025,6 +1162,36 @@ namespace Quantum {
         _errorVisualVector.z = 0f;
       }
     }
+
+    #region Legacy
+
+    [Obsolete("Use UpdateFromTransform3D(UpdateViewParameter) instead")]
+    public void UpdateFromTransform3D(QuantumGame game, Boolean useClockAliasingInterpolation, Boolean useErrorCorrectionInterpolation, bool isSpawning) {
+      var updateViewParameter = new UpdateViewParameter {
+        Game = game,
+        UseClockAliasingInterpolation = useClockAliasingInterpolation,
+        UseErrorCorrectionInterpolation = useErrorCorrectionInterpolation,
+        IsSpawning = isSpawning,
+        DefaultExponentialDecayAlpha = 1.0f,
+        DefaultExponentialDecayAlphaCulled = 1.0f,
+      };
+      UpdateFromTransform3D(ref updateViewParameter);
+    }
+
+    [Obsolete("Use UpdateFromTransform3D(UpdateViewParameter) instead")]
+    public void UpdateFromTransform2D(QuantumGame game, Boolean useClockAliasingInterpolation, Boolean useErrorCorrectionInterpolation, bool isSpawning) {
+      var updateViewParameter = new UpdateViewParameter {
+        Game = game,
+        UseClockAliasingInterpolation = useClockAliasingInterpolation,
+        UseErrorCorrectionInterpolation = useErrorCorrectionInterpolation,
+        IsSpawning = isSpawning,
+        DefaultExponentialDecayAlpha = 1.0f,
+        DefaultExponentialDecayAlphaCulled = 1.0f,
+      };
+      UpdateFromTransform2D(ref updateViewParameter);
+    }
+
+    #endregion
   }
 #if !QUANTUM_ENABLE_MIGRATION
 } // namespace Quantum

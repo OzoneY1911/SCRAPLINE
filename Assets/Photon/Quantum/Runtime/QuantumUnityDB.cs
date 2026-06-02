@@ -153,6 +153,12 @@ namespace Quantum {
     }
 
     /// <summary>
+    /// Unload global during play mode changes
+    /// </summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics() => UnloadGlobal();
+
+    /// <summary>
     /// Unloads all the assets that have been loaded by the <see cref="Global"/> DB.
     /// </summary>
     /// <param name="destroyed"></param>
@@ -449,17 +455,17 @@ namespace Quantum {
         return new AssetGuid(hash, AssetGuidType.RuntimeGenerated);
       }
     }
-    
+
     #region Global API
 
     /// <summary>
     /// Returns the global DB. If the DB is not loaded, it will be loaded.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Domain reload", "UDR0002", Justification = "Wraps other property")]
     public new static QuantumUnityDB Global {
       get => QuantumGlobalScriptableObject<QuantumUnityDB>.Global;
       set => QuantumGlobalScriptableObject<QuantumUnityDB>.Global = value;
     }
-
 
     /// <inheritdoc cref="DisposeAsset"/>
     public static bool DisposeGlobalAsset(AssetGuid assetGuid, bool immediate = false) {
@@ -904,13 +910,13 @@ namespace Quantum {
               }
             }
           } catch (Exception ex) {
-            Log.Exception($"Failed loading {guid}.", ex);
+            Log.Exception($"Failed loading {guid.ToString()}.", ex);
             entry.State.Exchange(EntryState.Error);
             throw;
           }
 
           if (synchronous) {
-            Log.TraceAssets($"Finished loading {guid}.");
+            Log.TraceAssets($"Finished loading {guid.ToString()}.");
             return ExpectValidAsset(entry);
           } else {
             return entry.LoadedAsset;
@@ -923,7 +929,7 @@ namespace Quantum {
               continue;
             }
             
-            Log.TraceAssets($"Enqueuing asset {guid} for loading on the main thread.");
+            Log.TraceAssets($"Enqueuing asset {guid.ToString()} for loading on the main thread.");
             _workedThreadLoadQueue.Enqueue((guid, synchronous));
           }
 
@@ -954,12 +960,12 @@ namespace Quantum {
       AssetObject ExpectValidAsset(Entry assetEntry) {
         var asset = assetEntry.LoadedAsset;
         if (!asset) {
-          throw new InvalidOperationException($"Expected asset to be loaded: {assetEntry.Guid}");
+          throw new InvalidOperationException($"Expected asset to be loaded: {assetEntry.Guid.ToString()}");
         }
 
         var state = assetEntry.State.Value;
         if (state < EntryState.LoadedInvokingCallbacks) {
-          throw new InvalidOperationException($"Expected asset to be loaded: {assetEntry.Guid}, but it's in state {state}");
+          throw new InvalidOperationException($"Expected asset to be loaded: {assetEntry.Guid.ToString()}, but it's in state {state.ToString()}");
         }
 
         return asset;
@@ -984,7 +990,7 @@ namespace Quantum {
           loadedAsset.Disposed(this);
         }
       } catch (Exception ex) {
-        Log.Exception($"Error while disposing {entry.Guid}", ex);
+        Log.Exception($"Error while disposing {entry.Guid.ToString()}", ex);
       } finally {
         entry.State.Exchange(EntryState.NotLoaded);
         entry.LoadedAsset = null;

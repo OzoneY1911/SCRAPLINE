@@ -49,6 +49,114 @@ Disclaimer: The Quantum SDK 3.1.0 development snapshots are not intended to be u
 - `QuantumUnityDB` does not throw exceptions in `TryGet*` methods if the DB was failed to be loaded
 - `QuantumCallbackHandler_UnityCallbacks.LoadAddressableScenePathsAsync` is now static
 
+### Build 2081 (Jun 02, 2026)
+
+**Changes**
+
+- Upgrading Photon Realtime to version `5.1.14`
+
+**Bug Fixes**
+
+- Fixed: The `LineIntersectsAABB` static function was returning the wrong penetration when the points weren't inside the AABB object
+- Fixed: The `LineIntersectsAABB_SAT` static function could return false positives given specific lines
+- Fixed: An issue that could cause IL2CPP builds to fail with `MSVC C2664`
+
+### Build 2077 (May 29, 2026)
+
+**What's New**
+
+- Static Terrain collider can now down-sample Unity source terrain during baking using box-filter average
+- Quantum HUB popup can be disabled by set the define `QUANTUM_DISABLE_HUB_POPUP`
+- `MapDataBakeCallbacks.OnCollectColliders2D/3D`: is called during colliders baking with the current list of colliders found on a scene. Colliders can be added to the list or removed from it (e.g. playable area pruning)
+- Custom inspector for `QuantumMapBakedDataImporter`
+- `QuantumMapData.MapPrototypeReferences`
+- `NavMeshMapSettings` — decouples navmesh baking from the Map instance
+- `QuantumNavMeshCollection`
+- `PhysicsMaterial` support on `QuantumStaticTerrainCollider3D`
+- `QuantumAssetObjectScriptedImporterAttribute`
+
+**Changes**
+
+- The gizmo toolbar header toggle does not change each gizmo state anymore
+- `QuantumUnityDB.ScopeContext` now appends AssetBundle variant to the output bundle name, if present
+- Only enabled gizmo shape rendering with `QUANTUM_DRAW_SHAPES` in `DEVELOPMENT_BUILD`
+- QTerrain now stores guid inside; this makes it easier to create such assets on demand and works well with failing-to-deserialize-references-on-bootstrap bug."
+- This reverts commit dc45791c6cdfbc831663e148d987108fa01189bb
+- QTerrain now stores guid inside; this makes it easier to create such assets on demand and works well with failing-to-deserialize-references-on-bootstrap bug
+- Made `QuantumMapData` partial, allowing it to be extended more easily
+
+**Bug Fixes**
+
+- Fixed: Quantum gizmos rendering for URP multi-camera support
+- Fixed: An issue that causes an exception in gizmo rendering when map colliders game objects are deleted at runtime
+- Fixed: Compile errors (GUID is defined in UnityEngine in some Unity versions...)
+- Fixed: `ApplyAndImport` obsolete warning in Unity 6000+
+- Fixed: Inactive GameObjects are now ignored during baking
+- Fixed: `GridY` was assigned an incorrect value during navmesh import
+- Fixed: Terrain static collider reverted to direct `TerrainData` ref (asset ref would introduce an indirect qunitydb dependency and broke baking)
+
+### Build 2069 (May 27, 2026)
+
+**What's New**
+
+- Added an experimental view interpolation mode that is extremly light-weight and stable: `ExponentialDecay`, when using only this interpolation mode the performance can be boosted by toggling on `DisableInterpolatableStates` to disable two entire frame copies
+
+**Changes**
+
+- Upgrading `Photon Realtime` to version `5.1.13` (preview)
+- Implementing Unity Auditor criticial feedback
+
+**Bug Fixes**
+
+- Fixed: Assert exception in TriangleMesh when skipping mutable metadata serialization
+
+### Build 2065 (May 20, 2026)
+
+**Changes**
+
+- The export replay menu options now have more meaningful descriptions
+
+**Bug Fixes**
+
+- Fixed: A memory leak in table metadata
+
+### Build 2062 (May 19, 2026)
+
+**What's New**
+
+- `TriangleMesh.SerializeMutableData` property now allows mutable triangle data to be skipped during serialization.  
+Useful to reduce snapshot size if either the mutable data is known to not have been modified or the modifications can be replicated on de-serialization exactly as they happened on the snaptshot provider
+- `QuantumEntityPrototypeAssetObjectImporter.EnableNestedPrototypes` (`true` by default)
+
+**Changes**
+
+- Optimizig `QuantumStats` by removing garbage creation and running in lower frequency
+- Optimizing `QuantumMeshCollection` by removing the read/write flag
+
+**Bug Fixes**
+
+- Fixed: Invalid "Scripted-importer asset" warning during prefab importing
+- Fixed: Memory leaks in 2D and 3D Physics systems and Map runtime collider buffers
+- Fixed: `QuantumAsset` label being removed for prototypes that failed to import
+- Fixed: Error when a prefab without `QuantumEntityView` in the root had a nested prototype with a view
+
+### Build 2054 (May 12, 2026)
+
+**Bug Fixes**
+
+- Fixed: An issue that caused exceptions (e.g. from gizmo rendering) on invalid or broken asset refs in `Map.NavMeshLinks`
+
+### Build 2053 (May 09, 2026)
+
+**What's New**
+
+- Support to using multiple Unity colliders as source for a Quantum Compound Shape prototype
+- Support to using 3D Unity Capsule as source for a 2D Quantum Capsule shape in inspector
+
+**Bug Fixes**
+
+- Fixed: An issue where component filters involving both kinds of components didn't yield entities (was caused by a mistake in preview build 2005)
+
 ### Build 2047 (Apr 28, 2026)
 
 **Bug Fixes**
