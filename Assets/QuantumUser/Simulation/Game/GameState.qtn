@@ -12,7 +12,9 @@ global
 
     RuntimeMapCustomData RuntimeCustomData;
 
-    FP QuotaZoneCount;
+    FP DayCount;
+
+    FP MaxQuotaZoneCount;
 }
 
 signal OnCompleteAllQuotaZones();

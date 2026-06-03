@@ -63,10 +63,7 @@ MonoBehaviour:
       Id:
         Value: 505189093148078631
     SourceCollider: {fileID: 1748987713104989023}
-    SourceShapeSettings:
-      IsScaledBySource: 1
-      CapsuleDirection2D: 0
-      CapsuleDirection3D: 0
+    SourceColliders: []
     Shape2D:
       ShapeType: 0
       PolygonCollider:
@@ -79,6 +76,7 @@ MonoBehaviour:
           RawValue: 65536
         Y:
           RawValue: 131072
+      CapsuleDirection: 0
       EdgeExtent:
         RawValue: 32768
       BoxExtents:
@@ -96,6 +94,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     Shape3D:
       ShapeType: 2
       SphereRadius:
@@ -104,6 +103,7 @@ MonoBehaviour:
         RawValue: 32768
       CapsuleHeight:
         RawValue: 131072
+      CapsuleDirection: 0
       PositionOffset:
         X:
           RawValue: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
           RawValue: 0
         CapsuleHeight:
           RawValue: 0
+        CapsuleDirection: 0
         PositionOffset:
           X:
             RawValue: 0
@@ -157,7 +158,7 @@ MonoBehaviour:
           Z:
             RawValue: 0
         UserTag: 0
-        IsSetFromSourceCollider: 0
+        IsScaledBySourceCollider: 0
       - ShapeType: 2
         SphereRadius:
           RawValue: 0
@@ -165,6 +166,7 @@ MonoBehaviour:
           RawValue: 0
         CapsuleHeight:
           RawValue: 0
+        CapsuleDirection: 0
         PositionOffset:
           X:
             RawValue: 0
@@ -187,7 +189,8 @@ MonoBehaviour:
           Z:
             RawValue: 0
         UserTag: 0
-        IsSetFromSourceCollider: 0
+        IsScaledBySourceCollider: 0
+      IsScaledBySourceCollider: 1
     LayerSource: 0
     Layer: 0
     CallbackFlags:
@@ -237,6 +240,7 @@ MonoBehaviour:
           RawValue: 65536
         Y:
           RawValue: 131072
+      CapsuleDirection: 0
       EdgeExtent:
         RawValue: 32768
       BoxExtents:
@@ -254,6 +258,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     ParametricInertiaShape3D:
       ShapeType: 0
       SphereRadius:
@@ -262,6 +267,7 @@ MonoBehaviour:
         RawValue: 32768
       CapsuleHeight:
         RawValue: 131072
+      CapsuleDirection: 0
       PositionOffset:
         X:
           RawValue: 0
@@ -286,6 +292,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     InertiaScale:
       _hasValue: 0
       _value:
@@ -355,6 +362,10 @@ MonoBehaviour:
   ErrorPositionMinCorrection: 0.025
   ErrorPositionTeleportDistance: 2
   ErrorRotationTeleportDistance: 0.5
+  TeleportWhenScreenChanged: 0
+  OverrideSmoothTime: 0
+  SmoothTime: 0.016
+  ExponentialAlpha: 0
   OnEntityInstantiated:
     m_PersistentCalls:
       m_Calls: []
@@ -420,6 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Quantum.ValuableView
   _damagePrefab: {fileID: 2519525783720581877, guid: 979e034356ed9f247afb855759bef4e3, type: 3}
+  _isBackDevice: 0
 --- !u!1001 &8995171063989613214
 PrefabInstance:
   m_ObjectHideFlags: 0

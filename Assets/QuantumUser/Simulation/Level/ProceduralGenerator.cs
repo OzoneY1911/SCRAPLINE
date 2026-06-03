@@ -144,16 +144,7 @@ public static unsafe class ProceduralGenerator
 
     private static ProceduralRoom GetRandomRoom(Frame frame, ref GeneratedMapData mapData)
     {
-        var spawnQuotaZone = frame.RNG->Next(0, 3) == 0;
-
-        if (spawnQuotaZone)
-        {
-            return mapData.QuotaZoneRoom;
-        }
-        else
-        {
-            return mapData.AllRooms[frame.RNG->Next(0, mapData.AllRooms.Count)];
-        }
+        return mapData.AllRooms[frame.RNG->Next(0, mapData.AllRooms.Count)];
     }
 
     private static bool TryFindSuitableRoom(Frame frame, ref GeneratedMapData mapData, MapPointData spawnPoint, out ProceduralRoom room, out Map roomMap)
@@ -161,12 +152,26 @@ public static unsafe class ProceduralGenerator
         room = mapData.DeadEndRoom;
         roomMap = frame.FindAsset<Map>(room.MapAsset);
 
+        var trackedQuotaZonesCount = frame.ResolveList(frame.Global->TrackedQuotaZones).Count;
+        var dayCount = frame.Global->DayCount;
+        var spawnQuotaZone = frame.RNG->Next(0, 3 + (int)dayCount) == 0;
+
+        var candidateRoom = mapData.QuotaZoneRoom;
+        var candidateMap = frame.FindAsset<Map>(candidateRoom.MapAsset);
+        var candidateBounds = candidateMap.GetMapBounds(spawnPoint);
+
+        if (!candidateBounds.OverlapsCollection(mapData.Bounds) && spawnQuotaZone && trackedQuotaZonesCount < dayCount)
+        {
+            room = candidateRoom;
+            roomMap = candidateMap;
+            return true;
+        }
+
         for (int i = 0; i < mapData.AllRooms.Count; i++)
         {
-            var candidateRoom = GetRandomRoom(frame, ref mapData);
-            var candidateMap = frame.FindAsset<Map>(candidateRoom.MapAsset);
-
-            var candidateBounds = candidateMap.GetMapBounds(spawnPoint);
+            candidateRoom = GetRandomRoom(frame, ref mapData);
+            candidateMap = frame.FindAsset<Map>(candidateRoom.MapAsset);
+            candidateBounds = candidateMap.GetMapBounds(spawnPoint);
 
             if (!candidateBounds.OverlapsCollection(mapData.Bounds))
             {

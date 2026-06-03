@@ -1,5 +1,4 @@
 using Quantum.Collections;
-using System.Drawing;
 
 namespace Quantum
 {

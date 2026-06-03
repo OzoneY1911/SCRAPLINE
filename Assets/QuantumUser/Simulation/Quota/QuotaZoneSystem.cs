@@ -1,5 +1,5 @@
 using Photon.Deterministic;
-using System.Security.Principal;
+
 namespace Quantum
 {
     public unsafe class QuotaZoneSystem : SystemSignalsOnly, ISignalOnTriggerEnter3D, ISignalOnTriggerExit3D, ISignalOnComponentAdded<QuotaZone>, ISignalOnMapChanged, ISignalOnActivateQuotaZone, ISignalOnCompleteQuotaZone, ISignalOnInZoneValuableDamaged, ISignalOnInZoneValuableDestroyed, ISignalOnInZoneValuableCollectedByPlayer

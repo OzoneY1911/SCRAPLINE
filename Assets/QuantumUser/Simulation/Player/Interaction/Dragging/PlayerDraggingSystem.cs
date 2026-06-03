@@ -48,7 +48,7 @@ namespace Quantum
 
                 if (input->Use.IsDown && input->LookRotationDelta != FPVector2.Zero)
                 {
-                    RotateDraggable(frame, ref filter);
+                    //RotateDraggable(frame, ref filter);
                 }
 
                 if (input->CollectValuable.WasPressed)
@@ -254,7 +254,7 @@ namespace Quantum
             FPVector3 camUp = playerRot * FPVector3.Up;
 
             FPQuaternion pitchRot = FPQuaternion.AngleAxis(upDelta, camUp);
-            FPQuaternion yawRot = FPQuaternion.AngleAxis(-rightDelta, camRight); // negative to feel natural
+            FPQuaternion yawRot = FPQuaternion.AngleAxis(-rightDelta, camRight);
 
             // Combine
             draggedTransform->Rotation = yawRot * pitchRot * draggedTransform->Rotation;

@@ -51,6 +51,14 @@ public unsafe static class EntityUtils
 
         foreach (var entity in list)
         {
+            if (frame.Has<EntityGroup>(entity))
+            {
+                foreach (var nestedEntity in frame.GetEntityGroupIterator(entity))
+                {
+                    frame.Destroy(nestedEntity.Item1);
+                }
+            }
+
             frame.Destroy(entity);
         }
     }

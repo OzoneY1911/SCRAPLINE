@@ -1229,7 +1229,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2000;
+    public const Int32 SIZE = 2008;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public Int32 PlayerConnectedCount;
@@ -1260,7 +1260,7 @@ namespace Quantum {
     public QDictionaryPtr<PlayerRef, EntityRef> ActivePlayers;
     [FieldOffset(1944)]
     public QListPtr<EntityRef> AlivePlayers;
-    [FieldOffset(1960)]
+    [FieldOffset(1976)]
     public FP PlayerMoney;
     [FieldOffset(1936)]
     public GameLocation SelectedLocation;
@@ -1268,10 +1268,12 @@ namespace Quantum {
     public QListPtr<EntityRef> TrackedQuotaZones;
     [FieldOffset(1952)]
     public EntityRef TrackedInteractableMapChanger;
-    [FieldOffset(1976)]
+    [FieldOffset(1984)]
     public RuntimeMapCustomData RuntimeCustomData;
+    [FieldOffset(1960)]
+    public FP DayCount;
     [FieldOffset(1968)]
-    public FP QuotaZoneCount;
+    public FP MaxQuotaZoneCount;
     public readonly FixedArray<Input> input {
       get {
         fixed (byte* p = _input_) { return new FixedArray<Input>(p, 216, 6); }
@@ -1299,7 +1301,8 @@ namespace Quantum {
         hash = hash * 31 + TrackedQuotaZones.GetHashCode();
         hash = hash * 31 + TrackedInteractableMapChanger.GetHashCode();
         hash = hash * 31 + RuntimeCustomData.GetHashCode();
-        hash = hash * 31 + QuotaZoneCount.GetHashCode();
+        hash = hash * 31 + DayCount.GetHashCode();
+        hash = hash * 31 + MaxQuotaZoneCount.GetHashCode();
         return hash;
       }
     }
@@ -1328,8 +1331,9 @@ namespace Quantum {
         QList.Serialize(&p->AlivePlayers, serializer, Statics.SerializeEntityRef);
         QList.Serialize(&p->TrackedQuotaZones, serializer, Statics.SerializeEntityRef);
         EntityRef.Serialize(&p->TrackedInteractableMapChanger, serializer);
+        FP.Serialize(&p->DayCount, serializer);
+        FP.Serialize(&p->MaxQuotaZoneCount, serializer);
         FP.Serialize(&p->PlayerMoney, serializer);
-        FP.Serialize(&p->QuotaZoneCount, serializer);
         Quantum.RuntimeMapCustomData.Serialize(&p->RuntimeCustomData, serializer);
     }
   }

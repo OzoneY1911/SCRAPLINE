@@ -2260,7 +2260,7 @@ MonoBehaviour:
         SourceMapAsset:
           Id:
             Value: 280343834485268604
-        RoomCount: 10
+        RoomCount: 15
         ProceduralRooms:
         - MapAsset:
             Id:

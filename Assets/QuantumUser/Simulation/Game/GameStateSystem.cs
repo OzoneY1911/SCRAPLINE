@@ -14,7 +14,8 @@ namespace Quantum
                 ProceduralValuableEntities = frame.AllocateList<EntityRef>(),
             };
 
-            frame.Global->QuotaZoneCount = 1;
+            frame.Global->DayCount = 1;
+            frame.Global->MaxQuotaZoneCount = 6;
 
             frame.Global->PlayerMoney = 700;
             frame.Events.PlayerMoneyUpdated();
@@ -28,6 +29,10 @@ namespace Quantum
             }
             else
             {
+                if (frame.Global->DayCount <= frame.Global->MaxQuotaZoneCount)
+                {
+                    frame.Global->DayCount += 1;
+                }
                 frame.Events.MapChangedToHub();
             }
         }
