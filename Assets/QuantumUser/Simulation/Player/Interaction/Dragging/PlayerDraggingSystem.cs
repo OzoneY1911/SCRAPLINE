@@ -1,4 +1,5 @@
 ﻿using Photon.Deterministic;
+using System.Security.Principal;
 using UnityEngine.Scripting;
 
 namespace Quantum
@@ -92,6 +93,11 @@ namespace Quantum
                         playerDragging->DraggedRelativeRotation = FPQuaternion.Inverse(filter.Transform->Rotation) * hitTransform->Rotation;
                     }
 
+                    if (frame.Unsafe.TryGetPointer<PhysicsBody3D>(hitEntity, out var hitBody))
+                    {
+                        hitBody->AllowSleeping = false;
+                    }
+
                     ClampDragDistance(frame, ref filter);
                 }
             }
@@ -99,6 +105,11 @@ namespace Quantum
 
         private void StopDragging(Frame frame, PlayerDragging* playerDragging)
         {
+            if (frame.Unsafe.TryGetPointer<PhysicsBody3D>(playerDragging->DraggedEntity, out var draggedBody))
+            {
+                draggedBody->AllowSleeping = true;
+            }
+
             playerDragging->IsDragging = false;
             playerDragging->DraggedEntity = default;
         }
