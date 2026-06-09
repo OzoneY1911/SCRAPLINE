@@ -327,10 +327,7 @@ MonoBehaviour:
       Id:
         Value: 0
     SourceCollider: {fileID: 0}
-    SourceShapeSettings:
-      IsScaledBySource: 0
-      CapsuleDirection2D: 0
-      CapsuleDirection3D: 0
+    SourceColliders: []
     Shape2D:
       ShapeType: 0
       PolygonCollider:
@@ -343,6 +340,7 @@ MonoBehaviour:
           RawValue: 65536
         Y:
           RawValue: 131072
+      CapsuleDirection: 0
       EdgeExtent:
         RawValue: 32768
       BoxExtents:
@@ -360,6 +358,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     Shape3D:
       ShapeType: 0
       SphereRadius:
@@ -368,6 +367,7 @@ MonoBehaviour:
         RawValue: 32768
       CapsuleHeight:
         RawValue: 131072
+      CapsuleDirection: 0
       PositionOffset:
         X:
           RawValue: 0
@@ -392,6 +392,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     LayerSource: 0
     Layer: 0
     CallbackFlags:
@@ -441,6 +442,7 @@ MonoBehaviour:
           RawValue: 65536
         Y:
           RawValue: 131072
+      CapsuleDirection: 0
       EdgeExtent:
         RawValue: 32768
       BoxExtents:
@@ -458,6 +460,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     ParametricInertiaShape3D:
       ShapeType: 0
       SphereRadius:
@@ -466,6 +469,7 @@ MonoBehaviour:
         RawValue: 32768
       CapsuleHeight:
         RawValue: 131072
+      CapsuleDirection: 0
       PositionOffset:
         X:
           RawValue: 0
@@ -490,6 +494,7 @@ MonoBehaviour:
       UserTag: 0
       IsPersistent: 1
       CompoundShapes: []
+      IsScaledBySourceCollider: 0
     InertiaScale:
       _hasValue: 0
       _value:
@@ -559,6 +564,10 @@ MonoBehaviour:
   ErrorPositionMinCorrection: 0.025
   ErrorPositionTeleportDistance: 2
   ErrorRotationTeleportDistance: 0.5
+  TeleportWhenScreenChanged: 0
+  OverrideSmoothTime: 0
+  SmoothTime: 0.016
+  ExponentialAlpha: 0
   OnEntityInstantiated:
     m_PersistentCalls:
       m_Calls: []
@@ -922,6 +931,10 @@ PrefabInstance:
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_ShapeHeight
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: useVolumetric
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_InnerSpotPercent
@@ -1292,6 +1305,10 @@ PrefabInstance:
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_ShapeHeight
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: useVolumetric
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_InnerSpotPercent
@@ -1992,6 +2009,10 @@ PrefabInstance:
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_ShapeHeight
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
+      propertyPath: useVolumetric
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1508080782311397266, guid: 9ff15d4696c895540a9ab0f85135ea12, type: 3}
       propertyPath: m_InnerSpotPercent
