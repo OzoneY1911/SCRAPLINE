@@ -516,7 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 1902708944}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &34038907
 Transform:
   m_ObjectHideFlags: 19
@@ -1461,7 +1460,6 @@ MonoBehaviour:
   m_Script: {fileID: 1551474973}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &128036637
 Transform:
   m_ObjectHideFlags: 19
@@ -2492,6 +2490,7 @@ Transform:
   - {fileID: 827300399}
   - {fileID: 1877221441}
   - {fileID: 1686442970968000525}
+  - {fileID: 527074227}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &265884601
@@ -3909,7 +3908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolume
   mode: 1
-  size: {x: 16.109999, y: 8.144185, z: 24.550003}
+  size: {x: 16.109999, y: 8.144185, z: 24.55}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -3949,7 +3948,7 @@ Transform:
   m_GameObject: {fileID: 449133031}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03499937, y: 2.6620927, z: -4.124998}
+  m_LocalPosition: {x: -0.03499937, y: 2.6620927, z: -4.125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5071,6 +5070,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516968221}
   m_CullTransparentMesh: 1
+--- !u!1001 &527074226
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 250835474}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.326
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.515
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      propertyPath: m_Name
+      value: SHOP_DOOR
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 527074229}
+  m_SourcePrefab: {fileID: 100100000, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+--- !u!4 &527074227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+  m_PrefabInstance: {fileID: 527074226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &527074228 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+  m_PrefabInstance: {fileID: 527074226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &527074229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527074228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77e0e138e1b1ba4692b511b31f23385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticMeshCollider3D
+  Mesh: {fileID: 3251917283672207033, guid: 42defd26940858f4989df1bfd3f7626d, type: 3}
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
+  SmoothSphereMeshCollisions: 0
 --- !u!1 &533718993
 GameObject:
   m_ObjectHideFlags: 0
@@ -9194,7 +9286,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 3, y: 1.5}
   m_BounceIntensity: 1
@@ -11467,17 +11559,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapPoint
   Type: 2
---- !u!114 &1183805976 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7017306699018690012, guid: 0715780e178ff7f4bb2bcd692be67bdb, type: 3}
-  m_PrefabInstance: {fileID: 7628790872107811384}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1 &1185060271
 GameObject:
   m_ObjectHideFlags: 0
@@ -12669,6 +12750,7 @@ MonoBehaviour:
   - {fileID: 1916036159}
   - {fileID: 63313277}
   - {fileID: 212338745}
+  - {fileID: 527074229}
   - {fileID: 44912862}
   - {fileID: 2082749547}
   - {fileID: 1904333018}
@@ -12695,12 +12777,12 @@ MonoBehaviour:
   - {fileID: 1903040408756749007}
   - {fileID: 5300975325004272549}
   - {fileID: 821848293}
-  - {fileID: 1183805976}
   - {fileID: 481001146}
   - {fileID: 1767685686}
   - {fileID: 1464881774}
   - {fileID: 0}
   - {fileID: 7391990577532401249}
+  - {fileID: 1905599427}
   - {fileID: 373883537}
   - {fileID: 1812919192}
   Asset: {fileID: 0}
@@ -13719,7 +13801,6 @@ MonoBehaviour:
   m_Script: {fileID: 2048546098}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1523763533
 Transform:
   m_ObjectHideFlags: 19
@@ -18796,7 +18877,6 @@ MonoBehaviour:
   m_Script: {fileID: 1800156794}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.SceneObjectIDMapSceneAsset
-  m_Entries: []
 --- !u!4 &1565275882
 Transform:
   m_ObjectHideFlags: 19
@@ -23570,6 +23650,79 @@ MonoBehaviour:
       Id:
         Value: 0
     Trigger: 0
+--- !u!1001 &1905599425
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7484974044165868789}
+    m_Modifications:
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818695988640338881, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+      propertyPath: m_Name
+      value: IngotSingleWorld
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+--- !u!4 &1905599426 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1948516257757282547, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+  m_PrefabInstance: {fileID: 1905599425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1905599427 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1689266237588281101, guid: 77525ed9bdea4414faf910b6cbbe2b4d, type: 3}
+  m_PrefabInstance: {fileID: 1905599425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008c51fe3af00b4da5d44f02d9b3dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumEntityView
 --- !u!1 &1916036156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2277548422141737702, guid: 4138ebe7071eb7649b437ac48e6018c9, type: 3}
@@ -29021,6 +29174,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7391990577532401246}
+  - {fileID: 1905599426}
   m_Father: {fileID: 7386437762558471253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7546031595982254134
@@ -29114,6 +29268,10 @@ PrefabInstance:
     - target: {fileID: 8922220444666084597, guid: 0715780e178ff7f4bb2bcd692be67bdb, type: 3}
       propertyPath: m_Name
       value: CAT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922220444666084597, guid: 0715780e178ff7f4bb2bcd692be67bdb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

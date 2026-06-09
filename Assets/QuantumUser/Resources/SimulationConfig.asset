@@ -31,7 +31,7 @@ MonoBehaviour:
         RawValue: 0
     SolverType: 2
     WarmStart: 1
-    SolverIterations: 8
+    SolverIterations: 32
     PositionSolverIterations: 2
     UseJoints: 1
     UseAngularVelocity: 1

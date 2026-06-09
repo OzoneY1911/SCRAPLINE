@@ -18,9 +18,9 @@ MonoBehaviour:
       Value: 505189093148078631
   Restitution:
     RawValue: 0
-  RestitutionCombineFunction: 1
+  RestitutionCombineFunction: 2
   FrictionStatic:
-    RawValue: 655360
-  FrictionDynamic:
     RawValue: 983040
+  FrictionDynamic:
+    RawValue: 0
   FrictionCombineFunction: 1
