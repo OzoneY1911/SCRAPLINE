@@ -5,6 +5,7 @@ namespace Quantum
         public void OnValuableUseRequested(Frame frame, EntityRef playerEntity, EntityRef valuableEntity)
         {
             if (!frame.Unsafe.TryGetPointer<Valuable>(valuableEntity, out var valuable)) return;
+            if (valuable->IsShopValuable) return;
             if (!frame.Unsafe.TryGetPointer<Health>(playerEntity, out var health)) return;
             if (!frame.Unsafe.TryGetPointer<Consumable>(valuableEntity, out var consumable)) return;
 

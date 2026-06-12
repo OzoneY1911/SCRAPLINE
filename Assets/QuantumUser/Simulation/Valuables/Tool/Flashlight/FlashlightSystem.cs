@@ -7,6 +7,7 @@ namespace Quantum
         public struct Filter
         {
             public EntityRef Entity;
+            public Valuable* Valuable;
             public Flashlight* Flashlight;
         }
 
@@ -41,6 +42,7 @@ namespace Quantum
 
         public override void Update(Frame frame, ref Filter filter)
         {
+            if (filter.Valuable->IsShopValuable) return;
             if (filter.Flashlight->IsOn && filter.Flashlight->CurrentCharge > 0)
             {
                 DischargeFlashlight(frame, filter.Entity);

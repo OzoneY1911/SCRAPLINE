@@ -18,15 +18,17 @@ namespace Quantum {
     partial void CreatePrototypeUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.GravityVolumePrototype prototype);
     [DrawInline()]
     [ReadOnly(InEditMode = false)]
-    public Quantum.Prototypes.GravityVolumePrototype Prototype;
+    public Quantum.Prototypes.Unity.GravityVolumePrototype Prototype;
     public override System.Type ComponentType {
       get {
         return typeof(Quantum.GravityVolume);
       }
     }
     public override ComponentPrototype CreatePrototype(Quantum.QuantumEntityPrototypeConverter converter) {
-      CreatePrototypeUser(converter, ref Prototype);
-      return Prototype;
+      Quantum.Prototypes.GravityVolumePrototype result;
+      converter.Convert(Prototype, out result);
+      CreatePrototypeUser(converter, ref result);
+      return result;
     }
   }
 }

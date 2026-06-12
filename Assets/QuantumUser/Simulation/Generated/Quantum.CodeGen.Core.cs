@@ -1499,15 +1499,24 @@ namespace Quantum {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    private fixed Byte _alignment_padding_[4];
+    public QDictionaryPtr<EntityRef, FP> EntityGravityScales;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 21319;
+        hash = hash * 31 + EntityGravityScales.GetHashCode();
         return hash;
       }
     }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      EntityGravityScales = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.GravityVolume*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (GravityVolume*)ptr;
+        QDictionary.Serialize(&p->EntityGravityScales, serializer, Statics.SerializeEntityRef, Statics.SerializeFP);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -2763,6 +2772,7 @@ namespace Quantum {
   }
   public unsafe partial class Statics {
     public static FrameSerializer.Delegate SerializeEntityRef;
+    public static FrameSerializer.Delegate SerializeFP;
     public static FrameSerializer.Delegate SerializeProceduralRoom;
     public static FrameSerializer.Delegate SerializeKCCCollision;
     public static FrameSerializer.Delegate SerializeKCCIgnore;
@@ -2774,6 +2784,7 @@ namespace Quantum {
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
       SerializeEntityRef = EntityRef.Serialize;
+      SerializeFP = FP.Serialize;
       SerializeProceduralRoom = Quantum.ProceduralRoom.Serialize;
       SerializeKCCCollision = Quantum.KCCCollision.Serialize;
       SerializeKCCIgnore = Quantum.KCCIgnore.Serialize;
@@ -2935,7 +2946,7 @@ namespace Quantum {
       ComponentTypeId.RegisterComponent<Quantum.Consumable>(24, Quantum.Consumable.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Draggable>(25, Quantum.Draggable.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Flashlight>(26, Quantum.Flashlight.Serialize, null, null, ComponentFlags.None);
-      ComponentTypeId.RegisterComponent<Quantum.GravityVolume>(27, Quantum.GravityVolume.Serialize, null, null, ComponentFlags.None);
+      ComponentTypeId.RegisterComponent<Quantum.GravityVolume>(27, Quantum.GravityVolume.Serialize, null, Quantum.GravityVolume.OnRemoved, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Health>(28, Quantum.Health.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.Interactable>(29, Quantum.Interactable.Serialize, null, null, ComponentFlags.None);
       ComponentTypeId.RegisterComponent<Quantum.InteractableAnimator>(30, Quantum.InteractableAnimator.Serialize, null, null, ComponentFlags.None);

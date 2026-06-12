@@ -50,6 +50,12 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(System.Collections.Generic.KeyValuePair<EntityRef, FP>))]
+  public unsafe class DictionaryEntry_EntityRef_FP : Quantum.Prototypes.DictionaryEntry {
+    public MapEntityId Key;
+    public FP Value;
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.AnimatedTransform))]
   public unsafe class AnimatedTransformPrototype : ComponentPrototype<Quantum.AnimatedTransform> {
     public MapEntityId Parent;
@@ -215,17 +221,28 @@ namespace Quantum.Prototypes {
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.GravityVolume))]
-  public unsafe partial class GravityVolumePrototype : ComponentPrototype<Quantum.GravityVolume> {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
-    partial void MaterializeUser(Frame frame, ref Quantum.GravityVolume result, in PrototypeMaterializationContext context);
+  public unsafe class GravityVolumePrototype : ComponentPrototype<Quantum.GravityVolume> {
+    [DictionaryAttribute()]
+    [DynamicCollectionAttribute()]
+    public DictionaryEntry_EntityRef_FP[] EntityGravityScales = {};
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.GravityVolume component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.GravityVolume result, in PrototypeMaterializationContext context = default) {
-        MaterializeUser(frame, ref result, in context);
+        if (this.EntityGravityScales.Length == 0) {
+          result.EntityGravityScales = default;
+        } else {
+          var dict = frame.AllocateDictionary(out result.EntityGravityScales, this.EntityGravityScales.Length);
+          for (int i = 0; i < this.EntityGravityScales.Length; ++i) {
+            EntityRef tmpKey = default;
+            FP tmpValue = default;
+            PrototypeValidator.FindMapEntity(this.EntityGravityScales[i].Key, in context, out tmpKey);
+            tmpValue = this.EntityGravityScales[i].Value;
+            PrototypeValidator.AddToDictionary(dict, tmpKey, tmpValue, in context);
+          }
+        }
     }
   }
   [System.SerializableAttribute()]

@@ -103,6 +103,19 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
+  public unsafe partial class GravityVolumePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.GravityVolumePrototype> {
+    [DictionaryAttribute()]
+    [DynamicCollectionAttribute()]
+    public Quantum.Prototypes.Unity.DictionaryEntry_EntityRef_FP[] EntityGravityScales = {};
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.GravityVolumePrototype prototype);
+    public override Quantum.Prototypes.GravityVolumePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.GravityVolumePrototype();
+      converter.Convert(this.EntityGravityScales, out result.EntityGravityScales);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class InteractablePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.InteractablePrototype> {
     [HideInInspector()]
     public Quantum.QuantumEntityPrototype Entity;
@@ -420,6 +433,17 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.ResourceFractions, out result.ResourceFractions);
       converter.Convert(this.TrackedZoneEntity, out result.TrackedZoneEntity);
       ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class DictionaryEntry_EntityRef_FP : Quantum.Prototypes.DictionaryEntry, Quantum.IQuantumPrototypeConvertible<Quantum.Prototypes.DictionaryEntry_EntityRef_FP> {
+    public Quantum.QuantumEntityPrototype Key;
+    public FP Value;
+    public Quantum.Prototypes.DictionaryEntry_EntityRef_FP Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.DictionaryEntry_EntityRef_FP();
+      converter.Convert(Key, out result.Key);
+      converter.Convert(Value, out result.Value);
       return result;
     }
   }

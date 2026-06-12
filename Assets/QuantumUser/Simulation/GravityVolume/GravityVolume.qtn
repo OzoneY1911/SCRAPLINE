@@ -1,4 +1,4 @@
 component GravityVolume
 {
-	
+	dictionary<EntityRef, FP> EntityGravityScales;
 }
