@@ -8,7 +8,9 @@ public unsafe class PlayerValuableChargeUI : MonoBehaviour
 
     private void Update()
     {
-        var frame = QuantumRunner.Default.Game.Frames.Verified;
+        var game = QuantumRunner.Default.Game;
+        if (game == null) return;
+        var frame = game.Frames.Verified;
         if (frame == null) return;
         var localPlayers = QuantumRunner.Default.Game.GetLocalPlayers();
         if (localPlayers.Count == 0) return;
@@ -19,7 +21,15 @@ public unsafe class PlayerValuableChargeUI : MonoBehaviour
         {
             if (frame.Unsafe.TryGetPointer(localPlayerEntity, out PlayerInventory* inventory))
             {
-                if (!PlayerInventoryUtils.IsSlotSelected(inventory) || PlayerInventoryUtils.IsSelectedSlotEmpty(inventory)) return;
+                if (!PlayerInventoryUtils.IsSlotSelected(inventory) || PlayerInventoryUtils.IsSelectedSlotEmpty(inventory))
+                {
+                    _chargeSlider.gameObject.SetActive(false);
+                    return;
+                }
+                else
+                {
+                    _chargeSlider.gameObject.SetActive(true);
+                }
 
                 if (!frame.Unsafe.TryGetPointer<Flashlight>(inventory->Slots[(int)inventory->SelectedSlotIndex], out var flashlight)) return;
 
